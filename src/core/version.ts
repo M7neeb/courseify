@@ -1,7 +1,7 @@
 // The single source of truth for the app version and the "What's new" list.
 // Bump VERSION and add one CHANGELOG entry at the top when you ship user-visible changes.
 
-export const VERSION = '1.4.2';
+export const VERSION = '1.4.3';
 
 export interface ChangelogEntry {
   version: string;
@@ -11,6 +11,13 @@ export interface ChangelogEntry {
 
 /** Newest first. */
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.4.3',
+    date: '2026-10-20',
+    changes: [
+      'Fixed: "Next question" jumped to the top of the page. It now scrolls to the next question, just under the header.'
+    ]
+  },
   {
     version: '1.4.2',
     date: '2026-10-20',

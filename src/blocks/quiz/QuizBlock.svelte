@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { untrack } from 'svelte';
+  import { tick, untrack } from 'svelte';
   import type { AnswerRecord, Block, BlockContext, Confidence, Question } from '../../core/types.ts';
   import { gradeWithTypos, multiSelectOutcome } from '../../core/grade.ts';
   import { renderMarkdown } from '../../core/markdown.ts';
@@ -358,9 +358,19 @@
     hintShown[q.id] = (hintShown[q.id] ?? 0) + 1;
   }
 
+  // The quiz's own top, so moving on scrolls to the next question, not to the top of the page.
+  let root = $state<HTMLElement | undefined>();
+  async function toQuestion() {
+    await tick();
+    if (!root) return;
+    // Just under the sticky header, whatever its height (it grows by the notch on a phone).
+    const header = document.querySelector('.cf-header')?.getBoundingClientRect().bottom ?? 0;
+    window.scrollBy({ top: root.getBoundingClientRect().top - Math.max(0, header) - 12 });
+  }
+
   function advance() {
     index += 1;
-    window.scrollTo({ top: 0 });
+    void toQuestion();
   }
 
   function practiseMistakes() {
@@ -385,7 +395,7 @@
     drillIds = ids;
     drillRound += 1;
     index = 0;
-    window.scrollTo({ top: 0 });
+    void toQuestion();
   }
 
   function continueOn() {
@@ -394,7 +404,7 @@
 
 </script>
 
-<section class="block quiz" {lang}>
+<section class="block quiz" {lang} bind:this={root}>
   {#if hidden}
     <!-- Warm-ups are switched off in Settings. -->
   {:else if finished && pretest}

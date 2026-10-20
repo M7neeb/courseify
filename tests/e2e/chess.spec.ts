@@ -232,3 +232,23 @@ test('a lesson with missed puzzles unlocks the next one through practice sets', 
   }
   await expect(page.locator('.cf-gate-title')).toHaveCount(0);
 });
+
+test('next question scrolls to the question, not to the top of the page', async ({ page }) => {
+  const mc = course.modules[0].lessons[0].blocks.flatMap((b: { questions?: unknown[] }) => b.questions ?? []).find((q: { kind: string }) => q.kind === 'multiple-choice');
+  await addChess(page);
+  await page.goto('./#/course/chess-to-1000/u1-hanging');
+  const show = page.getByRole('button', { name: 'Show the options' });
+  if (await show.isVisible()) await show.click();
+  await page.getByRole('radio', { name: mc.options[mc.answer] }).check();
+  await page.getByRole('button', { name: 'Check', exact: true }).click();
+  await page.getByRole('button', { name: 'Next question' }).first().click();
+  await expect(page.getByTestId('chess-puzzle')).toBeVisible();
+  // The lesson text is long, so the quiz is well down the page: it stays there, just under the header.
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(200);
+  const gap = await page.evaluate(() => {
+    const header = document.querySelector('.cf-header')!.getBoundingClientRect().bottom;
+    return document.querySelector('.block.quiz')!.getBoundingClientRect().top - header;
+  });
+  expect(gap).toBeGreaterThanOrEqual(0);
+  expect(gap).toBeLessThan(40);
+});
