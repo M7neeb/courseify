@@ -301,7 +301,8 @@ export function recordMasteryAttempt(courseId: string, attempt: MasteryAttempt, 
       usedHint: attempt.usedHint,
       // A wrong answer only costs a tier inside a module test, the final exam or a course challenge.
       inTest: attempt.inTest ?? (item !== undefined && item.kind !== 'lesson'),
-      totalQuestions: skill?.questionIds.length ?? 1
+      totalQuestions: skill?.questionIds.length ?? 1,
+      freshTry: attempt.freshTry
     },
     now
   );

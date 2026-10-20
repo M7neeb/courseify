@@ -117,6 +117,8 @@ export interface MasteryOutcome {
   inTest: boolean;
   /** How many questions the skill has in total, from the course content. */
   totalQuestions: number;
+  /** The first answer to this question in this set, not a retry after a miss in the same set. */
+  freshTry?: boolean;
 }
 
 /**
@@ -134,10 +136,10 @@ export function applyOutcome(
   const previousTier = tierForPoints(state.points);
   const clean = outcome.correct && !outcome.usedHint;
 
-  // First-try is sticky in one direction: once a question has been missed or hinted, it stays
-  // "not first try" for that question.
+  // A miss or a hint marks the question "not first try". It counts again once it is answered right,
+  // without a hint, as the first answer in a later set; retrying straight after a miss never does.
   const firstTry = { ...state.firstTry };
-  firstTry[outcome.questionId] = (firstTry[outcome.questionId] ?? true) && clean;
+  firstTry[outcome.questionId] = outcome.freshTry === true && clean ? true : (firstTry[outcome.questionId] ?? true) && clean;
 
   const total = Math.max(1, Math.floor(outcome.totalQuestions));
   const attempted = Object.keys(firstTry).length;

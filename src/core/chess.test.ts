@@ -29,8 +29,8 @@ test('the engine move generator matches the standard perft counts', () => {
 test('the engine finds mates and wins material, and every level plays legal moves', () => {
   // Mate in one: Ra8#.
   assert.equal(bestMove('6k1/5ppp/8/8/8/8/8/R5K1 w - - 0 1', 4).move, 'a1a8');
-  // A hanging queen is taken.
-  assert.equal(bestMove('4k3/8/8/3q4/8/8/3R4/4K3 w - - 0 1', 3).move, 'd2d5');
+  // A hanging queen is taken. Level 3 blunders now and then on purpose, so its dice are fixed here.
+  assert.equal(bestMove('4k3/8/8/3q4/8/8/3R4/4K3 w - - 0 1', 3, () => 0.5).move, 'd2d5');
   // The smothered mate in two at the strongest level.
   assert.equal(bestMove(smothered.fen!, 5).move, 'd5g8');
   let seed = 1;

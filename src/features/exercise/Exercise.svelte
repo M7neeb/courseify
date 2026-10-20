@@ -65,7 +65,7 @@
   const ctx = $derived.by<BlockContext | undefined>(() => {
     const s = skill;
     if (!course || !s) return undefined;
-    return studyContext(courseId, { lessonId: s.itemId, itemKind: kindOf(s.itemId), moduleId: s.moduleId }, { onSetContinue: backToLesson });
+    return studyContext(courseId, { lessonId: s.itemId, itemKind: kindOf(s.itemId), moduleId: s.moduleId }, { onSetContinue: backToLesson, freshRun: true });
   });
 
   function newSet() {

@@ -262,6 +262,7 @@
   "gate.module": "Erreiche {percent} % Fortschritt im vorigen Modul, um dieses freizuschalten.",
   "gate.exam": "Erreiche {tier} in jeder Lektion, um die Abschlussprüfung freizuschalten. Schwächste: {skill}.",
   "gate.current": "Aktuell: {current} / {target}",
+  "gate.winBack": "Eine Frage falsch beantwortet? Sie zählt wieder, sobald du sie in einer späteren Übungsrunde beim ersten Versuch richtig beantwortest.",
   "gate.practiseWeak": "Schwache Fertigkeiten üben",
   "quiz.tryAgain": "Nicht ganz - versuche es erneut oder hole einen Hinweis",
   "quiz.skip": "Überspringen",

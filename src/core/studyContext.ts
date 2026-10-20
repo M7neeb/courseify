@@ -29,6 +29,8 @@ export interface StudyOptions {
   inTest?: boolean;
   /** Allow pasted video and image overrides (only the lesson player shows media). */
   media?: boolean;
+  /** A practice set: questions start unanswered instead of showing the saved answers. */
+  freshRun?: boolean;
 }
 
 export function studyContext(courseId: string, item: StudyItem, options: StudyOptions = {}): BlockContext {
@@ -84,6 +86,7 @@ export function studyContext(courseId: string, item: StudyItem, options: StudyOp
     recordMasteryAttempt: (attempt) =>
       recordMasteryAttempt(courseId, options.inTest ? { ...attempt, inTest: true } : attempt),
     getModuleMasteryPercent: (mid) => moduleMasteryPercentFor(courseId, mid),
-    onSetContinue: options.onSetContinue
+    onSetContinue: options.onSetContinue,
+    freshRun: options.freshRun === true
   };
 }

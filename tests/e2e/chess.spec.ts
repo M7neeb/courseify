@@ -184,3 +184,51 @@ test('practising mistakes gives the missed puzzles a fresh board', async ({ page
   await page.getByRole('button', { name: 'See results' }).first().click();
   await expect(page.getByText('1 / 1 correct on first try')).toBeVisible();
 });
+
+test('a lesson with missed puzzles unlocks the next one through practice sets', async ({ page }) => {
+  // Several full sets of puzzles: longer than the default.
+  test.setTimeout(120_000);
+  const mc = course.modules[0].lessons[0].blocks.flatMap((b: { questions?: unknown[] }) => b.questions ?? []).find((q: { kind: string }) => q.kind === 'multiple-choice');
+  await addChess(page);
+  await page.goto('./#/exercise/chess-to-1000/u1-hanging');
+  const puzzle = page.getByTestId('chess-puzzle');
+
+  /** Answers every question in the set; with `miss`, plays a wrong move first on each puzzle. */
+  async function runSet(miss: boolean) {
+    while (!(await page.getByRole('region', { name: 'Results' }).isVisible())) {
+      await expect(page.locator('.question')).toBeVisible();
+      // Every question in a practice set starts open, never already solved.
+      await expect(page.locator('.question')).toHaveAttribute('data-state', 'open');
+      if (await puzzle.isVisible()) {
+        const q = questions.get((await puzzle.getAttribute('data-question'))!)!;
+        if (miss) {
+          const wrong = wrongMove(q);
+          await clickMove(page, wrong);
+          await expect(page.getByText('Not this move. Try again.')).toBeVisible();
+          await expect(puzzle.locator(`[data-square="${wrong.slice(0, 2)}"] .cf-piece`)).toHaveCount(1, { timeout: 3000 });
+        }
+        await solve(page, q);
+      } else {
+        const show = page.getByRole('button', { name: 'Show the options' });
+        if (await show.isVisible()) await show.click();
+        await page.getByRole('radio', { name: mc.options[mc.answer] }).check();
+        await page.getByRole('button', { name: 'Check', exact: true }).click();
+      }
+      await page.getByRole('button', { name: /^(Next question|See results)$/ }).first().click();
+    }
+  }
+
+  await runSet(true);
+  await page.goto('./#/course/chess-to-1000/u1-threats');
+  await expect(page.locator('.cf-gate-title')).toBeVisible();
+  await expect(page.getByText(/counts again once you get it right/)).toBeVisible();
+
+  // New sets bring the missed puzzles back first; solving them first time wins them back.
+  for (let round = 0; round < 4; round += 1) {
+    await page.goto('./#/exercise/chess-to-1000/u1-hanging');
+    await runSet(false);
+    await page.goto('./#/course/chess-to-1000/u1-threats');
+    if (!(await page.locator('.cf-gate-title').isVisible())) break;
+  }
+  await expect(page.locator('.cf-gate-title')).toHaveCount(0);
+});

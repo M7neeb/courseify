@@ -131,6 +131,21 @@ test('a wrong attempt or a hint costs the first try', () => {
   assert.equal(missed.points, MASTERY.points.attempted);
 });
 
+test('a missed question counts again when it is the first answer in a later set', () => {
+  // 5 of 7 missed: stuck at Attempted, and retrying straight after a miss never wins it back.
+  let s = emptySkillMastery('s');
+  for (let i = 0; i < 7; i += 1) s = applyOutcome(s, { ...outcome(`q${i}`, i < 2, 7), freshTry: true });
+  for (let i = 2; i < 7; i += 1) s = applyOutcome(s, { ...outcome(`q${i}`, true, 7), freshTry: false });
+  assert.equal(s.points, MASTERY.points.attempted);
+  // A later set: three of the missed ones right first time is 5 of 7, over 70%.
+  for (let i = 2; i < 5; i += 1) s = applyOutcome(s, { ...outcome(`q${i}`, true, 7), freshTry: true });
+  assert.equal(s.firstTry['q2'], true);
+  assert.equal(s.points, MASTERY.points.familiar);
+  // A hint in the later set does not win it back.
+  s = applyOutcome(s, { ...outcome('q5', true, 7, false, true), freshTry: true });
+  assert.equal(s.firstTry['q5'], false);
+});
+
 test('Mastered needs a Proficient skill answered 100% first-try inside a module test', () => {
   const proficient = state(MASTERY.points.proficient, { q: true });
   // Practice alone never promotes.

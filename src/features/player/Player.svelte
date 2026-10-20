@@ -253,6 +253,7 @@
       <p class="cf-gate-title"><NavIcon name="lock" size={18} /> {t('gate.locked')}</p>
       <p>{gateText}</p>
       <p class="cf-muted cf-small">{t('gate.current', { current: gate.current, target: gate.target })}</p>
+      {#if gate.kind !== 'module'}<p class="cf-muted cf-small">{t('gate.winBack')}</p>{/if}
       {#if gate.weakSkillId}
         <button type="button" class="cf-btn cf-btn-primary" onclick={practiseWeak}>{t('gate.practiseWeak')}</button>
       {/if}

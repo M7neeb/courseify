@@ -22,12 +22,14 @@
   // straight away, and nothing is saved - it never counts for mastery or review.
   const pretest = $derived(block.pretest === true);
   let localAnswers = $state<Record<string, AnswerRecord>>({});
-  // Practising mistakes starts every question fresh: the saved answers are already right (you retry
-  // until you are), so the run keeps its own answers and still saves each one as usual.
-  let drillAnswers = $state<Record<string, AnswerRecord> | null>(null);
+  // A practice set, and practising mistakes, start every question fresh: the saved answers are
+  // already right (you retry until you are), so the run keeps its own answers and still saves each.
+  let runAnswers = $state<Record<string, AnswerRecord> | null>(untrack(() => (ctx.freshRun ? {} : null)));
+  // Questions answered at least once in this set. Only the first answer can win back a missed one.
+  const triedInSet = new Set<string>();
   function answerOf(id: string): AnswerRecord | undefined {
     if (pretest) return localAnswers[id];
-    return drillAnswers ? drillAnswers[id] : ctx.getAnswer(id);
+    return runAnswers ? runAnswers[id] : ctx.getAnswer(id);
   }
   // "How sure are you?" per question, and which tutor prompt was just copied.
   let confidence = $state<Record<string, Confidence>>({});
@@ -311,8 +313,8 @@
       localAnswers[q.id] = record;
       return;
     }
-    if (drillAnswers) {
-      drillAnswers[q.id] = record;
+    if (runAnswers) {
+      runAnswers[q.id] = record;
       const saved = ctx.getAnswer(q.id);
       ctx.recordAnswer(q.id, {
         ...record,
@@ -324,7 +326,9 @@
     }
     if (ctx.sounds) (correct ? playCorrect : playWrong)();
     inARow = firstTry ? inARow + 1 : correct ? inARow : 0;
-    ctx.recordMasteryAttempt({ questionId: q.id, correct, usedHint, given, confidence: confidence[q.id] });
+    const freshTry = !triedInSet.has(q.id);
+    triedInSet.add(q.id);
+    ctx.recordMasteryAttempt({ questionId: q.id, correct, usedHint, given, confidence: confidence[q.id], freshTry });
 
     if (!correct) {
       missed[q.id] = true;
@@ -375,7 +379,7 @@
       delete confidence[id];
       delete typoOf[id];
     }
-    drillAnswers = {};
+    runAnswers = {};
     misses = [];
     inARow = 0;
     drillIds = ids;

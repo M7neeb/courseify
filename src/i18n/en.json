@@ -262,6 +262,7 @@
   "gate.module": "Reach {percent}% mastery in the previous module to unlock this one.",
   "gate.exam": "Reach {tier} in every lesson to unlock the final exam. Weakest: {skill}.",
   "gate.current": "Current: {current} / {target}",
+  "gate.winBack": "Missed a question? It counts again once you get it right on the first try in a later practice set.",
   "gate.practiseWeak": "Practise weak skills",
   "quiz.tryAgain": "Not quite - try again or get a hint",
   "quiz.skip": "Skip",

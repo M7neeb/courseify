@@ -1,7 +1,7 @@
 // The single source of truth for the app version and the "What's new" list.
 // Bump VERSION and add one CHANGELOG entry at the top when you ship user-visible changes.
 
-export const VERSION = '1.4.1';
+export const VERSION = '1.4.2';
 
 export interface ChangelogEntry {
   version: string;
@@ -11,6 +11,14 @@ export interface ChangelogEntry {
 
 /** Newest first. */
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.4.2',
+    date: '2026-10-20',
+    changes: [
+      'Fixed: a lesson could stay locked for good after missing several questions. A missed question now counts again once you get it right on the first try in a later practice set.',
+      'Fixed: "Practise weak skills" opened questions that were already marked as solved. Every practice set now starts fresh.'
+    ]
+  },
   {
     version: '1.4.1',
     date: '2026-10-20',

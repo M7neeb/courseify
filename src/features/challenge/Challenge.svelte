@@ -32,7 +32,7 @@
 
   const ctx = $derived.by<BlockContext | undefined>(() => {
     if (!course) return undefined;
-    return studyContext(courseId, { lessonId: 'challenge', itemKind: 'test', moduleId: null }, { inTest: true, onSetContinue: backToCourse });
+    return studyContext(courseId, { lessonId: 'challenge', itemKind: 'test', moduleId: null }, { inTest: true, onSetContinue: backToCourse, freshRun: true });
   });
 
   function backToCourse() {

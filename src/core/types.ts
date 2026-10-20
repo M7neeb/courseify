@@ -261,6 +261,8 @@ export interface MasteryAttempt {
   confidence?: Confidence;
   /** Counts as a test answer (can raise to Mastered or cost a tier) even outside a module test. */
   inTest?: boolean;
+  /** The first answer to this question in this set (not a retry after a miss in the same set). */
+  freshTry?: boolean;
 }
 
 export interface CourseProgress {
@@ -468,6 +470,8 @@ export interface BlockContext {
   getModuleMasteryPercent(moduleId: string): number;
   /** Host action for "Continue" at the end of a quiz set. */
   onSetContinue?(): void;
+  /** A practice set: every question starts unanswered, whatever was answered before. */
+  freshRun?: boolean;
 }
 
 // ---------- Routing ----------
