@@ -17,7 +17,8 @@ export type QuestionKind =
   | 'numeric'
   | 'multi-select'
   | 'matching'
-  | 'ordering';
+  | 'ordering'
+  | 'chess';
 
 /** A matching question's canonical pair: one prompt on the left and its one correct right. */
 export interface QuestionPair {
@@ -93,6 +94,16 @@ export interface Question {
   variantGroup?: string;
   /** Optional per-language overrides; the top-level fields stay as the fallback. */
   i18n?: Record<string, QuestionI18n>;
+  /** Chess puzzle: the position (FEN). The side to move is the learner. */
+  fen?: string;
+  /** Chess puzzle: learner move, reply, learner move, ... (SAN or UCI), ending on a learner move. */
+  solution?: string[];
+  /** Chess puzzle: other complete lines that also count as solved. */
+  alternatives?: string[][];
+  /** Chess puzzle: the opponent's move that led to the position (UCI), highlighted on the board. */
+  lastMove?: string;
+  /** Chess puzzle: where it came from, for example "lichess.org/training/BAjmY". */
+  source?: string;
 }
 
 /** Every block has an id and a type. Any other field is block-specific and optional for the core. */
@@ -469,6 +480,7 @@ export type Route =
   | { name: 'import' }
   | { name: 'prompt' }
   | { name: 'settings'; courseId?: string }
+  | { name: 'play' }
   | { name: 'profile' }
   | { name: 'stats' }
   | { name: 'review' }

@@ -10,6 +10,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['icon.svg', 'apple-touch-icon.png'],
+      // Fonts (the chess pieces among them) and the course chunks must work offline too.
+      workbox: { globPatterns: ['**/*.{js,css,html,woff2,svg,png}'] },
       manifest: {
         name: 'Courseify',
         short_name: 'Courseify',

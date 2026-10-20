@@ -11,7 +11,7 @@ import type { Course, QuestionKind } from './types.ts';
 
 // ---------- settings ----------
 
-export type Preset = 'exam' | 'programming' | 'understand' | 'refresher' | 'deep-dive' | 'custom';
+export type Preset = 'exam' | 'programming' | 'understand' | 'chess' | 'refresher' | 'deep-dive' | 'custom';
 export type Purpose = 'exam' | 'understand' | 'skill' | 'interest';
 export type Level = 'beginner' | 'some' | 'intermediate' | 'advanced';
 export type SourceMode = 'none' | 'pasted' | 'attached';
@@ -39,6 +39,8 @@ export interface Extras {
   reading: boolean;
   /** One quick check-in question in the middle of longer lessons. */
   checkins: boolean;
+  /** A chess course: boards with worked examples, puzzles and positions to play out. */
+  chess: boolean;
 }
 
 export interface PromptSettings {
@@ -155,7 +157,8 @@ export function defaultSettings(): PromptSettings {
       code: false,
       warmup: true,
       reading: true,
-      checkins: true
+      checkins: true,
+      chess: false
     },
     tone: '',
     extraInstructions: '',
@@ -186,6 +189,15 @@ export const PRESETS: Record<Exclude<Preset, 'custom'>, PresetPatch> = {
     depth: 'standard',
     kinds: ['multiple-choice', 'true-false', 'short-answer', 'fill-blank', 'numeric', 'multi-select', 'ordering'],
     extras: { code: true, examples: true, mistakes: true, examTips: false, images: false, videos: true }
+  },
+  chess: {
+    purpose: 'skill',
+    sourceMode: 'none',
+    difficulty: 'mixed',
+    examOperators: false,
+    threeLevels: false,
+    kinds: ['multiple-choice', 'true-false'],
+    extras: { chess: true, code: false, images: false, videos: false, flashcards: false, examTips: false, examples: false, analogies: false }
   },
   understand: {
     purpose: 'understand',
@@ -317,8 +329,23 @@ const KIND_TEXT: Record<QuestionKind, string> = {
   numeric: 'numeric (a calculated number, with "tolerance" when rounding is fair)',
   'multi-select': 'multi-select (several correct options)',
   matching: 'matching (2-6 pairs, e.g. term to meaning)',
-  ordering: 'ordering (2-6 steps in the correct order)'
+  ordering: 'ordering (2-6 steps in the correct order)',
+  chess: 'chess (a puzzle on a board: a legal FEN with the learner to move and the solution line in SAN, 1-3 learner moves)'
 };
+
+/** Chess courses get the chess part of the schema too; every other course keeps it short. */
+const CHESS_SCHEMA = [
+  'CHESS (chess courses only)',
+  'Worked example: { "id": "m1-l1-b2", "type": "chess", "mode": "show", "title": "...", "fen": "<legal FEN>", "caption": "what to look at first", "steps": [ { "move": "Nc7+", "note": "one sentence", "arrows": ["c7e8", "c7a8"], "highlights": ["c7"] } ] }',
+  'Play it out: { "id": "m1-l1-b3", "type": "chess", "mode": "play", "title": "...", "fen": "<legal FEN>", "goal": "mate" | "promote" | "hold" | "free", "prompt": "what to do", "level": 1-5, "maxMoves": 20 }',
+  'Puzzle question: { "id": "q-m1-l1-1", "kind": "chess", "prompt": "**White to move.** Win material with a fork.", "fen": "<legal FEN, the learner is the side to move>", "solution": ["Nc7+", "Kd7", "Nxa8"], "explanation": "...", "hint": "a nudge" }',
+  '  "solution" alternates a move by the learner and the reply, and ENDS with a move by the learner (odd length). Use SAN. Any checkmating move is always accepted. Optional "alternatives": [[...other full lines...]] and "lastMove": "e7e5" (the move by the opponent that led to the position, UCI).',
+  '  Only positions that can happen in a real game: one king per side, the side NOT to move is not in check, no pawns on the first or last rank.'
+].join('\n');
+
+function schemaFor(s: PromptSettings, schema: string): string {
+  return s.extras.chess ? `${schema.trim()}\n\n${CHESS_SCHEMA}` : schema;
+}
 
 function list(lines: string[]): string {
   return lines.filter((line) => line.trim() !== '').map((line) => `- ${line}`).join('\n');
@@ -443,6 +470,9 @@ function lessonRecipe(s: PromptSettings): string {
       : '',
     `${e.warmup ? 'Then' : 'Start with'} ${levels}. Length: ${DEPTH_TEXT[s.depth]}. Begin with one sentence on why this matters, then explain step by step, and use small tables or numbered lists where they make things clearer.`,
     e.analogies ? 'Use a concrete everyday comparison or example for every abstract idea.' : '',
+    e.chess
+      ? 'This is a chess course: teach on the board. For every idea add a "chess" block with "mode": "show" (a worked example you step through: "fen" plus "steps", each with a "move" in SAN, a one-sentence "note", and optional "arrows" such as "e2e4" and "highlights" such as "f7"). In endgame lessons add a "chess" block with "mode": "play" so the learner plays the position out against the computer. Most quiz questions are "chess" puzzles (see the CHESS part of the schema). Use small, clear positions with few pieces, and check every position and every move yourself: an illegal FEN or move is rejected by the app.'
+      : '',
     e.code
       ? 'Show code in fenced Markdown code blocks with the language name (```python, ```sql, ...). Keep examples short, runnable and commented. Show the output where it helps.'
       : '',
@@ -470,7 +500,9 @@ function lessonRecipe(s: PromptSettings): string {
 }
 
 function questionRules(s: PromptSettings): string {
-  const kinds = s.kinds.length > 0 ? s.kinds : ALL_KINDS;
+  const chosen = s.kinds.length > 0 ? s.kinds : ALL_KINDS;
+  // Chess puzzles are offered only to chess courses, never by default.
+  const kinds: QuestionKind[] = s.extras.chess ? ['chess', ...chosen.filter((k) => k !== 'chess')] : chosen;
   const lines = [
     `Allowed question kinds: ${kinds.map((k) => KIND_TEXT[k]).join('; ')}. Pick the kind that fits the content, vary them, and use each allowed kind at least once per unit.`,
     `Difficulty: ${DIFFICULTY_TEXT[s.difficulty]}.`,
@@ -613,7 +645,7 @@ export function unitPrompt(s: PromptSettings, course: Course, moduleId: string, 
     ),
     idRules(course.id),
     extraInstructions(s),
-    section('Schema (follow exactly)', schema),
+    section('Schema (follow exactly)', schemaFor(s, schema)),
     outputRules(
       `{"courseId": "${course.id}", "module": {"id": "${unit.id}", "title": "${unit.title}", "summary": "...", "lessons": [ ...every lesson with all its blocks... ], "test": { ... }}}`
     ),
@@ -644,7 +676,7 @@ export function finalExamPrompt(s: PromptSettings, course: Course, schema: strin
     ),
     idRules(course.id),
     extraInstructions(s),
-    section('Schema (follow exactly)', schema),
+    section('Schema (follow exactly)', schemaFor(s, schema)),
     outputRules(`{"courseId": "${course.id}", "finalExam": {"id": "final-exam", "type": "final-exam", "questions": [ ... ]}}`),
     selfCheck([`Exactly ${s.finalExamQuestions} questions, every unit represented.`])
   ]);
@@ -681,7 +713,7 @@ export function singlePrompt(s: PromptSettings, schema: string): string {
     ),
     idRules(courseId),
     extraInstructions(s),
-    section('Schema (follow exactly)', schema),
+    section('Schema (follow exactly)', schemaFor(s, schema)),
     outputRules(
       `{"schemaVersion": 2, "id": "${courseId}", "title": "...", "subject": "${s.subject.trim() || '...'}", "level": "...", "language": "${s.primaryLanguage}", "languages": ${languages}, "modules": [ ... ]${s.finalExam ? ', "finalExam": { ... }' : ''}}`
     ),

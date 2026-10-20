@@ -19,6 +19,7 @@
   import { lessonQuestionCount, shows } from '../../core/layout.ts';
   import { dueCards } from '../../core/srs.ts';
   import { indexQuestions } from '../../core/mistakes.ts';
+  import CourseCatalog from '../../ui/CourseCatalog.svelte';
   import { t } from '../../i18n/i18n.ts';
 
   const layout = $derived(app.settings.layout);
@@ -249,4 +250,5 @@
     </section>
     {/each}
   {/if}
+  <CourseCatalog />
 </section>

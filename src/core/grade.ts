@@ -1,4 +1,5 @@
 import type { Question } from './types.ts';
+import { gradeChess } from './chess.ts';
 
 export function normalizeText(s: string): string {
   return s
@@ -125,6 +126,8 @@ export function gradeAnswer(q: Question, given: unknown): boolean {
       return gradeMatching(q, given);
     case 'ordering':
       return gradeOrdering(q, given);
+    case 'chess':
+      return gradeChess(q, given);
     default:
       return false;
   }

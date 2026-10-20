@@ -1,7 +1,7 @@
 // The single source of truth for the app version and the "What's new" list.
 // Bump VERSION and add one CHANGELOG entry at the top when you ship user-visible changes.
 
-export const VERSION = '1.3.0';
+export const VERSION = '1.4.0';
 
 export interface ChangelogEntry {
   version: string;
@@ -11,6 +11,18 @@ export interface ChangelogEntry {
 
 /** Newest first. */
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.4.0',
+    date: '2026-10-20',
+    changes: [
+      'Chess: a new ready-made course, "Chess: from improver to 1000", with 17 lessons and 118 puzzles from real games (Lichess puzzle database). Add it from Home or the Library.',
+      'Chess puzzles: play the moves on the board, the opponent answers, and a wrong move is taken back so you can try again. Hints mark the piece and then the move.',
+      'Worked examples on the board: step through the moves with a note, arrows and marked squares at every step.',
+      'Play positions out against the computer, with five strengths from Beginner to Strongest, take-backs and a "show a good move" hint.',
+      'The Chess board page: full games against the computer as White or Black, or from any position you paste in.',
+      'The course builder has a "Learn chess" preset, so a chat AI can make chess courses with boards and puzzles.'
+    ]
+  },
   {
     version: '1.3.0',
     date: '2026-10-17',

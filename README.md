@@ -42,8 +42,11 @@ and a review that brings back exactly the questions you missed.
   is in German but you think in English.
 
 **Practise**
-- **Eight question types:** multiple choice, true/false, short answer, fill in the blank, numbers,
-  several correct, matching and ordering. Each with step-by-step hints and an explanation.
+- **Nine question types:** multiple choice, true/false, short answer, fill in the blank, numbers,
+  several correct, matching, ordering and chess puzzles. Each with step-by-step hints and an explanation.
+- **Chess on the board.** Worked examples you step through, puzzles you solve by playing the moves,
+  endgames you play out against a built-in computer, and a practice board for full games. A
+  ready-made course, *Chess: from improver to 1000*, comes with 118 puzzles from real games.
 - **Practice sets per skill.** Missed questions come first, then ones you have never tried.
 - **Mistake review.** Every wrong answer is saved and comes back later, preferring a different variant
   of the same question.
@@ -171,6 +174,9 @@ The full reference that the course builder gives to the AI is in
 - [vite-plugin-pwa](https://vite-pwa-org.netlify.app) for offline use and installation
 - [Playwright](https://playwright.dev) for end-to-end tests
 - [Lato](https://fonts.google.com/specimen/Lato), bundled so it works offline
+- [chess.js](https://github.com/jhlywa/chess.js) for chess rules; the computer opponent is Courseify's own small engine
+- Chess pieces from [Noto Sans Symbols 2](https://github.com/notofonts/symbols) (SIL Open Font License), cut down to the 12 piece glyphs
+- Chess puzzles from the [Lichess puzzle database](https://database.lichess.org/#puzzles) (CC0, public domain)
 
 No backend, no UI framework, no trackers.
 
@@ -187,9 +193,9 @@ tests/e2e/     end-to-end tests
 
 ## Roadmap
 
-- [ ] Smarter review scheduling (FSRS) and mastery that fades without practice
+- [x] Smarter review scheduling (FSRS) and mastery that fades without practice
 - [ ] Coding exercises inside lessons: JavaScript, Python and SQL, running in the browser
-- [ ] Explore section with ready-made courses
+- [x] Ready-made courses (the first one: chess)
 - [ ] Free sync between devices through your own Google Drive
 
 ## Privacy

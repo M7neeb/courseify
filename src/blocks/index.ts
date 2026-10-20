@@ -6,6 +6,7 @@ import ImageBlock from './image/ImageBlock.svelte';
 import QuizBlock from './quiz/QuizBlock.svelte';
 import ExampleBlock from './example/ExampleBlock.svelte';
 import FlashcardsBlock from './flashcards/FlashcardsBlock.svelte';
+import ChessBlock from './chess/ChessBlock.svelte';
 
 registerBlock('text', TextBlock);
 registerBlock('callout', CalloutBlock);
@@ -14,5 +15,6 @@ registerBlock('image', ImageBlock);
 registerBlock('quiz', QuizBlock);
 registerBlock('example', ExampleBlock);
 registerBlock('flashcards', FlashcardsBlock);
+registerBlock('chess', ChessBlock);
 registerBlock('module-test', QuizBlock);
 registerBlock('final-exam', QuizBlock);

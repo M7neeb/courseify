@@ -9,6 +9,8 @@
   import Celebrate from '../../ui/Celebrate.svelte';
   import { tutorPrompt } from '../../core/promptBuilder.ts';
   import { copyText } from '../../ui/clipboard.ts';
+  import { formatLine } from '../../core/chess.ts';
+  import ChessPuzzle from '../../ui/chess/ChessPuzzle.svelte';
   import { t } from '../../i18n/i18n.ts';
 
   let { block, ctx }: { block: Block; ctx: BlockContext } = $props();
@@ -132,6 +134,8 @@
 
   function stepsFor(q: Question): string[] {
     if (Array.isArray(q.hints) && q.hints.length > 0) return q.hints;
+    // A chess puzzle always has two hints: the piece to move, then the move itself on the board.
+    if (q.kind === 'chess') return [q.hint ?? t('chess.hint1'), t('chess.hint2')];
     return q.hint ? [q.hint] : [];
   }
 
@@ -198,6 +202,8 @@
       return pairs > 0 && pairsGiven(q).every((right) => right >= 0);
     }
     if (q.kind === 'ordering') return (q.items?.length ?? 0) >= 2;
+    // A puzzle checks itself when a move is played.
+    if (q.kind === 'chess') return false;
     return d !== undefined;
   }
 
@@ -260,6 +266,7 @@
       const order = Array.isArray(given) ? (given as number[]) : [];
       return order.map((i) => q.items?.[i] ?? '').join(' → ');
     }
+    if (q.kind === 'chess') return Array.isArray(given) && q.fen ? formatLine(q.fen, given as string[]) : '';
     return String(given ?? '');
   }
 
@@ -272,6 +279,7 @@
     }
     if (q.kind === 'matching') return (q.pairs ?? []).map((pair) => `${pair.left} → ${pair.right}`).join('; ');
     if (q.kind === 'ordering') return (q.items ?? []).join(' → ');
+    if (q.kind === 'chess') return q.fen && q.solution ? formatLine(q.fen, q.solution) : '';
     if (Array.isArray(q.answer)) return String(q.answer[0] ?? '');
     return String(q.answer ?? '');
   }
@@ -312,10 +320,17 @@
     }
   }
 
+  /** A finished puzzle attempt: the moves count as the answer and are graded like any other. */
+  function chessResult(q: Question, moves: string[]) {
+    drafts[q.id] = moves;
+    check(q);
+  }
+
   async function askTutor(q: Question) {
     const record = answerOf(q.id);
     const given = record && record.correct === false ? givenText(q, record.given) : undefined;
-    const text = tutorPrompt(ctx.courseTitle ?? '', { prompt: q.prompt, options: q.options }, ctx.questionLanguage, given);
+    const prompt = q.kind === 'chess' && q.fen ? `${q.prompt}\n\nPosition (FEN): ${q.fen}` : q.prompt;
+    const text = tutorPrompt(ctx.courseTitle ?? '', { prompt, options: q.options }, ctx.questionLanguage, given);
     if (await copyText(text)) tutorCopied = q.id;
   }
 
@@ -428,6 +443,17 @@
 
     <article class="question" data-state={answeredCorrect ? 'right' : showWrong ? 'wrong' : 'open'}>
       <div class="prose question-prompt">{@html renderMarkdown(current.prompt)}</div>
+      {#if current.kind === 'chess'}
+        {#key current.id + ':' + (drillIds?.join(',') ?? '')}
+          <ChessPuzzle
+            question={current}
+            hintLevel={hintsAllowed ? hintStep : 0}
+            showSolution={solutionShown}
+            done={answeredCorrect}
+            onresult={(moves) => chessResult(current, moves)}
+          />
+        {/key}
+      {/if}
 
       {#if !answeredCorrect}
         {#if showWrong}
@@ -450,6 +476,8 @@
             <textarea id={'r-' + current.id} rows="2" placeholder={t('quiz.recallPlaceholder')} bind:value={recalled[current.id]}></textarea>
             <button type="button" class="btn primary" onclick={() => (revealed[current.id] = true)}>{t('quiz.showOptions')}</button>
           </div>
+        {:else if current.kind === 'chess'}
+          <!-- The board above is the answer. -->
         {:else if current.kind === 'multiple-choice'}
           <div class="options" role="radiogroup" aria-label={current.prompt}>
             {#each current.options ?? [] as option, oi (oi)}
@@ -623,9 +651,15 @@
       </div>
       <div class="quiz-bar-right">
         <button type="button" class="btn quiet-btn" onclick={advance}>{t('quiz.skip')}</button>
-        <button type="button" class="btn primary" disabled={!canCheck(current)} onclick={() => check(current)}>
-          {t('quiz.check')}
-        </button>
+        {#if current.kind !== 'chess'}
+          <button type="button" class="btn primary" disabled={!canCheck(current)} onclick={() => check(current)}>
+            {t('quiz.check')}
+          </button>
+        {:else if answeredCorrect}
+          <button type="button" class="btn primary" onclick={advance}>
+            {index + 1 < active.length ? t('quiz.nextQuestion') : t('results.seeResults')}
+          </button>
+        {/if}
       </div>
     </div>
   {/if}

@@ -1,0 +1,2775 @@
+{
+  "schemaVersion": 2,
+  "id": "chess-to-1000",
+  "title": "Chess: from improver to 1000",
+  "subject": "Chess",
+  "level": "Improver",
+  "language": "en",
+  "version": "1.0",
+  "meta": {
+    "tags": [
+      "chess",
+      "tactics",
+      "endgames"
+    ],
+    "description": "Stop losing pieces, win material with tactics, finish games with mates and endgames. Puzzles from real games on lichess.org (public domain), checked move by move.",
+    "credits": "Puzzles: Lichess puzzle database, lichess.org (CC0)."
+  },
+  "modules": [
+    {
+      "id": "u1",
+      "title": "Stop losing pieces",
+      "summary": "Most games under 1000 are decided by a piece left hanging. This unit builds the two habits that fix that: counting attackers and defenders, and checking what your opponent just threatened.",
+      "lessons": [
+        {
+          "id": "u1-hanging",
+          "title": "Free pieces and how to count",
+          "goal": "See when a piece is really free, and stop giving yours away.",
+          "blocks": [
+            {
+              "id": "t-1",
+              "type": "text",
+              "levels": {
+                "normal": "A piece is **hanging** when it is attacked and not defended. Taking a hanging piece is free material, and below 1000 most games are won exactly like this: one side leaves something hanging, the other side takes it.\n\nBefore you take anything, **count**. How many of your pieces attack the target, and how many of theirs defend it? If you attack it more times than they defend it, you can usually win it. If the numbers are equal, a capture only trades, and you have to compare values: never give a knight (3) for a pawn (1).\n\nThe values to keep in your head: pawn 1, knight 3, bishop 3, rook 5, queen 9. The king cannot be traded, so it never counts as a defender you can capture.",
+                "simple": "A piece is **hanging** when someone attacks it and nobody protects it. Then you can take it for free.\n\nBefore you take, count: how many of your pieces hit it, and how many of theirs protect it? Only take if you win more than you lose.\n\nValues: pawn 1, knight 3, bishop 3, rook 5, queen 9."
+              }
+            },
+            {
+              "id": "show-2",
+              "type": "chess",
+              "mode": "show",
+              "title": "Is the pawn on e5 free?",
+              "fen": "r1bqkb1r/pppp1ppp/2n2n2/4p3/4P3/2N2N2/PPPP1PPP/R1BQKB1R w KQkq - 4 4",
+              "caption": "The knight on f3 attacks e5 once. The knight on c6 defends it once. So e5 is not free.",
+              "steps": [
+                {
+                  "move": "Nxe5",
+                  "note": "White takes anyway: one attacker against one defender is only a trade.",
+                  "arrows": [
+                    "c6e5"
+                  ]
+                },
+                {
+                  "move": "Nxe5",
+                  "note": "Black takes back. White gave a knight (3) for a pawn (1) and is now 2 points down. Counting first would have saved the knight."
+                }
+              ],
+              "arrows": [
+                "f3e5",
+                "c6e5"
+              ],
+              "highlights": [
+                "e5"
+              ]
+            },
+            {
+              "id": "k-3",
+              "type": "callout",
+              "style": "keypoint",
+              "markdown": "- Hanging means attacked and not defended.\n- Count attackers and defenders before every capture.\n- Pawn 1, knight 3, bishop 3, rook 5, queen 9."
+            },
+            {
+              "id": "q-4",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "u1h-mc1",
+                  "kind": "multiple-choice",
+                  "prompt": "Your knight attacks a pawn. The pawn is defended by one bishop. What happens if you take it?",
+                  "options": [
+                    "You win a pawn for free",
+                    "You lose your knight for a pawn",
+                    "Nothing, the bishop cannot take back",
+                    "It is a fair trade"
+                  ],
+                  "answer": 1,
+                  "explanation": "The bishop takes back. You gave 3 points for 1.",
+                  "rationales": [
+                    "The bishop defends it, so it is not free.",
+                    "",
+                    "A bishop can take back on any square it defends.",
+                    "A knight is worth 3 and a pawn 1, so it is not fair."
+                  ]
+                },
+                {
+                  "id": "pz-00CYP",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Something is not defended. Take it.",
+                  "fen": "3r1k1r/p1p2pp1/1p6/2pQ1b2/2Pn1P2/8/PP1P1KBq/R1B1R3 w - - 4 26",
+                  "lastMove": "e8f8",
+                  "solution": [
+                    "Qxd8#"
+                  ],
+                  "explanation": "26. Qxd8#. The piece was attacked and nobody defended it. Count before you take, and you will see these straight away.",
+                  "source": "lichess.org/training/00CYP"
+                },
+                {
+                  "id": "pz-09MTi",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Something is not defended. Take it.",
+                  "fen": "6r1/p1p4k/3pPQ2/3P3p/8/7P/R3qPP1/5R1K b - - 0 38",
+                  "lastMove": "a1a2",
+                  "solution": [
+                    "Qxf1+",
+                    "Kh2",
+                    "Qxg2#"
+                  ],
+                  "explanation": "38... Qxf1+ 39. Kh2 Qxg2#. The piece was attacked and nobody defended it. Count before you take, and you will see these straight away.",
+                  "source": "lichess.org/training/09MTi"
+                },
+                {
+                  "id": "pz-0QksV",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Something is not defended. Take it.",
+                  "fen": "3r3k/1p4pp/pQ3r2/8/6n1/7q/PP2R2P/R5K1 w - - 10 30",
+                  "lastMove": "f8f6",
+                  "solution": [
+                    "Qxd8+",
+                    "Rf8",
+                    "Qxf8#"
+                  ],
+                  "explanation": "30. Qxd8+ Rf8 31. Qxf8#. The piece was attacked and nobody defended it. Count before you take, and you will see these straight away.",
+                  "source": "lichess.org/training/0QksV"
+                },
+                {
+                  "id": "pz-05Jvu",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Something is not defended. Take it.",
+                  "fen": "3qk1nr/1b1p1pp1/p2PP3/1p5p/5B2/2rB1QP1/PP3P1P/R3R1K1 b k - 0 17",
+                  "lastMove": "d5e6",
+                  "solution": [
+                    "Bxf3",
+                    "exd7+",
+                    "Kxd7"
+                  ],
+                  "explanation": "17... Bxf3 18. exd7+ Kxd7. The piece was attacked and nobody defended it. Count before you take, and you will see these straight away.",
+                  "source": "lichess.org/training/05Jvu"
+                },
+                {
+                  "id": "pz-0hbaQ",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Something is not defended. Take it.",
+                  "fen": "7r/1p6/p4Qpk/2pPp1q1/8/1P6/1P4PK/5R2 w - - 3 37",
+                  "lastMove": "e3g5",
+                  "solution": [
+                    "Qxh8#"
+                  ],
+                  "explanation": "37. Qxh8#. The piece was attacked and nobody defended it. Count before you take, and you will see these straight away.",
+                  "source": "lichess.org/training/0hbaQ"
+                },
+                {
+                  "id": "pz-02a9L",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Something is not defended. Take it.",
+                  "fen": "7k/1p1rp1bp/pB4p1/4rp2/P4Q2/2P4P/1P3PP1/4R1K1 b - - 1 34",
+                  "lastMove": "e3f4",
+                  "solution": [
+                    "Rxe1+",
+                    "Kh2",
+                    "Be5",
+                    "Qxe5+",
+                    "Rxe5"
+                  ],
+                  "explanation": "34... Rxe1+ 35. Kh2 Be5 36. Qxe5+ Rxe5. The piece was attacked and nobody defended it. Count before you take, and you will see these straight away.",
+                  "source": "lichess.org/training/02a9L"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "u1-threats",
+          "title": "What did they just threaten?",
+          "goal": "Ask one question after every move of your opponent, and catch their threats in time.",
+          "blocks": [
+            {
+              "id": "t-5",
+              "type": "text",
+              "levels": {
+                "normal": "Stronger players do not see more moves. They ask better questions. After every move your opponent makes, ask: **what does this move want?** What does the moved piece attack now? What did it stop defending? Did it open a line for another piece?\n\nThen, before you play your own move, do a quick **blunder check**: after my move, can they take something, give a dangerous check, or attack two things at once? This takes ten seconds and it is the single biggest step from 600 to 1000.\n\nIn the puzzles below your opponent has just made a threat or a mistake. Look at their last move first, it is marked on the board.",
+                "simple": "After every move your opponent makes, ask: **what does it want?** What does that piece attack now?\n\nBefore your own move, check: can they take something after it? This one habit wins more games than any opening."
+              }
+            },
+            {
+              "id": "show-6",
+              "type": "chess",
+              "mode": "show",
+              "title": "A threat you have to see",
+              "fen": "r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
+              "caption": "A normal opening position. Now watch what White wants with the next move.",
+              "steps": [
+                {
+                  "move": "Ng5",
+                  "note": "The knight and the bishop both aim at f7. Only the king defends it. White threatens Nxf7, forking the queen and the rook.",
+                  "arrows": [
+                    "g5f7",
+                    "c4f7"
+                  ],
+                  "highlights": [
+                    "f7"
+                  ]
+                },
+                {
+                  "move": "d5",
+                  "note": "Black sees the threat and answers it: d5 blocks the bishop and attacks it at the same time. Seeing the threat is what made this move possible.",
+                  "arrows": [
+                    "d5c4"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "c-7",
+              "type": "callout",
+              "style": "tip",
+              "markdown": "**Your checklist before every move:** 1. What did their last move do? 2. Checks, captures and threats for me? 3. After my move, can they take something or fork me?"
+            },
+            {
+              "id": "q-8",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "u1t-mc1",
+                  "kind": "multiple-choice",
+                  "prompt": "Your opponent just moved a bishop. What is the first question to ask?",
+                  "options": [
+                    "Which opening is this?",
+                    "What does the bishop attack now, and what did it stop defending?",
+                    "Can I trade queens?",
+                    "Where should my king castle?"
+                  ],
+                  "answer": 1,
+                  "explanation": "Every move changes what pieces attack and defend. Find that first."
+                },
+                {
+                  "id": "u1t-tf1",
+                  "kind": "true-false",
+                  "prompt": "A blunder check means looking at what your opponent can do after the move you want to play.",
+                  "answer": true,
+                  "explanation": "Exactly: before you let go of the piece, picture their best answer."
+                },
+                {
+                  "id": "pz-0GIjw",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Your opponent just made a mistake. Punish it.",
+                  "fen": "3r2k1/1p3pp1/1Q2p2p/p4q2/8/P5rP/5PP1/2R3K1 w - - 0 37",
+                  "lastMove": "d3g3",
+                  "solution": [
+                    "Qxd8+",
+                    "Kh7",
+                    "fxg3"
+                  ],
+                  "explanation": "37. Qxd8+ Kh7 38. fxg3. Their last move left something undefended. Asking \"what changed?\" after every move finds these.",
+                  "source": "lichess.org/training/0GIjw"
+                },
+                {
+                  "id": "pz-06AHQ",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Your opponent just made a mistake. Punish it.",
+                  "fen": "r3q1k1/1pp1n2p/p2bNNpB/2nPpr2/8/3Q4/PPP2PPP/R3R1K1 b - - 9 17",
+                  "lastMove": "e4f6",
+                  "solution": [
+                    "Rxf6",
+                    "Nxc5",
+                    "Bxc5"
+                  ],
+                  "explanation": "17... Rxf6 18. Nxc5 Bxc5. Their last move left something undefended. Asking \"what changed?\" after every move finds these.",
+                  "source": "lichess.org/training/06AHQ"
+                },
+                {
+                  "id": "pz-03BAr",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Your opponent just made a mistake. Punish it.",
+                  "fen": "2r3k1/1p3p1p/p3p1pP/3pP1q1/1P1P4/5N2/2R2PP1/6K1 w - - 0 40",
+                  "lastMove": "d8g5",
+                  "solution": [
+                    "Rxc8+",
+                    "Qd8",
+                    "Rxd8#"
+                  ],
+                  "explanation": "40. Rxc8+ Qd8 41. Rxd8#. Their last move left something undefended. Asking \"what changed?\" after every move finds these.",
+                  "source": "lichess.org/training/03BAr"
+                },
+                {
+                  "id": "pz-0H6Dd",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Your opponent is threatening something. Find the move that stops it.",
+                  "fen": "8/8/4k1p1/7p/2rKP2P/6P1/8/8 w - - 0 65",
+                  "lastMove": "b4c4",
+                  "solution": [
+                    "Kxc4",
+                    "Ke5",
+                    "Kd3"
+                  ],
+                  "explanation": "65. Kxc4 Ke5 66. Kd3. The threat came from their last move. See it first, then defend.",
+                  "source": "lichess.org/training/0H6Dd"
+                },
+                {
+                  "id": "pz-01Pkt",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Your opponent is threatening something. Find the move that stops it.",
+                  "fen": "8/p6p/6p1/1P2p3/Pk2K3/5P2/6PP/8 b - - 5 34",
+                  "lastMove": "e3e4",
+                  "solution": [
+                    "Kxa4",
+                    "Kxe5",
+                    "Kxb5",
+                    "f4",
+                    "a5"
+                  ],
+                  "explanation": "34... Kxa4 35. Kxe5 Kxb5 36. f4 a5. The threat came from their last move. See it first, then defend.",
+                  "source": "lichess.org/training/01Pkt"
+                },
+                {
+                  "id": "pz-03lR8",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Your opponent is threatening something. Find the move that stops it.",
+                  "fen": "2r3k1/5pb1/p5pp/1p2p3/1B1rR3/P2nR2P/B4PP1/6K1 w - - 10 32",
+                  "lastMove": "b2d3",
+                  "solution": [
+                    "Rxd4",
+                    "exd4",
+                    "Rxd3",
+                    "Rc1+",
+                    "Kh2"
+                  ],
+                  "explanation": "32. Rxd4 exd4 33. Rxd3 Rc1+ 34. Kh2. The threat came from their last move. See it first, then defend.",
+                  "source": "lichess.org/training/03lR8"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "test": {
+        "id": "u1-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "id": "pz-09x4v",
+            "kind": "chess",
+            "prompt": "**White to move.** Something is loose. Win it.",
+            "fen": "2r5/pb3p1k/1p6/3p1q2/3P3b/2N2P2/PP6/2K3RR w - - 0 25",
+            "lastMove": "f6f5",
+            "solution": [
+              "Rxh4+",
+              "Qh5",
+              "Rxh5#"
+            ],
+            "explanation": "25. Rxh4+ Qh5 26. Rxh5#. The piece was not defended enough.",
+            "source": "lichess.org/training/09x4v",
+            "skillId": "u1-hanging"
+          },
+          {
+            "id": "pz-08Ag8",
+            "kind": "chess",
+            "prompt": "**Black to move.** Something is loose. Win it.",
+            "fen": "r4rk1/4npR1/p2p4/2p1p3/4P3/1BPPQNPq/P3K2N/8 b - - 0 28",
+            "lastMove": "g5g7",
+            "solution": [
+              "Kxg7",
+              "Qg5+",
+              "Ng6"
+            ],
+            "explanation": "28... Kxg7 29. Qg5+ Ng6. The piece was not defended enough.",
+            "source": "lichess.org/training/08Ag8",
+            "skillId": "u1-hanging"
+          },
+          {
+            "id": "pz-0CCNZ",
+            "kind": "chess",
+            "prompt": "**White to move.** Something is loose. Win it.",
+            "fen": "r1b2k1r/pp2np1p/1bnNp2q/3pPp2/6QN/8/P2B2PP/2R1KB1R w K - 0 17",
+            "lastMove": "g6f5",
+            "solution": [
+              "Bxh6#"
+            ],
+            "explanation": "17. Bxh6#. The piece was not defended enough.",
+            "source": "lichess.org/training/0CCNZ",
+            "skillId": "u1-hanging"
+          },
+          {
+            "id": "pz-09KlA",
+            "kind": "chess",
+            "prompt": "**Black to move.** Something is loose. Win it.",
+            "fen": "6rk/6p1/5n1Q/2p1q2p/1p6/1P4RP/P7/2K3R1 b - - 1 37",
+            "lastMove": "g6h6",
+            "solution": [
+              "gxh6",
+              "Rxg8+",
+              "Nxg8"
+            ],
+            "explanation": "37... gxh6 38. Rxg8+ Nxg8. The piece was not defended enough.",
+            "source": "lichess.org/training/09KlA",
+            "skillId": "u1-hanging"
+          },
+          {
+            "id": "pz-0CaCe",
+            "kind": "chess",
+            "prompt": "**White to move.** Stop the threat.",
+            "fen": "8/8/2p2p1p/1p2kPp1/1P2P1P1/3bK2P/8/8 w - - 0 33",
+            "lastMove": "f1d3",
+            "solution": [
+              "Kxd3",
+              "Kf4",
+              "Kd4"
+            ],
+            "explanation": "33. Kxd3 Kf4 34. Kd4. Their last move created a threat; seeing it first is everything.",
+            "source": "lichess.org/training/0CaCe",
+            "skillId": "u1-threats"
+          },
+          {
+            "id": "pz-03r8Y",
+            "kind": "chess",
+            "prompt": "**Black to move.** Stop the threat.",
+            "fen": "8/p1p3rk/1p2Q2p/8/5P2/2P2b1K/P1P5/8 b - - 0 35",
+            "lastMove": "e5e6",
+            "solution": [
+              "Bg4+",
+              "Qxg4",
+              "Rxg4",
+              "Kxg4",
+              "Kg6"
+            ],
+            "explanation": "35... Bg4+ 36. Qxg4 Rxg4 37. Kxg4 Kg6. Their last move created a threat; seeing it first is everything.",
+            "source": "lichess.org/training/03r8Y",
+            "skillId": "u1-threats"
+          }
+        ]
+      }
+    },
+    {
+      "id": "u2",
+      "title": "Tactics that win material",
+      "summary": "Five patterns win most of the material in club games: forks, pins, skewers, discovered attacks and removing the defender. Learn to recognise each one, then find it in real positions.",
+      "lessons": [
+        {
+          "id": "u2-fork",
+          "title": "Forks",
+          "goal": "Attack two things with one move, so your opponent can only save one.",
+          "blocks": [
+            {
+              "id": "t-9",
+              "type": "text",
+              "levels": {
+                "normal": "A **fork** is one piece attacking two (or more) targets at the same time. Your opponent can only move one of them, so you win the other. Forks are the most common tactic in chess, and the **knight** is the best forker because it jumps and its attacks are hard to see.\n\nThe strongest forks include a **check**: the king has to move, and you take the second target. Look for squares where one of your pieces would attack the king and something valuable at once. Queens fork too, and even a pawn can fork two pieces by stepping forward.\n\nA quick way to spot them: find their undefended pieces and their king. Are two of them a knight jump apart from one empty square? Is there a square from which your queen sees both?",
+                "simple": "A **fork** means one piece attacks two things at once. Your opponent can only save one.\n\nKnights are the best at forks. The best fork of all attacks the king (check) and the queen together."
+              }
+            },
+            {
+              "id": "show-10",
+              "type": "chess",
+              "mode": "show",
+              "title": "The knight fork",
+              "fen": "q3k3/8/8/3N4/8/8/8/4K3 w - - 0 1",
+              "caption": "The black king and queen are a knight jump away from the same square: c7.",
+              "steps": [
+                {
+                  "move": "Nc7+",
+                  "note": "Check, and the knight also attacks the queen. That is a fork.",
+                  "arrows": [
+                    "c7e8",
+                    "c7a8"
+                  ]
+                },
+                {
+                  "move": "Kd7",
+                  "note": "The king must answer the check. The queen stays behind."
+                },
+                {
+                  "move": "Nxa8",
+                  "note": "White wins the queen. One move attacked two pieces, and only one could be saved."
+                }
+              ],
+              "highlights": [
+                "c7"
+              ]
+            },
+            {
+              "id": "k-11",
+              "type": "callout",
+              "style": "keypoint",
+              "markdown": "- A fork attacks two targets with one piece.\n- Checks make forks deadly: the king must move first.\n- Look for squares that attack their king and an undefended piece together."
+            },
+            {
+              "id": "q-12",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "pz-03Ws6",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Find the fork and win material.",
+                  "fen": "8/2k1N3/8/2Pp1p1p/3P1P1P/4b3/1pK5/8 w - - 2 57",
+                  "lastMove": "c1e3",
+                  "solution": [
+                    "Nxd5+",
+                    "Kc6",
+                    "Nxe3",
+                    "b1=Q+",
+                    "Kxb1"
+                  ],
+                  "explanation": "57. Nxd5+ Kc6 58. Nxe3 b1=Q+ 59. Kxb1. One piece attacks two targets, and only one can be saved.",
+                  "source": "lichess.org/training/03Ws6"
+                },
+                {
+                  "id": "pz-00Gvp",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Find the fork and win material.",
+                  "fen": "8/2kn1p2/8/3P4/R7/2PKN3/1r6/8 b - - 14 70",
+                  "lastMove": "e2d3",
+                  "solution": [
+                    "Nc5+",
+                    "Kd4",
+                    "Nxa4"
+                  ],
+                  "explanation": "70... Nc5+ 71. Kd4 Nxa4. One piece attacks two targets, and only one can be saved.",
+                  "source": "lichess.org/training/00Gvp"
+                },
+                {
+                  "id": "pz-01NVd",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Find the fork and win material.",
+                  "fen": "8/1K3Npk/5n2/R6p/8/p6r/8/8 w - - 2 49",
+                  "lastMove": "h4h3",
+                  "solution": [
+                    "Ng5+",
+                    "Kg6",
+                    "Nxh3"
+                  ],
+                  "explanation": "49. Ng5+ Kg6 50. Nxh3. One piece attacks two targets, and only one can be saved.",
+                  "source": "lichess.org/training/01NVd"
+                },
+                {
+                  "id": "pz-02FIQ",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Find the fork and win material.",
+                  "fen": "3r2k1/p3Rppp/8/8/8/1Q5P/2Pq1PP1/6K1 b - - 2 28",
+                  "lastMove": "e1e7",
+                  "solution": [
+                    "Qd1+",
+                    "Kh2",
+                    "Qd6+",
+                    "f4",
+                    "Qxe7"
+                  ],
+                  "explanation": "28... Qd1+ 29. Kh2 Qd6+ 30. f4 Qxe7. One piece attacks two targets, and only one can be saved.",
+                  "source": "lichess.org/training/02FIQ"
+                },
+                {
+                  "id": "pz-01tZ5",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Find the fork and win material.",
+                  "fen": "1r4r1/2q2ppk/2pb1n2/1p2pN1p/4P3/4Q1RP/PP3PP1/R5K1 w - - 0 26",
+                  "lastMove": "e8f6",
+                  "solution": [
+                    "Rxg7+",
+                    "Rxg7",
+                    "Qh6+",
+                    "Kg8",
+                    "Qxg7#"
+                  ],
+                  "explanation": "26. Rxg7+ Rxg7 27. Qh6+ Kg8 28. Qxg7#. One piece attacks two targets, and only one can be saved.",
+                  "source": "lichess.org/training/01tZ5"
+                },
+                {
+                  "id": "pz-02cTH",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Find the fork and win material.",
+                  "fen": "8/8/P7/5Q2/6p1/4b1k1/3r4/5K2 b - - 0 57",
+                  "lastMove": "b5f5",
+                  "solution": [
+                    "Rf2+",
+                    "Qxf2+",
+                    "Bxf2",
+                    "a7",
+                    "Bxa7"
+                  ],
+                  "explanation": "57... Rf2+ 58. Qxf2+ Bxf2 59. a7 Bxa7. One piece attacks two targets, and only one can be saved.",
+                  "source": "lichess.org/training/02cTH"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "u2-pin",
+          "title": "Pins",
+          "goal": "Freeze a piece in front of its king or queen, then attack it.",
+          "blocks": [
+            {
+              "id": "t-13",
+              "type": "text",
+              "levels": {
+                "normal": "A **pin** is an attack on a piece that cannot move away, because a more valuable piece stands behind it on the same line. Only bishops, rooks and queens can pin, because only they attack along lines.\n\nIf the piece behind is the **king**, the pin is absolute: moving the pinned piece is illegal. If it is the queen or a rook, moving is legal but loses the bigger piece.\n\nA pinned piece is a weak piece. Attack it again, best with a pawn, and it cannot run away. And remember: a pinned piece does not really defend anything, because it cannot leave its line.",
+                "simple": "A **pin** traps a piece in front of a more valuable one, like the king. If it moves, the piece behind is lost (or, with the king, it is not even allowed).\n\nA pinned piece cannot run. Attack it again and win it."
+              }
+            },
+            {
+              "id": "show-14",
+              "type": "chess",
+              "mode": "show",
+              "title": "Pin and attack",
+              "fen": "4k3/8/2n5/1B6/3P4/8/8/4K3 w - - 0 1",
+              "caption": "The bishop on b5 pins the knight on c6 to the king on e8. The knight is not allowed to move.",
+              "steps": [
+                {
+                  "move": "d5",
+                  "note": "The pawn attacks the pinned knight. It cannot run away.",
+                  "arrows": [
+                    "b5e8",
+                    "d5c6"
+                  ]
+                },
+                {
+                  "move": "Kd8",
+                  "note": "Black steps out of the pin, but it is White to move."
+                },
+                {
+                  "move": "dxc6",
+                  "note": "The knight falls. A pinned piece is a target: attack it, ideally with a pawn."
+                }
+              ]
+            },
+            {
+              "id": "k-15",
+              "type": "callout",
+              "style": "keypoint",
+              "markdown": "- A pin freezes a piece in front of a more valuable one.\n- Only bishops, rooks and queens can pin.\n- Attack the pinned piece again, ideally with a pawn."
+            },
+            {
+              "id": "q-16",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "pz-02J2r",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Use a pin to win material.",
+                  "fen": "6k1/p1p1nrpp/1pb5/8/8/1B3P2/P5PP/3R2K1 w - - 0 21",
+                  "lastMove": "f8f7",
+                  "solution": [
+                    "Rd8+",
+                    "Be8",
+                    "Rxe8#"
+                  ],
+                  "explanation": "21. Rd8+ Be8 22. Rxe8#. The pinned piece could not move away without losing something bigger.",
+                  "source": "lichess.org/training/02J2r"
+                },
+                {
+                  "id": "pz-06Z8B",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Use a pin to win material.",
+                  "fen": "3r4/1b2kp1p/2q1pp2/1pb5/8/1B3N2/1PP1QPRP/4R2K b - - 0 20",
+                  "lastMove": "g1g2",
+                  "solution": [
+                    "Qxf3",
+                    "Qxf3",
+                    "Bxf3"
+                  ],
+                  "explanation": "20... Qxf3 21. Qxf3 Bxf3. The pinned piece could not move away without losing something bigger.",
+                  "source": "lichess.org/training/06Z8B"
+                },
+                {
+                  "id": "pz-09Yru",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Use a pin to win material.",
+                  "fen": "4kr2/1pp3bp/8/4r1p1/8/2P3P1/PP4PP/3RR1K1 w - - 0 25",
+                  "lastMove": "c5e5",
+                  "solution": [
+                    "Rxe5+",
+                    "Bxe5",
+                    "Re1",
+                    "Kf7",
+                    "Rxe5"
+                  ],
+                  "explanation": "25. Rxe5+ Bxe5 26. Re1 Kf7 27. Rxe5. The pinned piece could not move away without losing something bigger.",
+                  "source": "lichess.org/training/09Yru"
+                },
+                {
+                  "id": "pz-07nQt",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Use a pin to win material.",
+                  "fen": "8/5k2/1R3p2/1P1Nn3/5p1p/7P/1r4PK/8 b - - 1 47",
+                  "lastMove": "e3d5",
+                  "solution": [
+                    "Nf3+",
+                    "Kh1",
+                    "Rb1#"
+                  ],
+                  "explanation": "47... Nf3+ 48. Kh1 Rb1#. The pinned piece could not move away without losing something bigger.",
+                  "source": "lichess.org/training/07nQt"
+                },
+                {
+                  "id": "pz-0gaaz",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Use a pin to win material.",
+                  "fen": "r1b1r1k1/1p4pp/p4n2/3q4/8/1P1BPN2/1Q3PPP/5RK1 w - - 0 21",
+                  "lastMove": "d8d5",
+                  "solution": [
+                    "Bc4",
+                    "Be6",
+                    "Bxd5"
+                  ],
+                  "explanation": "21. Bc4 Be6 22. Bxd5. The pinned piece could not move away without losing something bigger.",
+                  "source": "lichess.org/training/0gaaz"
+                },
+                {
+                  "id": "pz-0d7i8",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Use a pin to win material.",
+                  "fen": "r2kr3/pBbb4/4p1P1/5p2/2PQ4/3P2P1/P1q4P/3RR1K1 b - - 0 26",
+                  "lastMove": "g2b7",
+                  "solution": [
+                    "Bb6",
+                    "c5",
+                    "Bxc5",
+                    "Qxc5",
+                    "Qxc5+"
+                  ],
+                  "explanation": "26... Bb6 27. c5 Bxc5 28. Qxc5 Qxc5+. The pinned piece could not move away without losing something bigger.",
+                  "source": "lichess.org/training/0d7i8"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "u2-skewer",
+          "title": "Skewers",
+          "goal": "Attack a big piece so that it moves and uncovers the piece behind it.",
+          "blocks": [
+            {
+              "id": "t-17",
+              "type": "text",
+              "levels": {
+                "normal": "A **skewer** is a pin turned around. You attack the more valuable piece first, often the king with check. It has to move, and then you take the piece that was standing behind it on the same line.\n\nSkewers show up a lot in endgames, where kings and queens stand on open files and diagonals. Whenever their king and another piece are on the same line with nothing between them, look for a check along that line.",
+                "simple": "A **skewer** attacks the big piece first, usually the king. When it moves away, you take the piece behind it."
+              }
+            },
+            {
+              "id": "show-18",
+              "type": "chess",
+              "mode": "show",
+              "title": "The rook skewer",
+              "fen": "4q3/8/8/8/4k3/8/8/K6R w - - 0 1",
+              "caption": "The black king and queen stand on the same file, e. The king is in front.",
+              "steps": [
+                {
+                  "move": "Re1+",
+                  "note": "Check along the e-file. The king has to step aside.",
+                  "arrows": [
+                    "e1e4",
+                    "e4e8"
+                  ]
+                },
+                {
+                  "move": "Kd5",
+                  "note": "The king moves, and the queen behind it is now open."
+                },
+                {
+                  "move": "Rxe8",
+                  "note": "White wins the queen. The king was in front, so this is a skewer, not a pin."
+                }
+              ]
+            },
+            {
+              "id": "k-19",
+              "type": "callout",
+              "style": "keypoint",
+              "markdown": "- A skewer attacks the more valuable piece first.\n- When it moves, take the piece behind it.\n- Look for checks along lines that also hit a second piece."
+            },
+            {
+              "id": "q-20",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "pz-04xSr",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Find the skewer.",
+                  "fen": "8/4k3/4r3/3K4/8/8/8/7R w - - 21 65",
+                  "lastMove": "f7e7",
+                  "solution": [
+                    "Rh7+",
+                    "Kf6",
+                    "Rh6+",
+                    "Kg5",
+                    "Rxe6"
+                  ],
+                  "explanation": "65. Rh7+ Kf6 66. Rh6+ Kg5 67. Rxe6. The front piece had to move, and the piece behind it was lost.",
+                  "source": "lichess.org/training/04xSr"
+                },
+                {
+                  "id": "pz-0A0Ss",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Find the skewer.",
+                  "fen": "1R6/7k/6p1/5p1p/P4R2/1K6/8/3r4 b - - 2 53",
+                  "lastMove": "c4b3",
+                  "solution": [
+                    "Rb1+",
+                    "Kc4",
+                    "Rxb8"
+                  ],
+                  "explanation": "53... Rb1+ 54. Kc4 Rxb8. The front piece had to move, and the piece behind it was lost.",
+                  "source": "lichess.org/training/0A0Ss"
+                },
+                {
+                  "id": "pz-00WZO",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Find the skewer.",
+                  "fen": "8/1R2B3/5p2/4bP1p/p1k4r/5K2/8/8 w - - 8 46",
+                  "lastMove": "b5c4",
+                  "solution": [
+                    "Rb4+",
+                    "Kd5",
+                    "Rxh4"
+                  ],
+                  "explanation": "46. Rb4+ Kd5 47. Rxh4. The front piece had to move, and the piece behind it was lost.",
+                  "source": "lichess.org/training/00WZO"
+                },
+                {
+                  "id": "pz-0IE5U",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Find the skewer.",
+                  "fen": "8/2RPk3/6p1/5p1p/1pK4P/1P4r1/6P1/8 b - - 2 42",
+                  "lastMove": "d4c4",
+                  "solution": [
+                    "Rc3+",
+                    "Kxb4",
+                    "Rxc7",
+                    "d8=Q+",
+                    "Kxd8"
+                  ],
+                  "explanation": "42... Rc3+ 43. Kxb4 Rxc7 44. d8=Q+ Kxd8. The front piece had to move, and the piece behind it was lost.",
+                  "source": "lichess.org/training/0IE5U"
+                },
+                {
+                  "id": "pz-08EON",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Find the skewer.",
+                  "fen": "2r1k2r/1p2bpp1/p1n5/3pP1Np/1P1q1P2/P3Q2P/6P1/2R2RK1 w k - 0 21",
+                  "lastMove": "e6d5",
+                  "solution": [
+                    "Qxd4",
+                    "Nxd4",
+                    "Rxc8+",
+                    "Kd7",
+                    "Rxh8"
+                  ],
+                  "explanation": "21. Qxd4 Nxd4 22. Rxc8+ Kd7 23. Rxh8. The front piece had to move, and the piece behind it was lost.",
+                  "source": "lichess.org/training/08EON"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "u2-discovered",
+          "title": "Discovered attacks",
+          "goal": "Move one piece out of the way so another one attacks.",
+          "blocks": [
+            {
+              "id": "t-21",
+              "type": "text",
+              "levels": {
+                "normal": "A **discovered attack** happens when you move one piece and uncover an attack by another piece standing behind it. Now two things happen at once: the piece you moved can make its own threat, and the piece behind attacks too.\n\nIf the uncovered attack is a check, it is a **discovered check**, one of the strongest weapons in chess: your opponent must deal with the check, so the piece you moved can take or attack almost anything. A **double check** is when both pieces give check; then the king has to move.\n\nLook for your rook, bishop or queen standing behind one of your own pieces, aiming at their king or queen.",
+                "simple": "Move one piece away and the piece behind it suddenly attacks. That is a **discovered attack**.\n\nIf it gives check, the moved piece can grab almost anything, because the king must be saved first."
+              }
+            },
+            {
+              "id": "show-22",
+              "type": "chess",
+              "mode": "show",
+              "title": "Discovered check",
+              "fen": "4k3/8/8/q3N3/8/8/4R3/6K1 w - - 0 1",
+              "caption": "The rook on e2 aims at the black king, but White's own knight is in the way.",
+              "steps": [
+                {
+                  "move": "Nc6+",
+                  "note": "The knight jumps away and the rook gives check. At the same time the knight attacks the queen.",
+                  "arrows": [
+                    "e2e8",
+                    "c6a5"
+                  ]
+                },
+                {
+                  "move": "Kd7",
+                  "note": "Black has to answer the check first."
+                },
+                {
+                  "move": "Nxa5",
+                  "note": "The queen is lost. One move made two threats, and only the check could be answered."
+                }
+              ]
+            },
+            {
+              "id": "k-23",
+              "type": "callout",
+              "style": "keypoint",
+              "markdown": "- Moving one piece can uncover an attack by the piece behind it.\n- A discovered check lets the moved piece take almost anything.\n- Look for your long-range pieces lined up behind your own pieces."
+            },
+            {
+              "id": "q-24",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "pz-0gY12",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Find the discovered attack.",
+                  "fen": "2r5/5kpp/2N5/3n1p2/p2Pp3/4P1P1/2R2PP1/6K1 w - - 3 30",
+                  "lastMove": "g8f7",
+                  "solution": [
+                    "Ne5+",
+                    "Ke7",
+                    "Rxc8"
+                  ],
+                  "explanation": "30. Ne5+ Ke7 31. Rxc8. Moving one piece opened a line for another, and two threats came at once.",
+                  "source": "lichess.org/training/0gY12"
+                },
+                {
+                  "id": "pz-0dc5q",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Find the discovered attack.",
+                  "fen": "r1b1r1k1/1pq2pbp/6p1/pPPpn3/3B2n1/N3PN2/4BPPP/2RQ1RK1 b - - 3 16",
+                  "lastMove": "a1c1",
+                  "solution": [
+                    "Nxf3+",
+                    "gxf3",
+                    "Qxh2#"
+                  ],
+                  "explanation": "16... Nxf3+ 17. gxf3 Qxh2#. Moving one piece opened a line for another, and two threats came at once.",
+                  "source": "lichess.org/training/0dc5q"
+                },
+                {
+                  "id": "pz-00yIS",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Find the discovered attack.",
+                  "fen": "7k/p5p1/5q1p/8/P1b5/3rQ1RP/6BK/8 w - - 7 43",
+                  "lastMove": "d8d3",
+                  "solution": [
+                    "Qe8+",
+                    "Bg8",
+                    "Rxd3"
+                  ],
+                  "explanation": "43. Qe8+ Bg8 44. Rxd3. Moving one piece opened a line for another, and two threats came at once.",
+                  "source": "lichess.org/training/00yIS"
+                },
+                {
+                  "id": "pz-05Apb",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Find the discovered attack.",
+                  "fen": "4r3/pp1Q1pk1/2p3p1/8/2pP4/2N1qP2/P1K1R3/8 b - - 3 34",
+                  "lastMove": "h2e2",
+                  "solution": [
+                    "Qd3+",
+                    "Kb2",
+                    "Rxe2+"
+                  ],
+                  "explanation": "34... Qd3+ 35. Kb2 Rxe2+. Moving one piece opened a line for another, and two threats came at once.",
+                  "source": "lichess.org/training/05Apb"
+                },
+                {
+                  "id": "pz-060cY",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Find the discovered attack.",
+                  "fen": "r3k1nr/ppn4p/5p2/8/6b1/2P1PN2/PP1B1KPP/RN1q1B1R w kq - 1 12",
+                  "lastMove": "c8g4",
+                  "solution": [
+                    "Bb5+",
+                    "Nxb5",
+                    "Rxd1"
+                  ],
+                  "explanation": "12. Bb5+ Nxb5 13. Rxd1. Moving one piece opened a line for another, and two threats came at once.",
+                  "source": "lichess.org/training/060cY"
+                },
+                {
+                  "id": "pz-06CXU",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Find the discovered attack.",
+                  "fen": "r7/1b1R4/pp3kr1/2p2p1Q/2p5/1P6/P4PP1/5RK1 b - - 0 29",
+                  "lastMove": "e7d7",
+                  "solution": [
+                    "Rxg2+",
+                    "Kh1",
+                    "Rg5+",
+                    "Rxb7",
+                    "Rxh5+"
+                  ],
+                  "explanation": "29... Rxg2+ 30. Kh1 Rg5+ 31. Rxb7 Rxh5+. Moving one piece opened a line for another, and two threats came at once.",
+                  "source": "lichess.org/training/06CXU"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "u2-defender",
+          "title": "Remove the defender",
+          "goal": "Take away the piece that holds the position together.",
+          "blocks": [
+            {
+              "id": "t-25",
+              "type": "text",
+              "levels": {
+                "normal": "Sometimes a piece is not hanging only because one defender is guarding it. Then the plan is simple: **remove the defender**. Capture it, chase it away, or lure it to another square (**deflection**). Afterwards the piece it was protecting is hanging.\n\nTo find these, look at their important pieces and ask: who is defending this, and what else is that defender doing? A defender with two jobs is overloaded, and an overloaded piece always breaks.",
+                "simple": "If only one piece protects something, take or chase away that protector. Then the thing it protected is free."
+              }
+            },
+            {
+              "id": "show-26",
+              "type": "chess",
+              "mode": "show",
+              "title": "Take the defender",
+              "fen": "4k3/pp1p1ppp/2n5/1B2b3/8/8/P1P2PP1/4R1K1 w - - 0 1",
+              "caption": "The rook attacks the bishop on e5. Only the knight on c6 defends it.",
+              "steps": [
+                {
+                  "move": "Bxc6",
+                  "note": "White takes the defender.",
+                  "arrows": [
+                    "e1e5"
+                  ]
+                },
+                {
+                  "move": "dxc6",
+                  "note": "If Black takes back, the bishop on e5 has lost its defender. If Black saves the bishop instead, the knight is simply gone."
+                },
+                {
+                  "move": "Rxe5+",
+                  "note": "The bishop falls, with check. Black cannot keep both pieces."
+                }
+              ],
+              "arrows": [
+                "e1e5",
+                "c6e5",
+                "b5c6"
+              ]
+            },
+            {
+              "id": "k-27",
+              "type": "callout",
+              "style": "keypoint",
+              "markdown": "- Find the one piece that defends their target.\n- Capture it, chase it or lure it away.\n- A defender with two jobs is overloaded."
+            },
+            {
+              "id": "q-28",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "pz-0IQWZ",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Remove the defender and win material.",
+                  "fen": "k6r/3qr2p/1p2bpp1/3p1p2/N2P3P/8/PPP1R1P1/2K1R3 w - - 0 25",
+                  "lastMove": "a7b6",
+                  "solution": [
+                    "Nxb6+",
+                    "Kb7",
+                    "Nxd7",
+                    "Rxd7",
+                    "Rxe6"
+                  ],
+                  "explanation": "25. Nxb6+ Kb7 26. Nxd7 Rxd7 27. Rxe6. Once the defender was gone, the piece it protected was hanging.",
+                  "source": "lichess.org/training/0IQWZ"
+                },
+                {
+                  "id": "pz-0Okvz",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Remove the defender and win material.",
+                  "fen": "8/1p2rpk1/p1b3p1/P2pP1Pp/1P1R3P/3K4/4R3/8 b - - 5 41",
+                  "lastMove": "d2e2",
+                  "solution": [
+                    "Bb5+",
+                    "Kd2",
+                    "Bxe2",
+                    "Kxe2",
+                    "Rxe5+"
+                  ],
+                  "explanation": "41... Bb5+ 42. Kd2 Bxe2 43. Kxe2 Rxe5+. Once the defender was gone, the piece it protected was hanging.",
+                  "source": "lichess.org/training/0Okvz"
+                },
+                {
+                  "id": "pz-1OOys",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Remove the defender and win material.",
+                  "fen": "5rk1/p1r2ppp/2q5/Qp1n4/2p1N3/3R1PP1/PP4KP/4R3 w - - 0 30",
+                  "lastMove": "c5c4",
+                  "solution": [
+                    "Rxd5",
+                    "Qxd5",
+                    "Qxc7"
+                  ],
+                  "explanation": "30. Rxd5 Qxd5 31. Qxc7. Once the defender was gone, the piece it protected was hanging.",
+                  "source": "lichess.org/training/1OOys"
+                },
+                {
+                  "id": "pz-06H5L",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Lure a defender away and win.",
+                  "fen": "7R/8/8/1kr5/3K4/8/8/8 w - - 10 56",
+                  "lastMove": "c6c5",
+                  "solution": [
+                    "Rb8+",
+                    "Kc6",
+                    "Rc8+",
+                    "Kd7",
+                    "Rxc5"
+                  ],
+                  "explanation": "56. Rb8+ Kc6 57. Rc8+ Kd7 58. Rxc5. The defender was pulled away from its job, and what it guarded fell.",
+                  "source": "lichess.org/training/06H5L"
+                },
+                {
+                  "id": "pz-00PZo",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Lure a defender away and win.",
+                  "fen": "7r/8/3b4/3p1P2/6R1/2kN4/4KP2/8 b - - 0 67",
+                  "lastMove": "f4f5",
+                  "solution": [
+                    "Re8+",
+                    "Kf3",
+                    "Kxd3"
+                  ],
+                  "explanation": "67... Re8+ 68. Kf3 Kxd3. The defender was pulled away from its job, and what it guarded fell.",
+                  "source": "lichess.org/training/00PZo"
+                },
+                {
+                  "id": "pz-04fWN",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Lure a defender away and win.",
+                  "fen": "1r2kb1r/1q3ppp/1B2pn2/8/8/5Q2/PP3PPP/3R1RK1 w k - 7 22",
+                  "lastMove": "d7b7",
+                  "solution": [
+                    "Rd8+",
+                    "Rxd8",
+                    "Qxb7"
+                  ],
+                  "explanation": "22. Rd8+ Rxd8 23. Qxb7. The defender was pulled away from its job, and what it guarded fell.",
+                  "source": "lichess.org/training/04fWN"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "test": {
+        "id": "u2-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "id": "pz-00BNd",
+            "kind": "chess",
+            "prompt": "**White to move.** Win material.",
+            "fen": "1rr3k1/4ppbp/3p1np1/1b1N4/P2BP3/5P2/P2R2PP/R5K1 w - - 0 22",
+            "lastMove": "d7b5",
+            "solution": [
+              "Nxe7+",
+              "Kf8",
+              "Nxc8"
+            ],
+            "explanation": "22. Nxe7+ Kf8 23. Nxc8. A fork: one piece attacked two targets.",
+            "source": "lichess.org/training/00BNd",
+            "skillId": "u2-fork"
+          },
+          {
+            "id": "pz-01Cq8",
+            "kind": "chess",
+            "prompt": "**Black to move.** Win material.",
+            "fen": "r2r1k2/5p1p/p4p2/1pP1p3/4b3/PN2P3/1P3PPP/2RR2K1 b - - 1 20",
+            "lastMove": "d4b3",
+            "solution": [
+              "Rxd1+",
+              "Rxd1",
+              "Bc2",
+              "Rd6",
+              "Bxb3"
+            ],
+            "explanation": "20... Rxd1+ 21. Rxd1 Bc2 22. Rd6 Bxb3. A fork: one piece attacked two targets.",
+            "source": "lichess.org/training/01Cq8",
+            "skillId": "u2-fork"
+          },
+          {
+            "id": "pz-00s7Y",
+            "kind": "chess",
+            "prompt": "**White to move.** Win material.",
+            "fen": "6k1/5rpp/1q1p4/2pB4/6Q1/2b4P/Pr4P1/6K1 w - - 0 30",
+            "lastMove": "f8f7",
+            "solution": [
+              "Qc8+",
+              "Qd8",
+              "Qxd8#"
+            ],
+            "explanation": "30. Qc8+ Qd8 31. Qxd8#. A pin: the piece in front could not move.",
+            "source": "lichess.org/training/00s7Y",
+            "skillId": "u2-pin"
+          },
+          {
+            "id": "pz-01yds",
+            "kind": "chess",
+            "prompt": "**Black to move.** Win material.",
+            "fen": "2r3k1/5p2/4b1p1/4P2p/3QKP2/6P1/7P/8 b - - 4 65",
+            "lastMove": "c5d4",
+            "solution": [
+              "Rc4",
+              "Qxc4",
+              "Bxc4"
+            ],
+            "explanation": "65... Rc4 66. Qxc4 Bxc4. A pin: the piece in front could not move.",
+            "source": "lichess.org/training/01yds",
+            "skillId": "u2-pin"
+          },
+          {
+            "id": "pz-02MkW",
+            "kind": "chess",
+            "prompt": "**White to move.** Win material.",
+            "fen": "8/6p1/2R4p/p7/1p1q3P/1P3BP1/5PK1/4k3 w - - 15 46",
+            "lastMove": "d1e1",
+            "solution": [
+              "Rc1+",
+              "Kd2",
+              "Rd1+",
+              "Kc3",
+              "Rxd4"
+            ],
+            "explanation": "46. Rc1+ Kd2 47. Rd1+ Kc3 48. Rxd4. A skewer: the piece in front had to move.",
+            "source": "lichess.org/training/02MkW",
+            "skillId": "u2-skewer"
+          },
+          {
+            "id": "pz-02KdL",
+            "kind": "chess",
+            "prompt": "**White to move.** Win material.",
+            "fen": "4r1k1/p1p1rp1p/1p3np1/8/1QBq4/P1N3PP/1P3P2/5K1R w - - 3 24",
+            "lastMove": "a8e8",
+            "solution": [
+              "Bxf7+",
+              "Rxf7",
+              "Qxd4"
+            ],
+            "explanation": "24. Bxf7+ Rxf7 25. Qxd4. A discovered attack: two threats at once.",
+            "source": "lichess.org/training/02KdL",
+            "skillId": "u2-discovered"
+          },
+          {
+            "id": "pz-04XVt",
+            "kind": "chess",
+            "prompt": "**Black to move.** Win material.",
+            "fen": "Rr3r1k/1P5p/1p6/1PbB4/2Pq4/4pPP1/1Q2R2P/6K1 b - - 4 31",
+            "lastMove": "a2b2",
+            "solution": [
+              "Qxb2",
+              "Rxb2",
+              "e2+",
+              "Kg2",
+              "e1=Q"
+            ],
+            "explanation": "31... Qxb2 32. Rxb2 e2+ 33. Kg2 e1=Q. A discovered attack: two threats at once.",
+            "source": "lichess.org/training/04XVt",
+            "skillId": "u2-discovered"
+          },
+          {
+            "id": "pz-041yQ",
+            "kind": "chess",
+            "prompt": "**White to move.** Win material.",
+            "fen": "8/1p3pk1/p1pN1bp1/2P5/1P6/Pq4P1/3Q1P1K/8 w - - 10 41",
+            "lastMove": "b1b3",
+            "solution": [
+              "Ne8+",
+              "Kf8",
+              "Nxf6"
+            ],
+            "explanation": "41. Ne8+ Kf8 42. Nxf6. The defender was lured away.",
+            "source": "lichess.org/training/041yQ",
+            "skillId": "u2-defender"
+          }
+        ]
+      }
+    },
+    {
+      "id": "u3",
+      "title": "Checkmate patterns",
+      "summary": "Checkmate ends the game no matter how much material you are down. Learn the patterns that come up again and again, from mate in one to the back rank and the smothered mate.",
+      "lessons": [
+        {
+          "id": "u3-mate1",
+          "title": "Mate in one",
+          "goal": "Never miss a checkmate in one move again.",
+          "blocks": [
+            {
+              "id": "t-29",
+              "type": "text",
+              "levels": {
+                "normal": "Checkmate means the king is in check and has no way out. There are only three ways to escape a check: **move the king**, **block** the line, or **capture** the checking piece. A mate takes all three away.\n\nWhen you look for a mate, start with every **check** you have, even the ones that look silly, like a queen sacrifice. For each check, ask the three questions: can the king move, can they block, can they capture? If the answer is no every time, it is mate.\n\nBelow 1000 a lot of games are won by the player who simply looks at all checks first.",
+                "simple": "Checkmate: the king is attacked and cannot escape. It cannot move away, nothing can block, and nothing can take the attacker.\n\nAlways look at every check you have. One of them might be mate."
+              }
+            },
+            {
+              "id": "k-30",
+              "type": "callout",
+              "style": "keypoint",
+              "markdown": "- A check can be escaped by moving, blocking or capturing.\n- Checkmate removes all three.\n- Look at every check, even sacrifices."
+            },
+            {
+              "id": "q-31",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "pz-005Ep",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Checkmate in one move.",
+                  "fen": "5kr1/ppR3p1/3R3p/1n6/1r6/8/1P3PPP/2K5 w - - 5 32",
+                  "lastMove": "d4b5",
+                  "solution": [
+                    "Rd8#"
+                  ],
+                  "explanation": "32. Rd8#. The king could not move, nothing could block, and nothing could take the checking piece.",
+                  "source": "lichess.org/training/005Ep"
+                },
+                {
+                  "id": "pz-013gO",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Checkmate in one move.",
+                  "fen": "2r5/p3b1k1/8/4pp1K/2Pp2p1/6P1/P1P2R1P/R2Q4 b - - 0 29",
+                  "lastMove": "e2f2",
+                  "solution": [
+                    "Rh8#"
+                  ],
+                  "explanation": "29... Rh8#. The king could not move, nothing could block, and nothing could take the checking piece.",
+                  "source": "lichess.org/training/013gO"
+                },
+                {
+                  "id": "pz-0082f",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Checkmate in one move.",
+                  "fen": "r4rk1/2q2ppp/3pp3/4Pb1N/1p6/1p4Q1/PPP3PP/1K1RR3 w - - 0 22",
+                  "lastMove": "a4b3",
+                  "solution": [
+                    "Qxg7#"
+                  ],
+                  "explanation": "22. Qxg7#. The king could not move, nothing could block, and nothing could take the checking piece.",
+                  "source": "lichess.org/training/0082f"
+                },
+                {
+                  "id": "pz-002Q2",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Checkmate in one move.",
+                  "fen": "7k/p4R1p/3p3B/2pN1n2/2PbB1b1/3P2P1/P3r3/5R1K b - - 0 28",
+                  "lastMove": "f4h6",
+                  "solution": [
+                    "Nxg3#"
+                  ],
+                  "explanation": "28... Nxg3#. The king could not move, nothing could block, and nothing could take the checking piece.",
+                  "source": "lichess.org/training/002Q2"
+                },
+                {
+                  "id": "pz-02zIn",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Checkmate in one move.",
+                  "fen": "3r1Q2/2r2p1k/4bBpp/1p5q/8/8/P4PPP/5RK1 w - - 0 36",
+                  "lastMove": "c8d8",
+                  "solution": [
+                    "Qg7#"
+                  ],
+                  "explanation": "36. Qg7#. The king could not move, nothing could block, and nothing could take the checking piece.",
+                  "source": "lichess.org/training/02zIn"
+                },
+                {
+                  "id": "pz-02chE",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Checkmate in one move.",
+                  "fen": "r4rk1/1p4p1/2pp3p/p1bPp3/2P1Pp2/2N4K/PP2Bq2/R4Q1R b - - 1 26",
+                  "lastMove": "d1f1",
+                  "solution": [
+                    "Qg3#"
+                  ],
+                  "explanation": "26... Qg3#. The king could not move, nothing could block, and nothing could take the checking piece.",
+                  "source": "lichess.org/training/02chE"
+                },
+                {
+                  "id": "pz-039qo",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Checkmate in one move.",
+                  "fen": "r2qrk2/pb2np1Q/1p3b2/2p3N1/8/P2P2P1/1P2PPBP/R4RK1 w - - 2 19",
+                  "lastMove": "g8f8",
+                  "solution": [
+                    "Qxf7#"
+                  ],
+                  "explanation": "19. Qxf7#. The king could not move, nothing could block, and nothing could take the checking piece.",
+                  "source": "lichess.org/training/039qo"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "u3-backrank",
+          "title": "The back-rank mate",
+          "goal": "Use the back-rank mate, and never fall for it yourself.",
+          "blocks": [
+            {
+              "id": "t-32",
+              "type": "text",
+              "levels": {
+                "normal": "After castling, the king often sits behind three pawns that have not moved. That looks safe, but the pawns also lock the king in. A rook or queen on the **back rank** (the first rank for White, the eighth for Black) is then checkmate, because the king has no square to run to.\n\nTo use it: look for their back rank with only the king, or with defenders that can be lured away. To stop it from happening to you: give your king a little room early (a move like h3 or h6 when nothing else is urgent), and keep a rook or queen guarding your back rank.",
+                "simple": "A king behind its own pawns can get trapped. A rook or queen on the last row is then checkmate.\n\nGive your own king an escape square, like h3 or h6, when you have time."
+              }
+            },
+            {
+              "id": "show-33",
+              "type": "chess",
+              "mode": "show",
+              "title": "Trapped behind its own pawns",
+              "fen": "6k1/5ppp/8/8/8/8/8/R5K1 w - - 0 1",
+              "caption": "The black king is locked in by its own pawns on f7, g7 and h7.",
+              "steps": [
+                {
+                  "move": "Ra8#",
+                  "note": "Checkmate. The king cannot step forward, because its own pawns are in the way.",
+                  "arrows": [
+                    "a8g8"
+                  ]
+                }
+              ],
+              "highlights": [
+                "f7",
+                "g7",
+                "h7"
+              ]
+            },
+            {
+              "id": "k-34",
+              "type": "callout",
+              "style": "keypoint",
+              "markdown": "- Unmoved pawns in front of a castled king can trap it.\n- A rook or queen on the back rank can then mate.\n- Make an escape square for your own king in time."
+            },
+            {
+              "id": "q-35",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "pz-0Bir2",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Use the back rank.",
+                  "fen": "1k6/pp5p/6p1/2N5/1P5q/P7/6PP/2R4K w - - 2 44",
+                  "lastMove": "c8b8",
+                  "solution": [
+                    "Nd7+",
+                    "Ka8",
+                    "Rc8#"
+                  ],
+                  "explanation": "44. Nd7+ Ka8 45. Rc8#. The king was trapped behind its own pawns, and the back rank was not defended.",
+                  "source": "lichess.org/training/0Bir2"
+                },
+                {
+                  "id": "pz-0BF2J",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Use the back rank.",
+                  "fen": "3r4/1p1q2k1/p3Q1P1/2p2pb1/6p1/2PP2N1/PP3P2/1K2R3 b - - 0 26",
+                  "lastMove": "e2e6",
+                  "solution": [
+                    "Qxd3+",
+                    "Ka1",
+                    "Qd1+",
+                    "Rxd1",
+                    "Rxd1#"
+                  ],
+                  "explanation": "26... Qxd3+ 27. Ka1 Qd1+ 28. Rxd1 Rxd1#. The king was trapped behind its own pawns, and the back rank was not defended.",
+                  "source": "lichess.org/training/0BF2J"
+                },
+                {
+                  "id": "pz-0192c",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Use the back rank.",
+                  "fen": "2r3k1/1Q3ppp/2pB4/2Pp1b1n/3p3K/P4P2/6qP/R3R3 w - - 0 25",
+                  "lastMove": "e2g2",
+                  "solution": [
+                    "Qxc8+",
+                    "Bxc8",
+                    "Re8#"
+                  ],
+                  "explanation": "25. Qxc8+ Bxc8 26. Re8#. The king was trapped behind its own pawns, and the back rank was not defended.",
+                  "source": "lichess.org/training/0192c"
+                },
+                {
+                  "id": "pz-0Dobg",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Use the back rank.",
+                  "fen": "8/p3Q2p/5rpk/2P5/3q4/8/P4PPP/4RBK1 b - - 0 28",
+                  "lastMove": "c4c5",
+                  "solution": [
+                    "Qxf2+",
+                    "Kh1",
+                    "Qxf1+",
+                    "Rxf1",
+                    "Rxf1#"
+                  ],
+                  "explanation": "28... Qxf2+ 29. Kh1 Qxf1+ 30. Rxf1 Rxf1#. The king was trapped behind its own pawns, and the back rank was not defended.",
+                  "source": "lichess.org/training/0Dobg"
+                },
+                {
+                  "id": "pz-04x8i",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Use the back rank.",
+                  "fen": "2k2b1r/pppr2p1/5p1p/8/2B5/2nP2P1/PPP4P/2K1RR2 w - - 0 20",
+                  "lastMove": "d5c3",
+                  "solution": [
+                    "Re8+",
+                    "Rd8",
+                    "Be6+",
+                    "Kb8",
+                    "Rxd8#"
+                  ],
+                  "explanation": "20. Re8+ Rd8 21. Be6+ Kb8 22. Rxd8#. The king was trapped behind its own pawns, and the back rank was not defended.",
+                  "source": "lichess.org/training/04x8i"
+                },
+                {
+                  "id": "pz-0MrSh",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Use the back rank.",
+                  "fen": "5rk1/4b3/p2p3Q/1p2n3/4R3/P7/1Pq2PPP/4R1K1 b - - 1 22",
+                  "lastMove": "d1e1",
+                  "solution": [
+                    "Qxf2+",
+                    "Kh1",
+                    "Qf1+",
+                    "Rxf1",
+                    "Rxf1#"
+                  ],
+                  "explanation": "22... Qxf2+ 23. Kh1 Qf1+ 24. Rxf1 Rxf1#. The king was trapped behind its own pawns, and the back rank was not defended.",
+                  "source": "lichess.org/training/0MrSh"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "u3-patterns",
+          "title": "Smothered mates and other patterns",
+          "goal": "Recognise the most common mating nets with knights, bishops and queens.",
+          "blocks": [
+            {
+              "id": "t-36",
+              "type": "text",
+              "levels": {
+                "normal": "Some mates appear so often that strong players simply recognise them. The **smothered mate** is the most famous: the king is surrounded by its own pieces, and a knight gives check. Nothing can block a knight, so it is mate.\n\nOther patterns to know: a queen supported by another piece next to the king, a rook and a bishop working together on the edge, and a knight covering escape squares while a rook or queen gives check. You do not need their names. You need to have seen them, which is exactly what the puzzles are for.",
+                "simple": "When the king is boxed in by its own pieces, one check by a knight can be mate. This is the **smothered mate**."
+              }
+            },
+            {
+              "id": "show-37",
+              "type": "chess",
+              "mode": "show",
+              "title": "The smothered mate",
+              "fen": "6rk/6pp/8/6N1/8/8/8/6K1 w - - 0 1",
+              "caption": "The black king is surrounded by its own rook and pawns.",
+              "steps": [
+                {
+                  "move": "Nf7#",
+                  "note": "The knight checks the king. It cannot move, a knight check cannot be blocked, and nothing can take on f7. Checkmate.",
+                  "arrows": [
+                    "f7h8"
+                  ]
+                }
+              ],
+              "highlights": [
+                "g8",
+                "g7",
+                "h7"
+              ]
+            },
+            {
+              "id": "k-38",
+              "type": "callout",
+              "style": "keypoint",
+              "markdown": "- A boxed-in king can be mated by a single knight.\n- Queen next to the king plus a supporting piece is a common mate.\n- Seeing patterns many times is how you learn them."
+            },
+            {
+              "id": "q-39",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "pz-04l90",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Find the mate.",
+                  "fen": "r1b3rk/2qnb1pp/2p2p1N/p1p5/2P1NP2/2BP4/PP4PP/R4R1K w - - 0 21",
+                  "lastMove": "d8g8",
+                  "solution": [
+                    "Nf7#"
+                  ],
+                  "explanation": "21. Nf7#. The king was blocked in by its own pieces.",
+                  "source": "lichess.org/training/04l90"
+                },
+                {
+                  "id": "pz-0bd00",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Find the mate.",
+                  "fen": "2r1k2r/1p2p1bp/p2pp1p1/2n1P3/3B1P2/2N5/qPPQ2PP/2KR1B1R b k - 1 15",
+                  "lastMove": "e4c3",
+                  "solution": [
+                    "Qa1+",
+                    "Nb1",
+                    "Nb3#"
+                  ],
+                  "explanation": "15... Qa1+ 16. Nb1 Nb3#. The king was blocked in by its own pieces.",
+                  "source": "lichess.org/training/0bd00"
+                },
+                {
+                  "id": "pz-03XPS",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Checkmate in two moves.",
+                  "fen": "1k6/ppR1n2p/6p1/1P1p4/3q4/P7/2R4P/1KQr4 w - - 2 36",
+                  "lastMove": "d3d1",
+                  "solution": [
+                    "Rc8+",
+                    "Nxc8",
+                    "Rxc8#"
+                  ],
+                  "explanation": "36. Rc8+ Nxc8 37. Rxc8#. The first move forced the reply, and the second move was mate.",
+                  "source": "lichess.org/training/03XPS"
+                },
+                {
+                  "id": "pz-00eNe",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Checkmate in two moves.",
+                  "fen": "4r1k1/p1p2ppp/2p1r3/3q4/P2B4/1P1P4/2Q2PPP/2R1R1K1 b - - 0 21",
+                  "lastMove": "e3d4",
+                  "solution": [
+                    "Rxe1+",
+                    "Rxe1",
+                    "Rxe1#"
+                  ],
+                  "explanation": "21... Rxe1+ 22. Rxe1 Rxe1#. The first move forced the reply, and the second move was mate.",
+                  "source": "lichess.org/training/00eNe"
+                },
+                {
+                  "id": "pz-01qTU",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Checkmate in two moves.",
+                  "fen": "5k2/pp4pQ/5b2/2P5/P5qP/2P1R1P1/3r1P1K/8 w - - 1 36",
+                  "lastMove": "d8d2",
+                  "solution": [
+                    "Qh8+",
+                    "Kf7",
+                    "Qe8#"
+                  ],
+                  "explanation": "36. Qh8+ Kf7 37. Qe8#. The first move forced the reply, and the second move was mate.",
+                  "source": "lichess.org/training/01qTU"
+                },
+                {
+                  "id": "pz-01Xzx",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Checkmate in two moves.",
+                  "fen": "3r2k1/2R1qpp1/7p/8/5Q2/1PP5/5PPP/3r1RK1 b - - 0 26",
+                  "lastMove": "b7c7",
+                  "solution": [
+                    "Rxf1+",
+                    "Kxf1",
+                    "Rd1#"
+                  ],
+                  "explanation": "26... Rxf1+ 27. Kxf1 Rd1#. The first move forced the reply, and the second move was mate.",
+                  "source": "lichess.org/training/01Xzx"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "u3-mate2",
+          "title": "Mate in two",
+          "goal": "Calculate a forcing move and the mate after it.",
+          "blocks": [
+            {
+              "id": "t-40",
+              "type": "text",
+              "levels": {
+                "normal": "Mate in two means: you play a move, your opponent answers, and your next move is mate. The first move is almost always **forcing**: a check, a capture, or a threat so strong that only one answer is possible. Forcing moves are easy to calculate, because the opponent has few replies.\n\nThe method is the same every time. List your checks. For each, find all their answers. Is there a mate after every answer? If yes, you found it. If one answer escapes, try the next candidate.",
+                "simple": "Mate in two: your move, their answer, then mate. Start with checks, because they leave your opponent the fewest answers."
+              }
+            },
+            {
+              "id": "k-41",
+              "type": "callout",
+              "style": "keypoint",
+              "markdown": "- Start with forcing moves: checks, captures, threats.\n- For each candidate, check every answer.\n- It is only a mate in two if every answer loses."
+            },
+            {
+              "id": "q-42",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "pz-02oX3",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Checkmate in two moves.",
+                  "fen": "rn3rk1/p1q2p1p/1pp1pbp1/4P2N/8/7Q/PPP2PPP/3R1bK1 w - - 0 18",
+                  "lastMove": "g7f6",
+                  "solution": [
+                    "Nxf6+",
+                    "Kg7",
+                    "Qxh7#"
+                  ],
+                  "explanation": "18. Nxf6+ Kg7 19. Qxh7#. The first move was forcing, so every answer ran into mate.",
+                  "source": "lichess.org/training/02oX3"
+                },
+                {
+                  "id": "pz-01inb",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Checkmate in two moves.",
+                  "fen": "3r3k/p1p3pp/1p6/3P1p2/6nq/P3P3/BP2Q1PP/2R1R1K1 b - - 0 33",
+                  "lastMove": "c2e2",
+                  "solution": [
+                    "Qxh2+",
+                    "Kf1",
+                    "Qh1#"
+                  ],
+                  "explanation": "33... Qxh2+ 34. Kf1 Qh1#. The first move was forcing, so every answer ran into mate.",
+                  "source": "lichess.org/training/01inb"
+                },
+                {
+                  "id": "pz-02NrU",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Checkmate in two moves.",
+                  "fen": "r4r1k/1pq3p1/2pbp1p1/p3P1N1/8/2P1PQ2/PP4P1/2K5 w - - 0 21",
+                  "lastMove": "g8h8",
+                  "solution": [
+                    "Qh3+",
+                    "Kg8",
+                    "Qh7#"
+                  ],
+                  "explanation": "21. Qh3+ Kg8 22. Qh7#. The first move was forcing, so every answer ran into mate.",
+                  "source": "lichess.org/training/02NrU"
+                },
+                {
+                  "id": "pz-0Cnsq",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Checkmate in two moves.",
+                  "fen": "7k/p5np/1p1p2p1/5p1q/PPP2P2/2Q2B1P/3rr1P1/5RRK b - - 2 41",
+                  "lastMove": "d5f3",
+                  "solution": [
+                    "Qxh3+",
+                    "gxh3",
+                    "Rh2#"
+                  ],
+                  "explanation": "41... Qxh3+ 42. gxh3 Rh2#. The first move was forcing, so every answer ran into mate.",
+                  "source": "lichess.org/training/0Cnsq"
+                },
+                {
+                  "id": "pz-06PQC",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Checkmate in two moves.",
+                  "fen": "r5k1/pp3pp1/r1n1P2p/2p2Q2/6PP/Pq1pP3/1B1P4/1K1R3R w - - 0 24",
+                  "lastMove": "b5b3",
+                  "solution": [
+                    "Qxf7+",
+                    "Kh8",
+                    "Qxg7#"
+                  ],
+                  "explanation": "24. Qxf7+ Kh8 25. Qxg7#. The first move was forcing, so every answer ran into mate.",
+                  "source": "lichess.org/training/06PQC"
+                },
+                {
+                  "id": "pz-036yi",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Checkmate in two moves.",
+                  "fen": "2r3k1/p4pp1/1pP3R1/8/1P2p3/P1Q1B1pq/4PP1P/2R3K1 b - - 0 34",
+                  "lastMove": "d6g6",
+                  "solution": [
+                    "Qxh2+",
+                    "Kf1",
+                    "Qh1#"
+                  ],
+                  "explanation": "34... Qxh2+ 35. Kf1 Qh1#. The first move was forcing, so every answer ran into mate.",
+                  "source": "lichess.org/training/036yi"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "test": {
+        "id": "u3-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "id": "pz-008rw",
+            "kind": "chess",
+            "prompt": "**White to move.** Checkmate in one.",
+            "fen": "rn2kb1r/pp2pp1p/2p2np1/4q3/8/2N4Q/PPPPBPPP/R1B1K2R w KQkq - 0 9",
+            "lastMove": "g7g6",
+            "solution": [
+              "Qc8#"
+            ],
+            "explanation": "9. Qc8#. No escape: no move, no block, no capture.",
+            "source": "lichess.org/training/008rw",
+            "skillId": "u3-mate1"
+          },
+          {
+            "id": "pz-028b4",
+            "kind": "chess",
+            "prompt": "**Black to move.** Checkmate in one.",
+            "fen": "r1b2rk1/p4pp1/1bN1p2p/8/1PPq4/P2B3P/5PP1/R2QK2R b KQ - 0 18",
+            "lastMove": "e5c6",
+            "solution": [
+              "Qxf2#"
+            ],
+            "explanation": "18... Qxf2#. No escape: no move, no block, no capture.",
+            "source": "lichess.org/training/028b4",
+            "skillId": "u3-mate1"
+          },
+          {
+            "id": "pz-00cJo",
+            "kind": "chess",
+            "prompt": "**White to move.** Find the mate.",
+            "fen": "6k1/5ppp/8/8/1P2p3/3bQpP1/1q1P1K1P/R1r5 w - - 0 31",
+            "lastMove": "c8c1",
+            "solution": [
+              "Ra8+",
+              "Rc8",
+              "Rxc8#"
+            ],
+            "explanation": "31. Ra8+ Rc8 32. Rxc8#. The back rank was weak.",
+            "source": "lichess.org/training/00cJo",
+            "skillId": "u3-backrank"
+          },
+          {
+            "id": "pz-0i525",
+            "kind": "chess",
+            "prompt": "**Black to move.** Find the mate.",
+            "fen": "2r1k2r/2q2pp1/p2Q1n2/4p2p/8/5P2/PP4PP/1K1R1B1R b k - 0 20",
+            "lastMove": "d2d6",
+            "solution": [
+              "Qc2+",
+              "Ka1",
+              "Qc1+",
+              "Rxc1",
+              "Rxc1#"
+            ],
+            "explanation": "20... Qc2+ 21. Ka1 Qc1+ 22. Rxc1 Rxc1#. The back rank was weak.",
+            "source": "lichess.org/training/0i525",
+            "skillId": "u3-backrank"
+          },
+          {
+            "id": "pz-01Vnj",
+            "kind": "chess",
+            "prompt": "**White to move.** Checkmate in two.",
+            "fen": "8/5p1k/p3pBr1/2Pp2Q1/q1pP3P/P4P2/5K2/8 w - - 0 34",
+            "lastMove": "g8g6",
+            "solution": [
+              "Qh5+",
+              "Rh6",
+              "Qxf7#"
+            ],
+            "explanation": "34. Qh5+ Rh6 35. Qxf7#. A forcing first move, then mate.",
+            "source": "lichess.org/training/01Vnj",
+            "skillId": "u3-mate2"
+          },
+          {
+            "id": "pz-035m4",
+            "kind": "chess",
+            "prompt": "**Black to move.** Checkmate in two.",
+            "fen": "4r3/5k2/6R1/5PP1/6K1/r7/4p3/4R3 b - - 1 37",
+            "lastMove": "f3g4",
+            "solution": [
+              "Re4+",
+              "Kh5",
+              "Rh3#"
+            ],
+            "explanation": "37... Re4+ 38. Kh5 Rh3#. A forcing first move, then mate.",
+            "source": "lichess.org/training/035m4",
+            "skillId": "u3-mate2"
+          },
+          {
+            "id": "pz-07tpU",
+            "kind": "chess",
+            "prompt": "**White to move.** Checkmate in two.",
+            "fen": "r5k1/1pR3r1/p5Qp/6q1/6b1/8/PP3P1P/6K1 w - - 0 30",
+            "lastMove": "h7g7",
+            "solution": [
+              "Rxg7+",
+              "Kh8",
+              "Qh7#"
+            ],
+            "explanation": "30. Rxg7+ Kh8 31. Qh7#. A forcing first move, then mate.",
+            "source": "lichess.org/training/07tpU",
+            "skillId": "u3-mate2"
+          }
+        ]
+      }
+    },
+    {
+      "id": "u4",
+      "title": "Endgames that win games",
+      "summary": "Being a piece up only counts if you can finish the game. Learn to checkmate with a queen and with a rook, and to promote a pawn, then play it out against the computer.",
+      "lessons": [
+        {
+          "id": "u4-queen-rook",
+          "title": "Checkmate with queen or rook",
+          "goal": "Finish a won game with king and queen, or king and rook, against a lone king.",
+          "blocks": [
+            {
+              "id": "t-43",
+              "type": "text",
+              "levels": {
+                "normal": "With a queen against a lone king, use the **box method**: place your queen a knight jump away from their king, and follow it as it moves, so the box gets smaller each move. When the king is on the edge, bring your own king closer, then mate. One danger: **stalemate**. If their king has no legal move and is not in check, the game is a draw. Always leave it a square until you give the final check.\n\nWith a rook it takes longer but works the same way: your rook cuts off a rank or file, your king walks up to face their king, and the rook gives check along the edge. If their king attacks your rook, move the rook far away along its line.",
+                "simple": "Queen mate: keep your queen a knight jump from their king and make the box smaller. Then bring your king and mate.\n\nWatch out for stalemate: if their king cannot move and is not in check, it is a draw."
+              }
+            },
+            {
+              "id": "k-44",
+              "type": "callout",
+              "style": "keypoint",
+              "markdown": "- Make the box smaller every move.\n- Bring your own king to help at the end.\n- Stalemate is a draw: always leave the king a square until the last check."
+            },
+            {
+              "id": "play-45",
+              "type": "chess",
+              "mode": "play",
+              "title": "Mate with king and queen",
+              "fen": "8/8/8/4k3/8/8/8/3QK3 w - - 0 1",
+              "goal": "mate",
+              "prompt": "Checkmate the black king. The computer defends as well as it can.",
+              "level": 4
+            },
+            {
+              "id": "play-46",
+              "type": "chess",
+              "mode": "play",
+              "title": "Mate with king and rook",
+              "fen": "8/8/8/3k4/8/8/8/R3K3 w - - 0 1",
+              "goal": "mate",
+              "prompt": "Now with only a rook. Cut the king off, bring your king, and drive it to the edge.",
+              "level": 4
+            }
+          ]
+        },
+        {
+          "id": "u4-pawns",
+          "title": "King and pawn endings",
+          "goal": "Know when a pawn promotes, and use your king the right way.",
+          "blocks": [
+            {
+              "id": "t-47",
+              "type": "text",
+              "levels": {
+                "normal": "In the endgame your **king becomes a fighting piece**. Bring it to the centre and in front of your pawns.\n\nThe **rule of the square**: draw a square from your pawn to the promotion rank. If their king can step into that square, it catches the pawn. If not, the pawn runs through on its own.\n\nWith king and pawn against king, the key is to put **your king in front of the pawn**, ideally two squares ahead of it. Pushing the pawn too early while your king is behind it often lets the defending king block it, and the game ends in a draw.",
+                "simple": "In the endgame, your king should walk forward and help. Put it in front of your pawn, not behind it, and the pawn will promote."
+              }
+            },
+            {
+              "id": "k-48",
+              "type": "callout",
+              "style": "keypoint",
+              "markdown": "- Use your king actively in the endgame.\n- Rule of the square: can their king catch the pawn?\n- King in front of the pawn, then push."
+            },
+            {
+              "id": "play-49",
+              "type": "chess",
+              "mode": "play",
+              "title": "Promote the pawn",
+              "fen": "4k3/8/4K3/8/4P3/8/8/8 w - - 0 1",
+              "goal": "promote",
+              "prompt": "Your king is already in a great spot. Promote the pawn without allowing a stalemate.",
+              "level": 4
+            },
+            {
+              "id": "q-50",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "pz-03mv2",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Find the winning move in this pawn ending.",
+                  "fen": "8/8/8/6p1/5KPk/8/8/8 w - - 0 81",
+                  "lastMove": "g6g5",
+                  "solution": [
+                    "Kf5",
+                    "Kh3",
+                    "Kxg5"
+                  ],
+                  "explanation": "81. Kf5 Kh3 82. Kxg5. In pawn endings every tempo counts: the right king or pawn move decides the game.",
+                  "source": "lichess.org/training/03mv2"
+                },
+                {
+                  "id": "pz-0842V",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Find the winning move in this pawn ending.",
+                  "fen": "8/8/8/1p5k/1P6/1P2Kp2/8/8 b - - 0 63",
+                  "lastMove": "e4e3",
+                  "solution": [
+                    "Kg4",
+                    "Kf2",
+                    "Kf4"
+                  ],
+                  "explanation": "63... Kg4 64. Kf2 Kf4. In pawn endings every tempo counts: the right king or pawn move decides the game.",
+                  "source": "lichess.org/training/0842V"
+                },
+                {
+                  "id": "pz-0h2q1",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Find the winning move in this pawn ending.",
+                  "fen": "8/6p1/5p1p/5K1P/6Pk/5P2/8/8 w - - 8 52",
+                  "lastMove": "h3h4",
+                  "solution": [
+                    "Kg6",
+                    "Kg3",
+                    "Kxg7"
+                  ],
+                  "explanation": "52. Kg6 Kg3 53. Kxg7. In pawn endings every tempo counts: the right king or pawn move decides the game.",
+                  "source": "lichess.org/training/0h2q1"
+                },
+                {
+                  "id": "pz-0bQoy",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Find the winning move in this pawn ending.",
+                  "fen": "8/8/7p/ppk5/P5P1/1PK5/8/8 b - - 1 42",
+                  "lastMove": "d3c3",
+                  "solution": [
+                    "b4+",
+                    "Kd3",
+                    "Kd5"
+                  ],
+                  "explanation": "42... b4+ 43. Kd3 Kd5. In pawn endings every tempo counts: the right king or pawn move decides the game.",
+                  "source": "lichess.org/training/0bQoy"
+                },
+                {
+                  "id": "pz-07wZw",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Find the winning move in this pawn ending.",
+                  "fen": "8/8/6p1/ppkp1P2/3p3P/P5p1/2P1K3/8 w - - 0 49",
+                  "lastMove": "a6a5",
+                  "solution": [
+                    "fxg6",
+                    "g2",
+                    "Kf2"
+                  ],
+                  "explanation": "49. fxg6 g2 50. Kf2. In pawn endings every tempo counts: the right king or pawn move decides the game.",
+                  "source": "lichess.org/training/07wZw"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "u4-promotion",
+          "title": "Passed pawns and promotion",
+          "goal": "Push passed pawns with tactics, and stop theirs in time.",
+          "blocks": [
+            {
+              "id": "t-51",
+              "type": "text",
+              "levels": {
+                "normal": "A **passed pawn** has no enemy pawn in front of it or on the files next to it. Nothing but pieces can stop it, and the closer it gets, the more it ties up your opponent.\n\nNear promotion, look for tactics: a sacrifice that removes the blocker, a check that gains a tempo, or a capture that clears the way. And when your opponent has a passed pawn, take it seriously early: put a piece in front of it before it becomes a queen.",
+                "simple": "A **passed pawn** has no enemy pawns in its way. Push it, and use checks and sacrifices to get it to the end."
+              }
+            },
+            {
+              "id": "k-52",
+              "type": "callout",
+              "style": "keypoint",
+              "markdown": "- A passed pawn has no enemy pawns in front of or next to it.\n- Near promotion, look for tactics that clear the way.\n- Blockade their passed pawn early."
+            },
+            {
+              "id": "q-53",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "pz-0dBoK",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Get a pawn through.",
+                  "fen": "4k3/4r3/5KP1/5P2/8/8/8/8 w - - 1 66",
+                  "lastMove": "d7e8",
+                  "solution": [
+                    "g7",
+                    "Rf7+",
+                    "Kg6",
+                    "Ke7",
+                    "g8=Q"
+                  ],
+                  "explanation": "66. g7 Rf7+ 67. Kg6 Ke7 68. g8=Q. The pawn was close to promotion, and a forcing move cleared its way.",
+                  "source": "lichess.org/training/0dBoK"
+                },
+                {
+                  "id": "pz-0FuYd",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Get a pawn through.",
+                  "fen": "5QK1/8/4n3/6P1/1k6/p7/8/8 b - - 0 60",
+                  "lastMove": "f7f8",
+                  "solution": [
+                    "Nxf8",
+                    "Kxf8",
+                    "a2",
+                    "g6",
+                    "a1=Q"
+                  ],
+                  "explanation": "60... Nxf8 61. Kxf8 a2 62. g6 a1=Q. The pawn was close to promotion, and a forcing move cleared its way.",
+                  "source": "lichess.org/training/0FuYd"
+                },
+                {
+                  "id": "pz-0660Y",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Get a pawn through.",
+                  "fen": "3r3k/2qP2pp/4Q1p1/1pp5/3p4/pP1P3P/P1P3B1/6K1 w - - 1 31",
+                  "lastMove": "f4c7",
+                  "solution": [
+                    "Qe8+",
+                    "Rxe8",
+                    "dxe8=Q#"
+                  ],
+                  "explanation": "31. Qe8+ Rxe8 32. dxe8=Q#. The pawn was close to promotion, and a forcing move cleared its way.",
+                  "source": "lichess.org/training/0660Y"
+                },
+                {
+                  "id": "pz-0fWeo",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Get a pawn through.",
+                  "fen": "8/8/1pk4p/p7/7P/1P2pRb1/2P5/2K5 b - - 1 43",
+                  "lastMove": "f5f3",
+                  "solution": [
+                    "e2",
+                    "Kd2",
+                    "e1=Q+"
+                  ],
+                  "explanation": "43... e2 44. Kd2 e1=Q+. The pawn was close to promotion, and a forcing move cleared its way.",
+                  "source": "lichess.org/training/0fWeo"
+                },
+                {
+                  "id": "pz-018Iz",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Get a pawn through.",
+                  "fen": "8/3P4/8/2k2pbP/8/5K2/8/8 w - - 0 52",
+                  "lastMove": "b5c5",
+                  "solution": [
+                    "h6",
+                    "Kc6",
+                    "h7",
+                    "Kxd7",
+                    "h8=Q"
+                  ],
+                  "explanation": "52. h6 Kc6 53. h7 Kxd7 54. h8=Q. The pawn was close to promotion, and a forcing move cleared its way.",
+                  "source": "lichess.org/training/018Iz"
+                },
+                {
+                  "id": "pz-01Jpm",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Get a pawn through.",
+                  "fen": "5R2/8/p5pp/2B5/5b1P/P3p3/8/3K1k2 b - - 3 46",
+                  "lastMove": "d8f8",
+                  "solution": [
+                    "e2+",
+                    "Kc2",
+                    "e1=Q",
+                    "Rxf4+",
+                    "Kg2"
+                  ],
+                  "explanation": "46... e2+ 47. Kc2 e1=Q 48. Rxf4+ Kg2. The pawn was close to promotion, and a forcing move cleared its way.",
+                  "source": "lichess.org/training/01Jpm"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "test": {
+        "id": "u4-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "id": "pz-03A9v",
+            "kind": "chess",
+            "prompt": "**White to move.** Find the winning move.",
+            "fen": "8/4k3/1p4pp/3P1p2/2p2P1P/2P1K3/8/8 w - - 0 49",
+            "lastMove": "c5c4",
+            "solution": [
+              "Kd4",
+              "Kd7",
+              "Kxc4"
+            ],
+            "explanation": "49. Kd4 Kd7 50. Kxc4. In pawn endings every tempo counts.",
+            "source": "lichess.org/training/03A9v",
+            "skillId": "u4-pawns"
+          },
+          {
+            "id": "pz-05yZP",
+            "kind": "chess",
+            "prompt": "**Black to move.** Find the winning move.",
+            "fen": "1k6/8/3Kp1p1/3pPp1p/2p2P1P/P1P3P1/8/8 b - - 11 51",
+            "lastMove": "c6d6",
+            "solution": [
+              "d4",
+              "cxd4",
+              "c3",
+              "Kxe6",
+              "c2"
+            ],
+            "explanation": "51... d4 52. cxd4 c3 53. Kxe6 c2. In pawn endings every tempo counts.",
+            "source": "lichess.org/training/05yZP",
+            "skillId": "u4-pawns"
+          },
+          {
+            "id": "pz-0kUH9",
+            "kind": "chess",
+            "prompt": "**White to move.** Find the winning move.",
+            "fen": "8/8/4k2K/5pp1/6P1/7P/8/8 w - - 0 60",
+            "lastMove": "f6f5",
+            "solution": [
+              "Kxg5",
+              "f4",
+              "Kxf4"
+            ],
+            "explanation": "60. Kxg5 f4 61. Kxf4. In pawn endings every tempo counts.",
+            "source": "lichess.org/training/0kUH9",
+            "skillId": "u4-pawns"
+          },
+          {
+            "id": "pz-0A7BG",
+            "kind": "chess",
+            "prompt": "**White to move.** Get a pawn through.",
+            "fen": "8/2Pk1p1p/3rp3/1pK3P1/1P6/8/5P2/8 w - - 0 38",
+            "lastMove": "d2d6",
+            "solution": [
+              "c8=Q+",
+              "Kxc8",
+              "Kxd6"
+            ],
+            "explanation": "38. c8=Q+ Kxc8 39. Kxd6. Clear the way for the passed pawn.",
+            "source": "lichess.org/training/0A7BG",
+            "skillId": "u4-promotion"
+          },
+          {
+            "id": "pz-0aClB",
+            "kind": "chess",
+            "prompt": "**Black to move.** Get a pawn through.",
+            "fen": "8/8/5p2/1R1pk2p/7P/1B3rP1/3p1P2/1K6 b - - 1 47",
+            "lastMove": "c2b3",
+            "solution": [
+              "Rxb3+",
+              "Rxb3",
+              "d1=Q+"
+            ],
+            "explanation": "47... Rxb3+ 48. Rxb3 d1=Q+. Clear the way for the passed pawn.",
+            "source": "lichess.org/training/0aClB",
+            "skillId": "u4-promotion"
+          },
+          {
+            "id": "pz-0bg6I",
+            "kind": "chess",
+            "prompt": "**White to move.** Get a pawn through.",
+            "fen": "3k4/6P1/1p2p3/p1p3K1/8/8/8/r7 w - - 0 50",
+            "lastMove": "d7d8",
+            "solution": [
+              "g8=Q+",
+              "Kd7",
+              "Qg7+",
+              "Kc6",
+              "Qxa1"
+            ],
+            "explanation": "50. g8=Q+ Kd7 51. Qg7+ Kc6 52. Qxa1. Clear the way for the passed pawn.",
+            "source": "lichess.org/training/0bg6I",
+            "skillId": "u4-promotion"
+          }
+        ]
+      }
+    },
+    {
+      "id": "u5",
+      "title": "Openings and a training plan",
+      "summary": "You do not need to memorise openings to reach 1000. Follow a few principles, avoid the common traps, and train the right way every week.",
+      "lessons": [
+        {
+          "id": "u5-principles",
+          "title": "Opening principles",
+          "goal": "Get a good position from any opening with a few simple rules.",
+          "blocks": [
+            {
+              "id": "t-54",
+              "type": "text",
+              "levels": {
+                "normal": "Five rules give you a good position in almost every opening:\n\n1. Take the **centre** with a pawn (e4 or d4, e5 or d5 for Black).\n2. **Develop** your knights and bishops early, knights before bishops is a good default.\n3. **Castle** early to get your king safe and your rook into play.\n4. Do not move the same piece twice in the opening without a reason.\n5. Do not bring the queen out early: it gets chased and you lose time.\n\nIf your opponent breaks these rules, you can often punish it simply by following them yourself.",
+                "simple": "Opening rules: take the centre, bring out knights and bishops, castle, and keep the queen home at first."
+              }
+            },
+            {
+              "id": "show-55",
+              "type": "chess",
+              "mode": "show",
+              "title": "A healthy opening",
+              "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+              "caption": "Watch how both sides follow the principles move by move.",
+              "steps": [
+                {
+                  "move": "e4",
+                  "note": "A pawn takes the centre and opens lines for the queen and the bishop."
+                },
+                {
+                  "move": "e5",
+                  "note": "Black claims the centre as well."
+                },
+                {
+                  "move": "Nf3",
+                  "note": "A knight develops and attacks the e5 pawn.",
+                  "arrows": [
+                    "f3e5"
+                  ]
+                },
+                {
+                  "move": "Nc6",
+                  "note": "Black develops and defends the pawn.",
+                  "arrows": [
+                    "c6e5"
+                  ]
+                },
+                {
+                  "move": "Bc4",
+                  "note": "The bishop comes out to an active square, aiming at f7.",
+                  "arrows": [
+                    "c4f7"
+                  ]
+                },
+                {
+                  "move": "Bc5",
+                  "note": "Black does the same."
+                },
+                {
+                  "move": "O-O",
+                  "note": "White castles: the king is safe and the rook is ready to join."
+                },
+                {
+                  "move": "Nf6",
+                  "note": "Another piece developed. Both sides are in good shape after only a few moves."
+                }
+              ]
+            },
+            {
+              "id": "k-56",
+              "type": "callout",
+              "style": "keypoint",
+              "markdown": "- Centre, develop, castle.\n- Do not move the same piece twice without a reason.\n- Keep the queen home early on."
+            },
+            {
+              "id": "q-57",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "u5p-mc1",
+                  "kind": "multiple-choice",
+                  "prompt": "Which first move follows the opening principles best?",
+                  "options": [
+                    "h4",
+                    "e4",
+                    "Na3",
+                    "f3"
+                  ],
+                  "answer": 1,
+                  "explanation": "e4 takes the centre and opens lines for the queen and a bishop.",
+                  "rationales": [
+                    "The edge pawn does nothing for the centre.",
+                    "",
+                    "A knight on the edge controls few squares.",
+                    "f3 weakens your king and blocks the knight."
+                  ]
+                },
+                {
+                  "id": "u5p-mc2",
+                  "kind": "multiple-choice",
+                  "prompt": "Why is bringing the queen out early usually a bad idea?",
+                  "options": [
+                    "The queen is weak in the opening",
+                    "It can be chased by smaller pieces, and you lose time",
+                    "It is against the rules",
+                    "It makes castling impossible"
+                  ],
+                  "answer": 1,
+                  "explanation": "Every time it is attacked by a knight or a bishop, you spend a move running while they develop."
+                },
+                {
+                  "id": "u5p-tf1",
+                  "kind": "true-false",
+                  "prompt": "Castling early helps both your king safety and your rook.",
+                  "answer": true,
+                  "explanation": "The king goes behind pawns and the rook moves towards the centre."
+                },
+                {
+                  "id": "pz-026vm",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Punish the opening mistake.",
+                  "fen": "rnbq3r/ppp1n2k/3p3p/4P1p1/4Pp2/1QP5/PP4PP/RNB2RK1 w - - 2 12",
+                  "lastMove": "g8h7",
+                  "solution": [
+                    "Qf7#"
+                  ],
+                  "explanation": "12. Qf7#. Early in the game, one loose piece or a weak f7/f2 square is often enough.",
+                  "source": "lichess.org/training/026vm"
+                },
+                {
+                  "id": "pz-0BlyU",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Punish the opening mistake.",
+                  "fen": "r1b1k2r/1pqp1p1p/p4np1/3N1N2/4P1n1/3B4/PPP3PP/R2Q1R1K b kq - 1 17",
+                  "lastMove": "f4d5",
+                  "solution": [
+                    "Qxh2#"
+                  ],
+                  "explanation": "17... Qxh2#. Early in the game, one loose piece or a weak f7/f2 square is often enough.",
+                  "source": "lichess.org/training/0BlyU"
+                },
+                {
+                  "id": "pz-05soY",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Punish the opening mistake.",
+                  "fen": "r3kb1r/pppbppp1/1q3n1p/1N2Q3/1nP5/8/P2P1PPP/R1B1KBNR w KQkq - 0 10",
+                  "lastMove": "a6b4",
+                  "solution": [
+                    "Nxc7+",
+                    "Kd8",
+                    "Nxa8",
+                    "Qxf2+",
+                    "Kxf2"
+                  ],
+                  "explanation": "10. Nxc7+ Kd8 11. Nxa8 Qxf2+ 12. Kxf2. Early in the game, one loose piece or a weak f7/f2 square is often enough.",
+                  "source": "lichess.org/training/05soY"
+                },
+                {
+                  "id": "pz-00swU",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Punish the opening mistake.",
+                  "fen": "3rkb1r/pppqp1pp/2n5/1QN2p2/8/1P2P3/PBP2PPP/R3KB1R b KQk - 1 12",
+                  "lastMove": "e4c5",
+                  "solution": [
+                    "Qd2#"
+                  ],
+                  "explanation": "12... Qd2#. Early in the game, one loose piece or a weak f7/f2 square is often enough.",
+                  "source": "lichess.org/training/00swU"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "u5-traps",
+          "title": "Common traps",
+          "goal": "Defend against the quick mates and traps that catch new players.",
+          "blocks": [
+            {
+              "id": "t-58",
+              "type": "text",
+              "levels": {
+                "normal": "Below 1000 you will meet the same few attacks again and again. The most common one aims at **f7** (or f2 for White): the square next to the king that only the king defends. A queen and a bishop together on f7 can be mate in four moves.\n\nDefending is easy once you know it: develop your pieces, block the bishop or cover f7 with a knight, and do not panic. When the attacker brings the queen out early, use it as a target and develop with tempo.",
+                "simple": "Watch the square f7 (f2 for White): only your king protects it. If a queen and a bishop both aim at it, cover it right away."
+              }
+            },
+            {
+              "id": "show-59",
+              "type": "chess",
+              "mode": "show",
+              "title": "Stopping the early queen attack",
+              "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+              "caption": "White goes for a quick mate on f7. Black defends calmly.",
+              "steps": [
+                {
+                  "move": "e4",
+                  "note": "A normal first move."
+                },
+                {
+                  "move": "e5",
+                  "note": "Black answers in the centre."
+                },
+                {
+                  "move": "Qh5",
+                  "note": "The queen comes out early and attacks e5 and f7.",
+                  "arrows": [
+                    "h5f7",
+                    "h5e5"
+                  ]
+                },
+                {
+                  "move": "Nc6",
+                  "note": "Black defends e5 and develops."
+                },
+                {
+                  "move": "Bc4",
+                  "note": "Now Qxf7 would be checkmate: queen and bishop both hit f7.",
+                  "arrows": [
+                    "c4f7",
+                    "h5f7"
+                  ],
+                  "highlights": [
+                    "f7"
+                  ]
+                },
+                {
+                  "move": "g6",
+                  "note": "Black blocks the queen. f7 is safe, and the queen is attacked."
+                },
+                {
+                  "move": "Qf3",
+                  "note": "The queen comes back to aim at f7 again.",
+                  "arrows": [
+                    "f3f7"
+                  ]
+                },
+                {
+                  "move": "Nf6",
+                  "note": "The knight covers the long diagonal and develops. White has achieved nothing, and Black is fine."
+                }
+              ]
+            },
+            {
+              "id": "show-60",
+              "type": "chess",
+              "mode": "show",
+              "title": "Legal's trap: when grabbing the queen loses",
+              "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+              "caption": "A famous trap that shows why development beats material.",
+              "steps": [
+                {
+                  "move": "e4"
+                },
+                {
+                  "move": "e5"
+                },
+                {
+                  "move": "Nf3"
+                },
+                {
+                  "move": "d6"
+                },
+                {
+                  "move": "Bc4"
+                },
+                {
+                  "move": "Bg4",
+                  "note": "The bishop pins the knight to the queen.",
+                  "arrows": [
+                    "g4d1"
+                  ]
+                },
+                {
+                  "move": "Nc3"
+                },
+                {
+                  "move": "g6",
+                  "note": "A slow move. Now White can break the pin by force."
+                },
+                {
+                  "move": "Nxe5",
+                  "note": "White offers the queen!",
+                  "arrows": [
+                    "e5f7"
+                  ]
+                },
+                {
+                  "move": "Bxd1",
+                  "note": "Black takes the queen. This is the mistake."
+                },
+                {
+                  "move": "Bxf7+",
+                  "note": "Check on f7."
+                },
+                {
+                  "move": "Ke7"
+                },
+                {
+                  "move": "Nd5#",
+                  "note": "Checkmate with three minor pieces. The queen was worth nothing, because the king was in danger."
+                }
+              ]
+            },
+            {
+              "id": "k-61",
+              "type": "callout",
+              "style": "keypoint",
+              "markdown": "- f7 (and f2) is the weak square early in the game.\n- Block and develop when the queen comes out early.\n- Before taking a big piece, check if it is a trap against your king."
+            },
+            {
+              "id": "q-62",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "u5t-mc1",
+                  "kind": "multiple-choice",
+                  "prompt": "After 1. e4 e5 2. Qh5 Nc6 3. Bc4, what does White threaten?",
+                  "options": [
+                    "Qxe5+",
+                    "Qxf7, checkmate",
+                    "Bxf7+, winning a pawn",
+                    "Nothing yet"
+                  ],
+                  "answer": 1,
+                  "explanation": "Queen and bishop both attack f7, and only the king defends it."
+                },
+                {
+                  "id": "pz-1Q0Pa",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Attack the weak square next to the king.",
+                  "fen": "r1bqk1nr/pppp1ppp/8/3QN1b1/2B5/2p5/PP3PPP/RN2K2R w KQkq - 0 10",
+                  "lastMove": "e7g5",
+                  "solution": [
+                    "Qxf7#"
+                  ],
+                  "explanation": "10. Qxf7#. Early in the game f7 and f2 are defended only by the king.",
+                  "source": "lichess.org/training/1Q0Pa"
+                },
+                {
+                  "id": "pz-13YPG",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Attack the weak square next to the king.",
+                  "fen": "r1b1k1nr/ppp2ppp/2p2q2/2b5/4P3/3B3P/PPP2PP1/RNBQK2R b KQkq - 2 7",
+                  "lastMove": "f1d3",
+                  "solution": [
+                    "Qxf2#"
+                  ],
+                  "explanation": "7... Qxf2#. Early in the game f7 and f2 are defended only by the king.",
+                  "source": "lichess.org/training/13YPG"
+                },
+                {
+                  "id": "pz-0HT9n",
+                  "kind": "chess",
+                  "prompt": "**White to move.** Attack the weak square next to the king.",
+                  "fen": "rnb1kbnr/ppp2p1p/3p4/4N3/3Pq3/4B3/PPP2Q1P/RN2KB2 w Qkq - 0 11",
+                  "lastMove": "d7d6",
+                  "solution": [
+                    "Qxf7+",
+                    "Kd8",
+                    "Qxf8#"
+                  ],
+                  "explanation": "11. Qxf7+ Kd8 12. Qxf8#. Early in the game f7 and f2 are defended only by the king.",
+                  "source": "lichess.org/training/0HT9n"
+                },
+                {
+                  "id": "pz-1aSAu",
+                  "kind": "chess",
+                  "prompt": "**Black to move.** Attack the weak square next to the king.",
+                  "fen": "r1b2rk1/ppp2ppp/1bn2q2/4P3/1P6/P1PB2N1/5PPP/R1BQK2R b KQ - 0 12",
+                  "lastMove": "d4e5",
+                  "solution": [
+                    "Qxf2#"
+                  ],
+                  "explanation": "12... Qxf2#. Early in the game f7 and f2 are defended only by the king.",
+                  "source": "lichess.org/training/1aSAu"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "u5-plan",
+          "title": "Your plan to reach 1000",
+          "goal": "Train the habits that win games, every week.",
+          "blocks": [
+            {
+              "id": "t-63",
+              "type": "text",
+              "levels": {
+                "normal": "Reaching 1000 is not about knowing more openings. It is about **making fewer blunders** and **taking what your opponent gives you**. A good weekly routine:\n\n- **Every day, 10 to 15 minutes of puzzles.** Review this course: your due puzzles come back on the Review page when you are about to forget them.\n- **Play slower games.** 15 minutes plus 10 seconds per move, or slower. In bullet and blitz you have no time for the blunder check.\n- **Look at every loss.** Find the one move where it went wrong. Usually it was a hanging piece or a missed threat. Write it down.\n- **Use the blunder check on every move:** what did they just do, what are my checks, captures and threats, and can they take something after my move?\n\nThen play against the computer below. Pick the level that wins about half the time, and move up when you start winning most games.",
+                "simple": "To reach 1000: puzzles every day, slower games (15+10), look at your losses, and do the blunder check on every move."
+              }
+            },
+            {
+              "id": "c-64",
+              "type": "callout",
+              "style": "tip",
+              "markdown": "**The three questions, every move:** What did their move do? What are my checks, captures and threats? After my move, can they take something or fork me?"
+            },
+            {
+              "id": "play-65",
+              "type": "chess",
+              "mode": "play",
+              "title": "Play a full game",
+              "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+              "goal": "free",
+              "prompt": "Play a game against the computer. Use the three questions on every move.",
+              "level": 3
+            }
+          ]
+        }
+      ],
+      "test": {
+        "id": "u5-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "id": "pz-04eww",
+            "kind": "chess",
+            "prompt": "**White to move.** Punish the opening mistake.",
+            "fen": "r1b1k2r/ppQ2ppp/2n1pn2/8/2N5/3q4/PP3PPP/R3K1NR w KQkq - 0 12",
+            "lastMove": "d4d3",
+            "solution": [
+              "Nd6+",
+              "Qxd6",
+              "Qxd6"
+            ],
+            "explanation": "12. Nd6+ Qxd6 13. Qxd6. Loose pieces early in the game get punished.",
+            "source": "lichess.org/training/04eww",
+            "skillId": "u5-principles"
+          },
+          {
+            "id": "pz-08YEg",
+            "kind": "chess",
+            "prompt": "**Black to move.** Punish the opening mistake.",
+            "fen": "r3kb1r/pp3ppp/1q2p3/3Pn2P/3Q4/2P5/PP6/RNB1KB1R b KQkq - 2 15",
+            "lastMove": "d1d4",
+            "solution": [
+              "Nf3+",
+              "Ke2",
+              "Nxd4+"
+            ],
+            "explanation": "15... Nf3+ 16. Ke2 Nxd4+. Loose pieces early in the game get punished.",
+            "source": "lichess.org/training/08YEg",
+            "skillId": "u5-principles"
+          },
+          {
+            "id": "pz-03Ht0",
+            "kind": "chess",
+            "prompt": "**White to move.** Punish the opening mistake.",
+            "fen": "r1bq1rk1/ppp2pp1/1bnp1n1p/3Np1N1/1PP5/P3P3/2QP1PPP/R1B1KB1R w KQ - 0 10",
+            "lastMove": "h7h6",
+            "solution": [
+              "Nxf6+",
+              "gxf6",
+              "Qh7#"
+            ],
+            "explanation": "10. Nxf6+ gxf6 11. Qh7#. Loose pieces early in the game get punished.",
+            "source": "lichess.org/training/03Ht0",
+            "skillId": "u5-principles"
+          },
+          {
+            "id": "pz-0mck4",
+            "kind": "chess",
+            "prompt": "**Black to move.** Punish the opening mistake.",
+            "fen": "r1b1kb1r/ppqppppp/8/2pN4/3nP1n1/3B1N2/PPPP1PPP/R1BQ1RK1 b kq - 10 7",
+            "lastMove": "c3d5",
+            "solution": [
+              "Nxf3+",
+              "gxf3",
+              "Qxh2#"
+            ],
+            "explanation": "7... Nxf3+ 8. gxf3 Qxh2#. Loose pieces early in the game get punished.",
+            "source": "lichess.org/training/0mck4",
+            "skillId": "u5-principles"
+          },
+          {
+            "id": "pz-06Swt",
+            "kind": "chess",
+            "prompt": "**White to move.** Attack the weak square.",
+            "fen": "2rqk2r/Q4ppp/2p5/2b1pb2/8/1B1n1P2/PP4PP/R1B2KNR w k - 0 17",
+            "lastMove": "d6c5",
+            "solution": [
+              "Qxf7#"
+            ],
+            "explanation": "17. Qxf7#. f7 and f2 are only defended by the king early on.",
+            "source": "lichess.org/training/06Swt",
+            "skillId": "u5-traps"
+          },
+          {
+            "id": "pz-074Ux",
+            "kind": "chess",
+            "prompt": "**Black to move.** Attack the weak square.",
+            "fen": "r1b1kr2/pp1n2pp/1q6/3pN3/8/8/PP1B1PPP/R2QKB1R b KQq - 0 14",
+            "lastMove": "f3e5",
+            "solution": [
+              "Qxf2#"
+            ],
+            "explanation": "14... Qxf2#. f7 and f2 are only defended by the king early on.",
+            "source": "lichess.org/training/074Ux",
+            "skillId": "u5-traps"
+          }
+        ]
+      }
+    }
+  ]
+}

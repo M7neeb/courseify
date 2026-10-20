@@ -1,0 +1,150 @@
+/* The chessboard, chess puzzles, worked examples and the practice board.
+   Pieces are the chess glyphs of Noto Sans Symbols 2 (SIL OFL), cut down to those 12 characters. */
+
+@font-face {
+  font-family: 'Courseify Chess';
+  src: url('../assets/fonts/chess-pieces.woff2') format('woff2');
+  font-display: block;
+  unicode-range: U+2654-265F;
+}
+
+:root {
+  --sq-light: #ebecd0;
+  --sq-dark: #779556;
+  --sq-last: rgb(255 214 0 / 0.42);
+  --sq-sel: rgb(255 214 0 / 0.62);
+  --sq-good: rgb(46 160 67 / 0.6);
+  --sq-bad: rgb(214 52 52 / 0.62);
+  --sq-hint: rgb(53 120 229 / 0.5);
+  --arrow-plan: rgb(255 170 0 / 0.85);
+  --arrow-hint: rgb(53 120 229 / 0.85);
+  --arrow-good: rgb(46 160 67 / 0.88);
+  --arrow-bad: rgb(214 52 52 / 0.85);
+}
+
+/* The whole board fits on the screen: never wider than the window is tall (minus the header). */
+.cf-board-wrap { container-type: inline-size; width: 100%; max-width: min(560px, max(280px, 100dvh - 190px)); margin: 0 auto; }
+.cf-board {
+  position: relative; display: grid; grid-template-columns: repeat(8, 1fr); aspect-ratio: 1;
+  border-radius: 4px; overflow: hidden; user-select: none; -webkit-user-select: none;
+  box-shadow: 0 1px 0 rgb(0 0 0 / 0.08), 0 0 0 1px rgb(0 0 0 / 0.12);
+}
+.cf-sq {
+  position: relative; display: block; aspect-ratio: 1; padding: 0; margin: 0; border: 0; border-radius: 0;
+  font: inherit; cursor: default; -webkit-tap-highlight-color: transparent;
+}
+.cf-sq.light { background: var(--sq-light); }
+.cf-sq.dark { background: var(--sq-dark); }
+.cf-sq.movable { cursor: grab; touch-action: none; }
+.cf-board.dragging, .cf-board.dragging .cf-sq { cursor: grabbing; }
+.cf-sq::before { content: ''; position: absolute; inset: 0; pointer-events: none; }
+.cf-sq.last::before { background: var(--sq-last); }
+.cf-sq.sel::before { background: var(--sq-sel); }
+.cf-sq.hl::before { box-shadow: inset 0 0 0 4cqi rgb(255 170 0 / 0.0), inset 0 0 0 0.6cqi rgb(255 140 0 / 0.95); }
+.cf-sq[data-mark='good']::before { background: var(--sq-good); }
+.cf-sq[data-mark='bad']::before { background: var(--sq-bad); }
+.cf-sq[data-mark='hint']::before { background: var(--sq-hint); }
+.cf-sq.target::after {
+  content: ''; position: absolute; left: 50%; top: 50%; width: 30%; height: 30%; border-radius: 50%;
+  transform: translate(-50%, -50%); background: rgb(0 0 0 / 0.18); pointer-events: none; z-index: 2;
+}
+.cf-sq.target.capture::after { width: 88%; height: 88%; background: none; border: 0.9cqi solid rgb(0 0 0 / 0.2); }
+.cf-sq:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; z-index: 4; }
+
+.cf-piece {
+  position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; z-index: 1;
+  font-family: 'Courseify Chess', serif; font-size: calc(100cqi / 8 * 0.84); line-height: 1;
+}
+.cf-piece > span { grid-area: 1 / 1; }
+.cf-piece[data-color='w'] .fill { color: #fff; }
+.cf-piece[data-color='w'] .line { color: #1e1e1e; }
+.cf-piece[data-color='b'] .fill { color: #262421; }
+.cf-piece[data-color='b'] .line { color: #000; }
+.cf-piece[style*='--dx'] { z-index: 3; animation: cf-slide 0.22s ease-out; }
+@keyframes cf-slide {
+  from { transform: translate(calc(var(--dx) * 100%), calc(var(--dy) * 100%)); }
+}
+.cf-piece.lifted { opacity: 0.35; }
+.cf-floating { inset: auto; z-index: 6; transform: translate(-50%, -50%) scale(1.12); filter: drop-shadow(0 4px 6px rgb(0 0 0 / 0.3)); }
+
+.cf-coord { position: absolute; z-index: 2; font-size: max(9px, 2.4cqi); font-weight: 700; line-height: 1; pointer-events: none; }
+.cf-coord.rank { left: 4%; top: 5%; }
+.cf-coord.file { right: 5%; bottom: 4%; }
+.cf-sq.light .cf-coord { color: var(--sq-dark); }
+.cf-sq.dark .cf-coord { color: var(--sq-light); }
+
+.cf-arrows { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+.cf-arrows .shaft { stroke-width: 0.16; stroke-linecap: round; }
+.cf-arrows .shaft.plan, .cf-arrows .head.plan { stroke: var(--arrow-plan); fill: var(--arrow-plan); }
+.cf-arrows .shaft.hint, .cf-arrows .head.hint { stroke: var(--arrow-hint); fill: var(--arrow-hint); }
+.cf-arrows .shaft.good, .cf-arrows .head.good { stroke: var(--arrow-good); fill: var(--arrow-good); }
+.cf-arrows .shaft.bad, .cf-arrows .head.bad { stroke: var(--arrow-bad); fill: var(--arrow-bad); }
+.cf-arrows .head { stroke: none !important; }
+
+.cf-promo {
+  position: absolute; inset: 0; z-index: 7; display: grid; place-content: center; justify-items: center; gap: 10px;
+  background: rgb(20 20 20 / 0.55); color: #fff; text-align: center;
+}
+.cf-promo p { margin: 0; font-weight: 700; }
+.cf-promo .link { color: #fff; }
+.cf-promo-choices { display: flex; gap: 8px; }
+.cf-promo-choices button {
+  position: relative; width: calc(100cqi / 6); aspect-ratio: 1; border: 0; border-radius: 8px; background: var(--sq-light); cursor: pointer;
+}
+.cf-promo-choices .cf-piece { font-size: calc(100cqi / 6 * 0.8); }
+
+/* ---------- a puzzle, an example, a play-out ---------- */
+.cf-chess { display: grid; gap: 12px; margin: 8px 0 4px; }
+.cf-chess-layout { display: grid; grid-template-columns: minmax(0, 560px) minmax(220px, 1fr); gap: 20px; align-items: start; }
+.cf-chess-side { display: grid; gap: 10px; min-width: 0; }
+.cf-chess-status { display: flex; align-items: center; gap: 10px; margin: 0; font-weight: 700; }
+.cf-chess-status .cf-turn { flex: none; width: 14px; height: 14px; border-radius: 50%; border: 1px solid #333; }
+.cf-chess-status .cf-turn[data-color='w'] { background: #fff; }
+.cf-chess-status .cf-turn[data-color='b'] { background: #222; }
+.cf-chess-status.good { color: var(--good, #2e7d32); }
+.cf-chess-status.bad { color: var(--bad); }
+.cf-chess-moves { margin: 0; font-variant-numeric: tabular-nums; color: var(--muted); font-size: 0.92rem; overflow-wrap: anywhere; }
+.cf-chess-note { margin: 0; padding: 12px 14px; background: var(--accent-soft); border-left: 4px solid var(--accent); border-radius: 4px; }
+.cf-chess-controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.cf-chess-controls .btn { min-width: 44px; }
+.cf-step-count { color: var(--muted); font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+.cf-chess-title { margin: 0; font-size: 1.15rem; }
+.cf-chess-source { margin: 0; font-size: 0.8rem; color: var(--muted); }
+.cf-chess-source a { color: inherit; }
+.cf-level-pick { display: flex; flex-wrap: wrap; gap: 6px; }
+.cf-level-pick button {
+  min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface);
+  color: var(--ink); font: inherit; font-size: 0.88rem; cursor: pointer;
+}
+.cf-level-pick button[aria-pressed='true'] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+.cf-thinking { color: var(--muted); font-size: 0.9rem; }
+.cf-eval { font-variant-numeric: tabular-nums; }
+
+@media (max-width: 900px) {
+  .cf-chess-layout { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 600px) {
+  /* Edge to edge on a phone: every pixel of the board counts. */
+  .question .cf-board-wrap, .cf-chess .cf-board-wrap { max-width: min(100%, max(280px, 100dvh - 150px)); }
+}
+
+/* ---------- ready-made courses ---------- */
+.cf-catalog { margin-top: 28px; }
+.cf-catalog h2 { margin: 0 0 4px; font-size: 1.2rem; }
+.cf-catalog ul { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 12px; }
+.cf-catalog-item {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; padding: 18px 20px;
+  background: var(--surface); border: 1px solid var(--line); border-left: 6px solid var(--sq-dark); border-radius: 4px;
+}
+.cf-catalog-text { flex: 1 1 300px; min-width: 0; }
+.cf-catalog-text h3 { margin: 2px 0 6px; font-size: 1.15rem; }
+.cf-catalog-text p { margin: 0; }
+.cf-catalog-subject { font-size: 0.8rem; font-weight: 700; color: var(--muted); }
+.cf-catalog-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.cf-play-setup { margin-top: 8px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 4px; }
+.cf-play-setup summary { cursor: pointer; font-weight: 700; }
+.cf-play-setup[open] { display: grid; gap: 8px; }
+@media (max-width: 600px) {
+  .cf-catalog-actions { width: 100%; }
+  .cf-catalog-actions .btn { flex: 1 1 auto; }
+}

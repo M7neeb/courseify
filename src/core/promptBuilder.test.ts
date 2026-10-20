@@ -210,3 +210,16 @@ test('the tutor prompt never contains the answer', () => {
   assert.ok(prompt.includes('"Physical"'));
   assert.ok(!/correct answer is/i.test(prompt));
 });
+
+test('the chess preset asks for boards and puzzles, and other courses never get them', () => {
+  const chess = singlePrompt(applyPreset(settings({ topic: 'Chess tactics', subject: 'Chess' }), 'chess'), schema);
+  assert.ok(chess.includes('CHESS (chess courses only)'));
+  assert.ok(chess.includes('"kind": "chess"'));
+  assert.ok(chess.includes('chess (a puzzle on a board'));
+  assert.ok(chess.includes('"mode": "show"'));
+  const plain = singlePrompt(settings(), schema);
+  assert.ok(!plain.includes('CHESS (chess courses only)'));
+  assert.ok(!plain.includes('chess (a puzzle'));
+  assert.ok(!ALL_KINDS.includes('chess'));
+  assert.equal(normalizeSettings({ extras: { chess: true } }).extras.chess, true);
+});

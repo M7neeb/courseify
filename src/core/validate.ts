@@ -1,4 +1,5 @@
 import type { Course, Question, QuestionKind } from './types.ts';
+import { chessBlockErrors, chessQuestionErrors } from './chess.ts';
 
 export interface ValidationResult {
   ok: boolean;
@@ -15,7 +16,8 @@ const QUESTION_KINDS: QuestionKind[] = [
   'numeric',
   'multi-select',
   'matching',
-  'ordering'
+  'ordering',
+  'chess'
 ];
 const QUIZ_TYPES = ['quiz', 'module-test', 'final-exam'];
 /** Block types the player can render today. */
@@ -226,6 +228,8 @@ export function validateCourse(input: unknown): ValidationResult {
           }
         });
       }
+    } else if (kind === 'chess') {
+      for (const message of chessQuestionErrors(q)) errors.push(`${path}.${message}`);
     } else if (kind === 'ordering') {
       const items = q.items;
       if (!Array.isArray(items) || items.length < 2 || !items.every(isNonEmptyString)) {
@@ -266,6 +270,8 @@ export function validateCourse(input: unknown): ValidationResult {
       if (!isNonEmptyString(b.markdown) && !hasI18nText(b.i18n)) {
         errors.push(`${path}: an example block needs "markdown" or "i18n".`);
       }
+    } else if (type === 'chess') {
+      for (const message of chessBlockErrors(b)) errors.push(`${path}.${message}`);
     } else if (type === 'video') {
       const hasTerm = isNonEmptyString(b.searchTerm);
       const hasUrl = isNonEmptyString(b.url);

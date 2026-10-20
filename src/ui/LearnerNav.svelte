@@ -3,8 +3,11 @@
   // blue bar on the current page. Shared by every learner screen so the navigation never moves.
   import { app } from '../core/state.svelte.ts';
   import { listMistakes } from '../core/mistakes.ts';
+  import { courseHasChess } from '../core/chess.ts';
   import { t } from '../i18n/i18n.ts';
 
+  // The practice board only shows up once a course with chess is in the library.
+  const hasChess = $derived(app.courses.some((c) => courseHasChess(c)));
   const reviewCount = $derived(listMistakes(app.courses, app.progress, app.settings.questionLanguage).length);
 
   const groups = [
@@ -13,7 +16,8 @@
       links: [
         { route: 'home', href: '#/home', key: 'home.nav.courses' },
         { route: 'review', href: '#/review', key: 'home.nav.review' },
-        { route: 'library', href: '#/library', key: 'home.nav.library' }
+        { route: 'library', href: '#/library', key: 'home.nav.library' },
+        { route: 'play', href: '#/play', key: 'play.nav' }
       ]
     },
     {
@@ -31,7 +35,7 @@
   {#each groups as group (group.key)}
     <p class="cf-learner-group">{t(group.key)}</p>
     <ul>
-      {#each group.links as link (link.route)}
+      {#each group.links.filter((l) => l.route !== 'play' || hasChess) as link (link.route)}
         {@const current = app.route.name === link.route}
         <li>
           <a href={link.href} class:active={current} aria-current={current ? 'page' : undefined}>

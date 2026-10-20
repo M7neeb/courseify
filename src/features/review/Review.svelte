@@ -79,6 +79,11 @@
   function dueCtx(courseId: string): BlockContext {
     return studyContext(courseId, { lessonId: 'review', itemKind: 'lesson', moduleId: null }, { onSetContinue: stop });
   }
+
+  /** The prompt as plain text for the list (puzzle prompts start with bold Markdown). */
+  function plainPrompt(text: string): string {
+    return text.replace(/[*_`#>]+/g, '').replace(/\s+/g, ' ').trim();
+  }
 </script>
 
 <section class="cf-review">
@@ -172,7 +177,7 @@
           </header>
           <ol class="cf-review-list">
             {#each group.entries as entry (entry.question.id)}
-              <li>{entry.prompt}</li>
+              <li>{plainPrompt(entry.prompt)}{#if entry.question.kind === 'chess'} <span class="cf-muted cf-small">{t('review.chessPuzzle')}</span>{/if}</li>
             {/each}
           </ol>
         </section>

@@ -21,11 +21,13 @@
   import Exercise from './features/exercise/Exercise.svelte';
   import Unit from './features/unit/Unit.svelte';
   import Challenge from './features/challenge/Challenge.svelte';
+  import Play from './features/play/Play.svelte';
   import NavIcon from './ui/NavIcon.svelte';
   import SearchBox from './ui/SearchBox.svelte';
   import ExploreMenu from './ui/ExploreMenu.svelte';
   import LearnerNav from './ui/LearnerNav.svelte';
   import TabBar from './ui/TabBar.svelte';
+  import { courseHasChess } from './core/chess.ts';
   import { t } from './i18n/i18n.ts';
 
   const route = $derived(app.route);
@@ -126,6 +128,7 @@
               <hr />
               <a href="#/import" onclick={closeProfileMenu}>{t('home.nav.import')}</a>
               <a href="#/prompt" onclick={closeProfileMenu}>{t('home.nav.create')}</a>
+              {#if app.courses.some((c) => courseHasChess(c))}<a href="#/play" onclick={closeProfileMenu}>{t('play.nav')}</a>{/if}
               <a href="#/trash" onclick={closeProfileMenu}>{t('nav.trash')}</a>
             </div>
           </details>
@@ -188,6 +191,8 @@
           <Profile />
         {:else if route.name === 'trash'}
           <Trash />
+        {:else if route.name === 'play'}
+          <Play />
         {:else}
           <Settings courseId={route.courseId} />
         {/if}

@@ -6,7 +6,7 @@ import type { Route } from './types.ts';
 test('routes survive a format/parse round trip', () => {
   const routes: Route[] = [
     { name: 'home' }, { name: 'library' }, { name: 'import' }, { name: 'prompt' }, { name: 'settings' }, { name: 'profile' },
-    { name: 'review' }, { name: 'trash' }, { name: 'settings', courseId: 'c 1' },
+    { name: 'review' }, { name: 'trash' }, { name: 'play' }, { name: 'settings', courseId: 'c 1' },
     { name: 'player', courseId: 'c1' },
     { name: 'player', courseId: 'c 1', lessonId: 'm1:test' },
     { name: 'exercise', courseId: 'c1', skillId: 'l1' },

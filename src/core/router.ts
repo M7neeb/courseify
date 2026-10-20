@@ -18,6 +18,8 @@ export function formatHash(route: Route): string {
       return '#/stats';
     case 'review':
       return '#/review';
+    case 'play':
+      return '#/play';
     case 'trash':
       return '#/trash';
     case 'exercise':
@@ -46,6 +48,7 @@ export function parseHash(hash: string): Route {
   if (first === 'stats') return { name: 'stats' };
   if (first === 'review') return { name: 'review' };
   if (first === 'trash') return { name: 'trash' };
+  if (first === 'play') return { name: 'play' };
   if (first === 'exercise' && second && third) {
     return { name: 'exercise', courseId: decodeURIComponent(second), skillId: decodeURIComponent(third) };
   }

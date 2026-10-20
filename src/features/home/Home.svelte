@@ -24,6 +24,7 @@
   import Celebrate from '../../ui/Celebrate.svelte';
   import MasteryIcon from '../../ui/MasteryIcon.svelte';
   import NavIcon from '../../ui/NavIcon.svelte';
+  import CourseCatalog from '../../ui/CourseCatalog.svelte';
   import { t } from '../../i18n/i18n.ts';
 
   /** Unit rows shown before "See all" reveals the rest. */
@@ -296,5 +297,6 @@
         {/each}
       </div>
     {/if}
+    <CourseCatalog onlyMissing compact />
   </main>
 </div>
