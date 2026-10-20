@@ -22,8 +22,12 @@
   // straight away, and nothing is saved - it never counts for mastery or review.
   const pretest = $derived(block.pretest === true);
   let localAnswers = $state<Record<string, AnswerRecord>>({});
+  // Practising mistakes starts every question fresh: the saved answers are already right (you retry
+  // until you are), so the run keeps its own answers and still saves each one as usual.
+  let drillAnswers = $state<Record<string, AnswerRecord> | null>(null);
   function answerOf(id: string): AnswerRecord | undefined {
-    return pretest ? localAnswers[id] : ctx.getAnswer(id);
+    if (pretest) return localAnswers[id];
+    return drillAnswers ? drillAnswers[id] : ctx.getAnswer(id);
   }
   // "How sure are you?" per question, and which tutor prompt was just copied.
   let confidence = $state<Record<string, Confidence>>({});
@@ -44,6 +48,7 @@
 
   // One question at a time. `drillIds` narrows the run to just the mistakes after a set is done.
   let drillIds = $state<string[] | null>(null);
+  let drillRound = $state(0);
   const active = $derived.by(() => {
     const ids = drillIds;
     return ids ? questions.filter((q) => ids.includes(q.id)) : questions;
@@ -306,9 +311,19 @@
       localAnswers[q.id] = record;
       return;
     }
+    if (drillAnswers) {
+      drillAnswers[q.id] = record;
+      const saved = ctx.getAnswer(q.id);
+      ctx.recordAnswer(q.id, {
+        ...record,
+        attempts: (saved?.attempts ?? 0) + 1,
+        solvedOnFirstTry: (saved?.solvedOnFirstTry ?? true) && firstTry
+      });
+    } else {
+      ctx.recordAnswer(q.id, record);
+    }
     if (ctx.sounds) (correct ? playCorrect : playWrong)();
     inARow = firstTry ? inARow + 1 : correct ? inARow : 0;
-    ctx.recordAnswer(q.id, record);
     ctx.recordMasteryAttempt({ questionId: q.id, correct, usedHint, given, confidence: confidence[q.id] });
 
     if (!correct) {
@@ -345,7 +360,26 @@
   }
 
   function practiseMistakes() {
-    drillIds = [...new Set(misses.map((m) => m.questionId))];
+    const ids = [...new Set(misses.map((m) => m.questionId))];
+    // Clear what was typed, picked or hinted on these questions, so each one is a real second try.
+    for (const id of ids) {
+      delete drafts[id];
+      delete texts[id];
+      delete missed[id];
+      delete hinted[id];
+      delete hintShown[id];
+      delete matches[id];
+      delete orders[id];
+      delete revealed[id];
+      delete recalled[id];
+      delete confidence[id];
+      delete typoOf[id];
+    }
+    drillAnswers = {};
+    misses = [];
+    inARow = 0;
+    drillIds = ids;
+    drillRound += 1;
     index = 0;
     window.scrollTo({ top: 0 });
   }
@@ -444,7 +478,7 @@
     <article class="question" data-state={answeredCorrect ? 'right' : showWrong ? 'wrong' : 'open'}>
       <div class="prose question-prompt">{@html renderMarkdown(current.prompt)}</div>
       {#if current.kind === 'chess'}
-        {#key current.id + ':' + (drillIds?.join(',') ?? '')}
+        {#key current.id + ':' + drillRound}
           <ChessPuzzle
             question={current}
             hintLevel={hintsAllowed ? hintStep : 0}

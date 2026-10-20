@@ -127,3 +127,60 @@ test('play a position out against the computer, and the practice board', async (
   // As Black, the computer opens.
   await expect(page.locator('.cf-chess-moves')).toHaveText(/^1\. \S+$/, { timeout: 6000 });
 });
+
+/** Any legal move in the puzzle that is not its first move and does not give mate. */
+function wrongMove(q: { fen: string; solution: string[] }): string {
+  const first = uciLine(q)[0];
+  return new Chess(q.fen)
+    .moves({ verbose: true })
+    .filter((m) => !m.san.includes('#') && !m.promotion)
+    .map((m) => m.from + m.to)
+    .find((m) => m !== first)!;
+}
+
+async function solve(page: Page, q: { fen: string; solution: string[] }) {
+  const line = uciLine(q);
+  for (let i = 0; i < line.length; i += 2) {
+    await clickMove(page, line[i]!);
+    if (i + 2 < line.length) await expect(page.getByText(/to move: move/)).toBeVisible({ timeout: 4000 });
+  }
+  await expect(page.getByTestId('chess-puzzle').getByText('Solved.')).toBeVisible();
+}
+
+test('practising mistakes gives the missed puzzles a fresh board', async ({ page }) => {
+  await addChess(page);
+  await page.goto('./#/exercise/chess-to-1000/u1-hanging');
+  const puzzle = page.getByTestId('chess-puzzle');
+  // Miss the first puzzle once, then solve every puzzle in the set.
+  let first = true;
+  let missedId = '';
+  while (!(await page.getByRole('region', { name: 'Results' }).isVisible())) {
+    await expect(page.locator('.question')).toBeVisible();
+    // Sets mix in a few written questions; only the puzzles matter here.
+    if (!(await puzzle.isVisible())) {
+      await page.getByRole('button', { name: 'Skip' }).click();
+      continue;
+    }
+    const id = (await puzzle.getAttribute('data-question'))!;
+    const q = questions.get(id)!;
+    if (first) {
+      missedId = id;
+      const wrong = wrongMove(q);
+      await clickMove(page, wrong);
+      await expect(page.getByText('Not this move. Try again.')).toBeVisible();
+      await expect(puzzle.locator(`[data-square="${wrong.slice(0, 2)}"] .cf-piece`)).toHaveCount(1, { timeout: 3000 });
+      first = false;
+    }
+    await solve(page, q);
+    await page.getByRole('button', { name: /^(Next question|See results)$/ }).first().click();
+  }
+
+  await page.getByRole('button', { name: 'Practise mistakes only' }).click();
+  await expect(page.getByText('Question 1 of 1')).toBeVisible();
+  await expect(puzzle).toHaveAttribute('data-question', missedId);
+  await expect(puzzle.getByText('Solved.')).toHaveCount(0);
+  await expect(page.getByText('0 of 1 correct')).toBeVisible();
+  await solve(page, questions.get(missedId)!);
+  await page.getByRole('button', { name: 'See results' }).first().click();
+  await expect(page.getByText('1 / 1 correct on first try')).toBeVisible();
+});
