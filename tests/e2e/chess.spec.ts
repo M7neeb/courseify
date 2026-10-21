@@ -23,7 +23,7 @@ function uciLine(q: { fen: string; solution: string[] }): string[] {
 
 async function addChess(page: Page) {
   await page.goto('./#/home');
-  await page.getByRole('button', { name: 'Add to my courses' }).click();
+  await page.locator('.cf-catalog-item', { hasText: 'Chess: from improver to 1000' }).getByRole('button', { name: 'Add to my courses' }).click();
   await expect(page.getByRole('heading', { name: 'Unit 1: Stop losing pieces' })).toBeVisible();
 }
 

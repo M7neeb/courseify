@@ -10,6 +10,8 @@ import { dayKey, emptyDay, withActivity, type ActivityDay } from './activity.ts'
 import { applyReview } from './exercise.ts';
 import { applyCard } from './srs.ts';
 import { makeTrashed, purgeExpired } from './trash.ts';
+import { CATALOG } from './catalog.ts';
+import { validateCourse } from './validate.ts';
 import {
   MASTERY,
   applyOutcome,
@@ -99,12 +101,51 @@ export async function initApp(): Promise<void> {
     await loadAll();
     // Drop anything that has sat in the trash past the grace period.
     await purgeTrash();
+    await installCatalog();
   } catch {
     // Storage can be blocked (for example in some private browsing modes). The app still opens, empty.
     showToast('Could not open local storage. Courses and progress will not be saved.');
   }
   app.ready = true;
   app.persisted = await storage.requestPersistence();
+}
+
+// Catalog courses already put in the library once. A course the learner removes is not put back.
+const CATALOG_SEEN_KEY = 'course-app:catalogSeen';
+
+function catalogSeen(): string[] {
+  try {
+    const raw = JSON.parse(localStorage.getItem(CATALOG_SEEN_KEY) ?? '[]');
+    return Array.isArray(raw) ? raw.filter((id): id is string => typeof id === 'string') : [];
+  } catch {
+    return [];
+  }
+}
+
+/** Puts every course that comes with the app into the library the first time the app sees it. */
+async function installCatalog(): Promise<void> {
+  const seen = catalogSeen();
+  const before = seen.length;
+  for (const entry of CATALOG) {
+    if (seen.includes(entry.id)) continue;
+    if (!app.courses.some((c) => c.id === entry.id) && !app.trash[entry.id]) {
+      try {
+        const result = validateCourse(await entry.load());
+        if (!result.ok || !result.course) continue;
+        await saveCourse(result.course);
+      } catch {
+        // Offline before the course was ever cached: try again on the next start.
+        continue;
+      }
+    }
+    seen.push(entry.id);
+  }
+  if (seen.length === before) return;
+  try {
+    localStorage.setItem(CATALOG_SEEN_KEY, JSON.stringify(seen));
+  } catch {
+    // Storage blocked: the courses are installed; at worst a removed one comes back once.
+  }
 }
 
 async function loadAll(): Promise<void> {

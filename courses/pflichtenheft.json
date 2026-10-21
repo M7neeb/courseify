@@ -1,0 +1,2543 @@
+{
+  "schemaVersion": 2,
+  "id": "pflichtenheft",
+  "title": "Das Pflichtenheft verstehen",
+  "subject": "Softwareentwicklung",
+  "level": "Grundlagen",
+  "language": "de",
+  "languages": [
+    "de",
+    "en"
+  ],
+  "version": "1.0",
+  "meta": {
+    "tags": [
+      "software",
+      "pflichtenheft",
+      "anforderungen"
+    ],
+    "description": "Was ein Pflichtenheft ist, wie es sich vom Lastenheft unterscheidet, seine sieben Kapitel und wie man Anforderungen richtig zuordnet, Satz für Satz an einem echten Gesprächsprotokoll."
+  },
+  "modules": [
+    {
+      "id": "m1",
+      "title": "Fachbegriffe verstehen",
+      "summary": "Die wichtigsten Fachbegriffe verstehen: Software-Arten, Rollen und Verträge, Unternehmens-Organisation und Technik. Jeder Begriff mit Definition, Alltagsbeispiel und Bezug zum Projekt.",
+      "lessons": [
+        {
+          "id": "m1-l1",
+          "title": "Software, Kunden und Verträge",
+          "goal": "Du kannst Software-Arten sowie die Rollen Auftraggeber, Auftragnehmer, Freelancer und Consultant mit eigenen Worten erklären.",
+          "blocks": [
+            {
+              "id": "b-m1-l1-t1",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Individualsoftware ist Software, die speziell für einen einzigen Kunden entwickelt wird. Standardsoftware dagegen ist fertige Software für viele Nutzer, zum Beispiel Microsoft Excel. Im Projekt AmNetPrime entsteht Individualsoftware, weil ACI die Streaming-App nur für AmNetPrime baut."
+                },
+                "en": {
+                  "normal": "Custom software (Individualsoftware) is developed for one specific customer. Standard software is finished software for many users, for example Microsoft Excel. In the AmNetPrime project, custom software is created because ACI builds the streaming app only for AmNetPrime."
+                }
+              }
+            },
+            {
+              "id": "b-m1-l1-e1",
+              "type": "example",
+              "markdown": "**Alltagsbild:** Ein maßgeschneidertes Hemd (Individualsoftware) passt nur dir. Ein Hemd von der Stange in Größe M (Standardsoftware) passt vielen.\n\n**Im Projekt:** AmNetPrime will etwas Eigenes → Individualsoftware. Ein ERP-System wie SAP kaufen viele Firmen fertig → Standardsoftware."
+            },
+            {
+              "id": "b-m1-l1-t2",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Auftraggeber (AG) ist der Kunde, der etwas haben will; Auftragnehmer (AN) ist die Firma, die es baut. Akquise bedeutet, neue Kunden oder Aufträge zu gewinnen — ACI hat den AmNetPrime-Auftrag über Akquise bekommen. Ein Freelancer ist ein freiberuflicher Mitarbeiter ohne feste Anstellung; mit ihm wird oft ein Honorarvertrag geschlossen, also ein fester Betrag für eine bestimmte Leistung."
+                },
+                "en": {
+                  "normal": "The client (Auftraggeber) wants something; the contractor (Auftragnehmer) is the company that builds it. Akquise means winning new customers or orders — ACI got the AmNetPrime order through Akquise. A freelancer is a self-employed worker without a permanent job, usually paid via a fee contract (Honorarvertrag), a fixed amount for a specific service."
+                }
+              }
+            },
+            {
+              "id": "b-m1-l1-c1",
+              "type": "callout",
+              "style": "warning",
+              "markdown": "**Typischer Fehler:** Individualsoftware und Standardsoftware verwechseln, nur weil beide „Software“ heißen. Merksatz: *Individual* ist nur für **einen** Kunden gemacht, *Standard* ist für **viele** Kunden fertig."
+            },
+            {
+              "id": "b-m1-l1-q1",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "q-m1-l1-1",
+                  "kind": "multiple-choice",
+                  "prompt": "Was ist Individualsoftware?",
+                  "options": [
+                    "Software, die speziell für einen bestimmten Kunden entwickelt wird",
+                    "Fertige Software für viele Nutzer",
+                    "Kostenlose Software ohne Lizenz",
+                    "Software, die nur auf Windows läuft"
+                  ],
+                  "answer": 0,
+                  "explanation": "Individualsoftware wird nur für einen Auftraggeber gebaut; Standardsoftware ist für viele Nutzer fertig.",
+                  "hint": "Denk an das Wort „individuell“.",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was ist Individualsoftware?",
+                      "options": [
+                        "Software, die speziell für einen bestimmten Kunden entwickelt wird",
+                        "Fertige Software für viele Nutzer",
+                        "Kostenlose Software ohne Lizenz",
+                        "Software, die nur auf Windows läuft"
+                      ],
+                      "explanation": "Individualsoftware wird nur für einen Auftraggeber gebaut; Standardsoftware ist für viele Nutzer fertig.",
+                      "hint": "Denk an das Wort „individuell“.",
+                      "answer": 0
+                    },
+                    "en": {
+                      "prompt": "What is custom software (Individualsoftware)?",
+                      "options": [
+                        "Software developed specifically for one particular customer",
+                        "Ready-made software for many users",
+                        "Free software without a licence",
+                        "Software that only runs on Windows"
+                      ],
+                      "explanation": "Custom software is built for a single client; standard software is ready-made for many users.",
+                      "hint": "Think of the word 'individual'.",
+                      "answer": 0
+                    }
+                  }
+                },
+                {
+                  "id": "q-m1-l1-2",
+                  "kind": "true-false",
+                  "prompt": "Ein Honorarvertrag legt einen festen Betrag für eine bestimmte Dienstleistung fest.",
+                  "answer": true,
+                  "explanation": "Ein Honorarvertrag wird typisch zwischen Freelancer und Auftraggeber geschlossen und vergütet eine konkrete Leistung.",
+                  "hint": "Honorar heißt Bezahlung für eine Leistung.",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Ein Honorarvertrag legt einen festen Betrag für eine bestimmte Dienstleistung fest.",
+                      "explanation": "Ein Honorarvertrag wird typisch zwischen Freelancer und Auftraggeber geschlossen und vergütet eine konkrete Leistung.",
+                      "hint": "Honorar heißt Bezahlung für eine Leistung.",
+                      "answer": true
+                    },
+                    "en": {
+                      "prompt": "A fee contract (Honorarvertrag) fixes a specific amount for a specific service.",
+                      "explanation": "A fee contract is typically made between a freelancer and a client and pays for a concrete service.",
+                      "hint": "'Honorar' means payment for a service.",
+                      "answer": true
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "m1-l2",
+          "title": "Organisation und Unternehmens-Systeme",
+          "goal": "Du kannst Begriffe rund um Organisation und Unternehmenssoftware erklären: ERP, DMS, EDV, Datenbank, Organigramm, Ablauforganisation und Onboarding.",
+          "blocks": [
+            {
+              "id": "b-m1-l2-t1",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "ERP (Enterprise Resource Planning) ist Software zur Verwaltung und Steuerung aller Ressourcen eines Unternehmens, zum Beispiel Lager, Personal und Rechnungen. Ein Dokumentenmanagementsystem (DMS) speichert und verwaltet alle ein- und ausgehenden Dokumente elektronisch. EDV steht für Elektronische Datenverarbeitung und meint den ganzen Bereich der Computer-Technik im Büro; der EDV-Leiter ist der Chef der IT-Abteilung."
+                },
+                "en": {
+                  "normal": "ERP (Enterprise Resource Planning) is software for managing and controlling all of a company's resources, such as stock, staff and invoices. A document management system (DMS) stores and manages all incoming and outgoing documents electronically. EDV stands for electronic data processing and means the whole field of office computer technology; the EDV-Leiter is the head of the IT department."
+                }
+              }
+            },
+            {
+              "id": "b-m1-l2-t2",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Ein Organigramm ist eine grafische, hierarchische Darstellung der Firma, also wer über wem steht. Die Ablauforganisation beschreibt, wie Arbeitsabläufe im Unternehmen ablaufen, also die Reihenfolge der Tätigkeiten. Onboarding ist der Prozess, neue Mitarbeiter schnell einzuarbeiten und zu integrieren. Eine Datenbank verwaltet Daten geordnet; ein Datenbankmanagementsystem (DBMS) ist das Programm, das diese Datenbank steuert."
+                },
+                "en": {
+                  "normal": "An organigram is a graphical, hierarchical picture of the company — who reports to whom. Process organisation (Ablauforganisation) describes how work processes run, i.e. the order of the steps. Onboarding is the process of quickly training and integrating new employees. A database stores data in an ordered way; a database management system (DBMS) is the program that controls that database."
+                }
+              }
+            },
+            {
+              "id": "b-m1-l2-e1",
+              "type": "example",
+              "markdown": "**Alltagsbilder:** Organigramm = der Stammbaum der Firma. Ablauforganisation = die Reihenfolge in einem Rezept. Onboarding = die erste Woche im neuen Job. DBMS = der Bibliothekar, der die Bücher ein- und aussortiert."
+            },
+            {
+              "id": "b-m1-l2-v1",
+              "type": "video",
+              "searchTerm": "ERP Dokumentenmanagementsystem einfach erklärt",
+              "url": null,
+              "title": null
+            },
+            {
+              "id": "b-m1-l2-c1",
+              "type": "callout",
+              "style": "warning",
+              "markdown": "**Typischer Fehler:** Organigramm und Ablauforganisation verwechseln. Merksatz: Das Organigramm zeigt **wer** (Aufbau), die Ablauforganisation zeigt **wie** (Prozess)."
+            },
+            {
+              "id": "b-m1-l2-q1",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "q-m1-l2-1",
+                  "kind": "multiple-choice",
+                  "prompt": "Wofür steht die Abkürzung EDV?",
+                  "options": [
+                    "Elektronische Datenverarbeitung",
+                    "Erweiterte Datenverwaltung",
+                    "Enterprise Data Versioning",
+                    "Elektronisches Dokumentenverzeichnis"
+                  ],
+                  "answer": 0,
+                  "explanation": "EDV steht für Elektronische Datenverarbeitung, also den Computer-Einsatz im Büro.",
+                  "hint": "Das E steht für „Elektronisch“.",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Wofür steht die Abkürzung EDV?",
+                      "options": [
+                        "Elektronische Datenverarbeitung",
+                        "Erweiterte Datenverwaltung",
+                        "Enterprise Data Versioning",
+                        "Elektronisches Dokumentenverzeichnis"
+                      ],
+                      "explanation": "EDV steht für Elektronische Datenverarbeitung, also den Computer-Einsatz im Büro.",
+                      "hint": "Das E steht für „Elektronisch“.",
+                      "answer": 0
+                    },
+                    "en": {
+                      "prompt": "What does the abbreviation EDV stand for?",
+                      "options": [
+                        "Electronic data processing",
+                        "Extended data administration",
+                        "Enterprise Data Versioning",
+                        "Electronic document directory"
+                      ],
+                      "explanation": "EDV stands for electronic data processing, i.e. the use of computers in the office.",
+                      "hint": "The E stands for 'electronic'.",
+                      "answer": 0
+                    }
+                  }
+                },
+                {
+                  "id": "q-m1-l2-2",
+                  "kind": "true-false",
+                  "prompt": "Ein Organigramm zeigt die Reihenfolge der Arbeitsabläufe im Unternehmen.",
+                  "answer": false,
+                  "explanation": "Das Organigramm zeigt die Hierarchie (wer über wem); die Reihenfolge der Abläufe beschreibt die Ablauforganisation.",
+                  "hint": "Denk an das Wort „Hierarchie“.",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Ein Organigramm zeigt die Reihenfolge der Arbeitsabläufe im Unternehmen.",
+                      "explanation": "Das Organigramm zeigt die Hierarchie (wer über wem); die Reihenfolge der Abläufe beschreibt die Ablauforganisation.",
+                      "hint": "Denk an das Wort „Hierarchie“.",
+                      "answer": false
+                    },
+                    "en": {
+                      "prompt": "An organigram shows the order of work processes in a company.",
+                      "explanation": "The organigram shows the hierarchy (who reports to whom); the order of the steps is described by process organisation.",
+                      "hint": "Think of the word 'hierarchy'.",
+                      "answer": false
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "m1-l3",
+          "title": "Projekt- und IT-Begriffe",
+          "goal": "Du kannst Begriffe aus Entwicklung, Betrieb und Beratung erklären: Implementierung, Anwendungsentwicklung, Bug, Consultant, IEEE-Standard, Datenbankapplikation und Freeware.",
+          "blocks": [
+            {
+              "id": "b-m1-l3-t1",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Implementierung bedeutet die praktische Umsetzung eines geplanten Konzepts — in der IT: das Programm wird programmiert, eingerichtet und in Betrieb genommen. Anwendungsentwicklung ist die Planung, Erstellung, Prüfung und Weiterentwicklung von Software-Anwendungen. Ein Bug (Programmfehler) ist ein unerwarteter Fehler im Programm, der dafür sorgt, dass es sich falsch verhält oder abstürzt."
+                },
+                "en": {
+                  "normal": "Implementation means putting a planned concept into practice — in IT: the program is coded, set up and taken into operation. Application development is the planning, creation, testing and further development of software applications. A bug is an unexpected error in a program that makes it behave wrongly or crash."
+                }
+              }
+            },
+            {
+              "id": "b-m1-l3-t2",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Ein Consultant ist ein Berater, der ein Unternehmen zu verschiedenen Themen berät. Ein IEEE-Standard ist eine technische Norm, veröffentlicht vom Institute of Electrical and Electronics Engineers (IEEE). Eine Datenbankapplikation ist eine Anwendung, die Daten in einer Datenbank speichert, verwaltet und verarbeitet. Freeware ist Software, die man kostenlos nutzen darf."
+                },
+                "en": {
+                  "normal": "A consultant advises a company on various topics. An IEEE standard is a technical norm published by the Institute of Electrical and Electronics Engineers (IEEE). A database application is an application that stores, manages and processes data in a database. Freeware is software that may be used free of charge."
+                }
+              }
+            },
+            {
+              "id": "b-m1-l3-e1",
+              "type": "example",
+              "markdown": "**Alltagsbilder:** Implementierung = aus dem Bauplan wird wirklich ein Haus. Bug = ein Kratzer im Lack, der beim Fahren störrt und gemeldet wird. Consultant = der Facharzt, der einmal draufschaut und einen Rat gibt. IEEE-Standard = die DIN-Norm."
+            },
+            {
+              "id": "b-m1-l3-c1",
+              "type": "callout",
+              "style": "warning",
+              "markdown": "**Typischer Fehler:** Implementierung mit „Idee haben“ verwechseln. Implementieren heißt **umsetzen**, nicht planen. Der Plan ist das Pflichtenheft, die Implementierung kommt danach."
+            },
+            {
+              "id": "b-m1-l3-q1",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "q-m1-l3-1",
+                  "kind": "multiple-choice",
+                  "prompt": "Was bedeutet Implementierung?",
+                  "options": [
+                    "Die praktische Umsetzung eines geplanten Konzepts",
+                    "Das Sammeln von Kundenwünschen",
+                    "Das Schreiben eines Angebots",
+                    "Die Prüfung der Firmenbuchhaltung"
+                  ],
+                  "answer": 0,
+                  "explanation": "Implementierung ist die praktische Umsetzung — das Programmieren und Inbetriebnehmen.",
+                  "hint": "Das Wort kommt von „umsetzen“.",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was bedeutet Implementierung?",
+                      "options": [
+                        "Die praktische Umsetzung eines geplanten Konzepts",
+                        "Das Sammeln von Kundenwünschen",
+                        "Das Schreiben eines Angebots",
+                        "Die Prüfung der Firmenbuchhaltung"
+                      ],
+                      "explanation": "Implementierung ist die praktische Umsetzung — das Programmieren und Inbetriebnehmen.",
+                      "hint": "Das Wort kommt von „umsetzen“.",
+                      "answer": 0
+                    },
+                    "en": {
+                      "prompt": "What does implementation mean?",
+                      "options": [
+                        "Putting a planned concept into practice",
+                        "Collecting customer wishes",
+                        "Writing a quote",
+                        "Checking the company accounts"
+                      ],
+                      "explanation": "Implementation is putting something into practice — coding and going live.",
+                      "hint": "The word comes from 'to put into practice'.",
+                      "answer": 0
+                    }
+                  }
+                },
+                {
+                  "id": "q-m1-l3-2",
+                  "kind": "true-false",
+                  "prompt": "Ein Bug ist ein unerwarteter Fehler in einem Programm, der zu falschem Verhalten führen kann.",
+                  "answer": true,
+                  "explanation": "Ein Bug ist ein Programmfehler, durch den sich das Programm falsch verhält oder abstürzt.",
+                  "hint": "Bug heißt übersetzt „Käfer“ und steht für einen Fehler.",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Ein Bug ist ein unerwarteter Fehler in einem Programm, der zu falschem Verhalten führen kann.",
+                      "explanation": "Ein Bug ist ein Programmfehler, durch den sich das Programm falsch verhält oder abstürzt.",
+                      "hint": "Bug heißt übersetzt „Käfer“ und steht für einen Fehler.",
+                      "answer": true
+                    },
+                    "en": {
+                      "prompt": "A bug is an unexpected error in a program that can lead to wrong behaviour.",
+                      "explanation": "A bug is a program error that makes the program behave wrongly or crash.",
+                      "hint": "'Bug' literally means 'beetle' and stands for an error.",
+                      "answer": true
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "test": {
+        "id": "m1-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "id": "t-m1-1",
+            "kind": "multiple-choice",
+            "prompt": "Welche Aussage beschreibt Standardsoftware?",
+            "options": [
+              "Sie ist für viele Kunden fertig entwickelt",
+              "Sie wird nur für einen Kunden gebaut",
+              "Sie ist immer kostenlos",
+              "Sie hat immer einen Quellcode zum Ändern"
+            ],
+            "answer": 0,
+            "explanation": "Standardsoftware ist für viele Nutzer fertig; Individualsoftware wird für einen Kunden gebaut.",
+            "hint": "Standard heißt „für alle gleich“.",
+            "i18n": {
+              "de": {
+                "prompt": "Welche Aussage beschreibt Standardsoftware?",
+                "options": [
+                  "Sie ist für viele Kunden fertig entwickelt",
+                  "Sie wird nur für einen Kunden gebaut",
+                  "Sie ist immer kostenlos",
+                  "Sie hat immer einen Quellcode zum Ändern"
+                ],
+                "explanation": "Standardsoftware ist für viele Nutzer fertig; Individualsoftware wird für einen Kunden gebaut.",
+                "hint": "Standard heißt „für alle gleich“.",
+                "answer": 0
+              },
+              "en": {
+                "prompt": "Which statement describes standard software?",
+                "options": [
+                  "It is ready-made for many customers",
+                  "It is built for only one customer",
+                  "It is always free of charge",
+                  "It always has editable source code"
+                ],
+                "explanation": "Standard software is ready-made for many users; custom software is built for one customer.",
+                "hint": "'Standard' means 'the same for everyone'.",
+                "answer": 0
+              }
+            }
+          },
+          {
+            "id": "t-m1-2",
+            "kind": "multiple-choice",
+            "prompt": "Wer ist der Auftragnehmer?",
+            "options": [
+              "Die Firma, die die Software entwickelt",
+              "Der Kunde, der die Software bestellt",
+              "Der Lieferant der Computer",
+              "Die Krankenkasse"
+            ],
+            "answer": 0,
+            "explanation": "Der Auftragnehmer (AN) entwickelt die Software; der Auftraggeber (AG) bestellt sie.",
+            "hint": "Nehme den Auftrag an, dann bist du …",
+            "i18n": {
+              "de": {
+                "prompt": "Wer ist der Auftragnehmer?",
+                "options": [
+                  "Die Firma, die die Software entwickelt",
+                  "Der Kunde, der die Software bestellt",
+                  "Der Lieferant der Computer",
+                  "Die Krankenkasse"
+                ],
+                "explanation": "Der Auftragnehmer (AN) entwickelt die Software; der Auftraggeber (AG) bestellt sie.",
+                "hint": "Nehme den Auftrag an, dann bist du …",
+                "answer": 0
+              },
+              "en": {
+                "prompt": "Who is the contractor (Auftragnehmer)?",
+                "options": [
+                  "The company that develops the software",
+                  "The customer who orders the software",
+                  "The supplier of the computers",
+                  "The health insurance"
+                ],
+                "explanation": "The contractor develops the software; the client orders it.",
+                "hint": "If you accept the order, you are the …",
+                "answer": 0
+              }
+            }
+          },
+          {
+            "id": "t-m1-3",
+            "kind": "true-false",
+            "prompt": "Akquise bedeutet die Gewinnung neuer Kunden oder Aufträge.",
+            "answer": true,
+            "explanation": "Akquise ist die Gewinnung neuer Kunden oder Aufträge — genau so kam ACI an AmNetPrime.",
+            "hint": "Denk an „Kunden gewinnen“.",
+            "i18n": {
+              "de": {
+                "prompt": "Akquise bedeutet die Gewinnung neuer Kunden oder Aufträge.",
+                "explanation": "Akquise ist die Gewinnung neuer Kunden oder Aufträge — genau so kam ACI an AmNetPrime.",
+                "hint": "Denk an „Kunden gewinnen“.",
+                "answer": true
+              },
+              "en": {
+                "prompt": "Akquise means winning new customers or orders.",
+                "explanation": "Akquise is acquiring new customers or orders — this is how ACI got AmNetPrime.",
+                "hint": "Think of 'winning customers'.",
+                "answer": true
+              }
+            }
+          },
+          {
+            "id": "t-m1-4",
+            "kind": "multiple-choice",
+            "prompt": "Welcher Begriff bedeutet „Software zur Verwaltung aller Ressourcen eines Unternehmens“?",
+            "options": [
+              "ERP-System",
+              "DMS",
+              "EDV",
+              "Freeware"
+            ],
+            "answer": 0,
+            "explanation": "ERP (Enterprise Resource Planning) verwaltet und steuert alle Ressourcen eines Unternehmens.",
+            "hint": "Die Abkürzung enthält das Wort „Enterprise“.",
+            "i18n": {
+              "de": {
+                "prompt": "Welcher Begriff bedeutet „Software zur Verwaltung aller Ressourcen eines Unternehmens“?",
+                "options": [
+                  "ERP-System",
+                  "DMS",
+                  "EDV",
+                  "Freeware"
+                ],
+                "explanation": "ERP (Enterprise Resource Planning) verwaltet und steuert alle Ressourcen eines Unternehmens.",
+                "hint": "Die Abkürzung enthält das Wort „Enterprise“.",
+                "answer": 0
+              },
+              "en": {
+                "prompt": "Which term means 'software for managing all of a company's resources'?",
+                "options": [
+                  "ERP system",
+                  "DMS",
+                  "EDV",
+                  "Freeware"
+                ],
+                "explanation": "ERP (Enterprise Resource Planning) manages and controls all of a company's resources.",
+                "hint": "The abbreviation contains the word 'Enterprise'.",
+                "answer": 0
+              }
+            }
+          },
+          {
+            "id": "t-m1-5",
+            "kind": "fill-blank",
+            "prompt": "Ein ____________ ist eine grafische, hierarchische Darstellung eines Unternehmens.",
+            "answer": "Organigramm",
+            "explanation": "Das Organigramm zeigt grafisch und hierarchisch, wie ein Unternehmen aufgebaut ist.",
+            "hint": "Es beginnt mit „Orga…“.",
+            "i18n": {
+              "de": {
+                "prompt": "Ein ____________ ist eine grafische, hierarchische Darstellung eines Unternehmens.",
+                "explanation": "Das Organigramm zeigt grafisch und hierarchisch, wie ein Unternehmen aufgebaut ist.",
+                "hint": "Es beginnt mit „Orga…“.",
+                "answer": [
+                  "Organigramm"
+                ]
+              },
+              "en": {
+                "prompt": "An ____________ is a graphical, hierarchical representation of a company.",
+                "explanation": "The organigram shows graphically and hierarchically how a company is structured.",
+                "hint": "The German word starts with 'Orga…'.",
+                "answer": [
+                  "Organigramm",
+                  "organigram"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "m2",
+      "title": "Aufgabe und Aufbau des Pflichtenhefts",
+      "summary": "Was ein Pflichtenheft ist und wofür es dient, wie es sich vom Lastenheft unterscheidet und aus welchen sieben Kapiteln es besteht.",
+      "lessons": [
+        {
+          "id": "m2-l1",
+          "title": "Was ist ein Pflichtenheft und wofür dient es?",
+          "goal": "Du kannst die Aufgabe eines Pflichtenhefts in eigenen Worten beschreiben.",
+          "blocks": [
+            {
+              "id": "b-m2-l1-t1",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Ein Pflichtenheft ist ein zentrales Dokument in der Softwareentwicklung. Es beschreibt, was das System leisten soll und wie der Auftragnehmer diese Anforderungen umsetzen will. Es entsteht aus dem Lastenheft des Kunden."
+                },
+                "en": {
+                  "normal": "A Pflichtenheft (requirements specification) is a central document in software development. It describes what the system must do and how the contractor intends to implement those requirements. It grows out of the client's Lastenheft."
+                }
+              }
+            },
+            {
+              "id": "b-m2-l1-t2",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Das Pflichtenheft ist eine verbindliche Vereinbarung zwischen Auftraggeber und Auftragnehmer. Es legt Anforderungen präzise fest, definiert Schnittstellen und Rahmenbedingungen und dient als Grundlage für die Abnahme. Dadurch werden Missverständnisse und spätere Streitigkeiten vermieden."
+                },
+                "en": {
+                  "normal": "The Pflichtenheft is a binding agreement between client and contractor. It fixes requirements precisely, defines interfaces and framework conditions, and serves as the basis for acceptance (Abnahme). This prevents misunderstandings and later disputes."
+                }
+              }
+            },
+            {
+              "id": "b-m2-l1-e1",
+              "type": "example",
+              "markdown": "**Alltagsbild:** Beim Küchenkauf ist das Lastenheft dein Wunsch („ich will eine helle Küche mit Insel“), das Pflichtenheft der detaillierte Plan mit Maßen, Geräten und Liefertermin. Bei der Übergabe hältst du den Plan in der Hand und prüfst Punkt für Punkt."
+            },
+            {
+              "id": "b-m2-l1-v1",
+              "type": "video",
+              "searchTerm": "Pflichtenheft einfach erklärt Lastenheft Unterschied",
+              "url": null,
+              "title": null
+            },
+            {
+              "id": "b-m2-l1-c1",
+              "type": "callout",
+              "style": "warning",
+              "markdown": "**Typischer Fehler:** Denken, das Pflichtenheft sei nur eine Wunschliste. Es ist ein **Vertragsdokument**, an dem am Ende die Fertigstellung gemessen wird."
+            },
+            {
+              "id": "b-m2-l1-q1",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "q-m2-l1-1",
+                  "kind": "multiple-choice",
+                  "prompt": "Was ist die Hauptaufgabe eines Pflichtenhefts?",
+                  "options": [
+                    "Es beschreibt verbindlich, was das System leisten soll und wie es umgesetzt wird",
+                    "Es sammelt nur die Wünsche des Kunden",
+                    "Es ist die Rechnung für das Projekt",
+                    "Es ersetzt den Arbeitsvertrag"
+                  ],
+                  "answer": 0,
+                  "explanation": "Das Pflichtenheft hält verbindlich fest, was das System leisten soll und wie der Auftragnehmer es umsetzt.",
+                  "hint": "Das Wort „Pflicht“ steckt im Namen.",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was ist die Hauptaufgabe eines Pflichtenhefts?",
+                      "options": [
+                        "Es beschreibt verbindlich, was das System leisten soll und wie es umgesetzt wird",
+                        "Es sammelt nur die Wünsche des Kunden",
+                        "Es ist die Rechnung für das Projekt",
+                        "Es ersetzt den Arbeitsvertrag"
+                      ],
+                      "explanation": "Das Pflichtenheft hält verbindlich fest, was das System leisten soll und wie der Auftragnehmer es umsetzt.",
+                      "hint": "Das Wort „Pflicht“ steckt im Namen.",
+                      "answer": 0
+                    },
+                    "en": {
+                      "prompt": "What is the main purpose of a Pflichtenheft?",
+                      "options": [
+                        "It bindingly states what the system must do and how it will be implemented",
+                        "It only collects the customer's wishes",
+                        "It is the invoice for the project",
+                        "It replaces the employment contract"
+                      ],
+                      "explanation": "The Pflichtenheft bindingly states what the system must do and how the contractor will implement it.",
+                      "hint": "The German word 'Pflicht' means 'duty'.",
+                      "answer": 0
+                    }
+                  }
+                },
+                {
+                  "id": "q-m2-l1-2",
+                  "kind": "true-false",
+                  "prompt": "Das Pflichtenheft dient als Grundlage für die Abnahme des Systems.",
+                  "answer": true,
+                  "explanation": "Bei der Abnahme wird geprüft, ob das gelieferte System das Pflichtenheft erfüllt.",
+                  "hint": "Am Ende wird geprüft und abgenommen.",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Das Pflichtenheft dient als Grundlage für die Abnahme des Systems.",
+                      "explanation": "Bei der Abnahme wird geprüft, ob das gelieferte System das Pflichtenheft erfüllt.",
+                      "hint": "Am Ende wird geprüft und abgenommen.",
+                      "answer": true
+                    },
+                    "en": {
+                      "prompt": "The Pflichtenheft serves as the basis for the acceptance of the system.",
+                      "explanation": "At acceptance it is checked whether the delivered system meets the Pflichtenheft.",
+                      "hint": "At the end it is checked and accepted.",
+                      "answer": true
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "m2-l2",
+          "title": "Lastenheft und Pflichtenheft unterscheiden",
+          "goal": "Du kannst die beiden Dokumente klar unterscheiden und sagen, wer sie schreibt.",
+          "blocks": [
+            {
+              "id": "b-m2-l2-t1",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Das Lastenheft schreibt der Auftraggeber. Es hält fest, was der Kunde will — die Wünsche und Anforderungen, aber noch ohne technische Lösung. Das Pflichtenheft schreibt der Auftragnehmer. Es beschreibt konkret, wie er diese Wünsche technisch umsetzt."
+                },
+                "en": {
+                  "normal": "The Lastenheft is written by the client. It records what the customer wants — the wishes and requirements, but without a technical solution yet. The Pflichtenheft is written by the contractor. It describes concretely how those wishes will be implemented technically."
+                }
+              }
+            },
+            {
+              "id": "b-m2-l2-t2",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Kurzformel: Lastenheft = Was will der Kunde? Pflichtenheft = Wie setzt der Auftragnehmer es um? Das Pflichtenheft ist die Antwort des AN auf das Lastenheft des AG."
+                },
+                "en": {
+                  "normal": "Short formula: Lastenheft = what does the client want? Pflichtenheft = how does the contractor implement it? The Pflichtenheft is the contractor's answer to the client's Lastenheft."
+                }
+              }
+            },
+            {
+              "id": "b-m2-l2-e1",
+              "type": "example",
+              "markdown": "**Beispiel AmNetPrime:**\nLastenheft: „Wir wollen Serien und Filme in UHD streamen.“\nPflichtenheft: „Wir setzen HLS-Streaming in 3840×2160 ein, auf Smart-TV, Smartphone und Browser, mit diesen Abo-Modellen …“"
+            },
+            {
+              "id": "b-m2-l2-c1",
+              "type": "callout",
+              "style": "warning",
+              "markdown": "**Typischer Fehler:** Beide vertauschen. Merksatz: *Lasten* = die Last des **Kunden** (Wunsch). *Pflicht* = die Pflicht des **Entwicklers** (Umsetzung)."
+            },
+            {
+              "id": "b-m2-l2-q1",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "q-m2-l2-1",
+                  "kind": "multiple-choice",
+                  "prompt": "Wer schreibt in der Regel das Lastenheft?",
+                  "options": [
+                    "Der Auftraggeber",
+                    "Der Auftragnehmer",
+                    "Ein Consultant",
+                    "Der Freelancer"
+                  ],
+                  "answer": 0,
+                  "explanation": "Das Lastenheft kommt vom Auftraggeber und enthält seine Wünsche.",
+                  "hint": "Wer will etwas haben?",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Wer schreibt in der Regel das Lastenheft?",
+                      "options": [
+                        "Der Auftraggeber",
+                        "Der Auftragnehmer",
+                        "Ein Consultant",
+                        "Der Freelancer"
+                      ],
+                      "explanation": "Das Lastenheft kommt vom Auftraggeber und enthält seine Wünsche.",
+                      "hint": "Wer will etwas haben?",
+                      "answer": 0
+                    },
+                    "en": {
+                      "prompt": "Who normally writes the Lastenheft?",
+                      "options": [
+                        "The client",
+                        "The contractor",
+                        "A consultant",
+                        "The freelancer"
+                      ],
+                      "explanation": "The Lastenheft comes from the client and contains their wishes.",
+                      "hint": "Who wants to receive something?",
+                      "answer": 0
+                    }
+                  }
+                },
+                {
+                  "id": "q-m2-l2-2",
+                  "kind": "multiple-choice",
+                  "prompt": "Was beschreibt das Pflichtenheft?",
+                  "options": [
+                    "Wie der Auftragnehmer die Wünsche umsetzt",
+                    "Was der Kunde sich wünscht",
+                    "Wie viel Gewinn gemacht wird",
+                    "Wer die Firma leitet"
+                  ],
+                  "answer": 0,
+                  "explanation": "Das Pflichtenheft beschreibt die konkrete technische Umsetzung durch den Auftragnehmer.",
+                  "hint": "Denk an die Kurzformel zum „Wie“.",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was beschreibt das Pflichtenheft?",
+                      "options": [
+                        "Wie der Auftragnehmer die Wünsche umsetzt",
+                        "Was der Kunde sich wünscht",
+                        "Wie viel Gewinn gemacht wird",
+                        "Wer die Firma leitet"
+                      ],
+                      "explanation": "Das Pflichtenheft beschreibt die konkrete technische Umsetzung durch den Auftragnehmer.",
+                      "hint": "Denk an die Kurzformel zum „Wie“.",
+                      "answer": 0
+                    },
+                    "en": {
+                      "prompt": "What does the Pflichtenheft describe?",
+                      "options": [
+                        "How the contractor implements the wishes",
+                        "What the customer wishes for",
+                        "How much profit is made",
+                        "Who leads the company"
+                      ],
+                      "explanation": "The Pflichtenheft describes the concrete technical implementation by the contractor.",
+                      "hint": "Think of the short formula for 'how'.",
+                      "answer": 0
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "m2-l3",
+          "title": "Die sieben Kapitel des Pflichtenhefts",
+          "goal": "Du kennst die sieben Kapitel und weißt, was in jedes hineingehört.",
+          "blocks": [
+            {
+              "id": "b-m2-l3-t1",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Ein Pflichtenheft hat diese sieben Kapitel: 1. Ausgangssituation und Zielsetzung, 2. Funktionale Anforderungen, 3. Nicht-Funktionale Anforderungen, 4. Lebenszyklus des Gesamtsystems, 5. Schnittstellenübersicht, 6. Lieferumfang, 7. Abnahmekriterien."
+                },
+                "en": {
+                  "normal": "A Pflichtenheft has these seven chapters: 1. Initial situation and objectives, 2. Functional requirements, 3. Non-functional requirements, 4. Lifecycle of the overall system, 5. Interface overview, 6. Scope of delivery, 7. Acceptance criteria."
+                }
+              }
+            },
+            {
+              "id": "b-m2-l3-t2",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Ausgangssituation und Zielsetzung: Wie ist es heute und was soll erreicht werden? Beispiel: „Termine werden heute auf einer Magnettafel verwaltet. Ziel: zentrale Verwaltung am PC.“ Funktionale Anforderungen: Was muss das System tun können? Beispiel: „Freie Termine anzeigen und reservieren.“ Nicht-Funktionale Anforderungen: Wie soll es sein (Qualität, Plattform, Sicherheit)? Beispiel: „läuft unter Windows 10 und macOS, leicht bedienbar.“"
+                },
+                "en": {
+                  "normal": "Initial situation and objectives: How is it today and what should be achieved? Example: 'Appointments are managed on a magnetic board today. Goal: central management on a PC.' Functional requirements: What must the system be able to do? Example: 'Show free appointments and reserve them.' Non-functional requirements: How should it be (quality, platform, security)? Example: 'runs on Windows 10 and macOS, easy to use.'"
+                }
+              }
+            },
+            {
+              "id": "b-m2-l3-t3",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Lebenszyklus des Gesamtsystems: Lieferung, Installation, Inbetriebnahme und Zeitplan. Beispiel: „Auslieferung und Start am 1. Dezember.“ Schnittstellenübersicht: Verbindungen zu anderen Systemen oder Datenbanken. Beispiel: „Anbindung an die Kundendatenbank.“ Lieferumfang: Was bekommt der Kunde physisch? Beispiel: „Programm, Installation, Handbuch.“ Abnahmekriterien: Wann gilt der Auftrag als erfüllt? Beispiel: „Lieferumfang erfüllt und zwei Wochen ohne schwere Fehler.“"
+                },
+                "en": {
+                  "normal": "Lifecycle of the overall system: delivery, installation, go-live and schedule. Example: 'Delivery and start on 1 December.' Interface overview: connections to other systems or databases. Example: 'Connection to the customer database.' Scope of delivery: what does the customer physically receive? Example: 'program, installation, manual.' Acceptance criteria: when is the order fulfilled? Example: 'scope of delivery met and two weeks without serious errors.'"
+                }
+              }
+            },
+            {
+              "id": "b-m2-l3-e1",
+              "type": "example",
+              "markdown": "**Merkhilfe als Alltagsbild:** Das Pflichtenheft ist wie ein Umzug.\nAusgangssituation = alte Wohnung. Funktionale Anforderungen = was mitkommt. Nicht-funktional = wie (schnell, sicher). Lebenszyklus = der Umzugstermin. Schnittstellen = Strom- und Wasseranschluss. Lieferumfang = die Kartons. Abnahmekriterien = die Übergabe mit Protokoll."
+            },
+            {
+              "id": "b-m2-l3-c1",
+              "type": "callout",
+              "style": "warning",
+              "markdown": "**Typischer Fehler:** Alles in „Funktionale Anforderungen“ packen. Qualität, Plattform und Sicherheit gehören in die **nicht-funktionalen** Anforderungen."
+            },
+            {
+              "id": "b-m2-l3-q1",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "q-m2-l3-1",
+                  "kind": "multiple-choice",
+                  "prompt": "In welches Kapitel gehört „Das System soll leicht bedienbar sein“?",
+                  "options": [
+                    "Nicht-Funktionale Anforderungen",
+                    "Funktionale Anforderungen",
+                    "Lieferumfang",
+                    "Schnittstellenübersicht"
+                  ],
+                  "answer": 0,
+                  "explanation": "Leichte Bedienbarkeit ist eine Eigenschaft (Usability) und damit nicht-funktional.",
+                  "hint": "Beschreibt der Satz eine Tätigkeit oder eine Eigenschaft?",
+                  "i18n": {
+                    "de": {
+                      "prompt": "In welches Kapitel gehört „Das System soll leicht bedienbar sein“?",
+                      "options": [
+                        "Nicht-Funktionale Anforderungen",
+                        "Funktionale Anforderungen",
+                        "Lieferumfang",
+                        "Schnittstellenübersicht"
+                      ],
+                      "explanation": "Leichte Bedienbarkeit ist eine Eigenschaft (Usability) und damit nicht-funktional.",
+                      "hint": "Beschreibt der Satz eine Tätigkeit oder eine Eigenschaft?",
+                      "answer": 0
+                    },
+                    "en": {
+                      "prompt": "Which chapter does 'The system should be easy to use' belong to?",
+                      "options": [
+                        "Non-functional requirements",
+                        "Functional requirements",
+                        "Scope of delivery",
+                        "Interface overview"
+                      ],
+                      "explanation": "Ease of use is a property (usability) and therefore non-functional.",
+                      "hint": "Does the sentence describe an action or a property?",
+                      "answer": 0
+                    }
+                  }
+                },
+                {
+                  "id": "q-m2-l3-2",
+                  "kind": "multiple-choice",
+                  "prompt": "Was gehört in den Lieferumfang?",
+                  "options": [
+                    "Programm, Installation und Handbuch",
+                    "Anzeige und Reservierung von Terminen",
+                    "Windows 10 und macOS",
+                    "Keine Kat-3-Fehler in zwei Wochen"
+                  ],
+                  "answer": 0,
+                  "explanation": "Der Lieferumfang listet, was der Kunde physisch erhält — z. B. Programm, Installation und Handbuch.",
+                  "hint": "Was bekommt der Kunde tatsächlich in die Hand?",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was gehört in den Lieferumfang?",
+                      "options": [
+                        "Programm, Installation und Handbuch",
+                        "Anzeige und Reservierung von Terminen",
+                        "Windows 10 und macOS",
+                        "Keine Kat-3-Fehler in zwei Wochen"
+                      ],
+                      "explanation": "Der Lieferumfang listet, was der Kunde physisch erhält — z. B. Programm, Installation und Handbuch.",
+                      "hint": "Was bekommt der Kunde tatsächlich in die Hand?",
+                      "answer": 0
+                    },
+                    "en": {
+                      "prompt": "What belongs in the scope of delivery?",
+                      "options": [
+                        "Program, installation and manual",
+                        "Displaying and reserving appointments",
+                        "Windows 10 and macOS",
+                        "No category-3 errors in two weeks"
+                      ],
+                      "explanation": "The scope of delivery lists what the customer physically receives — e.g. program, installation and manual.",
+                      "hint": "What does the customer actually get in hand?",
+                      "answer": 0
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "test": {
+        "id": "m2-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "id": "t-m2-1",
+            "kind": "multiple-choice",
+            "prompt": "Wie viele Kapitel hat das Pflichtenheft in diesem Kurs?",
+            "options": [
+              "7",
+              "3",
+              "12",
+              "5"
+            ],
+            "answer": 0,
+            "explanation": "Es gibt sieben Kapitel, von der Ausgangssituation bis zu den Abnahmekriterien.",
+            "hint": "Zähle die Kapitel aus der Liste der Lektion.",
+            "i18n": {
+              "de": {
+                "prompt": "Wie viele Kapitel hat das Pflichtenheft in diesem Kurs?",
+                "options": [
+                  "7",
+                  "3",
+                  "12",
+                  "5"
+                ],
+                "explanation": "Es gibt sieben Kapitel, von der Ausgangssituation bis zu den Abnahmekriterien.",
+                "hint": "Zähle die Kapitel aus der Liste der Lektion.",
+                "answer": 0
+              },
+              "en": {
+                "prompt": "How many chapters does the Pflichtenheft have in this course?",
+                "options": [
+                  "7",
+                  "3",
+                  "12",
+                  "5"
+                ],
+                "explanation": "There are seven chapters, from the initial situation to the acceptance criteria.",
+                "hint": "Count the chapters from the lesson list.",
+                "answer": 0
+              }
+            }
+          },
+          {
+            "id": "t-m2-2",
+            "kind": "true-false",
+            "prompt": "Das Pflichtenheft ist eine verbindliche Vereinbarung zwischen Auftraggeber und Auftragnehmer.",
+            "answer": true,
+            "explanation": "Es ist verbindlich und dient später als Grundlage für die Abnahme.",
+            "hint": "Das Wort „verbindlich“ ist der Schlüssel.",
+            "i18n": {
+              "de": {
+                "prompt": "Das Pflichtenheft ist eine verbindliche Vereinbarung zwischen Auftraggeber und Auftragnehmer.",
+                "explanation": "Es ist verbindlich und dient später als Grundlage für die Abnahme.",
+                "hint": "Das Wort „verbindlich“ ist der Schlüssel.",
+                "answer": true
+              },
+              "en": {
+                "prompt": "The Pflichtenheft is a binding agreement between client and contractor.",
+                "explanation": "It is binding and later serves as the basis for acceptance.",
+                "hint": "The word 'binding' is the key.",
+                "answer": true
+              }
+            }
+          },
+          {
+            "id": "t-m2-3",
+            "kind": "multiple-choice",
+            "prompt": "Welches Dokument beschreibt die technische Umsetzung?",
+            "options": [
+              "Pflichtenheft",
+              "Lastenheft",
+              "Organigramm",
+              "Abnahmeprotokoll"
+            ],
+            "answer": 0,
+            "explanation": "Das Pflichtenheft beschreibt, wie die Wünsche technisch umgesetzt werden.",
+            "hint": "Denk an die Kurzformel zum „Wie“.",
+            "i18n": {
+              "de": {
+                "prompt": "Welches Dokument beschreibt die technische Umsetzung?",
+                "options": [
+                  "Pflichtenheft",
+                  "Lastenheft",
+                  "Organigramm",
+                  "Abnahmeprotokoll"
+                ],
+                "explanation": "Das Pflichtenheft beschreibt, wie die Wünsche technisch umgesetzt werden.",
+                "hint": "Denk an die Kurzformel zum „Wie“.",
+                "answer": 0
+              },
+              "en": {
+                "prompt": "Which document describes the technical implementation?",
+                "options": [
+                  "Pflichtenheft",
+                  "Lastenheft",
+                  "Organigramm",
+                  "Acceptance record"
+                ],
+                "explanation": "The Pflichtenheft describes how the wishes are implemented technically.",
+                "hint": "Think of the short formula for 'how'.",
+                "answer": 0
+              }
+            }
+          },
+          {
+            "id": "t-m2-4",
+            "kind": "multiple-choice",
+            "prompt": "Welches Kapitel enthält Angaben zu Liefertermin und Inbetriebnahme?",
+            "options": [
+              "Lebenszyklus des Gesamtsystems",
+              "Funktionale Anforderungen",
+              "Lieferumfang",
+              "Abnahmekriterien"
+            ],
+            "answer": 0,
+            "explanation": "Der Lebenszyklus des Gesamtsystems behandelt Lieferung, Installation, Inbetriebnahme und Zeitplan.",
+            "hint": "Es geht um Termine und Ablauf, nicht um Funktionen.",
+            "i18n": {
+              "de": {
+                "prompt": "Welches Kapitel enthält Angaben zu Liefertermin und Inbetriebnahme?",
+                "options": [
+                  "Lebenszyklus des Gesamtsystems",
+                  "Funktionale Anforderungen",
+                  "Lieferumfang",
+                  "Abnahmekriterien"
+                ],
+                "explanation": "Der Lebenszyklus des Gesamtsystems behandelt Lieferung, Installation, Inbetriebnahme und Zeitplan.",
+                "hint": "Es geht um Termine und Ablauf, nicht um Funktionen.",
+                "answer": 0
+              },
+              "en": {
+                "prompt": "Which chapter contains details about the delivery date and go-live?",
+                "options": [
+                  "Lifecycle of the overall system",
+                  "Functional requirements",
+                  "Scope of delivery",
+                  "Acceptance criteria"
+                ],
+                "explanation": "The lifecycle chapter covers delivery, installation, go-live and schedule.",
+                "hint": "It is about dates and sequence, not features.",
+                "answer": 0
+              }
+            }
+          },
+          {
+            "id": "t-m2-5",
+            "kind": "multiple-choice",
+            "prompt": "Welche zwei Aufgaben hat das Pflichtenheft?",
+            "answer": 0,
+            "explanation": "Zum Beispiel: Anforderungen präzise festlegen und als Grundlage für die Abnahme dienen.",
+            "hint": "Denke an Festlegen und an Prüfen am Ende.",
+            "i18n": {
+              "de": {
+                "prompt": "Welche zwei Aufgaben hat das Pflichtenheft?",
+                "explanation": "Zum Beispiel: Anforderungen präzise festlegen und als Grundlage für die Abnahme dienen.",
+                "hint": "Denke an Festlegen und an Prüfen am Ende.",
+                "options": [
+                  "Anforderungen präzise festlegen und Grundlage für die Abnahme sein",
+                  "Den Programmcode automatisch schreiben",
+                  "Die Mitarbeiter des Auftraggebers einstellen",
+                  "Die Hardware des Kunden reparieren"
+                ],
+                "answer": 0
+              },
+              "en": {
+                "prompt": "Which two purposes does the Pflichtenheft serve?",
+                "explanation": "For example: fixing requirements precisely and serving as the basis for acceptance.",
+                "hint": "Think of fixing requirements and of final checking.",
+                "options": [
+                  "Fixing the requirements precisely and being the basis for acceptance",
+                  "Writing the program code automatically",
+                  "Hiring the client's employees",
+                  "Repairing the customer's hardware"
+                ],
+                "answer": 0
+              }
+            },
+            "options": [
+              "Anforderungen präzise festlegen und Grundlage für die Abnahme sein",
+              "Den Programmcode automatisch schreiben",
+              "Die Mitarbeiter des Auftraggebers einstellen",
+              "Die Hardware des Kunden reparieren"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "m3",
+      "title": "Anforderungen richtig zuordnen",
+      "summary": "Die Entscheidungsregeln für jedes Kapitel und ihre Anwendung auf das Bike4All-Gesprächsprotokoll, inklusive einer Musterlösung.",
+      "lessons": [
+        {
+          "id": "m3-l1",
+          "title": "Die Entscheidungsregeln",
+          "goal": "Du kannst für jeden Satz entscheiden, in welches Kapitel er gehört.",
+          "blocks": [
+            {
+              "id": "b-m3-l1-t1",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Frage zuerst: Was sagt der Satz eigentlich aus? Die wichtigste Entscheidung ist: Beschreibt er eine Tätigkeit des Systems oder eine Eigenschaft des Systems? Eine Tätigkeit (etwas tun) gehört zu den funktionalen Anforderungen. Eine Eigenschaft (wie schnell, wie sicher, auf welcher Plattform, wie leicht bedienbar) gehört zu den nicht-funktionalen Anforderungen."
+                },
+                "en": {
+                  "normal": "First ask: what does the sentence actually state? The key decision is whether it describes an action of the system or a property of the system. An action (doing something) belongs to functional requirements. A property (how fast, how secure, on which platform, how easy to use) belongs to non-functional requirements."
+                }
+              }
+            },
+            {
+              "id": "b-m3-l1-t2",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Die Regeln für die restlichen Kapitel: Geht es um Lieferung, Installation, Inbetriebnahme oder Zeitplan, gehört es zum Lebenszyklus des Gesamtsystems. Geht es um die Verbindung zu einem anderen System oder einer Datenbank, gehört es zur Schnittstellenübersicht. Geht es darum, was der Kunde physisch bekommt (Programm, Handbuch), gehört es zum Lieferumfang. Geht es um eine Erfolgsbedingung (wann ist es fertig), gehört es zu den Abnahmekriterien. Geht es um die heutige Situation und das Ziel, gehört es zur Ausgangssituation und Zielsetzung."
+                },
+                "en": {
+                  "normal": "Rules for the remaining chapters: if it is about delivery, installation, go-live or schedule, it belongs to the system lifecycle. If it is about a connection to another system or a database, it belongs to the interface overview. If it is about what the customer physically receives (program, manual), it belongs to the scope of delivery. If it is about a success condition (when is it done), it belongs to the acceptance criteria. If it is about the current situation and the goal, it belongs to initial situation and objectives."
+                }
+              }
+            },
+            {
+              "id": "b-m3-l1-e1",
+              "type": "example",
+              "markdown": "**Beispielsatz:** „Das System soll unter Windows 10 und macOS laufen.“\nSchritt 1: Tätigkeit oder Eigenschaft? Es beschreibt keine Tätigkeit, sondern eine Eigenschaft → nicht-funktional.\nSchritt 2: Es geht um die Plattform → nicht-funktional.\nErgebnis: **Nicht-Funktionale Anforderungen.**"
+            },
+            {
+              "id": "b-m3-l1-v1",
+              "type": "video",
+              "searchTerm": "funktionale und nicht-funktionale Anforderungen Unterschied",
+              "url": null,
+              "title": null
+            },
+            {
+              "id": "b-m3-l1-c1",
+              "type": "callout",
+              "style": "warning",
+              "markdown": "**Typischer Fehler:** „Leicht bedienbar“ unter funktionale Anforderungen schreiben. Leichte Bedienung ist keine Tätigkeit, sondern eine Qualität → nicht-funktional."
+            },
+            {
+              "id": "b-m3-l1-q1",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "q-m3-l1-1",
+                  "kind": "multiple-choice",
+                  "prompt": "Satz: „Das System soll unter Windows 10 und macOS laufen.“ Wohin?",
+                  "options": [
+                    "Nicht-Funktionale Anforderungen",
+                    "Funktionale Anforderungen",
+                    "Lebenszyklus des Gesamtsystems",
+                    "Abnahmekriterien"
+                  ],
+                  "answer": 0,
+                  "explanation": "Es ist eine Eigenschaft (Plattform) und keine Tätigkeit → nicht-funktional.",
+                  "hint": "Ist es eine Tätigkeit oder eine Eigenschaft?",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Satz: „Das System soll unter Windows 10 und macOS laufen.“ Wohin?",
+                      "options": [
+                        "Nicht-Funktionale Anforderungen",
+                        "Funktionale Anforderungen",
+                        "Lebenszyklus des Gesamtsystems",
+                        "Abnahmekriterien"
+                      ],
+                      "explanation": "Es ist eine Eigenschaft (Plattform) und keine Tätigkeit → nicht-funktional.",
+                      "hint": "Ist es eine Tätigkeit oder eine Eigenschaft?",
+                      "answer": 0
+                    },
+                    "en": {
+                      "prompt": "Sentence: 'The system should run on Windows 10 and macOS.' Where?",
+                      "options": [
+                        "Non-functional requirements",
+                        "Functional requirements",
+                        "Lifecycle of the overall system",
+                        "Acceptance criteria"
+                      ],
+                      "explanation": "It is a property (platform), not an action → non-functional.",
+                      "hint": "Is it an action or a property?",
+                      "answer": 0
+                    }
+                  }
+                },
+                {
+                  "id": "q-m3-l1-2",
+                  "kind": "multiple-choice",
+                  "prompt": "Satz: „Anbindung an die Kundendatenbank.“ Wohin?",
+                  "options": [
+                    "Schnittstellenübersicht",
+                    "Lieferumfang",
+                    "Funktionale Anforderungen",
+                    "Lebenszyklus des Gesamtsystems"
+                  ],
+                  "answer": 0,
+                  "explanation": "Eine Verbindung zu einer Datenbank gehört in die Schnittstellenübersicht.",
+                  "hint": "Was wird hier verbunden?",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Satz: „Anbindung an die Kundendatenbank.“ Wohin?",
+                      "options": [
+                        "Schnittstellenübersicht",
+                        "Lieferumfang",
+                        "Funktionale Anforderungen",
+                        "Lebenszyklus des Gesamtsystems"
+                      ],
+                      "explanation": "Eine Verbindung zu einer Datenbank gehört in die Schnittstellenübersicht.",
+                      "hint": "Was wird hier verbunden?",
+                      "answer": 0
+                    },
+                    "en": {
+                      "prompt": "Sentence: 'Connection to the customer database.' Where?",
+                      "options": [
+                        "Interface overview",
+                        "Scope of delivery",
+                        "Functional requirements",
+                        "Lifecycle of the overall system"
+                      ],
+                      "explanation": "A connection to a database belongs in the interface overview.",
+                      "hint": "What is being connected here?",
+                      "answer": 0
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "m3-l2",
+          "title": "Bike4All: Satz für Satz zuordnen",
+          "goal": "Du kannst das Gesprächsprotokoll von Bike4All selbst auf die Kapitel aufteilen.",
+          "blocks": [
+            {
+              "id": "b-m3-l2-t1",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Das Protokoll beginnt mit der heutigen Lage: Bike4All verwaltet Termine mit Notizzetteln an einer Magnettafel, und Telefonate unterbrechen die Arbeit oder werden nicht angenommen. Künftig sollen alle Termine zentral am PC in einer neu einzurichtenden Telefonzentrale verwaltet werden, für alle 5 Filialen. „Heute mit Zetteln und Telefon“ ist die Ausgangssituation, „zentral am PC verwalten“ ist das Ziel."
+                },
+                "en": {
+                  "normal": "The minutes start with the current situation: Bike4All manages appointments with sticky notes on a magnetic board, and phone calls interrupt work or are not answered. In future all appointments should be managed centrally on a PC in a new telephone centre, for all 5 branches. 'Notes and phone today' is the initial situation; 'manage centrally on a PC' is the goal."
+                }
+              }
+            },
+            {
+              "id": "b-m3-l2-t2",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Aus dem Programm: Zuerst die Filiale wählen, dann die Art des Termins (Verkauf oder Service), dann passende freie Termine anzeigen, reservieren und Reservierungen wieder löschen. All das sind Tätigkeiten des Systems und damit funktionale Anforderungen. Auch „Kundendaten bekannter Kunden anzeigen“ ist eine Tätigkeit und bleibt funktional, obwohl es im Protokoll als Wunsch markiert ist."
+                },
+                "en": {
+                  "normal": "From the program: first choose the branch, then the type of appointment (sales or service), then show suitable free appointments, reserve them, and delete reservations again. All of these are actions of the system and therefore functional requirements. 'Showing customer data of known customers' is also an action and stays functional, even though the minutes mark it as a wish."
+                }
+              }
+            },
+            {
+              "id": "b-m3-l2-t3",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Weiter im Protokoll: „Windows 10 und macOS“ und „sehr leicht bedienbar“ sind Eigenschaften und damit nicht-funktional. „Auslieferung, Installation und Inbetriebnahme am 1. Dezember“ beschreibt den Ablauf und Termin, also den Lebenszyklus. Die „Kundendatenbank“ gehört zur Schnittstellenübersicht. „Programm und Handbuch“ gehören zum Lieferumfang. „Zwei Wochen ohne schwere Fehler“ ist eine Erfolgsbedingung und damit ein Abnahmekriterium."
+                },
+                "en": {
+                  "normal": "Further in the minutes: 'Windows 10 and macOS' and 'very easy to use' are properties, so non-functional. 'Delivery, installation and go-live on 1 December' describes sequence and date, i.e. the lifecycle. The 'customer database' belongs to the interface overview. 'Program and manual' belong to the scope of delivery. 'Two weeks without serious errors' is a success condition and therefore an acceptance criterion."
+                }
+              }
+            },
+            {
+              "id": "b-m3-l2-c1",
+              "type": "callout",
+              "style": "warning",
+              "markdown": "**Typischer Fehler:** Das Handbuch in die funktionalen Anforderungen schreiben. Ein Handbuch ist etwas, das geliefert wird → **Lieferumfang**."
+            },
+            {
+              "id": "b-m3-l2-q1",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "q-m3-l2-1",
+                  "kind": "multiple-choice",
+                  "prompt": "Satz: „Reservierungen können wieder gelöscht werden.“ Wohin?",
+                  "options": [
+                    "Funktionale Anforderungen",
+                    "Nicht-Funktionale Anforderungen",
+                    "Lieferumfang",
+                    "Abnahmekriterien"
+                  ],
+                  "answer": 0,
+                  "explanation": "Löschen ist eine Tätigkeit des Systems → funktionale Anforderung.",
+                  "hint": "Es wird etwas getan.",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Satz: „Reservierungen können wieder gelöscht werden.“ Wohin?",
+                      "options": [
+                        "Funktionale Anforderungen",
+                        "Nicht-Funktionale Anforderungen",
+                        "Lieferumfang",
+                        "Abnahmekriterien"
+                      ],
+                      "explanation": "Löschen ist eine Tätigkeit des Systems → funktionale Anforderung.",
+                      "hint": "Es wird etwas getan.",
+                      "answer": 0
+                    },
+                    "en": {
+                      "prompt": "Sentence: 'Reservations can be deleted again.' Where?",
+                      "options": [
+                        "Functional requirements",
+                        "Non-functional requirements",
+                        "Scope of delivery",
+                        "Acceptance criteria"
+                      ],
+                      "explanation": "Deleting is an action of the system → functional requirement.",
+                      "hint": "Something is being done.",
+                      "answer": 0
+                    }
+                  }
+                },
+                {
+                  "id": "q-m3-l2-2",
+                  "kind": "multiple-choice",
+                  "prompt": "Satz: „Auslieferung, Installation und Inbetriebnahme am 1. Dezember.“ Wohin?",
+                  "options": [
+                    "Lebenszyklus des Gesamtsystems",
+                    "Abnahmekriterien",
+                    "Funktionale Anforderungen",
+                    "Schnittstellenübersicht"
+                  ],
+                  "answer": 0,
+                  "explanation": "Lieferung, Installation und Inbetriebnahme mit Datum gehören zum Lebenszyklus des Gesamtsystems.",
+                  "hint": "Es geht um den Ablauf und einen Termin.",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Satz: „Auslieferung, Installation und Inbetriebnahme am 1. Dezember.“ Wohin?",
+                      "options": [
+                        "Lebenszyklus des Gesamtsystems",
+                        "Abnahmekriterien",
+                        "Funktionale Anforderungen",
+                        "Schnittstellenübersicht"
+                      ],
+                      "explanation": "Lieferung, Installation und Inbetriebnahme mit Datum gehören zum Lebenszyklus des Gesamtsystems.",
+                      "hint": "Es geht um den Ablauf und einen Termin.",
+                      "answer": 0
+                    },
+                    "en": {
+                      "prompt": "Sentence: 'Delivery, installation and go-live on 1 December.' Where?",
+                      "options": [
+                        "Lifecycle of the overall system",
+                        "Acceptance criteria",
+                        "Functional requirements",
+                        "Interface overview"
+                      ],
+                      "explanation": "Delivery, installation and go-live with a date belong to the lifecycle of the overall system.",
+                      "hint": "It is about sequence and a date.",
+                      "answer": 0
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "m3-l3",
+          "title": "Die Musterlösung und Sonderfälle",
+          "goal": "Du kennst die Musterlösung für Bike4All und kannst knifflige Sätze zuordnen.",
+          "blocks": [
+            {
+              "id": "b-m3-l3-t1",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Die Musterlösung ordnet so zu. Ausgangssituation und Zielsetzung: Terminverwaltung per Magnettafel, telefonisch und persönlich, Arbeitsunterbrechung, Nicht-Erreichbarkeit; Ziel: PC in der Telefonzentrale. Funktional: Auswahl Filiale, Auswahl Art, Anzeige Termine, Reservierung, Löschen, Kundendaten anzeigen. Nicht-funktional: leicht bedienbar, Windows 10, macOS. Lebenszyklus: Plantermin 1. Dezember. Schnittstellen: Kundendatenbank. Lieferumfang: Programm, Installation, Handbuch. Abnahmekriterien: Lieferumfang erfüllt, keine Kat-3-Fehler in 2 Wochen."
+                },
+                "en": {
+                  "normal": "The model solution maps it like this. Initial situation and objectives: appointment management via magnetic board, by phone and in person, work interruptions, unreachability; goal: PC in the telephone centre. Functional: branch selection, type selection, showing appointments, reservation, deletion, showing customer data. Non-functional: easy to use, Windows 10, macOS. Lifecycle: planned date 1 December. Interfaces: customer database. Scope of delivery: program, installation, manual. Acceptance criteria: scope of delivery met, no category-3 errors in 2 weeks."
+                }
+              }
+            },
+            {
+              "id": "b-m3-l3-e1",
+              "type": "example",
+              "markdown": "**Knifflige Fälle:**\n1. „Optional: Kundendaten anzeigen“ — trotzdem funktional, weil es eine Tätigkeit ist; „optional“ ändert nur die Priorität.\n2. „Installation“ im Termin-Satz = Lebenszyklus, aber „Installation“ als gelieferte Leistung = Teil des Lieferumfangs. Der Kontext entscheidet."
+            },
+            {
+              "id": "b-m3-l3-v1",
+              "type": "video",
+              "searchTerm": "Anforderungen Pflichtenheft Kapitel zuordnen Übung",
+              "url": null,
+              "title": null
+            },
+            {
+              "id": "b-m3-l3-c1",
+              "type": "callout",
+              "style": "warning",
+              "markdown": "**Typischer Fehler:** Ein Erfolgskriterium wie „keine Kat-3-Fehler“ unter Lebenszyklus oder funktional schreiben. Es sagt, **wann der Auftrag erfüllt ist** → Abnahmekriterien."
+            },
+            {
+              "id": "b-m3-l3-q1",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "q-m3-l3-1",
+                  "kind": "multiple-choice",
+                  "prompt": "Satz: „Innerhalb von 2 Wochen dürfen keine Kat-3-Fehler auftreten.“ Wohin?",
+                  "options": [
+                    "Abnahmekriterien",
+                    "Lebenszyklus des Gesamtsystems",
+                    "Nicht-Funktionale Anforderungen",
+                    "Lieferumfang"
+                  ],
+                  "answer": 0,
+                  "explanation": "Es beschreibt eine Erfolgsbedingung und damit ein Abnahmekriterium.",
+                  "hint": "Wann gilt der Auftrag als erfüllt?",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Satz: „Innerhalb von 2 Wochen dürfen keine Kat-3-Fehler auftreten.“ Wohin?",
+                      "options": [
+                        "Abnahmekriterien",
+                        "Lebenszyklus des Gesamtsystems",
+                        "Nicht-Funktionale Anforderungen",
+                        "Lieferumfang"
+                      ],
+                      "explanation": "Es beschreibt eine Erfolgsbedingung und damit ein Abnahmekriterium.",
+                      "hint": "Wann gilt der Auftrag als erfüllt?",
+                      "answer": 0
+                    },
+                    "en": {
+                      "prompt": "Sentence: 'Within 2 weeks no category-3 errors may occur.' Where?",
+                      "options": [
+                        "Acceptance criteria",
+                        "Lifecycle of the overall system",
+                        "Non-functional requirements",
+                        "Scope of delivery"
+                      ],
+                      "explanation": "It describes a success condition and therefore an acceptance criterion.",
+                      "hint": "When is the order considered fulfilled?",
+                      "answer": 0
+                    }
+                  }
+                },
+                {
+                  "id": "q-m3-l3-2",
+                  "kind": "multiple-choice",
+                  "prompt": "In der Musterlösung gehören „Programm, Installation, Handbuch“ in welches Kapitel?",
+                  "options": [
+                    "Lieferumfang",
+                    "Funktionale Anforderungen",
+                    "Lebenszyklus des Gesamtsystems",
+                    "Schnittstellenübersicht"
+                  ],
+                  "answer": 0,
+                  "explanation": "Programm, Installation und Handbuch sind die gelieferten Bestandteile → Lieferumfang.",
+                  "hint": "Was erhält der Kunde tatsächlich?",
+                  "i18n": {
+                    "de": {
+                      "prompt": "In der Musterlösung gehören „Programm, Installation, Handbuch“ in welches Kapitel?",
+                      "options": [
+                        "Lieferumfang",
+                        "Funktionale Anforderungen",
+                        "Lebenszyklus des Gesamtsystems",
+                        "Schnittstellenübersicht"
+                      ],
+                      "explanation": "Programm, Installation und Handbuch sind die gelieferten Bestandteile → Lieferumfang.",
+                      "hint": "Was erhält der Kunde tatsächlich?",
+                      "answer": 0
+                    },
+                    "en": {
+                      "prompt": "In the model solution, 'program, installation, manual' belong to which chapter?",
+                      "options": [
+                        "Scope of delivery",
+                        "Functional requirements",
+                        "Lifecycle of the overall system",
+                        "Interface overview"
+                      ],
+                      "explanation": "Program, installation and manual are the delivered components → scope of delivery.",
+                      "hint": "What does the customer actually receive?",
+                      "answer": 0
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "test": {
+        "id": "m3-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "id": "t-m3-1",
+            "kind": "multiple-choice",
+            "prompt": "„Der Nutzer kann einen Termin buchen.“ Wohin gehört dieser Satz?",
+            "options": [
+              "Funktionale Anforderungen",
+              "Nicht-Funktionale Anforderungen",
+              "Lieferumfang",
+              "Schnittstellenübersicht"
+            ],
+            "answer": 0,
+            "explanation": "Buchen ist eine Tätigkeit des Systems → funktionale Anforderung.",
+            "hint": "Es wird eine Aktion beschrieben.",
+            "i18n": {
+              "de": {
+                "prompt": "„Der Nutzer kann einen Termin buchen.“ Wohin gehört dieser Satz?",
+                "options": [
+                  "Funktionale Anforderungen",
+                  "Nicht-Funktionale Anforderungen",
+                  "Lieferumfang",
+                  "Schnittstellenübersicht"
+                ],
+                "explanation": "Buchen ist eine Tätigkeit des Systems → funktionale Anforderung.",
+                "hint": "Es wird eine Aktion beschrieben.",
+                "answer": 0
+              },
+              "en": {
+                "prompt": "'The user can book an appointment.' Which chapter does this belong to?",
+                "options": [
+                  "Functional requirements",
+                  "Non-functional requirements",
+                  "Scope of delivery",
+                  "Interface overview"
+                ],
+                "explanation": "Booking is an action of the system → functional requirement.",
+                "hint": "An action is being described.",
+                "answer": 0
+              }
+            }
+          },
+          {
+            "id": "t-m3-2",
+            "kind": "multiple-choice",
+            "prompt": "„Daten werden DSGVO-konform gespeichert.“ Wohin?",
+            "options": [
+              "Nicht-Funktionale Anforderungen",
+              "Funktionale Anforderungen",
+              "Lieferumfang",
+              "Abnahmekriterien"
+            ],
+            "answer": 0,
+            "explanation": "Datenschutz/Sicherheit ist eine Eigenschaft → nicht-funktional.",
+            "hint": "Ist es eine Tätigkeit oder eine Eigenschaft?",
+            "i18n": {
+              "de": {
+                "prompt": "„Daten werden DSGVO-konform gespeichert.“ Wohin?",
+                "options": [
+                  "Nicht-Funktionale Anforderungen",
+                  "Funktionale Anforderungen",
+                  "Lieferumfang",
+                  "Abnahmekriterien"
+                ],
+                "explanation": "Datenschutz/Sicherheit ist eine Eigenschaft → nicht-funktional.",
+                "hint": "Ist es eine Tätigkeit oder eine Eigenschaft?",
+                "answer": 0
+              },
+              "en": {
+                "prompt": "'Data is stored GDPR-compliant.' Where?",
+                "options": [
+                  "Non-functional requirements",
+                  "Functional requirements",
+                  "Scope of delivery",
+                  "Acceptance criteria"
+                ],
+                "explanation": "Data protection/security is a property → non-functional.",
+                "hint": "Is it an action or a property?",
+                "answer": 0
+              }
+            }
+          },
+          {
+            "id": "t-m3-3",
+            "kind": "multiple-choice",
+            "prompt": "„Anbindung an das Zahlungssystem PayPal.“ Wohin?",
+            "options": [
+              "Schnittstellenübersicht",
+              "Funktionale Anforderungen",
+              "Lebenszyklus des Gesamtsystems",
+              "Lieferumfang"
+            ],
+            "answer": 0,
+            "explanation": "Eine Verbindung zu einem anderen System gehört in die Schnittstellenübersicht.",
+            "hint": "Was wird hier angebunden?",
+            "i18n": {
+              "de": {
+                "prompt": "„Anbindung an das Zahlungssystem PayPal.“ Wohin?",
+                "options": [
+                  "Schnittstellenübersicht",
+                  "Funktionale Anforderungen",
+                  "Lebenszyklus des Gesamtsystems",
+                  "Lieferumfang"
+                ],
+                "explanation": "Eine Verbindung zu einem anderen System gehört in die Schnittstellenübersicht.",
+                "hint": "Was wird hier angebunden?",
+                "answer": 0
+              },
+              "en": {
+                "prompt": "'Connection to the PayPal payment system.' Where?",
+                "options": [
+                  "Interface overview",
+                  "Functional requirements",
+                  "Lifecycle of the overall system",
+                  "Scope of delivery"
+                ],
+                "explanation": "A connection to another system belongs in the interface overview.",
+                "hint": "What is being connected here?",
+                "answer": 0
+              }
+            }
+          },
+          {
+            "id": "t-m3-4",
+            "kind": "multiple-choice",
+            "prompt": "„Übergabe inklusive Benutzerhandbuch.“ Wohin?",
+            "options": [
+              "Lieferumfang",
+              "Funktionale Anforderungen",
+              "Abnahmekriterien",
+              "Nicht-Funktionale Anforderungen"
+            ],
+            "answer": 0,
+            "explanation": "Ein Handbuch ist ein gelieferter Bestandteil → Lieferumfang.",
+            "hint": "Was bekommt der Kunde in die Hand?",
+            "i18n": {
+              "de": {
+                "prompt": "„Übergabe inklusive Benutzerhandbuch.“ Wohin?",
+                "options": [
+                  "Lieferumfang",
+                  "Funktionale Anforderungen",
+                  "Abnahmekriterien",
+                  "Nicht-Funktionale Anforderungen"
+                ],
+                "explanation": "Ein Handbuch ist ein gelieferter Bestandteil → Lieferumfang.",
+                "hint": "Was bekommt der Kunde in die Hand?",
+                "answer": 0
+              },
+              "en": {
+                "prompt": "'Handover including a user manual.' Where?",
+                "options": [
+                  "Scope of delivery",
+                  "Functional requirements",
+                  "Acceptance criteria",
+                  "Non-functional requirements"
+                ],
+                "explanation": "A manual is a delivered component → scope of delivery.",
+                "hint": "What does the customer get in hand?",
+                "answer": 0
+              }
+            }
+          },
+          {
+            "id": "t-m3-5",
+            "kind": "multiple-choice",
+            "prompt": "„Ziel: Termine zentral am PC verwalten.“ Wohin?",
+            "options": [
+              "Ausgangssituation und Zielsetzung",
+              "Funktionale Anforderungen",
+              "Lieferumfang",
+              "Schnittstellenübersicht"
+            ],
+            "answer": 0,
+            "explanation": "Ein Ziel wird in „Ausgangssituation und Zielsetzung“ festgehalten.",
+            "hint": "Das Wort „Ziel“ steht im Kapitelnamen.",
+            "i18n": {
+              "de": {
+                "prompt": "„Ziel: Termine zentral am PC verwalten.“ Wohin?",
+                "options": [
+                  "Ausgangssituation und Zielsetzung",
+                  "Funktionale Anforderungen",
+                  "Lieferumfang",
+                  "Schnittstellenübersicht"
+                ],
+                "explanation": "Ein Ziel wird in „Ausgangssituation und Zielsetzung“ festgehalten.",
+                "hint": "Das Wort „Ziel“ steht im Kapitelnamen.",
+                "answer": 0
+              },
+              "en": {
+                "prompt": "'Goal: manage appointments centrally on a PC.' Where?",
+                "options": [
+                  "Initial situation and objectives",
+                  "Functional requirements",
+                  "Scope of delivery",
+                  "Interface overview"
+                ],
+                "explanation": "A goal is recorded under 'initial situation and objectives'.",
+                "hint": "The word 'goal' is in the chapter name.",
+                "answer": 0
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "m4",
+      "title": "Training: alles anwenden",
+      "summary": "Gemischte Übungen: Anforderungen zuordnen, Kapitel benennen und Fachbegriffe erklären. Mit Modultest und einer Abschlussprüfung über den ganzen Kurs.",
+      "lessons": [
+        {
+          "id": "m4-l1",
+          "title": "Zuordnungs-Training",
+          "goal": "Du übst das Zuordnen von Anforderungen unter Zeitdruck.",
+          "blocks": [
+            {
+              "id": "b-m4-l1-t1",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Jetzt üben wir mit echten Aufgaben. Lies jeden Satz, stelle die Entscheidungsfrage und schreibe das Kapitel dahinter. Prüfe am Ende: funktional gleich Tätigkeit, nicht-funktional gleich Eigenschaft, sonst einer der vier Sonderfälle Lebenszyklus, Schnittstellen, Lieferumfang oder Abnahmekriterien."
+                },
+                "en": {
+                  "normal": "Now we practise with real tasks. Read each sentence, ask the decision question and write the chapter next to it. Check at the end: functional equals an action, non-functional equals a property, otherwise one of the four special cases lifecycle, interfaces, scope of delivery or acceptance criteria."
+                }
+              }
+            },
+            {
+              "id": "b-m4-l1-e1",
+              "type": "example",
+              "markdown": "**Übungssätze:**\n1. „Der Nutzer kann sich mit E-Mail und Passwort anmelden.“ → Funktional (Tätigkeit).\n2. „Das System antwortet in unter 2 Sekunden.“ → Nicht-funktional (Geschwindigkeit).\n3. „Daten werden DSGVO-konform gespeichert.“ → Nicht-funktional (Sicherheit).\n4. „Anbindung an das Zahlungssystem PayPal.“ → Schnittstellenübersicht.\n5. „Auslieferung als Installer plus Benutzerhandbuch.“ → Lieferumfang."
+            },
+            {
+              "id": "b-m4-l1-c1",
+              "type": "callout",
+              "style": "warning",
+              "markdown": "**Typischer Fehler:** Geschwindigkeit, Sicherheit und DSGVO für funktional halten. Das sind Eigenschaften → nicht-funktional."
+            },
+            {
+              "id": "b-m4-l1-q1",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "q-m4-l1-1",
+                  "kind": "multiple-choice",
+                  "prompt": "„Das System antwortet in unter 2 Sekunden.“ Wohin?",
+                  "options": [
+                    "Nicht-Funktionale Anforderungen",
+                    "Funktionale Anforderungen",
+                    "Abnahmekriterien",
+                    "Lebenszyklus des Gesamtsystems"
+                  ],
+                  "answer": 0,
+                  "explanation": "Antwortzeit ist eine Eigenschaft (Leistung) → nicht-funktional.",
+                  "hint": "Ist das eine Tätigkeit oder eine Eigenschaft?",
+                  "i18n": {
+                    "de": {
+                      "prompt": "„Das System antwortet in unter 2 Sekunden.“ Wohin?",
+                      "options": [
+                        "Nicht-Funktionale Anforderungen",
+                        "Funktionale Anforderungen",
+                        "Abnahmekriterien",
+                        "Lebenszyklus des Gesamtsystems"
+                      ],
+                      "explanation": "Antwortzeit ist eine Eigenschaft (Leistung) → nicht-funktional.",
+                      "hint": "Ist das eine Tätigkeit oder eine Eigenschaft?",
+                      "answer": 0
+                    },
+                    "en": {
+                      "prompt": "'The system responds in under 2 seconds.' Where?",
+                      "options": [
+                        "Non-functional requirements",
+                        "Functional requirements",
+                        "Acceptance criteria",
+                        "Lifecycle of the overall system"
+                      ],
+                      "explanation": "Response time is a property (performance) → non-functional.",
+                      "hint": "Is that an action or a property?",
+                      "answer": 0
+                    }
+                  }
+                },
+                {
+                  "id": "q-m4-l1-2",
+                  "kind": "multiple-choice",
+                  "prompt": "„Der Kunde erhält einen Installer und ein Handbuch.“ Wohin?",
+                  "options": [
+                    "Lieferumfang",
+                    "Schnittstellenübersicht",
+                    "Funktionale Anforderungen",
+                    "Nicht-Funktionale Anforderungen"
+                  ],
+                  "answer": 0,
+                  "explanation": "Installer und Handbuch sind gelieferte Bestandteile → Lieferumfang.",
+                  "hint": "Was erhält der Kunde konkret?",
+                  "i18n": {
+                    "de": {
+                      "prompt": "„Der Kunde erhält einen Installer und ein Handbuch.“ Wohin?",
+                      "options": [
+                        "Lieferumfang",
+                        "Schnittstellenübersicht",
+                        "Funktionale Anforderungen",
+                        "Nicht-Funktionale Anforderungen"
+                      ],
+                      "explanation": "Installer und Handbuch sind gelieferte Bestandteile → Lieferumfang.",
+                      "hint": "Was erhält der Kunde konkret?",
+                      "answer": 0
+                    },
+                    "en": {
+                      "prompt": "'The customer receives an installer and a manual.' Where?",
+                      "options": [
+                        "Scope of delivery",
+                        "Interface overview",
+                        "Functional requirements",
+                        "Non-functional requirements"
+                      ],
+                      "explanation": "Installer and manual are delivered components → scope of delivery.",
+                      "hint": "What does the customer concretely receive?",
+                      "answer": 0
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "m4-l2",
+          "title": "Kapitel benennen und Begriffe erklären",
+          "goal": "Du kannst Kapitel benennen und Fachbegriffe in kurzer Form erklären.",
+          "blocks": [
+            {
+              "id": "b-m4-l2-t1",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Bei „Nenne das Kapitel“ gibt es zwei typische Aufgaben. Erstens: In welches Kapitel gehört dieser Satz? Zweitens: Was gehört in Kapitel X? Antworte immer als kurzer Satz mit Begründung, nie nur mit einem Wort."
+                },
+                "en": {
+                  "normal": "For 'name the chapter' there are two typical tasks. First: which chapter does this sentence belong to? Second: what belongs in chapter X? Always answer with a short sentence plus a reason, never with just one word."
+                }
+              }
+            },
+            {
+              "id": "b-m4-l2-e1",
+              "type": "example",
+              "markdown": "**Beispiel:**\nFrage: „Was gehört in den Lieferumfang?“\nAntwort: „Alles, was der Kunde physisch erhält, zum Beispiel das Programm, die Installation und ein Handbuch — nicht die Funktionen.“"
+            },
+            {
+              "id": "b-m4-l2-t2",
+              "type": "text",
+              "i18n": {
+                "de": {
+                  "normal": "Bei „Erkläre den Begriff“ hilft immer dasselbe Schema: Definition, dann ein Beispiel, dann der Bezug zum Projekt. Mit diesem Aufbau erklärst du jeden Fachbegriff vollständig."
+                },
+                "en": {
+                  "normal": "For 'explain the term' the same scheme always helps: definition, then an example, then the link to the project. With this structure you explain any technical term completely."
+                }
+              }
+            },
+            {
+              "id": "b-m4-l2-c1",
+              "type": "callout",
+              "style": "warning",
+              "markdown": "**Typischer Fehler:** Den Lieferumfang als Funktionsliste schreiben. Der Lieferumfang sagt, **was geliefert wird**, nicht, **was es kann**."
+            },
+            {
+              "id": "b-m4-l2-q1",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "q-m4-l2-1",
+                  "kind": "multiple-choice",
+                  "prompt": "Was gehört in das Kapitel „Schnittstellenübersicht“?",
+                  "options": [
+                    "Verbindungen zu anderen Systemen und Datenbanken",
+                    "Was geliefert wird",
+                    "Wann geliefert wird",
+                    "Wie leicht die Software zu bedienen ist"
+                  ],
+                  "answer": 0,
+                  "explanation": "Die Schnittstellenübersicht listet Verbindungen zu anderen Systemen und Datenbanken.",
+                  "hint": "„Schnittstelle“ heißt Übergang zu etwas anderem.",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was gehört in das Kapitel „Schnittstellenübersicht“?",
+                      "options": [
+                        "Verbindungen zu anderen Systemen und Datenbanken",
+                        "Was geliefert wird",
+                        "Wann geliefert wird",
+                        "Wie leicht die Software zu bedienen ist"
+                      ],
+                      "explanation": "Die Schnittstellenübersicht listet Verbindungen zu anderen Systemen und Datenbanken.",
+                      "hint": "„Schnittstelle“ heißt Übergang zu etwas anderem.",
+                      "answer": 0
+                    },
+                    "en": {
+                      "prompt": "What belongs in the 'interface overview' chapter?",
+                      "options": [
+                        "Connections to other systems and databases",
+                        "What is delivered",
+                        "When it is delivered",
+                        "How easy the software is to use"
+                      ],
+                      "explanation": "The interface overview lists connections to other systems and databases.",
+                      "hint": "'Interface' means a transition to something else.",
+                      "answer": 0
+                    }
+                  }
+                },
+                {
+                  "id": "q-m4-l2-2",
+                  "kind": "multiple-choice",
+                  "prompt": "Was ist ein Bug?",
+                  "answer": 0,
+                  "explanation": "Ein Bug ist ein unerwarteter Fehler bzw. Programmfehler, durch den sich das Programm falsch verhält.",
+                  "hint": "Was passiert, wenn ein Programm abstürzt oder falsch reagiert?",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was ist ein Bug?",
+                      "explanation": "Ein Bug ist ein unerwarteter Fehler bzw. Programmfehler, durch den sich das Programm falsch verhält.",
+                      "hint": "Was passiert, wenn ein Programm abstürzt oder falsch reagiert?",
+                      "options": [
+                        "Ein unerwarteter Fehler im Programm",
+                        "Ein geplantes neues Feature",
+                        "Ein beschädigtes Netzwerkkabel",
+                        "Ein Kapitel des Pflichtenhefts"
+                      ],
+                      "answer": 0
+                    },
+                    "en": {
+                      "prompt": "What is a bug?",
+                      "explanation": "A bug is an unexpected error or program fault that makes the program behave wrongly.",
+                      "hint": "What happens when a program crashes or reacts wrongly?",
+                      "options": [
+                        "An unexpected error in a program",
+                        "A planned new feature",
+                        "A damaged network cable",
+                        "A chapter of the Pflichtenheft"
+                      ],
+                      "answer": 0
+                    }
+                  },
+                  "options": [
+                    "Ein unerwarteter Fehler im Programm",
+                    "Ein geplantes neues Feature",
+                    "Ein beschädigtes Netzwerkkabel",
+                    "Ein Kapitel des Pflichtenhefts"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "test": {
+        "id": "m4-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "id": "t-m4-1",
+            "kind": "multiple-choice",
+            "prompt": "„Benutzer können eine Playlist anlegen.“ Wohin?",
+            "options": [
+              "Funktionale Anforderungen",
+              "Nicht-Funktionale Anforderungen",
+              "Lieferumfang",
+              "Abnahmekriterien"
+            ],
+            "answer": 0,
+            "explanation": "Anlegen ist eine Tätigkeit des Systems → funktionale Anforderung.",
+            "hint": "Es wird etwas getan.",
+            "i18n": {
+              "de": {
+                "prompt": "„Benutzer können eine Playlist anlegen.“ Wohin?",
+                "options": [
+                  "Funktionale Anforderungen",
+                  "Nicht-Funktionale Anforderungen",
+                  "Lieferumfang",
+                  "Abnahmekriterien"
+                ],
+                "explanation": "Anlegen ist eine Tätigkeit des Systems → funktionale Anforderung.",
+                "hint": "Es wird etwas getan.",
+                "answer": 0
+              },
+              "en": {
+                "prompt": "'Users can create a playlist.' Where?",
+                "options": [
+                  "Functional requirements",
+                  "Non-functional requirements",
+                  "Scope of delivery",
+                  "Acceptance criteria"
+                ],
+                "explanation": "Creating is an action of the system → functional requirement.",
+                "hint": "Something is being done.",
+                "answer": 0
+              }
+            }
+          },
+          {
+            "id": "t-m4-2",
+            "kind": "multiple-choice",
+            "prompt": "„Die App muss auf Smart-TV, Smartphone und Browser laufen.“ Wohin?",
+            "options": [
+              "Nicht-Funktionale Anforderungen",
+              "Funktionale Anforderungen",
+              "Lebenszyklus des Gesamtsystems",
+              "Lieferumfang"
+            ],
+            "answer": 0,
+            "explanation": "Unterstützte Plattformen sind eine Eigenschaft → nicht-funktional.",
+            "hint": "Beschreibt es eine Tätigkeit oder eine Eigenschaft?",
+            "i18n": {
+              "de": {
+                "prompt": "„Die App muss auf Smart-TV, Smartphone und Browser laufen.“ Wohin?",
+                "options": [
+                  "Nicht-Funktionale Anforderungen",
+                  "Funktionale Anforderungen",
+                  "Lebenszyklus des Gesamtsystems",
+                  "Lieferumfang"
+                ],
+                "explanation": "Unterstützte Plattformen sind eine Eigenschaft → nicht-funktional.",
+                "hint": "Beschreibt es eine Tätigkeit oder eine Eigenschaft?",
+                "answer": 0
+              },
+              "en": {
+                "prompt": "'The app must run on smart TV, smartphone and browser.' Where?",
+                "options": [
+                  "Non-functional requirements",
+                  "Functional requirements",
+                  "Lifecycle of the overall system",
+                  "Scope of delivery"
+                ],
+                "explanation": "Supported platforms are a property → non-functional.",
+                "hint": "Does it describe an action or a property?",
+                "answer": 0
+              }
+            }
+          },
+          {
+            "id": "t-m4-3",
+            "kind": "multiple-choice",
+            "prompt": "„Start des Systems am 1. September.“ Wohin?",
+            "options": [
+              "Lebenszyklus des Gesamtsystems",
+              "Abnahmekriterien",
+              "Funktionale Anforderungen",
+              "Schnittstellenübersicht"
+            ],
+            "answer": 0,
+            "explanation": "Inbetriebnahme mit Datum gehört zum Lebenszyklus des Gesamtsystems.",
+            "hint": "Es geht um einen Termin für die Inbetriebnahme.",
+            "i18n": {
+              "de": {
+                "prompt": "„Start des Systems am 1. September.“ Wohin?",
+                "options": [
+                  "Lebenszyklus des Gesamtsystems",
+                  "Abnahmekriterien",
+                  "Funktionale Anforderungen",
+                  "Schnittstellenübersicht"
+                ],
+                "explanation": "Inbetriebnahme mit Datum gehört zum Lebenszyklus des Gesamtsystems.",
+                "hint": "Es geht um einen Termin für die Inbetriebnahme.",
+                "answer": 0
+              },
+              "en": {
+                "prompt": "'System start on 1 September.' Where?",
+                "options": [
+                  "Lifecycle of the overall system",
+                  "Acceptance criteria",
+                  "Functional requirements",
+                  "Interface overview"
+                ],
+                "explanation": "Go-live with a date belongs to the lifecycle of the overall system.",
+                "hint": "It is about a date for going live.",
+                "answer": 0
+              }
+            }
+          },
+          {
+            "id": "t-m4-4",
+            "kind": "multiple-choice",
+            "prompt": "Was ist KEIN Kapitel des Pflichtenhefts?",
+            "options": [
+              "Marketingplan",
+              "Lieferumfang",
+              "Abnahmekriterien",
+              "Schnittstellenübersicht"
+            ],
+            "answer": 0,
+            "explanation": "Der Marketingplan ist kein Kapitel; die anderen drei gehören zu den sieben Kapiteln.",
+            "hint": "Drei Optionen klingen nach unseren sieben Kapiteln.",
+            "i18n": {
+              "de": {
+                "prompt": "Was ist KEIN Kapitel des Pflichtenhefts?",
+                "options": [
+                  "Marketingplan",
+                  "Lieferumfang",
+                  "Abnahmekriterien",
+                  "Schnittstellenübersicht"
+                ],
+                "explanation": "Der Marketingplan ist kein Kapitel; die anderen drei gehören zu den sieben Kapiteln.",
+                "hint": "Drei Optionen klingen nach unseren sieben Kapiteln.",
+                "answer": 0
+              },
+              "en": {
+                "prompt": "Which is NOT a chapter of the Pflichtenheft?",
+                "options": [
+                  "Marketing plan",
+                  "Scope of delivery",
+                  "Acceptance criteria",
+                  "Interface overview"
+                ],
+                "explanation": "The marketing plan is not a chapter; the other three are among the seven chapters.",
+                "hint": "Three options sound like our seven chapters.",
+                "answer": 0
+              }
+            }
+          },
+          {
+            "id": "t-m4-5",
+            "kind": "true-false",
+            "prompt": "Die Abnahmekriterien legen fest, wann der Auftrag als erfüllt gilt.",
+            "answer": true,
+            "explanation": "Die Abnahmekriterien beschreiben die Erfolgsbedingung, also wann der Auftrag als erfüllt gilt.",
+            "hint": "Denke an das Wort „erfüllt“.",
+            "i18n": {
+              "de": {
+                "prompt": "Die Abnahmekriterien legen fest, wann der Auftrag als erfüllt gilt.",
+                "explanation": "Die Abnahmekriterien beschreiben die Erfolgsbedingung, also wann der Auftrag als erfüllt gilt.",
+                "hint": "Denke an das Wort „erfüllt“.",
+                "answer": true
+              },
+              "en": {
+                "prompt": "The acceptance criteria define when the order is considered fulfilled.",
+                "explanation": "The acceptance criteria describe the success condition, i.e. when the order counts as fulfilled.",
+                "hint": "Think of the word 'fulfilled'.",
+                "answer": true
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "finalExam": {
+    "id": "final-exam",
+    "type": "final-exam",
+    "questions": [
+      {
+        "id": "f-1",
+        "kind": "multiple-choice",
+        "prompt": "Was ist ein Consultant?",
+        "options": [
+          "Ein Berater für Unternehmen in verschiedenen Themengebieten",
+          "Der Programmierer der Software",
+          "Der Kunde des Projekts",
+          "Ein Fehler im Programm"
+        ],
+        "answer": 0,
+        "explanation": "Ein Consultant ist ein Berater, der ein Unternehmen zu verschiedenen Themen berät.",
+        "hint": "Das englische Wort bedeutet „Berater“.",
+        "i18n": {
+          "de": {
+            "prompt": "Was ist ein Consultant?",
+            "options": [
+              "Ein Berater für Unternehmen in verschiedenen Themengebieten",
+              "Der Programmierer der Software",
+              "Der Kunde des Projekts",
+              "Ein Fehler im Programm"
+            ],
+            "explanation": "Ein Consultant ist ein Berater, der ein Unternehmen zu verschiedenen Themen berät.",
+            "hint": "Das englische Wort bedeutet „Berater“.",
+            "answer": 0
+          },
+          "en": {
+            "prompt": "What is a consultant?",
+            "options": [
+              "An advisor for companies in various subject areas",
+              "The programmer of the software",
+              "The customer of the project",
+              "An error in the program"
+            ],
+            "explanation": "A consultant advises a company on various topics.",
+            "hint": "The word literally means 'advisor'.",
+            "answer": 0
+          }
+        }
+      },
+      {
+        "id": "f-2",
+        "kind": "true-false",
+        "prompt": "Ein Datenbankmanagementsystem dient der Verwaltung und Steuerung von Daten und Datenbanken.",
+        "answer": true,
+        "explanation": "Ein DBMS ist genau das System zur Verwaltung und Steuerung von Daten und Datenbanken.",
+        "hint": "Der Name sagt schon, was es verwaltet.",
+        "i18n": {
+          "de": {
+            "prompt": "Ein Datenbankmanagementsystem dient der Verwaltung und Steuerung von Daten und Datenbanken.",
+            "explanation": "Ein DBMS ist genau das System zur Verwaltung und Steuerung von Daten und Datenbanken.",
+            "hint": "Der Name sagt schon, was es verwaltet.",
+            "answer": true
+          },
+          "en": {
+            "prompt": "A database management system is used to manage and control data and databases.",
+            "explanation": "A DBMS is exactly the system for managing and controlling data and databases.",
+            "hint": "The name already says what it manages.",
+            "answer": true
+          }
+        }
+      },
+      {
+        "id": "f-3",
+        "kind": "multiple-choice",
+        "prompt": "Worin unterscheiden sich Lastenheft und Pflichtenheft?",
+        "answer": 0,
+        "explanation": "Das Lastenheft hält die Wünsche des Auftraggebers fest, das Pflichtenheft die konkrete technische Umsetzung durch den Auftragnehmer.",
+        "hint": "Wer will etwas, und wer setzt es um?",
+        "i18n": {
+          "de": {
+            "prompt": "Worin unterscheiden sich Lastenheft und Pflichtenheft?",
+            "explanation": "Das Lastenheft hält die Wünsche des Auftraggebers fest, das Pflichtenheft die konkrete technische Umsetzung durch den Auftragnehmer.",
+            "hint": "Wer will etwas, und wer setzt es um?",
+            "options": [
+              "Das Lastenheft beschreibt die Wünsche des Auftraggebers, das Pflichtenheft die konkrete Umsetzung.",
+              "Das Lastenheft beschreibt die konkrete Umsetzung, das Pflichtenheft die Wünsche des Auftraggebers.",
+              "Beide beschreiben dasselbe, nur mit anderem Namen.",
+              "Das Lastenheft enthält den Programmcode, das Pflichtenheft die Testfälle."
+            ],
+            "answer": 0
+          },
+          "en": {
+            "prompt": "How do Lastenheft and Pflichtenheft differ?",
+            "explanation": "The Lastenheft records the client's wishes; the Pflichtenheft records the contractor's concrete technical implementation.",
+            "hint": "Who wants something, and who implements it?",
+            "options": [
+              "The Lastenheft describes the client's wishes, the Pflichtenheft the concrete implementation.",
+              "The Lastenheft describes the concrete implementation, the Pflichtenheft the client's wishes.",
+              "Both describe the same thing under a different name.",
+              "The Lastenheft contains the program code, the Pflichtenheft the test cases."
+            ],
+            "answer": 0
+          }
+        },
+        "options": [
+          "Das Lastenheft beschreibt die Wünsche des Auftraggebers, das Pflichtenheft die konkrete Umsetzung.",
+          "Das Lastenheft beschreibt die konkrete Umsetzung, das Pflichtenheft die Wünsche des Auftraggebers.",
+          "Beide beschreiben dasselbe, nur mit anderem Namen.",
+          "Das Lastenheft enthält den Programmcode, das Pflichtenheft die Testfälle."
+        ]
+      },
+      {
+        "id": "f-4",
+        "kind": "multiple-choice",
+        "prompt": "Wozu dient ein Pflichtenheft hauptsächlich?",
+        "options": [
+          "Als verbindliche Vereinbarung und Grundlage für die Abnahme",
+          "Als Steuererklärung",
+          "Als Bedienungsanleitung für Kunden",
+          "Als Bewerbung des Auftragnehmers"
+        ],
+        "answer": 0,
+        "explanation": "Das Pflichtenheft ist die verbindliche Vereinbarung und dient als Grundlage für die Abnahme.",
+        "hint": "Denke an „verbindlich“ und „Abnahme“.",
+        "i18n": {
+          "de": {
+            "prompt": "Wozu dient ein Pflichtenheft hauptsächlich?",
+            "options": [
+              "Als verbindliche Vereinbarung und Grundlage für die Abnahme",
+              "Als Steuererklärung",
+              "Als Bedienungsanleitung für Kunden",
+              "Als Bewerbung des Auftragnehmers"
+            ],
+            "explanation": "Das Pflichtenheft ist die verbindliche Vereinbarung und dient als Grundlage für die Abnahme.",
+            "hint": "Denke an „verbindlich“ und „Abnahme“.",
+            "answer": 0
+          },
+          "en": {
+            "prompt": "What is a Pflichtenheft mainly for?",
+            "options": [
+              "As a binding agreement and basis for acceptance",
+              "As a tax return",
+              "As an operating manual for customers",
+              "As the contractor's job application"
+            ],
+            "explanation": "The Pflichtenheft is the binding agreement and serves as the basis for acceptance.",
+            "hint": "Think of 'binding' and 'acceptance'.",
+            "answer": 0
+          }
+        }
+      },
+      {
+        "id": "f-5",
+        "kind": "multiple-choice",
+        "prompt": "Welches ist KEINES der sieben Kapitel des Pflichtenhefts?",
+        "options": [
+          "Gewinnprognose",
+          "Ausgangssituation und Zielsetzung",
+          "Abnahmekriterien",
+          "Lebenszyklus des Gesamtsystems"
+        ],
+        "answer": 0,
+        "explanation": "Die Gewinnprognose ist kein Kapitel; die anderen drei gehören zu den sieben Kapiteln.",
+        "hint": "Zähle die sieben Kapitel im Kopf durch.",
+        "i18n": {
+          "de": {
+            "prompt": "Welches ist KEINES der sieben Kapitel des Pflichtenhefts?",
+            "options": [
+              "Gewinnprognose",
+              "Ausgangssituation und Zielsetzung",
+              "Abnahmekriterien",
+              "Lebenszyklus des Gesamtsystems"
+            ],
+            "explanation": "Die Gewinnprognose ist kein Kapitel; die anderen drei gehören zu den sieben Kapiteln.",
+            "hint": "Zähle die sieben Kapitel im Kopf durch.",
+            "answer": 0
+          },
+          "en": {
+            "prompt": "Which is NOT one of the seven chapters of the Pflichtenheft?",
+            "options": [
+              "Profit forecast",
+              "Initial situation and objectives",
+              "Acceptance criteria",
+              "Lifecycle of the overall system"
+            ],
+            "explanation": "The profit forecast is not a chapter; the other three are among the seven chapters.",
+            "hint": "Count the seven chapters in your head.",
+            "answer": 0
+          }
+        }
+      },
+      {
+        "id": "f-6",
+        "kind": "multiple-choice",
+        "prompt": "„Das System soll sehr leicht bedienbar sein.“ Wohin?",
+        "options": [
+          "Nicht-Funktionale Anforderungen",
+          "Funktionale Anforderungen",
+          "Lieferumfang",
+          "Abnahmekriterien"
+        ],
+        "answer": 0,
+        "explanation": "Leichte Bedienbarkeit ist eine Eigenschaft (Usability) → nicht-funktional.",
+        "hint": "Ist das eine Tätigkeit oder eine Eigenschaft?",
+        "i18n": {
+          "de": {
+            "prompt": "„Das System soll sehr leicht bedienbar sein.“ Wohin?",
+            "options": [
+              "Nicht-Funktionale Anforderungen",
+              "Funktionale Anforderungen",
+              "Lieferumfang",
+              "Abnahmekriterien"
+            ],
+            "explanation": "Leichte Bedienbarkeit ist eine Eigenschaft (Usability) → nicht-funktional.",
+            "hint": "Ist das eine Tätigkeit oder eine Eigenschaft?",
+            "answer": 0
+          },
+          "en": {
+            "prompt": "'The system should be very easy to use.' Where?",
+            "options": [
+              "Non-functional requirements",
+              "Functional requirements",
+              "Scope of delivery",
+              "Acceptance criteria"
+            ],
+            "explanation": "Ease of use is a property (usability) → non-functional.",
+            "hint": "Is that an action or a property?",
+            "answer": 0
+          }
+        }
+      },
+      {
+        "id": "f-7",
+        "kind": "multiple-choice",
+        "prompt": "„Anbindung an die Kundendatenbank.“ Wohin?",
+        "options": [
+          "Schnittstellenübersicht",
+          "Funktionale Anforderungen",
+          "Lebenszyklus des Gesamtsystems",
+          "Lieferumfang"
+        ],
+        "answer": 0,
+        "explanation": "Eine Verbindung zu einer Datenbank gehört in die Schnittstellenübersicht.",
+        "hint": "Was wird hier verbunden?",
+        "i18n": {
+          "de": {
+            "prompt": "„Anbindung an die Kundendatenbank.“ Wohin?",
+            "options": [
+              "Schnittstellenübersicht",
+              "Funktionale Anforderungen",
+              "Lebenszyklus des Gesamtsystems",
+              "Lieferumfang"
+            ],
+            "explanation": "Eine Verbindung zu einer Datenbank gehört in die Schnittstellenübersicht.",
+            "hint": "Was wird hier verbunden?",
+            "answer": 0
+          },
+          "en": {
+            "prompt": "'Connection to the customer database.' Where?",
+            "options": [
+              "Interface overview",
+              "Functional requirements",
+              "Lifecycle of the overall system",
+              "Scope of delivery"
+            ],
+            "explanation": "A connection to a database belongs in the interface overview.",
+            "hint": "What is being connected here?",
+            "answer": 0
+          }
+        }
+      },
+      {
+        "id": "f-8",
+        "kind": "multiple-choice",
+        "prompt": "„Innerhalb von 2 Wochen keine schweren Fehler.“ Wohin?",
+        "options": [
+          "Abnahmekriterien",
+          "Funktionale Anforderungen",
+          "Nicht-Funktionale Anforderungen",
+          "Lieferumfang"
+        ],
+        "answer": 0,
+        "explanation": "Es ist eine Erfolgsbedingung → Abnahmekriterien.",
+        "hint": "Wann gilt der Auftrag als erfüllt?",
+        "i18n": {
+          "de": {
+            "prompt": "„Innerhalb von 2 Wochen keine schweren Fehler.“ Wohin?",
+            "options": [
+              "Abnahmekriterien",
+              "Funktionale Anforderungen",
+              "Nicht-Funktionale Anforderungen",
+              "Lieferumfang"
+            ],
+            "explanation": "Es ist eine Erfolgsbedingung → Abnahmekriterien.",
+            "hint": "Wann gilt der Auftrag als erfüllt?",
+            "answer": 0
+          },
+          "en": {
+            "prompt": "'No serious errors within 2 weeks.' Where?",
+            "options": [
+              "Acceptance criteria",
+              "Functional requirements",
+              "Non-functional requirements",
+              "Scope of delivery"
+            ],
+            "explanation": "It is a success condition → acceptance criteria.",
+            "hint": "When is the order considered fulfilled?",
+            "answer": 0
+          }
+        }
+      },
+      {
+        "id": "f-9",
+        "kind": "fill-blank",
+        "prompt": "Ein ____________ ist ein unerwarteter Fehler in einem Programm.",
+        "answer": "Bug",
+        "explanation": "Ein Bug ist ein unerwarteter Fehler bzw. Programmfehler im Programm.",
+        "hint": "Es ist ein englisches Wort und beginnt mit „B“.",
+        "i18n": {
+          "de": {
+            "prompt": "Ein ____________ ist ein unerwarteter Fehler in einem Programm.",
+            "explanation": "Ein Bug ist ein unerwarteter Fehler bzw. Programmfehler im Programm.",
+            "hint": "Es ist ein englisches Wort und beginnt mit „B“.",
+            "answer": [
+              "Bug",
+              "Programmfehler"
+            ]
+          },
+          "en": {
+            "prompt": "A ____________ is an unexpected error in a program.",
+            "explanation": "A bug is an unexpected error or fault in a program.",
+            "hint": "It starts with 'B'.",
+            "answer": [
+              "Bug",
+              "bug"
+            ]
+          }
+        }
+      },
+      {
+        "id": "f-10",
+        "kind": "multiple-choice",
+        "prompt": "„Programm und Handbuch“ gehören in welches Kapitel des Pflichtenhefts?",
+        "answer": 0,
+        "explanation": "Programm und Handbuch sind gelieferte Bestandteile → Lieferumfang.",
+        "hint": "Was bekommt der Kunde tatsächlich geliefert?",
+        "i18n": {
+          "de": {
+            "prompt": "„Programm und Handbuch“ gehören in welches Kapitel des Pflichtenhefts?",
+            "explanation": "Programm und Handbuch sind gelieferte Bestandteile → Lieferumfang.",
+            "hint": "Was bekommt der Kunde tatsächlich geliefert?",
+            "options": [
+              "Lieferumfang",
+              "Funktionale Anforderungen",
+              "Schnittstellenübersicht",
+              "Abnahmekriterien"
+            ],
+            "answer": 0
+          },
+          "en": {
+            "prompt": "\"Program and manual\" belong in which chapter of the Pflichtenheft?",
+            "explanation": "Program and manual are delivered components → scope of delivery.",
+            "hint": "What does the customer actually get delivered?",
+            "options": [
+              "Lieferumfang (scope of delivery)",
+              "Functional requirements",
+              "Interface overview",
+              "Acceptance criteria"
+            ],
+            "answer": 0
+          }
+        },
+        "options": [
+          "Lieferumfang",
+          "Funktionale Anforderungen",
+          "Schnittstellenübersicht",
+          "Abnahmekriterien"
+        ]
+      }
+    ]
+  }
+}

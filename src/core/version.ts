@@ -1,7 +1,7 @@
 // The single source of truth for the app version and the "What's new" list.
 // Bump VERSION and add one CHANGELOG entry at the top when you ship user-visible changes.
 
-export const VERSION = '1.4.3';
+export const VERSION = '1.5.0';
 
 export interface ChangelogEntry {
   version: string;
@@ -11,6 +11,14 @@ export interface ChangelogEntry {
 
 /** Newest first. */
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.5.0',
+    date: '2026-10-21',
+    changes: [
+      'Two new courses come with the app: "Zahlensysteme, Einheiten und Speicher" and "Das Pflichtenheft verstehen".',
+      'Courses that come with the app are now in your library from the start, no need to add them. If you delete one, it stays deleted; you can add it again from Ready-made courses.'
+    ]
+  },
   {
     version: '1.4.3',
     date: '2026-10-20',
