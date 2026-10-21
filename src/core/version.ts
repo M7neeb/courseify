@@ -1,7 +1,7 @@
 // The single source of truth for the app version and the "What's new" list.
 // Bump VERSION and add one CHANGELOG entry at the top when you ship user-visible changes.
 
-export const VERSION = '1.5.0';
+export const VERSION = '1.6.0';
 
 export interface ChangelogEntry {
   version: string;
@@ -11,6 +11,16 @@ export interface ChangelogEntry {
 
 /** Newest first. */
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.6.0',
+    date: '2026-10-21',
+    changes: [
+      'Three new courses come with the app: "Datenbanken: ER-Modell, Schlüssel und Tabellen", "Elektrotechnik: Strom, Leistung und Wechselspannung" and "IT-Systeme: EVA-Modell, Einheiten und Zahlensysteme". All three are in German and English: switch explanations, questions and answers with the language button in each lesson.',
+      'Flashcards switch language too when a course has them in both languages.',
+      'Diagrams and code in lessons fit on a phone screen without scrolling sideways.',
+      '"IT-Systeme" replaces "Zahlensysteme, Einheiten und Speicher" with more practice and the full EVA model with interfaces. A copy you already have stays in your library until you delete it.'
+    ]
+  },
   {
     version: '1.5.0',
     date: '2026-10-21',

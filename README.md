@@ -47,9 +47,10 @@ and a review that brings back exactly the questions you missed.
 - **Chess on the board.** Worked examples you step through, puzzles you solve by playing the moves,
   endgames you play out against a built-in computer, and a practice board for full games. A
   ready-made course, *Chess: from improver to 1000*, comes with 118 puzzles from real games.
-- **Courses included.** *Chess: from improver to 1000*, *Zahlensysteme, Einheiten und Speicher* and
-  *Das Pflichtenheft verstehen* are in the library from the first start. A deleted one stays deleted
-  and can be added again from Ready-made courses.
+- **Courses included.** *Chess: from improver to 1000*, *IT-Systeme: EVA-Modell, Einheiten und
+  Zahlensysteme*, *Datenbanken: ER-Modell, Schlüssel und Tabellen*, *Elektrotechnik: Strom, Leistung
+  und Wechselspannung* and *Das Pflichtenheft verstehen* are in the library from the first start.
+  A deleted one stays deleted and can be added again from Ready-made courses.
 - **Practice sets per skill.** Missed questions come first, then ones you have never tried.
 - **Mistake review.** Every wrong answer is saved and comes back later, preferring a different variant
   of the same question.

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { blockLanguages, rationaleFor, resolveCalloutMarkdown, resolveImageAlt, resolveImageCaption, resolveQuestion, resolveQuestions, resolveTextLevels } from './localize.ts';
+import { blockLanguages, rationaleFor, resolveCalloutMarkdown, resolveFlashcards, resolveImageAlt, resolveImageCaption, resolveQuestion, resolveQuestions, resolveTextLevels } from './localize.ts';
 import type { Block, Question } from './types.ts';
 
 const textBlock: Block = {
@@ -157,4 +157,16 @@ test('block languages come from block and question i18n entries', () => {
     questions: [{ id: 'q1', kind: 'true-false', prompt: '?', answer: true, i18n: { de: { prompt: 'Wahr?' } } }]
   };
   assert.deepEqual(blockLanguages([quiz]), ['de']);
+});
+
+test('flashcards prefer the cards of the chosen language, then the top-level cards', () => {
+  const block: Block = {
+    id: 'f',
+    type: 'flashcards',
+    cards: [{ front: 'Kupfer', back: 'Cu' }],
+    i18n: { en: { cards: [{ front: 'Copper', back: 'Cu' }] } }
+  };
+  assert.deepEqual(resolveFlashcards(block, 'en'), [{ front: 'Copper', back: 'Cu' }]);
+  assert.deepEqual(resolveFlashcards(block, 'de'), [{ front: 'Kupfer', back: 'Cu' }]);
+  assert.deepEqual(resolveFlashcards({ id: 'g', type: 'flashcards', cards: 'x' }, 'de'), []);
 });

@@ -2,7 +2,7 @@ Course JSON (schemaVersion 2). Every text field is Markdown unless noted.
 
 LANGUAGE FIELDS
 - One-language course: use the plain fields shown below (levels, markdown, prompt, options, ...). No "i18n".
-- Two-language course: keep the plain fields as the first language's copy AND add "i18n": { "<lang>": { ...same fields... } } for every language, on every block and question that has text. Allowed i18n fields: text blocks "normal", "simple", "detailed"; callout/example "markdown"; image "alt", "caption"; questions "prompt", "options", "answer", "explanation", "hint", "hints", "rationales", "pairs", "items".
+- Two-language course: keep the plain fields as the first language's copy AND add "i18n": { "<lang>": { ...same fields... } } for every language, on every block and question that has text. Allowed i18n fields: text blocks "normal", "simple", "detailed"; callout/example "markdown"; image "alt", "caption"; flashcards "cards"; questions "prompt", "options", "answer", "explanation", "hint", "hints", "rationales", "pairs", "items".
 
 COURSE
 { "schemaVersion": 2, "id": "course-id", "title": "…", "subject": "…", "level": "…", "language": "de", "languages": ["de"], "modules": [ Module ], "finalExam": FinalExam? }

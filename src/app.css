@@ -265,6 +265,11 @@ legend { font-weight: 700; padding: 0 0.4rem; }
 .prose code { font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace; font-size: 0.9em; background: var(--accent-soft); padding: 0.1em 0.35em; border-radius: 4px; }
 .prose pre { overflow-x: auto; background: var(--accent-soft); padding: 0.9rem 1rem; border-radius: 8px; }
 .prose pre code { background: none; padding: 0; }
+/* Phones: diagrams and SQL in code blocks fit about 30 characters per line without scrolling. */
+@media (max-width: 480px) {
+  .prose pre { padding: 0.75rem 0.8rem; }
+  .prose pre code { font-size: 0.8em; }
+}
 .prose table { border-collapse: collapse; display: block; overflow-x: auto; }
 .prose th, .prose td { border: 1px solid var(--line); padding: 0.35rem 0.6rem; }
 .prose img { max-width: 100%; height: auto; }

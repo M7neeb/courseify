@@ -1,10 +1,11 @@
 <script lang="ts">
-  import type { Block } from '../../core/types.ts';
+  import type { Block, BlockContext } from '../../core/types.ts';
   import { renderMarkdown } from '../../core/markdown.ts';
+  import { resolveFlashcards } from '../../core/localize.ts';
   import { t } from '../../i18n/i18n.ts';
 
-  let { block }: { block: Block } = $props();
-  const cards = $derived(Array.isArray(block.cards) ? block.cards as { front: string; back: string }[] : []);
+  let { block, ctx }: { block: Block; ctx?: BlockContext } = $props();
+  const cards = $derived(resolveFlashcards(block, ctx?.explanationLanguage ?? 'en'));
   let index = $state(0);
   let revealed = $state(false);
   let known = $state(0);

@@ -55,6 +55,24 @@ export function resolveImageCaption(block: Block, lang: Lang): string {
   return pick(localized?.caption, block.caption) ?? '';
 }
 
+export interface Flashcard {
+  front: string;
+  back: string;
+}
+
+function isFlashcard(value: unknown): value is Flashcard {
+  if (typeof value !== 'object' || value === null) return false;
+  const card = value as Record<string, unknown>;
+  return typeof card.front === 'string' && typeof card.back === 'string';
+}
+
+/** Flashcards for the chosen language: `i18n[lang].cards`, else the top-level `cards`. */
+export function resolveFlashcards(block: Block, lang: Lang): Flashcard[] {
+  const localized = langEntry(block.i18n, lang)?.cards;
+  if (Array.isArray(localized) && localized.length > 0 && localized.every(isFlashcard)) return localized;
+  return Array.isArray(block.cards) ? (block.cards as unknown[]).filter(isFlashcard) : [];
+}
+
 /** A question with prompt/options/answer/explanation/hint resolved for the chosen language. */
 export function resolveQuestion(q: Question, lang: Lang): Question {
   const localized = q.i18n?.[lang];

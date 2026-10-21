@@ -38,6 +38,8 @@ export interface I18nText {
   markdown?: string;
   alt?: string;
   caption?: string;
+  /** Flashcard blocks: the cards in this language, same order as the top-level `cards`. */
+  cards?: { front: string; back: string }[];
 }
 
 /** Localized question fields. Any missing field falls back to the top-level one. */
