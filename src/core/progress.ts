@@ -43,6 +43,14 @@ export function normalizeProgress(raw: unknown): CourseProgress | null {
       )
     );
   }
+  if (typeof r.reports === 'object' && r.reports !== null && !Array.isArray(r.reports)) {
+    p.reports = Object.fromEntries(
+      Object.entries(r.reports).filter(
+        (entry): entry is [string, NonNullable<CourseProgress['reports']>[string]] =>
+          typeof entry[1] === 'object' && entry[1] !== null && ['wrong', 'unclear', 'typo', 'other'].includes((entry[1] as { reason?: string }).reason ?? '')
+      )
+    );
+  }
   if (Array.isArray(r.bookmarks)) p.bookmarks = [...new Set(r.bookmarks.filter((x): x is string => typeof x === 'string'))];
   if (typeof r.lastOpened === 'string') p.lastOpened = r.lastOpened;
   const pos = r.position as { lessonId?: unknown } | undefined;

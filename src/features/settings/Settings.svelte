@@ -10,6 +10,7 @@
     getCourse,
     navigate,
     resetCourseSettings,
+    setExamDate,
     showToast,
     updateCourseSettings,
     updateSettings
@@ -22,6 +23,7 @@
   import { CHANGELOG, VERSION } from '../../core/version.ts';
   import type { CourseSettingKey, ExplanationLevel, LayoutMode, Settings } from '../../core/types.ts';
   import { t } from '../../i18n/i18n.ts';
+  import CourseTools from './CourseTools.svelte';
 
   let { courseId }: { courseId?: string } = $props();
 
@@ -127,6 +129,21 @@
     <p class="notice">{t('settings.courseMissing')}</p>
   {/if}
 
+  {#if scope}
+    <fieldset>
+      <legend>{t('plan.examDate')}</legend>
+      <label for="exam-date">{t('plan.examDateLabel')}</label>
+      <div class="row">
+        <input id="exam-date" type="date" value={app.meta[scope]?.examDate ?? ''} onchange={(e) => scope && setExamDate(scope, e.currentTarget.value)} />
+        {#if app.meta[scope]?.examDate}
+          <button type="button" class="link small" onclick={() => scope && setExamDate(scope, '')}>{t('plan.examDateClear')}</button>
+        {/if}
+      </div>
+      <p class="muted small">{t('plan.examDateHelp')}</p>
+    </fieldset>
+    <CourseTools courseId={scope} />
+  {/if}
+
   {#if !scope}
     <fieldset>
       <legend>{t('settings.appearance')}</legend>
@@ -166,6 +183,10 @@
           <option value="relaxed">{t('settings.lineSpacing.relaxed')}</option>
           <option value="loose">{t('settings.lineSpacing.loose')}</option>
         </select>
+      </label>
+      <label class="check">
+        <input type="checkbox" checked={app.settings.glossaryTerms} onchange={(e) => updateSettings({ glossaryTerms: e.currentTarget.checked })} />
+        {t('settings.glossaryTerms')}
       </label>
       <label>{t('settings.language')}
         <select value={app.settings.uiLanguage} onchange={(e) => updateSettings({ uiLanguage: e.currentTarget.value as Settings['uiLanguage'] })}>

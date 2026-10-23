@@ -1,4 +1,4 @@
-import type { Question } from './types.ts';
+import type { HotspotArea, Question } from './types.ts';
 import { gradeChess } from './chess.ts';
 
 export function normalizeText(s: string): string {
@@ -104,6 +104,51 @@ function gradeOrdering(q: Question, given: unknown): boolean {
   return order.every((itemIndex, position) => itemIndex === position);
 }
 
+/** Key points a written answer must cover to count: two thirds, rounded up. */
+export function writtenNeeded(q: Question): number {
+  const n = Array.isArray(q.points) ? q.points.length : 0;
+  return n === 0 ? 0 : Math.ceil((n * 2) / 3);
+}
+
+/** The key points (indexes) a written answer says it covers, cleaned up. */
+export function writtenCovered(q: Question, given: unknown): number[] {
+  if (typeof given !== 'object' || given === null) return [];
+  const covered = (given as { covered?: unknown }).covered;
+  const n = Array.isArray(q.points) ? q.points.length : 0;
+  if (!Array.isArray(covered)) return [];
+  return [...new Set(covered.filter((v): v is number => Number.isInteger(v) && (v as number) >= 0 && (v as number) < n))];
+}
+
+/** A written answer: some text, and enough key points ticked as covered. */
+function gradeWritten(q: Question, given: unknown): boolean {
+  const text = typeof given === 'object' && given !== null ? (given as { text?: unknown }).text : undefined;
+  if (typeof text !== 'string' || text.trim() === '') return false;
+  const needed = writtenNeeded(q);
+  return needed > 0 && writtenCovered(q, given).length >= needed;
+}
+
+/** Which area a tap at (x, y) percent falls in: the smallest one that contains it, or -1. */
+export function hotspotHit(areas: readonly HotspotArea[] | undefined, x: number, y: number): number {
+  let hit = -1;
+  let size = Infinity;
+  (areas ?? []).forEach((a, i) => {
+    // A little slack around each area: a finger is not a mouse pointer.
+    const m = 1.5;
+    if (x >= a.x - m && x <= a.x + a.w + m && y >= a.y - m && y <= a.y + a.h + m && a.w * a.h < size) {
+      hit = i;
+      size = a.w * a.h;
+    }
+  });
+  return hit;
+}
+
+function gradeHotspot(q: Question, given: unknown): boolean {
+  if (typeof given !== 'object' || given === null) return false;
+  const { x, y } = given as { x?: unknown; y?: unknown };
+  if (typeof x !== 'number' || typeof y !== 'number') return false;
+  return Number.isInteger(q.answer) && hotspotHit(q.areas, x, y) === q.answer;
+}
+
 /** Returns true when the given answer is correct for this question. */
 export function gradeAnswer(q: Question, given: unknown): boolean {
   switch (q.kind) {
@@ -128,6 +173,13 @@ export function gradeAnswer(q: Question, given: unknown): boolean {
       return gradeOrdering(q, given);
     case 'chess':
       return gradeChess(q, given);
+    case 'written':
+      return gradeWritten(q, given);
+    case 'hotspot':
+      return gradeHotspot(q, given);
+    case 'code':
+      // The code runs in a worker before grading; what comes here is whether every test passed.
+      return typeof given === 'object' && given !== null && (given as { passed?: unknown }).passed === true;
     default:
       return false;
   }

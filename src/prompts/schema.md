@@ -2,13 +2,18 @@ Course JSON (schemaVersion 2). Every text field is Markdown unless noted.
 
 LANGUAGE FIELDS
 - One-language course: use the plain fields shown below (levels, markdown, prompt, options, ...). No "i18n".
-- Two-language course: keep the plain fields as the first language's copy AND add "i18n": { "<lang>": { ...same fields... } } for every language, on every block and question that has text. Allowed i18n fields: text blocks "normal", "simple", "detailed"; callout/example "markdown"; image "alt", "caption"; flashcards "cards"; questions "prompt", "options", "answer", "explanation", "hint", "hints", "rationales", "pairs", "items".
+- Two-language course: keep the plain fields as the first language's copy AND add "i18n": { "<lang>": { ...same fields... } } for every language, on every block and question that has text. Allowed i18n fields: text blocks "normal", "simple", "detailed"; callout/example "markdown"; image "alt", "caption"; flashcards "cards"; questions "prompt", "options", "answer", "explanation", "hint", "hints", "rationales", "pairs", "items", "points", "svg", "alt", "areaLabels".
 
 COURSE
 { "schemaVersion": 2, "id": "course-id", "title": "…", "subject": "…", "level": "…", "language": "de", "languages": ["de"], "modules": [ Module ], "finalExam": FinalExam? }
 
 MODULE (a unit)
-{ "id": "m1", "title": "…", "summary": "1-2 sentences", "lessons": [ Lesson ], "test": ModuleTest }
+{ "id": "m1", "title": "…", "summary": "1-2 sentences", "lessons": [ Lesson ], "test": ModuleTest, "glossary": [ GlossaryEntry ] }
+GlossaryEntry: { "term": "primary key", "definition": "one short sentence", "aliases": ["PK"] }. Two-language courses add "i18n": { "de": { "term": "Primärschlüssel", "definition": "…" }, "en": { … } }. The app underlines these terms in the lesson text; tapping one shows the definition.
+
+TEXT FORMATTING (inside any Markdown text)
+- Formulas in LaTeX: inline $U = R \cdot I$, or a display formula on its own line: $$P = U \cdot I$$. Never put a formula in a code block.
+- Diagrams as a Mermaid code block: ```mermaid then the diagram (flowchart, erDiagram, sequenceDiagram, timeline), then ```. Keep labels short; one diagram per idea.
 
 LESSON
 { "id": "m1-l1", "title": "…", "goal": "What the learner can do afterwards", "blocks": [ Block ] }
@@ -62,3 +67,5 @@ QUESTION KINDS
 - multi-select: "options": [texts], "answer": [indexes of ALL correct options].
 - matching: "pairs": [ { "left": "…", "right": "…" } ] (2-6 pairs, correct pairs). No "answer".
 - ordering: "items": [ "first", "second", … ] (2-6 items, in the CORRECT order). No "answer".
+- written: "answer": "a model answer of 2-5 sentences", "points": ["key point 1", "key point 2", …] (2-6 short, checkable key points). The learner writes an answer, compares it with the model answer and ticks the points covered; two thirds are needed.
+- hotspot: "svg": "<svg viewBox='0 0 400 240' xmlns='http://www.w3.org/2000/svg'>…</svg>" (a clear diagram: shapes, lines and short <text> labels, no scripts, no images, no links), "alt": "what the picture shows", "areas": [ { "x": 10, "y": 20, "w": 15, "h": 12, "label": "what this part is" } ] (2-8 areas in PERCENT of the picture's width and height), "answer": index of the area to tap. Do not write the answer as a label inside the picture.

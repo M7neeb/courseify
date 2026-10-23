@@ -73,6 +73,22 @@ test('backups are detected, validated and normalised', () => {
   assert.equal(r.backup.settings.fontSize, 17);
 });
 
+test('backups keep activity days, chess games and endgame records', () => {
+  const backup = {
+    kind: 'course-app-backup', schemaVersion: 3, exportedAt: '2026-10-22T00:00:00Z',
+    courses: [], progress: [], courseMeta: [], settings: {},
+    activity: [{ day: '2026-10-21', xp: 40 }, { nope: 1 }],
+    games: [{ id: 'g1', botId: 'pip', color: 'w', startFen: 'x', moves: ['e2e4'], startedAt: '2026-10-21' }, { id: 'broken' }],
+    chess: { endgames: { 'kq-k': { done: true, bestMoves: 9, at: '2026-10-21' } } }
+  };
+  const r = analyzeImport(JSON.stringify(backup));
+  assert.equal(r.kind, 'backup');
+  if (r.kind !== 'backup') return;
+  assert.equal(r.backup.activity?.length, 1);
+  assert.equal(r.backup.games?.length, 1);
+  assert.equal(r.backup.chess?.endgames['kq-k']?.bestMoves, 9);
+});
+
 test('parseLooseJson reports failure for text with no object', () => {
   assert.equal(parseLooseJson('hello').ok, false);
 });

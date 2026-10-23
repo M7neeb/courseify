@@ -133,3 +133,26 @@ test('ordering compares the final order to the canonical order', () => {
   assert.equal(gradeAnswer(o, [0, 1]), false);
   assert.equal(gradeAnswer(o, [0, 1, 2, 3]), false);
 });
+
+test('a written answer counts when two thirds of the key points are ticked', async () => {
+  const { writtenNeeded, writtenCovered } = await import('./grade.ts');
+  const w = q({ kind: 'written', answer: 'model', points: ['a', 'b', 'c', 'd'] });
+  assert.equal(writtenNeeded(w), 3);
+  assert.equal(gradeAnswer(w, { text: 'my answer', covered: [0, 1, 3] }), true);
+  assert.equal(gradeAnswer(w, { text: 'my answer', covered: [0, 1] }), false);
+  // Ticks without any text, repeated or out-of-range ticks do not count.
+  assert.equal(gradeAnswer(w, { text: '  ', covered: [0, 1, 2] }), false);
+  assert.deepEqual(writtenCovered(w, { text: 'x', covered: [1, 1, 9, -1, 2] }), [1, 2]);
+});
+
+test('a hotspot answer is right when the tap lands in the right area', async () => {
+  const { hotspotHit } = await import('./grade.ts');
+  const h = q({ kind: 'hotspot', svg: '<svg></svg>', answer: 1, areas: [{ x: 0, y: 0, w: 50, h: 50 }, { x: 60, y: 60, w: 20, h: 20 }] });
+  assert.equal(gradeAnswer(h, { x: 70, y: 70 }), true);
+  assert.equal(gradeAnswer(h, { x: 10, y: 10 }), false);
+  // A finger is allowed to land just outside the edge.
+  assert.equal(gradeAnswer(h, { x: 59, y: 70 }), true);
+  assert.equal(gradeAnswer(h, 'tap'), false);
+  // Overlapping areas: the smaller one wins.
+  assert.equal(hotspotHit([{ x: 0, y: 0, w: 100, h: 100 }, { x: 40, y: 40, w: 10, h: 10 }], 45, 45), 1);
+});

@@ -8,10 +8,11 @@
 // check).
 
 import type { Course, QuestionKind } from './types.ts';
+import { DRILLS } from './drills.ts';
 
 // ---------- settings ----------
 
-export type Preset = 'exam' | 'programming' | 'understand' | 'chess' | 'refresher' | 'deep-dive' | 'custom';
+export type Preset = 'exam' | 'programming' | 'it' | 'maths' | 'understand' | 'chess' | 'refresher' | 'deep-dive' | 'custom';
 export type Purpose = 'exam' | 'understand' | 'skill' | 'interest';
 export type Level = 'beginner' | 'some' | 'intermediate' | 'advanced';
 export type SourceMode = 'none' | 'pasted' | 'attached';
@@ -41,6 +42,8 @@ export interface Extras {
   checkins: boolean;
   /** A chess course: boards with worked examples, puzzles and positions to play out. */
   chess: boolean;
+  /** Generated practice sets (drills) and graphs with sliders, for IT, maths and technical courses. */
+  practice: boolean;
 }
 
 export interface PromptSettings {
@@ -89,8 +92,14 @@ export const ALL_KINDS: QuestionKind[] = [
   'numeric',
   'multi-select',
   'matching',
-  'ordering'
+  'ordering',
+  'written',
+  'hotspot',
+  'code'
 ];
+
+/** Kinds every new course offers by default. Hotspot questions need drawn diagrams, so they are opt-in. */
+export const DEFAULT_KINDS: QuestionKind[] = ALL_KINDS.filter((k) => k !== 'hotspot' && k !== 'code');
 
 /** Languages offered for a single-language course. The in-lesson switch only covers de and en. */
 export const LANGUAGES: Record<string, string> = {
@@ -140,7 +149,7 @@ export function defaultSettings(): PromptSettings {
     testQuestions: 10,
     finalExam: true,
     finalExamQuestions: 20,
-    kinds: [...ALL_KINDS],
+    kinds: [...DEFAULT_KINDS],
     difficulty: 'exam',
     progressiveHints: true,
     variants: true,
@@ -158,7 +167,8 @@ export function defaultSettings(): PromptSettings {
       warmup: true,
       reading: true,
       checkins: true,
-      chess: false
+      chess: false,
+      practice: false
     },
     tone: '',
     extraInstructions: '',
@@ -187,8 +197,25 @@ export const PRESETS: Record<Exclude<Preset, 'custom'>, PresetPatch> = {
     difficulty: 'mixed',
     examOperators: false,
     depth: 'standard',
-    kinds: ['multiple-choice', 'true-false', 'short-answer', 'fill-blank', 'numeric', 'multi-select', 'ordering'],
+    kinds: ['code', 'multiple-choice', 'true-false', 'short-answer', 'fill-blank', 'numeric', 'multi-select', 'ordering'],
     extras: { code: true, examples: true, mistakes: true, examTips: false, images: false, videos: true }
+  },
+  it: {
+    purpose: 'skill',
+    sourceMode: 'none',
+    difficulty: 'mixed',
+    examOperators: false,
+    kinds: ['numeric', 'multiple-choice', 'short-answer', 'fill-blank', 'multi-select', 'matching', 'ordering', 'true-false'],
+    extras: { practice: true, examples: true, mistakes: true, flashcards: true, code: false, chess: false, images: true }
+  },
+  maths: {
+    purpose: 'understand',
+    sourceMode: 'none',
+    difficulty: 'mixed',
+    examOperators: false,
+    threeLevels: true,
+    kinds: ['numeric', 'multiple-choice', 'written', 'fill-blank', 'ordering', 'true-false'],
+    extras: { practice: true, examples: true, mistakes: true, analogies: true, code: false, chess: false, flashcards: false }
   },
   chess: {
     purpose: 'skill',
@@ -330,7 +357,10 @@ const KIND_TEXT: Record<QuestionKind, string> = {
   'multi-select': 'multi-select (several correct options)',
   matching: 'matching (2-6 pairs, e.g. term to meaning)',
   ordering: 'ordering (2-6 steps in the correct order)',
-  chess: 'chess (a puzzle on a board: a legal FEN with the learner to move and the solution line in SAN, 1-3 learner moves)'
+  chess: 'chess (a puzzle on a board: a legal FEN with the learner to move and the solution line in SAN, 1-3 learner moves)',
+  written: 'written (an exam-style task answered in 2-5 sentences, with a model answer and 2-6 key points; use it for "explain", "describe" and "compare" tasks, at most one per lesson quiz)',
+  hotspot: 'hotspot (the learner taps the right part of a simple SVG diagram you draw: a circuit, a table, a network or a labelled sketch)',
+  code: 'code (a small programming task: the learner writes code in the app and it is checked by tests you write; see the CODE part of the schema)'
 };
 
 /** Chess courses get the chess part of the schema too; every other course keeps it short. */
@@ -343,8 +373,31 @@ const CHESS_SCHEMA = [
   '  Only positions that can happen in a real game: one king per side, the side NOT to move is not in check, no pawns on the first or last rank.'
 ].join('\n');
 
+/** Programming courses get the code part of the schema: runnable examples and checked exercises. */
+const CODE_SCHEMA = [
+  'CODE (programming courses only; "language" is "python" or "javascript")',
+  'Runnable example block: { "id": "m1-l1-b3", "type": "code", "language": "python", "title": "...", "code": "name = \\"Ada\\"\\nprint(\\"Hello\\", name)", "caption": "what to notice" }',
+  'Code question: { "id": "q-m1-l1-1", "kind": "code", "language": "python", "prompt": "Write a function `add(a, b)` that returns the sum.", "starter": "def add(a, b):\\n    pass\\n", "answer": "def add(a, b):\\n    return a + b\\n", "tests": [ { "call": "add(2, 3)", "expect": 5 }, { "call": "add(-1, 1)", "expect": 0 } ], "hints": ["...", "..."], "explanation": "..." }',
+  '  A test either calls a function and compares the result as JSON ("call" + "expect"), or runs the whole program and compares what it prints ("output", with optional "stdin": input lines separated by \\n). Write 2-5 tests including an edge case. Make sure your "answer" passes every test.',
+  '  No imports beyond the standard library, no files, no network. Keep tasks small: 3-15 lines of code.'
+].join('\n');
+
+/** Courses with practice get the drill and graph blocks: the drills the app can generate, and graphs. */
+const PRACTICE_SCHEMA = [
+  'PRACTICE BLOCKS (the app generates the problems itself, with worked solutions)',
+  'Drill block: { "id": "m1-l1-b5", "type": "drill", "drill": "<one id below>", "level": 1 | 2 | 3, "count": 5 }',
+  `  Drill ids: ${DRILLS.map((d) => d.id).join(', ')}.`,
+  '  bin-dec, dec-bin, hex-dec, dec-hex, bin-hex: number systems. units: KB/KiB/MB/Mbit conversions. transfer: download times. cidr: prefix and subnet mask. subnet-hosts, subnet-network, subnet-broadcast: subnetting. linear: linear equations. percent: percentages. fractions: fraction arithmetic. scientific: powers of ten. ohm: Ohm\'s law. quadratic: quadratic equations (p-q formula). line: slope and y-intercept.',
+  'Graph block: { "id": "m1-l1-b6", "type": "graph", "title": "...", "functions": [ { "expr": "a*x^2 + b", "label": "f" } ], "params": [ { "name": "a", "min": -3, "max": 3, "step": 0.5, "value": 1, "label": "a" } ], "x": [-6, 6], "y": [-4, 8], "points": [[0, 0]], "caption": "what to try with the sliders" }',
+  '  "expr" uses x, the parameter letters, + - * / ^, brackets and sin cos tan sqrt abs ln log exp, pi, e. 1-4 functions, at most 4 sliders (one letter each, not x).'
+].join('\n');
+
 function schemaFor(s: PromptSettings, schema: string): string {
-  return s.extras.chess ? `${schema.trim()}\n\n${CHESS_SCHEMA}` : schema;
+  let out = schema.trim();
+  if (s.extras.chess) out += `\n\n${CHESS_SCHEMA}`;
+  if (s.extras.code || s.kinds.includes('code')) out += `\n\n${CODE_SCHEMA}`;
+  if (s.extras.practice) out += `\n\n${PRACTICE_SCHEMA}`;
+  return out;
 }
 
 function list(lines: string[]): string {
@@ -474,11 +527,15 @@ function lessonRecipe(s: PromptSettings): string {
       ? 'This is a chess course: teach on the board. For every idea add a "chess" block with "mode": "show" (a worked example you step through: "fen" plus "steps", each with a "move" in SAN, a one-sentence "note", and optional "arrows" such as "e2e4" and "highlights" such as "f7"). In endgame lessons add a "chess" block with "mode": "play" so the learner plays the position out against the computer. Most quiz questions are "chess" puzzles (see the CHESS part of the schema). Use small, clear positions with few pieces, and check every position and every move yourself: an illegal FEN or move is rejected by the app.'
       : '',
     e.code
-      ? 'Show code in fenced Markdown code blocks with the language name (```python, ```sql, ...). Keep examples short, runnable and commented. Show the output where it helps.'
+      ? 'This course teaches programming. Show examples as runnable "code" blocks (see the CODE part of the schema) so the learner can run and change them in the app; use fenced Markdown code blocks (```sql, ```bash, ...) only for languages the app cannot run. Keep examples short and commented. Most quiz questions of a lesson are "code" tasks checked by tests, plus a few questions about reading code (what does it print? where is the bug?).'
+      : '',
+    e.practice
+      ? 'Where a lesson teaches a skill one of the app\'s drills covers (number systems, units, subnetting, equations, percent, fractions, Ohm\'s law, ...), add a "drill" block right after the worked example (see PRACTICE BLOCKS): "level" 1 in the first lesson on it, 2-3 later, "count" 4-6. Where a function or a relationship between two quantities is taught, add a "graph" block with sliders for its parameters and a caption that says what to try ("make a negative and watch ..."). Use them where they fit, not in every lesson.'
       : '',
     e.examples
       ? 'Add one "example" block: a fully worked example with numbered steps and the reasoning for each step, not just the result. Then hand the work over step by step: the first quiz questions of the lesson give a similar problem with the first steps already done, so the learner only finishes it, and later questions ask for the whole solution.'
       : '',
+    'Write every formula in LaTeX between dollar signs ($R = \\frac{U}{I}$ inline; in the JSON every backslash is written twice, $$...$$ for a display formula on its own line); the app draws them. Where a diagram makes an idea clearer (a process, a data model, a sequence of messages), draw it as a ```mermaid code block inside the text (flowchart, erDiagram, sequenceDiagram or timeline) instead of describing it in words or ASCII art.',
     '"callout" block with style "keypoint": the 2-4 things to remember from this lesson, each as its own "- " bullet in one short sentence. The app turns these bullets into the checklist for the learner\'s brain dump, so each bullet must be a complete, checkable idea.',
     e.checkins
       ? 'In lessons longer than a few paragraphs, split the explanation into two "text" blocks and put a "quiz" block with ONE quick check-in question between them, so the learner recalls the first half before reading on.'
@@ -641,6 +698,14 @@ export function unitPrompt(s: PromptSettings, course: Course, moduleId: string, 
       list([
         `End the unit with "test": {"id": "${unit.id}-test", "type": "module-test", "questions": [ ${s.testQuestions} questions ]}.`,
         'The test covers every lesson of the unit, mixes the question kinds, and is a little harder than the lesson quizzes. Give each test question a "skillId" with the lesson id it checks (e.g. "' + (unit.lessons[0]?.id ?? `${unit.id}-l1`) + '").'
+      ])
+    ),
+    section(
+      'Glossary',
+      list([
+        'Give the unit a "glossary" with its 4-10 key technical terms: each with "term", a one-sentence "definition" and, where people use them, "aliases" (abbreviations, plurals, other spellings).',
+        s.languageMode === 'bilingual' ? `Add "i18n" with the term and definition in both languages ("${s.primaryLanguage}" and "${s.secondLanguage}").` : '',
+        'Use the term exactly as it appears in the lesson text, so the app can find and underline it.'
       ])
     ),
     idRules(course.id),

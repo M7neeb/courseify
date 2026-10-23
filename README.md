@@ -40,13 +40,25 @@ and a review that brings back exactly the questions you missed.
 - **Videos ready to play.** YouTube videos sit right inside the lesson, ready to play.
 - **German and English.** Bilingual courses get a language switch in every lesson. Handy when the exam
   is in German but you think in English.
+- **Formulas, diagrams and graphs.** Lessons draw LaTeX formulas and Mermaid diagrams, and graphs come
+  with sliders you drag to see what each parameter does.
+- **Tap a term.** Technical terms are underlined; tap one for its meaning in both languages.
 
 **Practise**
-- **Nine question types:** multiple choice, true/false, short answer, fill in the blank, numbers,
-  several correct, matching, ordering and chess puzzles. Each with step-by-step hints and an explanation.
-- **Chess on the board.** Worked examples you step through, puzzles you solve by playing the moves,
-  endgames you play out against a built-in computer, and a practice board for full games. A
-  ready-made course, *Chess: from improver to 1000*, comes with 118 puzzles from real games.
+- **Twelve question types:** multiple choice, true/false, short answer, fill in the blank, numbers,
+  several correct, matching, ordering, chess puzzles, written answers (compared with a model answer),
+  tap the picture, and programming exercises in Python or JavaScript checked by tests. Each with
+  step-by-step hints and an explanation.
+- **Code that runs.** Code examples in lessons run in the browser; change them and run them again.
+- **Drills.** Endless generated practice with a worked solution for every problem: number systems,
+  units, download times and subnets; equations, percent, fractions, powers of ten, Ohm's law,
+  quadratic equations and straight lines. Plus a graph plotter.
+- **Mock exams.** A timed test from a whole course, graded at the end. Set an exam date and the start
+  page plans learning and review time up to it.
+- **Chess.** Play 13 bots from 250 to 3000 Elo, then review the game move by move like on chess.com:
+  brilliant moves to blunders, the best move on the board, accuracy and openings. Endgame drills and a
+  free board too. A ready-made course, *Chess: from improver to 1000*, comes with 118 puzzles from
+  real games.
 - **Courses included.** *Chess: from improver to 1000*, *IT-Systeme: EVA-Modell, Einheiten und
   Zahlensysteme*, *Datenbanken: ER-Modell, Schlüssel und Tabellen*, *Elektrotechnik: Strom, Leistung
   und Wechselspannung* and *Das Pflichtenheft verstehen* are in the library from the first start.
@@ -60,6 +72,7 @@ and a review that brings back exactly the questions you missed.
   Proficient → Mastered*. Units, courses and subjects roll up from your skills.
 - **Progress by subject.** See Math, IT or English at a glance, drill into a course and its units, and
   get a list of the weakest skills to practise next.
+- **Weekly report and milestones** on the Progress page.
 - **Unlock in order or study freely.** Lessons can unlock as you reach Familiar, or stay open with a
   recommendation instead.
 
@@ -70,6 +83,9 @@ and a review that brings back exactly the questions you missed.
 - **Built around your material.** Paste or attach your handouts; the course follows them, cites them,
   and marks anything added from general knowledge.
 - **Exam mode.** Exam-style questions, German task verbs (*Operatoren*) and requirement levels I–III.
+- **Report a wrong question.** Reports collect in the course settings with one prompt to get them
+  fixed; the corrected questions import straight back.
+- **Share a course** as a file from the library.
 - **Import that forgives.** Courses, single units and final exams import from a file or pasted text,
   even with extra text around the JSON. Anything broken is listed with a ready-made repair prompt.
 
@@ -178,7 +194,10 @@ The full reference that the course builder gives to the AI is in
 - [vite-plugin-pwa](https://vite-pwa-org.netlify.app) for offline use and installation
 - [Playwright](https://playwright.dev) for end-to-end tests
 - [Lato](https://fonts.google.com/specimen/Lato), bundled so it works offline
-- [chess.js](https://github.com/jhlywa/chess.js) for chess rules; the computer opponent is Courseify's own small engine
+- [chess.js](https://github.com/jhlywa/chess.js) for chess rules
+- [Stockfish 18](https://stockfishchess.org) (lite, single-threaded WebAssembly build of [stockfish.js](https://github.com/nmrugg/stockfish.js)) for the bots and game reviews, under the GPL v3 (its licence is in `public/engine/`)
+- [KaTeX](https://katex.org) for formulas and [Mermaid](https://mermaid.js.org) for diagrams
+- [Pyodide](https://pyodide.org) to run Python in the browser (downloaded only the first time you run Python code)
 - Chess pieces from [Noto Sans Symbols 2](https://github.com/notofonts/symbols) (SIL Open Font License), cut down to the 12 piece glyphs
 - Chess puzzles from the [Lichess puzzle database](https://database.lichess.org/#puzzles) (CC0, public domain)
 
@@ -198,9 +217,11 @@ tests/e2e/     end-to-end tests
 ## Roadmap
 
 - [x] Smarter review scheduling (FSRS) and mastery that fades without practice
-- [ ] Coding exercises inside lessons: JavaScript, Python and SQL, running in the browser
+- [x] Coding exercises inside lessons: JavaScript and Python, running in the browser
+- [x] Chess bots with full game reviews
+- [x] Generated drills for IT and maths, graphs with sliders
 - [x] Ready-made courses (the first one: chess)
-- [ ] Free sync between devices through your own Google Drive
+- [ ] Free sync between devices through your own Google Drive ([plan](docs/plan-drive-sync.md))
 
 ## Privacy
 

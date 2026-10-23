@@ -1,0 +1,247 @@
+{
+  "schemaVersion": 2,
+  "id": "new-kinds",
+  "title": "New question kinds",
+  "language": "en",
+  "languages": [
+    "en"
+  ],
+  "modules": [
+    {
+      "id": "m1",
+      "title": "Circuits",
+      "lessons": [
+        {
+          "id": "m1-l1",
+          "title": "Series circuits",
+          "goal": "Explain how current flows in a series circuit",
+          "blocks": [
+            {
+              "id": "m1-l1-b1",
+              "type": "text",
+              "levels": {
+                "normal": "In a series circuit the same current flows through every part."
+              }
+            },
+            {
+              "id": "m1-l1-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "q-w1",
+                  "kind": "written",
+                  "prompt": "Explain what happens to the current in a series circuit.",
+                  "answer": "The current is the same everywhere in a series circuit, because there is only one path. The voltages of the parts add up to the source voltage.",
+                  "points": [
+                    "The current is the same in every part",
+                    "There is only one path",
+                    "The voltages add up to the source voltage"
+                  ],
+                  "explanation": "One path means every electron passes every part."
+                },
+                {
+                  "id": "q-h1",
+                  "kind": "hotspot",
+                  "prompt": "Tap the resistor.",
+                  "alt": "A battery on the left, a resistor at the top and a lamp on the right, joined in a loop.",
+                  "svg": "<svg viewBox='0 0 400 200' xmlns='http://www.w3.org/2000/svg'><rect x='0' y='0' width='400' height='200' fill='#fff'/><path d='M60 40 H340 V160 H60 Z' fill='none' stroke='#333' stroke-width='3'/><rect x='170' y='28' width='60' height='24' fill='#fde68a' stroke='#333'/><circle cx='340' cy='100' r='18' fill='#fef3c7' stroke='#333'/><rect x='48' y='85' width='24' height='30' fill='#bfdbfe' stroke='#333'/><text x='200' y='80' font-size='14' text-anchor='middle'>R</text></svg>",
+                  "areas": [
+                    {
+                      "x": 40,
+                      "y": 10,
+                      "w": 20,
+                      "h": 20,
+                      "label": "the resistor at the top"
+                    },
+                    {
+                      "x": 78,
+                      "y": 38,
+                      "w": 14,
+                      "h": 24,
+                      "label": "the lamp"
+                    },
+                    {
+                      "x": 10,
+                      "y": 40,
+                      "w": 10,
+                      "h": 22,
+                      "label": "the battery"
+                    }
+                  ],
+                  "answer": 0,
+                  "explanation": "The resistor is the box at the top."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "m1-l2",
+          "title": "Reading tools",
+          "goal": "See formulas and diagrams",
+          "blocks": [
+            {
+              "id": "m1-l2-b1",
+              "type": "text",
+              "levels": {
+                "normal": "Ohm's law: $U = R \\cdot I$ costs $5 and $10 to learn.\n\n$$P = U \\cdot I$$\n\nIn a series circuit every resistor carries the same current.\n\n```mermaid\nflowchart LR\n  A[Battery] --> B[Resistor] --> C[Lamp]\n```"
+              }
+            },
+            {
+              "id": "m1-l2-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "q-r1",
+                  "kind": "true-false",
+                  "prompt": "In a series circuit the current is the same everywhere.",
+                  "answer": true,
+                  "explanation": "One path."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "m1-l3",
+          "title": "Code",
+          "goal": "Write small functions",
+          "blocks": [
+            {
+              "id": "m1-l3-b1",
+              "type": "code",
+              "language": "javascript",
+              "title": "Hello",
+              "code": "const name = 'Ada';\nconsole.log('Hello', name);"
+            },
+            {
+              "id": "m1-l3-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "q-c1",
+                  "kind": "code",
+                  "language": "javascript",
+                  "prompt": "Write `add(a, b)`.",
+                  "starter": "function add(a, b) {\n  \n}\n",
+                  "answer": "function add(a, b) {\n  return a + b;\n}\n",
+                  "tests": [
+                    {
+                      "call": "add(2, 3)",
+                      "expect": 5
+                    },
+                    {
+                      "call": "add(-1, 1)",
+                      "expect": 0
+                    }
+                  ],
+                  "explanation": "Return the sum."
+                },
+                {
+                  "id": "q-c2",
+                  "kind": "code",
+                  "language": "python",
+                  "prompt": "Print a greeting for the name you read.",
+                  "starter": "name = input()\n",
+                  "answer": "name = input()\nprint('Hi', name)\n",
+                  "tests": [
+                    {
+                      "output": "Hi Ada",
+                      "stdin": "Ada"
+                    },
+                    {
+                      "output": "Hi Bo",
+                      "stdin": "Bo"
+                    }
+                  ],
+                  "explanation": "input() reads a line."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "m1-l4",
+          "title": "Practice and graphs",
+          "goal": "Practise subnets and read a graph",
+          "blocks": [
+            {
+              "id": "m1-l4-b1",
+              "type": "drill",
+              "drill": "subnet-hosts",
+              "level": 1,
+              "count": 2
+            },
+            {
+              "id": "m1-l4-b2",
+              "type": "graph",
+              "title": "A parabola",
+              "functions": [
+                {
+                  "expr": "a*x^2 + b"
+                }
+              ],
+              "params": [
+                {
+                  "name": "a",
+                  "min": -2,
+                  "max": 2,
+                  "step": 0.5,
+                  "value": 1
+                },
+                {
+                  "name": "b",
+                  "min": -4,
+                  "max": 4,
+                  "step": 1,
+                  "value": 0
+                }
+              ],
+              "x": [
+                -5,
+                5
+              ],
+              "y": [
+                -5,
+                10
+              ],
+              "points": [
+                [
+                  0,
+                  0
+                ]
+              ],
+              "caption": "Move **a** and **b** and watch the curve."
+            },
+            {
+              "id": "m1-l4-b3",
+              "type": "quiz",
+              "questions": [
+                {
+                  "id": "q-g1",
+                  "kind": "true-false",
+                  "prompt": "A negative a opens the parabola downwards.",
+                  "answer": true,
+                  "explanation": "The x² term then pulls the ends down."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "glossary": [
+        {
+          "term": "series circuit",
+          "definition": "A circuit with **one path** for the current.",
+          "aliases": [
+            "series circuits"
+          ]
+        },
+        {
+          "term": "resistor",
+          "definition": "A part that limits the current: $R = \\frac{U}{I}$."
+        }
+      ]
+    }
+  ]
+}

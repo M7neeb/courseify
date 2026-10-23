@@ -1,7 +1,11 @@
 <script lang="ts">
   import { tick, untrack } from 'svelte';
   import type { AnswerRecord, Block, BlockContext, Confidence, Question } from '../../core/types.ts';
-  import { gradeWithTypos, multiSelectOutcome } from '../../core/grade.ts';
+  import { gradeWithTypos, hotspotHit, multiSelectOutcome, writtenCovered, writtenNeeded } from '../../core/grade.ts';
+  import { guessCovered } from '../../core/reflect.ts';
+  import HotspotPicture from './HotspotPicture.svelte';
+  import ReportQuestion from './ReportQuestion.svelte';
+  import CodeExercise from '../../ui/code/CodeExercise.svelte';
   import { renderMarkdown } from '../../core/markdown.ts';
   import { rationaleFor, resolveQuestions } from '../../core/localize.ts';
   import { TIER_ORDER, tierForPoints } from '../../core/mastery.ts';
@@ -43,6 +47,20 @@
   // Right answers in a row on the first try, for the small "in a row" counter.
   let inARow = $state(0);
   const hidden = $derived(pretest && ctx.showWarmups === false);
+  // A timed mock exam: answers are saved without feedback and the results come at the end.
+  const exam = $derived(ctx.examDeadline !== undefined && !pretest);
+  let now = $state(Date.now());
+  const secondsLeft = $derived(ctx.examDeadline !== undefined ? Math.max(0, Math.ceil((ctx.examDeadline - now) / 1000)) : 0);
+  const timeLeft = $derived(`${Math.floor(secondsLeft / 60)}:${String(secondsLeft % 60).padStart(2, '0')}`);
+  $effect(() => {
+    if (!exam) return;
+    const timer = setInterval(() => (now = Date.now()), 1000);
+    return () => clearInterval(timer);
+  });
+  // Time is up: hand in whatever is answered.
+  $effect(() => {
+    if (exam && secondsLeft === 0 && !finished) untrack(() => handIn());
+  });
   const hintsAllowed = $derived(ctx.allowHints !== false);
   function needsRecall(q: Question): boolean {
     return ctx.recallFirst === true && !pretest && (q.kind === 'multiple-choice' || q.kind === 'multi-select') && revealed[q.id] !== true;
@@ -66,6 +84,9 @@
   // Matching: questionId -> { leftIndex: canonical right index }. Ordering: questionId -> display order.
   let matches = $state<Record<string, Record<number, number>>>({});
   let orders = $state<Record<string, number[]>>({});
+  // Written answers: the learner has moved on to ticking key points, and which ones are ticked.
+  let selfCheck = $state<Record<string, boolean>>({});
+  let ticks = $state<Record<string, number[]>>({});
 
   const current = $derived(active[index] as Question | undefined);
   const finished = $derived(active.length > 0 && index >= active.length);
@@ -105,6 +126,16 @@
   const solutionShown = $derived(hintStep > hintSteps.length);
 
   const solvedFirstTry = $derived(active.filter((q) => answerOf(q.id)?.solvedOnFirstTry === true).length);
+  const unanswered = $derived(active.filter((q) => answerOf(q.id) === undefined));
+  /** German grade (1 best, 6 worst) for an exam score, on the common 100-point key. */
+  function gradeOf(percent: number): number {
+    if (percent >= 92) return 1;
+    if (percent >= 81) return 2;
+    if (percent >= 67) return 3;
+    if (percent >= 50) return 4;
+    if (percent >= 30) return 5;
+    return 6;
+  }
   const accuracy = $derived(active.length === 0 ? 0 : Math.round((solvedFirstTry / active.length) * 100));
   const deltas = $derived(
     runSkills.map((id) => ({
@@ -195,6 +226,7 @@
 
   function draftOf(q: Question): unknown {
     if (isText(q)) return texts[q.id];
+    if (q.kind === 'written') return { text: texts[q.id] ?? '', covered: ticks[q.id] ?? [] };
     if (q.kind === 'matching') return pairsGiven(q);
     if (q.kind === 'ordering') return orderOf(q);
     return drafts[q.id];
@@ -209,8 +241,9 @@
       return pairs > 0 && pairsGiven(q).every((right) => right >= 0);
     }
     if (q.kind === 'ordering') return (q.items?.length ?? 0) >= 2;
-    // A puzzle checks itself when a move is played.
-    if (q.kind === 'chess') return false;
+    // A puzzle checks itself when a move is played; code checks itself with its tests.
+    if (q.kind === 'chess' || q.kind === 'code') return false;
+    if (q.kind === 'written') return (texts[q.id] ?? '').trim() !== '';
     return d !== undefined;
   }
 
@@ -274,6 +307,19 @@
       return order.map((i) => q.items?.[i] ?? '').join(' → ');
     }
     if (q.kind === 'chess') return Array.isArray(given) && q.fen ? formatLine(q.fen, given as string[]) : '';
+    if (q.kind === 'code') {
+      const code = typeof given === 'object' && given !== null ? String((given as { code?: unknown }).code ?? '') : '';
+      return code.length > 300 ? code.slice(0, 300) + '…' : code;
+    }
+    if (q.kind === 'written') {
+      const text = typeof given === 'object' && given !== null ? String((given as { text?: unknown }).text ?? '') : '';
+      return `${text} (${t('quiz.writtenCovered', { have: writtenCovered(q, given).length, total: q.points?.length ?? 0 })})`;
+    }
+    if (q.kind === 'hotspot') {
+      const p = given as { x?: number; y?: number } | undefined;
+      const hit = p && typeof p.x === 'number' && typeof p.y === 'number' ? hotspotHit(q.areas, p.x, p.y) : -1;
+      return q.areas?.[hit]?.label ?? t('quiz.hotspotSpot');
+    }
     return String(given ?? '');
   }
 
@@ -287,6 +333,8 @@
     if (q.kind === 'matching') return (q.pairs ?? []).map((pair) => `${pair.left} → ${pair.right}`).join('; ');
     if (q.kind === 'ordering') return (q.items ?? []).join(' → ');
     if (q.kind === 'chess') return q.fen && q.solution ? formatLine(q.fen, q.solution) : '';
+    if (q.kind === 'hotspot') return q.areas?.[q.answer as number]?.label ?? t('quiz.hotspotMarked');
+    if (q.kind === 'code') return typeof q.answer === 'string' ? q.answer : t('code.allTests');
     if (Array.isArray(q.answer)) return String(q.answer[0] ?? '');
     return String(q.answer ?? '');
   }
@@ -337,6 +385,39 @@
         ? misses.map((m) => (m.questionId === q.id ? { questionId: q.id, given } : m))
         : [...misses, { questionId: q.id, given }];
     }
+    // In an exam the answer is just saved: no feedback, straight on to the next question.
+    if (exam) advance();
+  }
+
+  /** In an exam a written answer is marked by the key points its words cover; no model answer is shown. */
+  function saveWrittenInExam(q: Question) {
+    ticks[q.id] = guessCovered(texts[q.id] ?? '', q.points ?? []);
+    check(q);
+  }
+
+  /** Ends the exam now: unanswered questions count as missed. */
+  function handIn() {
+    index = active.length;
+    void toQuestion();
+  }
+
+  /** Written answer, step one: show the model answer and the key points, with a first guess ticked. */
+  function startSelfCheck(q: Question) {
+    selfCheck[q.id] = true;
+    ticks[q.id] = guessCovered(texts[q.id] ?? '', q.points ?? []);
+  }
+
+  function toggleTick(q: Question, point: number) {
+    const set = new Set(ticks[q.id] ?? []);
+    if (set.has(point)) set.delete(point);
+    else set.add(point);
+    ticks[q.id] = [...set].sort((a, b) => a - b);
+  }
+
+  /** A code check: the code and whether every test passed count as the answer. */
+  function codeResult(q: Question, code: string, passed: boolean) {
+    drafts[q.id] = { code, passed };
+    check(q);
   }
 
   /** A finished puzzle attempt: the moves count as the answer and are graded like any other. */
@@ -388,6 +469,8 @@
       delete recalled[id];
       delete confidence[id];
       delete typoOf[id];
+      delete selfCheck[id];
+      delete ticks[id];
     }
     runAnswers = {};
     misses = [];
@@ -456,6 +539,27 @@
         </ul>
       {/if}
 
+      {#if exam}
+        <div class="exam-result">
+          <p class="exam-grade">{t('exam.grade', { grade: gradeOf(accuracy) })}</p>
+          <p class="muted small">{t('exam.gradeKey')}</p>
+          {#if unanswered.length > 0}<p>{t('exam.unanswered', { n: unanswered.length })}</p>{/if}
+        </div>
+      {/if}
+
+      {#if exam && unanswered.length > 0}
+        <h3>{t('exam.notAnswered')}</h3>
+        <ol class="results-mistakes">
+          {#each unanswered as q (q.id)}
+            <li>
+              <p class="mistake-prompt">{q.prompt}</p>
+              <p class="mistake-correct">{t('quiz.correctAnswer', { answer: answerText(q) })}</p>
+              {#if q.explanation}<p class="mistake-explanation">{q.explanation}</p>{/if}
+            </li>
+          {/each}
+        </ol>
+      {/if}
+
       {#if mistakeList.length > 0}
         <h3>{t('results.mistakes')}</h3>
         <ol class="results-mistakes">
@@ -471,7 +575,7 @@
       {/if}
 
       <div class="row results-actions">
-        {#if mistakeList.length > 0}
+        {#if mistakeList.length > 0 && !exam}
           <button type="button" class="btn" onclick={practiseMistakes}>{t('results.practiseMistakes')}</button>
         {/if}
         <button type="button" class="btn primary" onclick={continueOn}>{t('results.continue')}</button>
@@ -483,10 +587,14 @@
     {/if}
     <p class="quiz-progress muted small">
       {t('quiz.questionOf', { current: index + 1, total: active.length })}
-      {#if inARow >= 3}<span class="in-a-row">{t('quiz.inARow', { n: inARow })}</span>{/if}
-      <span class="quiz-running-score">
-        {t('quiz.score', { correct: active.filter((q) => answerOf(q.id)?.correct).length, total: active.length })}
-      </span>
+      {#if exam}
+        <span class="exam-clock" class:low={secondsLeft <= 60} role="timer" aria-label={t('exam.timeLeftLabel', { time: timeLeft })}>{t('exam.timeLeft', { time: timeLeft })}</span>
+      {:else}
+        {#if inARow >= 3}<span class="in-a-row">{t('quiz.inARow', { n: inARow })}</span>{/if}
+        <span class="quiz-running-score">
+          {t('quiz.score', { correct: active.filter((q) => answerOf(q.id)?.correct).length, total: active.length })}
+        </span>
+      {/if}
     </p>
 
     <article class="question" data-state={answeredCorrect ? 'right' : showWrong ? 'wrong' : 'open'}>
@@ -502,10 +610,31 @@
           />
         {/key}
       {/if}
+      {#if current.kind === 'code'}
+        {#key current.id + ':' + drillRound}
+          <CodeExercise question={current} done={answeredCorrect} showSolution={solutionShown} onresult={(code, passed) => codeResult(current, code, passed)} />
+        {/key}
+      {/if}
+      {#if current.kind === 'hotspot'}
+        <HotspotPicture
+          question={current}
+          picked={drafts[current.id] as { x: number; y: number } | undefined}
+          reveal={answeredCorrect || solutionShown}
+          wrong={showWrong}
+          disabled={answeredCorrect}
+          onpick={(x, y) => (drafts[current.id] = { x, y })}
+        />
+      {/if}
 
       {#if !answeredCorrect}
         {#if showWrong}
-          <p class="encourage" role="status">{partialMulti ? t('quiz.partial') : t('quiz.tryAgain')}</p>
+          <p class="encourage" role="status">
+            {#if current.kind === 'written'}
+              {t('quiz.writtenShort', { have: writtenCovered(current, draftOf(current)).length, need: writtenNeeded(current) })}
+            {:else}
+              {partialMulti ? t('quiz.partial') : t('quiz.tryAgain')}
+            {/if}
+          </p>
           {#if currentRationale}
             <p class="rationale" role="status">
               <span class="rationale-label">{t('quiz.rationale')}:</span>
@@ -524,8 +653,29 @@
             <textarea id={'r-' + current.id} rows="2" placeholder={t('quiz.recallPlaceholder')} bind:value={recalled[current.id]}></textarea>
             <button type="button" class="btn primary" onclick={() => (revealed[current.id] = true)}>{t('quiz.showOptions')}</button>
           </div>
-        {:else if current.kind === 'chess'}
-          <!-- The board above is the answer. -->
+        {:else if current.kind === 'chess' || current.kind === 'hotspot' || current.kind === 'code'}
+          <!-- The board, the picture or the code above is the answer. -->
+        {:else if current.kind === 'written'}
+          <label class="sr-only" for={'w-' + current.id}>{t('quiz.yourAnswer')}</label>
+          <textarea id={'w-' + current.id} class="written-input" rows="6" placeholder={t('quiz.writtenPlaceholder')} bind:value={texts[current.id]}></textarea>
+          {#if selfCheck[current.id]}
+            <div class="written-check">
+              <p class="written-check-title">{t('quiz.writtenModel')}</p>
+              <div class="prose written-model">{@html renderMarkdown(String(current.answer ?? ''))}</div>
+              <p class="written-check-title">{t('quiz.writtenTick', { need: writtenNeeded(current), total: current.points?.length ?? 0 })}</p>
+              <ul class="written-points">
+                {#each current.points ?? [] as point, pi (pi)}
+                  <li>
+                    <label class="written-point">
+                      <input type="checkbox" checked={(ticks[current.id] ?? []).includes(pi)} onchange={() => toggleTick(current, pi)} />
+                      <span>{point}</span>
+                    </label>
+                  </li>
+                {/each}
+              </ul>
+              <p class="muted small">{t('quiz.writtenHonest')}</p>
+            </div>
+          {/if}
         {:else if current.kind === 'multiple-choice'}
           <div class="options" role="radiogroup" aria-label={current.prompt}>
             {#each current.options ?? [] as option, oi (oi)}
@@ -687,21 +837,35 @@
       {/if}
 
     </article>
+    {#if !pretest && !exam}
+      {#key current.id}<ReportQuestion {ctx} questionId={current.id} />{/key}
+    {/if}
 
     <div class="quiz-bar">
       <div class="quiz-bar-left">
         <span class="quiz-bar-count">{t('quiz.positionOf', { current: index + 1, total: active.length })}</span>
         <span class="quiz-dots" aria-hidden="true">
           {#each active as q, i (i)}
-            <span class="quiz-dot" class:done={answerOf(q.id)?.correct === true} class:current={i === index}></span>
+            <span class="quiz-dot" class:done={exam ? answerOf(q.id) !== undefined : answerOf(q.id)?.correct === true} class:current={i === index}></span>
           {/each}
         </span>
       </div>
       <div class="quiz-bar-right">
+        {#if exam}
+          <button type="button" class="btn quiet-btn" onclick={handIn}>{t('exam.handIn')}</button>
+        {/if}
         <button type="button" class="btn quiet-btn" onclick={advance}>{t('quiz.skip')}</button>
-        {#if current.kind !== 'chess'}
+        {#if current.kind === 'written' && exam}
+          <button type="button" class="btn primary" disabled={!canCheck(current)} onclick={() => saveWrittenInExam(current)}>
+            {t('exam.save')}
+          </button>
+        {:else if current.kind === 'written' && !answeredCorrect && !selfCheck[current.id]}
+          <button type="button" class="btn primary" disabled={!canCheck(current)} onclick={() => startSelfCheck(current)}>
+            {t('quiz.writtenCompare')}
+          </button>
+        {:else if current.kind !== 'chess' && current.kind !== 'code'}
           <button type="button" class="btn primary" disabled={!canCheck(current)} onclick={() => check(current)}>
-            {t('quiz.check')}
+            {current.kind === 'written' ? t('quiz.writtenGrade') : t('quiz.check')}
           </button>
         {:else if answeredCorrect}
           <button type="button" class="btn primary" onclick={advance}>

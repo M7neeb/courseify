@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { shareCourse } from '../../ui/shareCourse.ts';
   import { entryModuleId, groupBySubject } from '../../core/home.ts';
   import {
     app,
@@ -122,6 +123,11 @@
     if (moduleId) navigate({ name: 'unit', courseId, moduleId });
     else navigate({ name: 'player', courseId });
   }
+
+  async function shareFromLibrary(course: Course) {
+    const result = await shareCourse($state.snapshot(course) as Course, t('share.text', { title: displayTitle(course) }));
+    if (result === 'downloaded') showToast(t('share.downloaded'));
+  }
 </script>
 
 <section class="stack">
@@ -240,6 +246,7 @@
                 <button type="button" onclick={() => setArchived(course.id, !archived)}>{archived ? t('library.unarchive') : t('library.archive')}</button>
                 <button type="button" onclick={() => startTagEdit(course)}>{t('library.editTags')}</button>
                 <button type="button" onclick={() => navigate({ name: 'settings', courseId: course.id })}>{t('course.settings')}</button>
+                <button type="button" onclick={() => shareFromLibrary(course)}>{t('share.button')}</button>
                 <button type="button" class="danger-text" onclick={() => remove(course)}>{t('library.delete')}</button>
               </div>
             </details>

@@ -8,7 +8,7 @@ test('the course builder turns the six steps into an outline prompt', async ({ p
   await expect(page.getByRole('heading', { name: 'Create a course' })).toBeVisible();
   await expect(page.getByText('Enter a topic in step 1 first.')).toBeVisible();
 
-  await page.getByRole('button', { name: /Learn programming or IT/ }).click();
+  await page.getByRole('button', { name: /Learn programming/ }).click();
   await page.locator('#create-topic').fill('Python basics');
   await page.locator('#create-subject').fill('IT');
 

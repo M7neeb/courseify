@@ -11,7 +11,7 @@
   const markdown = $derived(resolveCalloutMarkdown(block, ctx.explanationLanguage));
 </script>
 
-<aside class="block callout" data-style={style}>
+<aside class="block callout" data-style={style} lang={ctx.explanationLanguage} data-course={ctx.courseId}>
   <p class="callout-label">{t('callout.' + style)}</p>
   <div class="prose">{@html renderMarkdown(markdown)}</div>
 </aside>

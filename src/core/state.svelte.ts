@@ -263,6 +263,19 @@ export function renameCourse(courseId: string, title: string): Promise<void> {
   return updateMeta(courseId, { customTitle: title.trim() || undefined });
 }
 
+/** Removes the report flags of questions that were fixed. */
+export async function clearReports(courseId: string, questionIds: string[]): Promise<void> {
+  if (!app.progress[courseId]?.reports) return;
+  await updateProgress(courseId, (p) => {
+    for (const id of questionIds) delete p.reports?.[id];
+  });
+}
+
+/** The exam day for a course (YYYY-MM-DD), or empty to remove it. */
+export function setExamDate(courseId: string, examDate: string): Promise<void> {
+  return updateMeta(courseId, { examDate: /^\d{4}-\d{2}-\d{2}$/.test(examDate) ? examDate : undefined });
+}
+
 export function setArchived(courseId: string, archived: boolean): Promise<void> {
   return updateMeta(courseId, { archived });
 }

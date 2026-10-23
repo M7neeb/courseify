@@ -3,7 +3,7 @@
 
 import { openDB, type DBSchema, type IDBPDatabase } from 'idb';
 import type { ActivityDay } from './activity.ts';
-import type { Backup, Course, CourseMastery, CourseMeta, CourseProgress, Settings, TrashedCourse } from './types.ts';
+import type { Backup, ChessRecord, Course, CourseMastery, CourseMeta, CourseProgress, SavedGame, Settings, TrashedCourse } from './types.ts';
 import { USERDATA_SCHEMA_VERSION } from './types.ts';
 import { mergeSettings } from './settings.ts';
 
@@ -14,15 +14,17 @@ interface CourseAppDB extends DBSchema {
   activity: { key: string; value: ActivityDay };
   trash: { key: string; value: TrashedCourse };
   mastery: { key: string; value: CourseMastery };
+  games: { key: string; value: SavedGame };
   kv: { key: string; value: unknown };
 }
 
-export const DB_VERSION = 4;
+export const DB_VERSION = 5;
 
 let dbPromise: Promise<IDBPDatabase<CourseAppDB>> | null = null;
 
 function db(): Promise<IDBPDatabase<CourseAppDB>> {
-  // Version 2 added the `activity` store; version 3 added `trash`; version 4 added `mastery`.
+  // Version 2 added the `activity` store; version 3 added `trash`; version 4 added `mastery`;
+  // version 5 added `games` (chess games against the bots).
   // Existing databases keep their data and each new store is created only when the old database
   // predates it.
   // The database keeps its original name so existing progress survives the rename to Courseify.
@@ -42,6 +44,9 @@ function db(): Promise<IDBPDatabase<CourseAppDB>> {
       }
       if (oldVersion < 4) {
         database.createObjectStore('mastery', { keyPath: 'courseId' });
+      }
+      if (oldVersion < 5) {
+        database.createObjectStore('games', { keyPath: 'id' });
       }
     }
   });
@@ -102,11 +107,38 @@ export const storage = {
 
   async listTrash(): Promise<TrashedCourse[]> {
     return (await db()).getAll('trash');
-  },  async saveTrash(item: TrashedCourse): Promise<void> {
+  },
+  async saveTrash(item: TrashedCourse): Promise<void> {
     await (await db()).put('trash', item);
   },
   async deleteTrash(courseId: string): Promise<void> {
     await (await db()).delete('trash', courseId);
+  },
+
+  async listGames(): Promise<SavedGame[]> {
+    return (await db()).getAll('games');
+  },
+  async saveGame(game: SavedGame): Promise<void> {
+    await (await db()).put('games', game);
+  },
+  async deleteGame(id: string): Promise<void> {
+    await (await db()).delete('games', id);
+  },
+
+  async getChess(): Promise<ChessRecord> {
+    const saved = (await (await db()).get('kv', 'chess')) as ChessRecord | undefined;
+    return { endgames: { ...(saved?.endgames ?? {}) } };
+  },
+  async saveChess(record: ChessRecord): Promise<void> {
+    await (await db()).put('kv', record, 'chess');
+  },
+
+  /** Small records kept beside the settings: the week's starting snapshot and milestone dates. */
+  async getRecord<T>(key: 'weekly' | 'milestones' | 'drills'): Promise<T | undefined> {
+    return (await (await db()).get('kv', key)) as T | undefined;
+  },
+  async saveRecord(key: 'weekly' | 'milestones' | 'drills', value: unknown): Promise<void> {
+    await (await db()).put('kv', value, key);
   },
 
   async getSettings(): Promise<Settings> {
@@ -118,14 +150,16 @@ export const storage = {
   },
 
   async exportBackup(): Promise<Backup> {
-    const [courses, progress, courseMeta, settings, activity, trash, mastery] = await Promise.all([
+    const [courses, progress, courseMeta, settings, activity, trash, mastery, games, chess] = await Promise.all([
       this.listCourses(),
       this.listProgress(),
       this.listMeta(),
       this.getSettings(),
       this.listActivity(),
       this.listTrash(),
-      this.listMastery()
+      this.listMastery(),
+      this.listGames(),
+      this.getChess()
     ]);
     return {
       kind: 'course-app-backup',
@@ -137,14 +171,16 @@ export const storage = {
       settings,
       mastery,
       activity,
-      trash
+      trash,
+      games,
+      chess
     };
   },
 
   /** Restores a backup. Items with the same id are replaced; everything else is kept. */
   async importBackup(b: Backup): Promise<void> {
     const d = await db();
-    const tx = d.transaction(['courses', 'progress', 'courseMeta', 'activity', 'trash', 'mastery', 'kv'], 'readwrite');
+    const tx = d.transaction(['courses', 'progress', 'courseMeta', 'activity', 'trash', 'mastery', 'games', 'kv'], 'readwrite');
     const jobs: Promise<unknown>[] = [tx.done];
     for (const c of b.courses) jobs.push(tx.objectStore('courses').put(c));
     for (const p of b.progress) jobs.push(tx.objectStore('progress').put(p));
@@ -152,6 +188,8 @@ export const storage = {
     for (const a of b.activity ?? []) jobs.push(tx.objectStore('activity').put(a));
     for (const t of b.trash ?? []) jobs.push(tx.objectStore('trash').put(t));
     for (const m of b.mastery ?? []) jobs.push(tx.objectStore('mastery').put(m));
+    for (const g of b.games ?? []) jobs.push(tx.objectStore('games').put(g));
+    if (b.chess) jobs.push(tx.objectStore('kv').put(b.chess, 'chess'));
     jobs.push(tx.objectStore('kv').put(b.settings, 'settings'));
     await Promise.all(jobs);
   },

@@ -11,6 +11,8 @@ import '@fontsource/atkinson-hyperlegible/latin-400.css';
 import '@fontsource/atkinson-hyperlegible/latin-700.css';
 import '@fontsource/atkinson-hyperlegible/latin-ext-400.css';
 import '@fontsource/atkinson-hyperlegible/latin-ext-700.css';
+// Formulas (KaTeX): its fonts are bundled too, so maths shows offline.
+import 'katex/dist/katex.min.css';
 import './app.css';
 import './styles/theme.css';
 import './styles/layouts.css';

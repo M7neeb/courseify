@@ -9,7 +9,7 @@
     "de",
     "en"
   ],
-  "version": "1.0",
+  "version": "1.1",
   "meta": {
     "tags": [
       "elektrotechnik",
@@ -755,6 +755,13 @@
               "searchTerm": "Einheiten umrechnen Zehnerpotenzen SI Präfix Exponent Methode",
               "url": null,
               "title": null
+            },
+            {
+              "id": "m1-l3-drill",
+              "type": "drill",
+              "drill": "scientific",
+              "level": 2,
+              "count": 5
             },
             {
               "id": "m1-l3-b6",
@@ -2776,6 +2783,53 @@
               "title": null
             },
             {
+              "id": "m3-l3-drill",
+              "type": "drill",
+              "drill": "ohm",
+              "level": 1,
+              "count": 5
+            },
+            {
+              "id": "m3-l3-graph",
+              "type": "graph",
+              "title": "Kennlinie: Strom über Spannung",
+              "functions": [
+                {
+                  "expr": "x/R",
+                  "label": "I"
+                }
+              ],
+              "params": [
+                {
+                  "name": "R",
+                  "min": 1,
+                  "max": 20,
+                  "step": 1,
+                  "value": 5,
+                  "label": "R (Ω)"
+                }
+              ],
+              "x": [
+                0,
+                24
+              ],
+              "y": [
+                0,
+                12
+              ],
+              "caption": "Waagerecht die Spannung $U$ in V, senkrecht der Strom $I$ in A. Ziehe $R$ größer: Die Gerade wird flacher, derselbe Widerstand lässt bei gleicher Spannung weniger Strom durch.",
+              "i18n": {
+                "de": {
+                  "title": "Kennlinie: Strom über Spannung",
+                  "caption": "Waagerecht die Spannung $U$ in V, senkrecht der Strom $I$ in A. Ziehe $R$ größer: Die Gerade wird flacher, derselbe Widerstand lässt bei gleicher Spannung weniger Strom durch."
+                },
+                "en": {
+                  "title": "Characteristic: current against voltage",
+                  "caption": "Across: the voltage $U$ in V; up: the current $I$ in A. Make $R$ larger: the line gets flatter, because a larger resistance lets less current through at the same voltage."
+                }
+              }
+            },
+            {
               "id": "m3-l3-b6",
               "type": "quiz",
               "questions": [
@@ -3062,6 +3116,13 @@
               "searchTerm": "Leiterwiderstand berechnen spezifischer Widerstand Querschnitt Beispiel",
               "url": null,
               "title": null
+            },
+            {
+              "id": "m3-l4-drill",
+              "type": "drill",
+              "drill": "ohm",
+              "level": 2,
+              "count": 4
             },
             {
               "id": "m3-l4-b6",
@@ -5775,6 +5836,54 @@
               "title": null
             },
             {
+              "id": "m7-l1-graph",
+              "type": "graph",
+              "title": "Sinusspannung: Scheitelwert und Frequenz",
+              "functions": [
+                {
+                  "expr": "u*sin(2*pi*f*x/1000)",
+                  "label": "u"
+                }
+              ],
+              "params": [
+                {
+                  "name": "u",
+                  "min": 50,
+                  "max": 400,
+                  "step": 5,
+                  "value": 325,
+                  "label": "û (V)"
+                },
+                {
+                  "name": "f",
+                  "min": 10,
+                  "max": 200,
+                  "step": 5,
+                  "value": 50,
+                  "label": "f (Hz)"
+                }
+              ],
+              "x": [
+                0,
+                40
+              ],
+              "y": [
+                -400,
+                400
+              ],
+              "caption": "Waagerecht die Zeit in ms. Bei 50 Hz dauert eine Schwingung 20 ms. Verdopple $f$: Die Periodendauer halbiert sich. Ziehe über den Graphen, um Augenblickswerte abzulesen.",
+              "i18n": {
+                "de": {
+                  "title": "Sinusspannung: Scheitelwert und Frequenz",
+                  "caption": "Waagerecht die Zeit in ms. Bei 50 Hz dauert eine Schwingung 20 ms. Verdopple $f$: Die Periodendauer halbiert sich. Ziehe über den Graphen, um Augenblickswerte abzulesen."
+                },
+                "en": {
+                  "title": "Sine voltage: peak value and frequency",
+                  "caption": "Across: the time in ms. At 50 Hz one cycle takes 20 ms. Double $f$: the period halves. Drag across the graph to read off instantaneous values."
+                }
+              }
+            },
+            {
               "id": "m7-l1-b5",
               "type": "quiz",
               "questions": [
@@ -7676,5 +7785,352 @@
         }
       }
     ]
-  }
+  },
+  "glossary": [
+    {
+      "term": "Spannung",
+      "definition": "Der „Druck“, der Elektronen durch einen Stromkreis treibt. Formelzeichen $U$, Einheit Volt (V).",
+      "i18n": {
+        "de": {
+          "term": "Spannung",
+          "definition": "Der „Druck“, der Elektronen durch einen Stromkreis treibt. Formelzeichen $U$, Einheit Volt (V)."
+        },
+        "en": {
+          "term": "voltage",
+          "definition": "The \"pressure\" that pushes electrons around a circuit. Symbol $U$, unit volt (V)."
+        }
+      }
+    },
+    {
+      "term": "Stromstärke",
+      "definition": "Wie viel Ladung pro Sekunde durch einen Leiter fließt. Formelzeichen $I$, Einheit Ampere (A).",
+      "i18n": {
+        "de": {
+          "term": "Stromstärke",
+          "definition": "Wie viel Ladung pro Sekunde durch einen Leiter fließt. Formelzeichen $I$, Einheit Ampere (A).",
+          "aliases": [
+            "Strom"
+          ]
+        },
+        "en": {
+          "term": "current",
+          "definition": "How much charge flows through a conductor per second. Symbol $I$, unit ampere (A).",
+          "aliases": [
+            "electric current"
+          ]
+        }
+      },
+      "aliases": [
+        "Strom"
+      ]
+    },
+    {
+      "term": "Widerstand",
+      "definition": "Wie stark ein Bauteil den Strom bremst. Formelzeichen $R$, Einheit Ohm ($\\Omega$).",
+      "i18n": {
+        "de": {
+          "term": "Widerstand",
+          "definition": "Wie stark ein Bauteil den Strom bremst. Formelzeichen $R$, Einheit Ohm ($\\Omega$)."
+        },
+        "en": {
+          "term": "resistance",
+          "definition": "How strongly a part holds back the current. Symbol $R$, unit ohm ($\\Omega$).",
+          "aliases": [
+            "resistor"
+          ]
+        }
+      }
+    },
+    {
+      "term": "Leitwert",
+      "definition": "Der Kehrwert des Widerstands: $G = \\frac{1}{R}$, Einheit Siemens (S).",
+      "i18n": {
+        "de": {
+          "term": "Leitwert",
+          "definition": "Der Kehrwert des Widerstands: $G = \\frac{1}{R}$, Einheit Siemens (S)."
+        },
+        "en": {
+          "term": "conductance",
+          "definition": "The reciprocal of resistance: $G = \\frac{1}{R}$, unit siemens (S)."
+        }
+      }
+    },
+    {
+      "term": "Ohmsches Gesetz",
+      "definition": "$U = R \\cdot I$: Bei gleichem Widerstand wächst der Strom im gleichen Verhältnis wie die Spannung.",
+      "i18n": {
+        "de": {
+          "term": "Ohmsches Gesetz",
+          "definition": "$U = R \\cdot I$: Bei gleichem Widerstand wächst der Strom im gleichen Verhältnis wie die Spannung."
+        },
+        "en": {
+          "term": "Ohm's law",
+          "definition": "$U = R \\cdot I$: at a fixed resistance the current grows in proportion to the voltage."
+        }
+      }
+    },
+    {
+      "term": "spezifischer Widerstand",
+      "definition": "Materialwert $\\rho$ für den Leiterwiderstand: $R = \\frac{\\rho \\cdot l}{A}$.",
+      "i18n": {
+        "de": {
+          "term": "spezifischer Widerstand",
+          "definition": "Materialwert $\\rho$ für den Leiterwiderstand: $R = \\frac{\\rho \\cdot l}{A}$."
+        },
+        "en": {
+          "term": "resistivity",
+          "definition": "A material constant $\\rho$ for a wire\\'s resistance: $R = \\frac{\\rho \\cdot l}{A}$."
+        }
+      }
+    },
+    {
+      "term": "Reihenschaltung",
+      "definition": "Bauteile hintereinander auf einem Weg: überall fließt derselbe Strom, die Spannungen addieren sich.",
+      "i18n": {
+        "de": {
+          "term": "Reihenschaltung",
+          "definition": "Bauteile hintereinander auf einem Weg: überall fließt derselbe Strom, die Spannungen addieren sich."
+        },
+        "en": {
+          "term": "series circuit",
+          "definition": "Parts one after another on one path: the same current flows everywhere, the voltages add up."
+        }
+      }
+    },
+    {
+      "term": "Parallelschaltung",
+      "definition": "Bauteile nebeneinander zwischen denselben zwei Punkten: an allen liegt dieselbe Spannung, die Ströme addieren sich.",
+      "i18n": {
+        "de": {
+          "term": "Parallelschaltung",
+          "definition": "Bauteile nebeneinander zwischen denselben zwei Punkten: an allen liegt dieselbe Spannung, die Ströme addieren sich."
+        },
+        "en": {
+          "term": "parallel circuit",
+          "definition": "Parts side by side between the same two points: all have the same voltage, the currents add up."
+        }
+      }
+    },
+    {
+      "term": "Leistung",
+      "definition": "Energie pro Zeit: $P = U \\cdot I$, Einheit Watt (W).",
+      "i18n": {
+        "de": {
+          "term": "Leistung",
+          "definition": "Energie pro Zeit: $P = U \\cdot I$, Einheit Watt (W)."
+        },
+        "en": {
+          "term": "power",
+          "definition": "Energy per time: $P = U \\cdot I$, unit watt (W)."
+        }
+      }
+    },
+    {
+      "term": "Wirkungsgrad",
+      "definition": "Nutzbare Leistung geteilt durch aufgenommene Leistung: $\\eta = \\frac{P_{ab}}{P_{zu}}$, immer kleiner als 1.",
+      "i18n": {
+        "de": {
+          "term": "Wirkungsgrad",
+          "definition": "Nutzbare Leistung geteilt durch aufgenommene Leistung: $\\eta = \\frac{P_{ab}}{P_{zu}}$, immer kleiner als 1."
+        },
+        "en": {
+          "term": "efficiency",
+          "definition": "Useful power out divided by power in: $\\eta = \\frac{P_{out}}{P_{in}}$, always below 1."
+        }
+      }
+    },
+    {
+      "term": "elektrische Arbeit",
+      "definition": "Umgesetzte Energie: $W = P \\cdot t$, meist in Kilowattstunden (kWh).",
+      "i18n": {
+        "de": {
+          "term": "elektrische Arbeit",
+          "definition": "Umgesetzte Energie: $W = P \\cdot t$, meist in Kilowattstunden (kWh).",
+          "aliases": [
+            "Arbeit"
+          ]
+        },
+        "en": {
+          "term": "electrical energy",
+          "definition": "Energy converted: $W = P \\cdot t$, usually in kilowatt-hours (kWh).",
+          "aliases": [
+            "electrical work"
+          ]
+        }
+      },
+      "aliases": [
+        "Arbeit"
+      ]
+    },
+    {
+      "term": "Kilowattstunde",
+      "definition": "Die Energie, die 1 kW in 1 Stunde umsetzt; danach wird Strom abgerechnet.",
+      "i18n": {
+        "de": {
+          "term": "Kilowattstunde",
+          "definition": "Die Energie, die 1 kW in 1 Stunde umsetzt; danach wird Strom abgerechnet.",
+          "aliases": [
+            "kWh"
+          ]
+        },
+        "en": {
+          "term": "kilowatt-hour",
+          "definition": "The energy 1 kW uses in 1 hour; electricity is billed by it.",
+          "aliases": [
+            "kWh"
+          ]
+        }
+      },
+      "aliases": [
+        "kWh"
+      ]
+    },
+    {
+      "term": "Wechselspannung",
+      "definition": "Eine Spannung, die ihre Richtung regelmäßig ändert, im Netz sinusförmig mit 50 Hz.",
+      "i18n": {
+        "de": {
+          "term": "Wechselspannung",
+          "definition": "Eine Spannung, die ihre Richtung regelmäßig ändert, im Netz sinusförmig mit 50 Hz."
+        },
+        "en": {
+          "term": "alternating voltage",
+          "definition": "A voltage that changes direction regularly; on the mains it is a sine wave at 50 Hz.",
+          "aliases": [
+            "AC voltage"
+          ]
+        }
+      }
+    },
+    {
+      "term": "Frequenz",
+      "definition": "Schwingungen pro Sekunde: $f = \\frac{1}{T}$, Einheit Hertz (Hz).",
+      "i18n": {
+        "de": {
+          "term": "Frequenz",
+          "definition": "Schwingungen pro Sekunde: $f = \\frac{1}{T}$, Einheit Hertz (Hz)."
+        },
+        "en": {
+          "term": "frequency",
+          "definition": "Cycles per second: $f = \\frac{1}{T}$, unit hertz (Hz)."
+        }
+      }
+    },
+    {
+      "term": "Periodendauer",
+      "definition": "Die Zeit für eine volle Schwingung, $T = \\frac{1}{f}$; bei 50 Hz sind das 20 ms.",
+      "i18n": {
+        "de": {
+          "term": "Periodendauer",
+          "definition": "Die Zeit für eine volle Schwingung, $T = \\frac{1}{f}$; bei 50 Hz sind das 20 ms."
+        },
+        "en": {
+          "term": "period",
+          "definition": "The time for one full cycle, $T = \\frac{1}{f}$; at 50 Hz that is 20 ms."
+        }
+      }
+    },
+    {
+      "term": "Scheitelwert",
+      "definition": "Der höchste Wert einer Wechselspannung, $\\hat{u}$.",
+      "i18n": {
+        "de": {
+          "term": "Scheitelwert",
+          "definition": "Der höchste Wert einer Wechselspannung, $\\hat{u}$.",
+          "aliases": [
+            "Spitzenwert",
+            "Amplitude"
+          ]
+        },
+        "en": {
+          "term": "peak value",
+          "definition": "The highest value of an alternating voltage, $\\hat{u}$.",
+          "aliases": [
+            "amplitude"
+          ]
+        }
+      },
+      "aliases": [
+        "Spitzenwert",
+        "Amplitude"
+      ]
+    },
+    {
+      "term": "Effektivwert",
+      "definition": "Der Wert, der dieselbe Wärme erzeugt wie eine gleich große Gleichspannung: $U = \\frac{\\hat{u}}{\\sqrt{2}}$.",
+      "i18n": {
+        "de": {
+          "term": "Effektivwert",
+          "definition": "Der Wert, der dieselbe Wärme erzeugt wie eine gleich große Gleichspannung: $U = \\frac{\\hat{u}}{\\sqrt{2}}$."
+        },
+        "en": {
+          "term": "RMS value",
+          "definition": "The value that heats a resistor as much as the same DC voltage: $U = \\frac{\\hat{u}}{\\sqrt{2}}$.",
+          "aliases": [
+            "RMS",
+            "effective value"
+          ]
+        }
+      }
+    },
+    {
+      "term": "Bogenmaß",
+      "definition": "Winkel als Länge auf dem Einheitskreis: $360° = 2\\pi$.",
+      "i18n": {
+        "de": {
+          "term": "Bogenmaß",
+          "definition": "Winkel als Länge auf dem Einheitskreis: $360° = 2\\pi$."
+        },
+        "en": {
+          "term": "radian measure",
+          "definition": "An angle as the length of an arc on the unit circle: $360° = 2\\pi$.",
+          "aliases": [
+            "radians",
+            "radian"
+          ]
+        }
+      }
+    },
+    {
+      "term": "Gleitkommazahl",
+      "definition": "Eine Zahl als Mantisse mal Zehnerpotenz, zum Beispiel $4{,}7 \\cdot 10^{3}$.",
+      "i18n": {
+        "de": {
+          "term": "Gleitkommazahl",
+          "definition": "Eine Zahl als Mantisse mal Zehnerpotenz, zum Beispiel $4{,}7 \\cdot 10^{3}$.",
+          "aliases": [
+            "Gleitkomma"
+          ]
+        },
+        "en": {
+          "term": "floating-point number",
+          "definition": "A number written as a mantissa times a power of ten, for example $4.7 \\cdot 10^{3}$.",
+          "aliases": [
+            "floating point",
+            "scientific notation"
+          ]
+        }
+      },
+      "aliases": [
+        "Gleitkomma"
+      ]
+    },
+    {
+      "term": "Querschnitt",
+      "definition": "Die Schnittfläche eines Leiters $A$ in mm²; je größer, desto kleiner der Widerstand.",
+      "i18n": {
+        "de": {
+          "term": "Querschnitt",
+          "definition": "Die Schnittfläche eines Leiters $A$ in mm²; je größer, desto kleiner der Widerstand."
+        },
+        "en": {
+          "term": "cross-section",
+          "definition": "The cut area $A$ of a wire in mm²; the larger it is, the smaller the resistance.",
+          "aliases": [
+            "cross-sectional area"
+          ]
+        }
+      }
+    }
+  ]
 }

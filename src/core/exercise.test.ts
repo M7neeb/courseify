@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import {
   EXERCISE,
   applyReview,
@@ -197,4 +198,17 @@ test('applyReview records a miss and clears the question once it is answered rig
 
   const cleared = applyReview(afterSecondMiss, 'q', true, NOW);
   assert.deepEqual(cleared, {});
+});
+
+test('a mock exam spreads questions over the course and gives time per question kind', async () => {
+  const { buildMockExam, examMinutes } = await import('./exercise.ts');
+  const course = JSON.parse(readFileSync(new URL('../../examples/sample-course.json', import.meta.url), 'utf8'));
+  const exam = buildMockExam(course, 42, 10);
+  assert.ok(exam.length > 0 && exam.length <= 10);
+  assert.equal(new Set(exam.map((q) => q.id)).size, exam.length);
+  // The same seed builds the same exam.
+  assert.deepEqual(buildMockExam(course, 42, 10).map((q) => q.id), exam.map((q) => q.id));
+  const q = (kind: string) => ({ id: kind, kind, prompt: 'p' }) as never;
+  assert.equal(examMinutes([q('written'), q('written'), q('multiple-choice')]), 10);
+  assert.equal(examMinutes([q('true-false')]), 5);
 });

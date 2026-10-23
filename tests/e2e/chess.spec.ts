@@ -118,14 +118,53 @@ test('play a position out against the computer, and the practice board', async (
   await play.getByRole('button', { name: 'Take back' }).click();
   await expect(play.getByText('No moves yet.')).toBeVisible();
 
-  await page.goto('./#/play');
-  await expect(page.getByRole('heading', { name: 'Chess board' })).toBeVisible();
+  await page.goto('./#/play/board');
+  await expect(page.getByRole('heading', { name: 'Chess', exact: true })).toBeVisible();
   await page.locator('[data-square="e2"]').click();
   await page.locator('[data-square="e4"]').click();
   await expect(page.locator('.cf-chess-moves')).toHaveText(/^1\. e4 \S+/, { timeout: 6000 });
   await page.getByRole('button', { name: 'New game as Black' }).click();
   // As Black, the computer opens.
   await expect(page.locator('.cf-chess-moves')).toHaveText(/^1\. \S+$/, { timeout: 6000 });
+});
+
+test('play a bot, resign, and review the game move by move', async ({ page }) => {
+  // The first run downloads the chess engine and analyses the game.
+  test.setTimeout(120_000);
+  const errors: string[] = [];
+  page.on('pageerror', (err) => errors.push(err.message));
+  await page.goto('./#/play');
+  await page.getByRole('button', { name: 'Pip 250' }).click();
+  await page.getByRole('button', { name: 'Play Pip' }).click();
+  await page.locator('[data-square="e2"]').click();
+  await page.locator('[data-square="e4"]').click();
+  await expect(page.locator('.cf-score-sheet li').first()).toHaveText(/1\.\s*e4\s*\S+/, { timeout: 30_000 });
+  await page.getByRole('button', { name: 'Resign' }).click();
+  await page.getByRole('button', { name: 'Yes, resign' }).click();
+  await expect(page.getByText('You resigned.')).toBeVisible();
+
+  await page.getByRole('link', { name: 'Game review' }).click();
+  await expect(page.locator('.cf-acc-label')).toHaveText('Accuracy', { timeout: 90_000 });
+  await expect(page.locator('.cf-rmove')).toHaveCount(2);
+  await page.getByRole('button', { name: 'Start review' }).click();
+  await expect(page.locator('.cf-coach-title')).toContainText('e4');
+  // The badge on the board marks the move's class.
+  await expect(page.locator('.cf-sq-badge')).toHaveCount(1);
+
+  await page.goto('./#/play/games');
+  await expect(page.getByText('vs Pip (250)')).toBeVisible();
+  await expect(page.getByText('Lost', { exact: true })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('an endgame drill: the engine defends and counts your moves', async ({ page }) => {
+  test.setTimeout(60_000);
+  await page.goto('./#/play/endgames');
+  await page.getByRole('link', { name: /Queen and king mate/ }).click();
+  await expect(page.getByText('Your move: 1 of 20')).toBeVisible();
+  await page.locator('[data-square="d1"]').click();
+  await page.locator('[data-square="d3"]').click();
+  await expect(page.getByText('Your move: 2 of 20')).toBeVisible({ timeout: 30_000 });
 });
 
 /** Any legal move in the puzzle that is not its first move and does not give mate. */

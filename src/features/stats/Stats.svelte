@@ -10,6 +10,15 @@
   import { shows } from '../../core/layout.ts';
   import MasteryIcon from '../../ui/MasteryIcon.svelte';
   import MasteryLegend from '../../ui/MasteryLegend.svelte';
+  import WeekCard from '../../ui/WeekCard.svelte';
+  import Milestones from '../../ui/Milestones.svelte';
+  import { onMount } from 'svelte';
+  import { goals, syncMilestones, syncWeek, thisWeekReport } from '../../core/goalsStore.svelte.ts';
+
+  onMount(() => {
+    void syncWeek();
+    void syncMilestones(false);
+  });
   import { t } from '../../i18n/i18n.ts';
 
   const today = $derived(dayKey(new Date()));
@@ -116,6 +125,10 @@
 
 <section class="cf-progress-page">
   <div class="cf-section-head"><h1>{t('stats.title')}</h1></div>
+
+  {#if goals.loaded}
+    <WeekCard report={thisWeekReport()} title={t('week.thisWeek')} />
+  {/if}
 
   <div class="cf-stat-grid">
     <div class="cf-stat-tile cf-stat-wide">
@@ -278,5 +291,8 @@
       <p class="cf-muted">{t('stats.noActivity')}</p>
     {/if}
   </section>
+  {/if}
+  {#if goals.milestones.length > 0}
+    <Milestones states={goals.milestones} />
   {/if}
 </section>

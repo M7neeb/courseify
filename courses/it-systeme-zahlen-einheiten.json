@@ -9,7 +9,7 @@
     "de",
     "en"
   ],
-  "version": "1.0",
+  "version": "1.1",
   "meta": {
     "tags": [
       "informatik",
@@ -2014,6 +2014,13 @@
               "title": null
             },
             {
+              "id": "m2-l3-drill",
+              "type": "drill",
+              "drill": "units",
+              "level": 1,
+              "count": 5
+            },
+            {
               "id": "m2-l3-b5",
               "type": "quiz",
               "questions": [
@@ -2236,6 +2243,13 @@
               "searchTerm": "Speichereinheiten umrechnen KiB MiB Beispiele",
               "url": null,
               "title": null
+            },
+            {
+              "id": "m2-l4-drill",
+              "type": "drill",
+              "drill": "units",
+              "level": 2,
+              "count": 5
             },
             {
               "id": "m2-l4-b4",
@@ -2935,6 +2949,13 @@
               "title": null
             },
             {
+              "id": "m3-l2-drill",
+              "type": "drill",
+              "drill": "bin-dec",
+              "level": 2,
+              "count": 5
+            },
+            {
               "id": "m3-l2-b5",
               "type": "quiz",
               "questions": [
@@ -3168,6 +3189,13 @@
               "searchTerm": "Dezimalzahl in Dualzahl umrechnen Division mit Rest",
               "url": null,
               "title": null
+            },
+            {
+              "id": "m3-l3-drill",
+              "type": "drill",
+              "drill": "dec-bin",
+              "level": 2,
+              "count": 5
             },
             {
               "id": "m3-l3-b6",
@@ -3497,6 +3525,20 @@
               "searchTerm": "Hexadezimalzahlen umrechnen Dual Dezimal Hex Vierergruppen",
               "url": null,
               "title": null
+            },
+            {
+              "id": "m3-l4-drill",
+              "type": "drill",
+              "drill": "hex-dec",
+              "level": 1,
+              "count": 5
+            },
+            {
+              "id": "m3-l4-drill2",
+              "type": "drill",
+              "drill": "bin-hex",
+              "level": 1,
+              "count": 4
             },
             {
               "id": "m3-l4-b5",
@@ -4304,6 +4346,13 @@
               "searchTerm": "Übertragungszeit berechnen Datenrate Bit Byte Download Dauer",
               "url": null,
               "title": null
+            },
+            {
+              "id": "m4-l1-drill",
+              "type": "drill",
+              "drill": "transfer",
+              "level": 2,
+              "count": 5
             },
             {
               "id": "m4-l1-b6",
@@ -6685,5 +6734,370 @@
         }
       }
     ]
-  }
+  },
+  "glossary": [
+    {
+      "term": "Hardware",
+      "definition": "Alle Teile eines Computers, die man anfassen kann: Prozessor, Speicher, Tastatur, Bildschirm.",
+      "i18n": {
+        "de": {
+          "term": "Hardware",
+          "definition": "Alle Teile eines Computers, die man anfassen kann: Prozessor, Speicher, Tastatur, Bildschirm."
+        },
+        "en": {
+          "term": "hardware",
+          "definition": "Every part of a computer you can touch: processor, memory, keyboard, screen."
+        }
+      }
+    },
+    {
+      "term": "Software",
+      "definition": "Programme und Daten, die auf der Hardware laufen, zum Beispiel das Betriebssystem oder eine App.",
+      "i18n": {
+        "de": {
+          "term": "Software",
+          "definition": "Programme und Daten, die auf der Hardware laufen, zum Beispiel das Betriebssystem oder eine App."
+        },
+        "en": {
+          "term": "software",
+          "definition": "Programs and data that run on the hardware, such as the operating system or an app."
+        }
+      }
+    },
+    {
+      "term": "EVA-Prinzip",
+      "definition": "Eingabe, Verarbeitung, Ausgabe: jedes IT-System nimmt Daten auf, verarbeitet sie und gibt ein Ergebnis aus.",
+      "i18n": {
+        "de": {
+          "term": "EVA-Prinzip",
+          "definition": "Eingabe, Verarbeitung, Ausgabe: jedes IT-System nimmt Daten auf, verarbeitet sie und gibt ein Ergebnis aus.",
+          "aliases": [
+            "EVA-Modell",
+            "EVA"
+          ]
+        },
+        "en": {
+          "term": "IPO model",
+          "definition": "Input, processing, output: every IT system takes in data, processes it and gives out a result.",
+          "aliases": [
+            "IPO"
+          ]
+        }
+      },
+      "aliases": [
+        "EVA-Modell",
+        "EVA"
+      ]
+    },
+    {
+      "term": "Prozessor",
+      "definition": "Das Rechenwerk des Computers (CPU); er führt die Befehle der Programme aus.",
+      "i18n": {
+        "de": {
+          "term": "Prozessor",
+          "definition": "Das Rechenwerk des Computers (CPU); er führt die Befehle der Programme aus.",
+          "aliases": [
+            "CPU"
+          ]
+        },
+        "en": {
+          "term": "processor",
+          "definition": "The part of the computer that calculates (CPU); it carries out the programs' instructions.",
+          "aliases": [
+            "CPU"
+          ]
+        }
+      },
+      "aliases": [
+        "CPU"
+      ]
+    },
+    {
+      "term": "Arbeitsspeicher",
+      "definition": "Schneller, flüchtiger Speicher (RAM) für laufende Programme; ohne Strom ist er leer.",
+      "i18n": {
+        "de": {
+          "term": "Arbeitsspeicher",
+          "definition": "Schneller, flüchtiger Speicher (RAM) für laufende Programme; ohne Strom ist er leer.",
+          "aliases": [
+            "RAM"
+          ]
+        },
+        "en": {
+          "term": "main memory",
+          "definition": "Fast, volatile memory (RAM) for running programs; it is empty without power.",
+          "aliases": [
+            "RAM",
+            "memory"
+          ]
+        }
+      },
+      "aliases": [
+        "RAM"
+      ]
+    },
+    {
+      "term": "Bit",
+      "definition": "Die kleinste Informationseinheit: 0 oder 1.",
+      "i18n": {
+        "de": {
+          "term": "Bit",
+          "definition": "Die kleinste Informationseinheit: 0 oder 1."
+        },
+        "en": {
+          "term": "bit",
+          "definition": "The smallest unit of information: 0 or 1."
+        }
+      }
+    },
+    {
+      "term": "Byte",
+      "definition": "8 Bit. Ein Byte kann 256 verschiedene Werte (0 bis 255) darstellen.",
+      "i18n": {
+        "de": {
+          "term": "Byte",
+          "definition": "8 Bit. Ein Byte kann 256 verschiedene Werte (0 bis 255) darstellen."
+        },
+        "en": {
+          "term": "byte",
+          "definition": "8 bits. One byte can hold 256 different values (0 to 255)."
+        }
+      }
+    },
+    {
+      "term": "Wort",
+      "definition": "Die Anzahl Bits, die ein Prozessor auf einmal verarbeitet, zum Beispiel 64 Bit.",
+      "i18n": {
+        "de": {
+          "term": "Wort",
+          "definition": "Die Anzahl Bits, die ein Prozessor auf einmal verarbeitet, zum Beispiel 64 Bit."
+        },
+        "en": {
+          "term": "word",
+          "definition": "The number of bits a processor handles at once, for example 64 bits."
+        }
+      }
+    },
+    {
+      "term": "Dezimalpräfix",
+      "definition": "Vorsilben in Tausenderschritten: k = $10^3$, M = $10^6$, G = $10^9$, T = $10^{12}$.",
+      "i18n": {
+        "de": {
+          "term": "Dezimalpräfix",
+          "definition": "Vorsilben in Tausenderschritten: k = $10^3$, M = $10^6$, G = $10^9$, T = $10^{12}$.",
+          "aliases": [
+            "SI-Präfix"
+          ]
+        },
+        "en": {
+          "term": "decimal prefix",
+          "definition": "Prefixes in steps of a thousand: k = $10^3$, M = $10^6$, G = $10^9$, T = $10^{12}$.",
+          "aliases": [
+            "SI prefix"
+          ]
+        }
+      },
+      "aliases": [
+        "SI-Präfix"
+      ]
+    },
+    {
+      "term": "Binärpräfix",
+      "definition": "Vorsilben in 1024er-Schritten: Ki = $2^{10}$, Mi = $2^{20}$, Gi = $2^{30}$, Ti = $2^{40}$.",
+      "i18n": {
+        "de": {
+          "term": "Binärpräfix",
+          "definition": "Vorsilben in 1024er-Schritten: Ki = $2^{10}$, Mi = $2^{20}$, Gi = $2^{30}$, Ti = $2^{40}$.",
+          "aliases": [
+            "KiB",
+            "MiB",
+            "GiB",
+            "TiB"
+          ]
+        },
+        "en": {
+          "term": "binary prefix",
+          "definition": "Prefixes in steps of 1024: Ki = $2^{10}$, Mi = $2^{20}$, Gi = $2^{30}$, Ti = $2^{40}$.",
+          "aliases": [
+            "KiB",
+            "MiB",
+            "GiB",
+            "TiB"
+          ]
+        }
+      },
+      "aliases": [
+        "KiB",
+        "MiB",
+        "GiB",
+        "TiB"
+      ]
+    },
+    {
+      "term": "Stellenwertsystem",
+      "definition": "Ein Zahlensystem, in dem der Wert einer Ziffer von ihrer Stelle abhängt, zum Beispiel das Dezimalsystem.",
+      "i18n": {
+        "de": {
+          "term": "Stellenwertsystem",
+          "definition": "Ein Zahlensystem, in dem der Wert einer Ziffer von ihrer Stelle abhängt, zum Beispiel das Dezimalsystem."
+        },
+        "en": {
+          "term": "positional number system",
+          "definition": "A number system where a digit's value depends on its place, such as the decimal system."
+        }
+      }
+    },
+    {
+      "term": "Dualsystem",
+      "definition": "Zahlensystem mit der Basis 2 und den Ziffern 0 und 1.",
+      "i18n": {
+        "de": {
+          "term": "Dualsystem",
+          "definition": "Zahlensystem mit der Basis 2 und den Ziffern 0 und 1.",
+          "aliases": [
+            "Binärsystem",
+            "Dualzahl",
+            "Binärzahl"
+          ]
+        },
+        "en": {
+          "term": "binary system",
+          "definition": "The number system with base 2 and the digits 0 and 1.",
+          "aliases": [
+            "binary",
+            "binary number"
+          ]
+        }
+      },
+      "aliases": [
+        "Binärsystem",
+        "Dualzahl",
+        "Binärzahl"
+      ]
+    },
+    {
+      "term": "Hexadezimalsystem",
+      "definition": "Zahlensystem mit der Basis 16 und den Ziffern 0-9 und A-F. Eine Hexziffer steht für 4 Bit.",
+      "i18n": {
+        "de": {
+          "term": "Hexadezimalsystem",
+          "definition": "Zahlensystem mit der Basis 16 und den Ziffern 0-9 und A-F. Eine Hexziffer steht für 4 Bit.",
+          "aliases": [
+            "Hexadezimalzahl",
+            "Hexzahl"
+          ]
+        },
+        "en": {
+          "term": "hexadecimal system",
+          "definition": "The number system with base 16 and the digits 0-9 and A-F. One hex digit stands for 4 bits.",
+          "aliases": [
+            "hexadecimal",
+            "hex"
+          ]
+        }
+      },
+      "aliases": [
+        "Hexadezimalzahl",
+        "Hexzahl"
+      ]
+    },
+    {
+      "term": "Taktfrequenz",
+      "definition": "Wie viele Takte ein Prozessor pro Sekunde macht, angegeben in Hertz (GHz).",
+      "i18n": {
+        "de": {
+          "term": "Taktfrequenz",
+          "definition": "Wie viele Takte ein Prozessor pro Sekunde macht, angegeben in Hertz (GHz).",
+          "aliases": [
+            "Takt"
+          ]
+        },
+        "en": {
+          "term": "clock speed",
+          "definition": "How many cycles a processor runs per second, given in hertz (GHz).",
+          "aliases": [
+            "clock rate"
+          ]
+        }
+      },
+      "aliases": [
+        "Takt"
+      ]
+    },
+    {
+      "term": "Datenrate",
+      "definition": "Wie viele Daten pro Sekunde übertragen werden, meist in Bit pro Sekunde (Mbit/s).",
+      "i18n": {
+        "de": {
+          "term": "Datenrate",
+          "definition": "Wie viele Daten pro Sekunde übertragen werden, meist in Bit pro Sekunde (Mbit/s).",
+          "aliases": [
+            "Übertragungsrate"
+          ]
+        },
+        "en": {
+          "term": "data rate",
+          "definition": "How much data is transferred per second, usually in bits per second (Mbit/s).",
+          "aliases": [
+            "transfer rate"
+          ]
+        }
+      },
+      "aliases": [
+        "Übertragungsrate"
+      ]
+    },
+    {
+      "term": "SSD",
+      "definition": "Solid State Drive: Speicher aus Flash-Zellen ohne bewegliche Teile; schnell und stoßfest.",
+      "i18n": {
+        "de": {
+          "term": "SSD",
+          "definition": "Solid State Drive: Speicher aus Flash-Zellen ohne bewegliche Teile; schnell und stoßfest."
+        },
+        "en": {
+          "term": "SSD",
+          "definition": "Solid state drive: storage made of flash cells with no moving parts; fast and shock-proof."
+        }
+      }
+    },
+    {
+      "term": "Festplatte",
+      "definition": "HDD: Speicher mit drehenden Magnetscheiben und einem Lesekopf; günstig pro Gigabyte, aber langsamer.",
+      "i18n": {
+        "de": {
+          "term": "Festplatte",
+          "definition": "HDD: Speicher mit drehenden Magnetscheiben und einem Lesekopf; günstig pro Gigabyte, aber langsamer.",
+          "aliases": [
+            "HDD"
+          ]
+        },
+        "en": {
+          "term": "hard disk drive",
+          "definition": "HDD: storage with spinning magnetic platters and a read head; cheap per gigabyte, but slower.",
+          "aliases": [
+            "HDD",
+            "hard disk"
+          ]
+        }
+      },
+      "aliases": [
+        "HDD"
+      ]
+    },
+    {
+      "term": "IOPS",
+      "definition": "Input/Output Operations per Second: wie viele Lese- und Schreibzugriffe ein Speicher pro Sekunde schafft.",
+      "i18n": {
+        "de": {
+          "term": "IOPS",
+          "definition": "Input/Output Operations per Second: wie viele Lese- und Schreibzugriffe ein Speicher pro Sekunde schafft."
+        },
+        "en": {
+          "term": "IOPS",
+          "definition": "Input/output operations per second: how many reads and writes a drive manages per second."
+        }
+      }
+    }
+  ]
 }

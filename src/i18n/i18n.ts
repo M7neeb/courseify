@@ -10,3 +10,9 @@ export function t(key: string, vars: Record<string, string | number> = {}): stri
   const raw = dictionaries[lang]?.[key] ?? dictionaries.en?.[key] ?? key;
   return raw.replace(/\{(\w+)\}/g, (whole, name: string) => (name in vars ? String(vars[name]) : whole));
 }
+
+/** The same lookup in a given language, for course content shown in the course's language. */
+export function tIn(lang: string, key: string, vars: Record<string, string | number> = {}): string {
+  const raw = dictionaries[lang]?.[key] ?? dictionaries.en?.[key] ?? key;
+  return raw.replace(/\{(\w+)\}/g, (whole, name: string) => (name in vars ? String(vars[name]) : whole));
+}

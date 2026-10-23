@@ -17,7 +17,7 @@
   );
 </script>
 
-<section class="block text">
+<section class="block text" lang={ctx.explanationLanguage} data-course={ctx.courseId}>
   {#if available.length > 1}
     <div class="level-switch" role="group" aria-label={t('text.level')}>
       {#each available as l (l)}

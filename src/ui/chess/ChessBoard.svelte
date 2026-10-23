@@ -17,6 +17,7 @@
     marks = {},
     animate = true,
     label = '',
+    badge = null,
     onmove
   }: {
     fen: string;
@@ -32,6 +33,8 @@
     marks?: Record<string, 'good' | 'bad' | 'hint'>;
     animate?: boolean;
     label?: string;
+    /** A small round mark on one square, such as a move's review class ("??" on red). */
+    badge?: { square: string; text: string; color: string; title?: string } | null;
     onmove?: (from: string, to: string, promotion?: string) => void;
   } = $props();
 
@@ -249,6 +252,7 @@
             </span>
           {/key}
         {/if}
+        {#if badge && badge.square === square}<span class="cf-sq-badge" style:background={badge.color} title={badge.title} aria-hidden="true">{badge.text}</span>{/if}
         {#if i % 8 === 0}<span class="cf-coord rank" aria-hidden="true">{square[1]}</span>{/if}
         {#if i >= 56}<span class="cf-coord file" aria-hidden="true">{square[0]}</span>{/if}
       </button>

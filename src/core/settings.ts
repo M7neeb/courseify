@@ -32,6 +32,7 @@ export function defaultSettings(): Settings {
     interleavePractice: true,
     celebrations: true,
     sounds: false,
+    glossaryTerms: true,
     dailyGoal: 50,
     readingFont: 'default',
     lineSpacing: 'normal',
@@ -97,7 +98,7 @@ export function mergeSettings(saved: unknown): Settings {
   if (typeof s.desiredRetention === 'number' && Number.isFinite(s.desiredRetention)) {
     out.desiredRetention = Math.min(0.95, Math.max(0.8, Math.round(s.desiredRetention * 100) / 100));
   }
-  for (const key of ['recallFirst', 'showWarmups', 'showReflect', 'allowHints', 'acceptTypos', 'interleavePractice', 'celebrations', 'sounds'] as const) {
+  for (const key of ['recallFirst', 'showWarmups', 'showReflect', 'allowHints', 'acceptTypos', 'interleavePractice', 'celebrations', 'sounds', 'glossaryTerms'] as const) {
     if (typeof s[key] === 'boolean') out[key] = s[key] as boolean;
   }
   if (typeof s.dailyGoal === 'number' && [0, 30, 50, 100, 200].includes(s.dailyGoal)) out.dailyGoal = s.dailyGoal;

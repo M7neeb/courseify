@@ -312,3 +312,27 @@ export function mixIntoSet(questions: Question[], extras: Question[]): Question[
   });
   return out;
 }
+
+// ---------- mock exam ----------
+
+/** Lengths a mock exam can have. */
+export const EXAM_SIZES = [10, 20, 30] as const;
+
+/**
+ * A mock exam: questions from every lesson of the course, spread evenly and shuffled, with no
+ * regard to what was practised before, so the score says where you really stand. Warm-up
+ * questions never appear.
+ */
+export function buildMockExam(course: Course, seed: number, size: number): Question[] {
+  const skills = courseSkills(course).filter((skill) => skill.lessonId !== null && skill.questionIds.length > 0);
+  if (skills.length === 0) return [];
+  const perSkill = Math.max(1, Math.ceil(size / skills.length) + 1);
+  return buildChallengeSet(course, seed, { perSkill, maxSize: size });
+}
+
+/** Minutes for a mock exam: written answers and chess puzzles take longer than a quick question. */
+export function examMinutes(questions: readonly Question[]): number {
+  let seconds = 0;
+  for (const q of questions) seconds += q.kind === 'written' ? 240 : q.kind === 'chess' || q.kind === 'numeric' ? 120 : 75;
+  return Math.max(5, Math.ceil(seconds / 60));
+}

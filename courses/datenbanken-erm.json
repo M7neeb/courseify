@@ -9,7 +9,7 @@
     "de",
     "en"
   ],
-  "version": "1.0",
+  "version": "1.1",
   "meta": {
     "tags": [
       "datenbanken",
@@ -7996,5 +7996,289 @@
         }
       }
     ]
-  }
+  },
+  "glossary": [
+    {
+      "term": "Tabelle",
+      "definition": "Daten in Zeilen und Spalten; in der Fachsprache eine Relation.",
+      "i18n": {
+        "de": {
+          "term": "Tabelle",
+          "definition": "Daten in Zeilen und Spalten; in der Fachsprache eine Relation.",
+          "aliases": [
+            "Relation"
+          ]
+        },
+        "en": {
+          "term": "table",
+          "definition": "Data in rows and columns; formally called a relation.",
+          "aliases": [
+            "relation"
+          ]
+        }
+      },
+      "aliases": [
+        "Relation"
+      ]
+    },
+    {
+      "term": "Attribut",
+      "definition": "Eine Spalte einer Tabelle, also eine Eigenschaft wie „Name“ oder „Geburtsdatum“.",
+      "i18n": {
+        "de": {
+          "term": "Attribut",
+          "definition": "Eine Spalte einer Tabelle, also eine Eigenschaft wie „Name“ oder „Geburtsdatum“."
+        },
+        "en": {
+          "term": "attribute",
+          "definition": "A column of a table: one property such as \"name\" or \"date of birth\".",
+          "aliases": [
+            "column"
+          ]
+        }
+      }
+    },
+    {
+      "term": "Datensatz",
+      "definition": "Eine Zeile einer Tabelle: alle Angaben zu einem Objekt.",
+      "i18n": {
+        "de": {
+          "term": "Datensatz",
+          "definition": "Eine Zeile einer Tabelle: alle Angaben zu einem Objekt.",
+          "aliases": [
+            "Tupel"
+          ]
+        },
+        "en": {
+          "term": "record",
+          "definition": "One row of a table: everything about one object.",
+          "aliases": [
+            "row",
+            "tuple"
+          ]
+        }
+      },
+      "aliases": [
+        "Tupel"
+      ]
+    },
+    {
+      "term": "Primärschlüssel",
+      "definition": "Ein Attribut (oder mehrere), das jeden Datensatz eindeutig kennzeichnet; nie leer, nie doppelt.",
+      "i18n": {
+        "de": {
+          "term": "Primärschlüssel",
+          "definition": "Ein Attribut (oder mehrere), das jeden Datensatz eindeutig kennzeichnet; nie leer, nie doppelt.",
+          "aliases": [
+            "PK"
+          ]
+        },
+        "en": {
+          "term": "primary key",
+          "definition": "An attribute (or several) that identifies every record uniquely; never empty, never repeated.",
+          "aliases": [
+            "PK"
+          ]
+        }
+      },
+      "aliases": [
+        "PK"
+      ]
+    },
+    {
+      "term": "Fremdschlüssel",
+      "definition": "Ein Attribut, das auf den Primärschlüssel einer anderen Tabelle verweist und so zwei Tabellen verbindet.",
+      "i18n": {
+        "de": {
+          "term": "Fremdschlüssel",
+          "definition": "Ein Attribut, das auf den Primärschlüssel einer anderen Tabelle verweist und so zwei Tabellen verbindet.",
+          "aliases": [
+            "FK"
+          ]
+        },
+        "en": {
+          "term": "foreign key",
+          "definition": "An attribute that points to the primary key of another table and so links two tables.",
+          "aliases": [
+            "FK"
+          ]
+        }
+      },
+      "aliases": [
+        "FK"
+      ]
+    },
+    {
+      "term": "zusammengesetzter Schlüssel",
+      "definition": "Ein Primärschlüssel aus mehreren Attributen, typisch in Zwischentabellen.",
+      "i18n": {
+        "de": {
+          "term": "zusammengesetzter Schlüssel",
+          "definition": "Ein Primärschlüssel aus mehreren Attributen, typisch in Zwischentabellen."
+        },
+        "en": {
+          "term": "composite key",
+          "definition": "A primary key made of several attributes, typical in junction tables.",
+          "aliases": [
+            "compound key"
+          ]
+        }
+      }
+    },
+    {
+      "term": "Entität",
+      "definition": "Ein einzelnes Objekt der realen Welt, über das Daten gespeichert werden, zum Beispiel ein bestimmter Kunde.",
+      "i18n": {
+        "de": {
+          "term": "Entität",
+          "definition": "Ein einzelnes Objekt der realen Welt, über das Daten gespeichert werden, zum Beispiel ein bestimmter Kunde."
+        },
+        "en": {
+          "term": "entity",
+          "definition": "A single real-world object that data is kept about, for example one particular customer."
+        }
+      }
+    },
+    {
+      "term": "Entitätstyp",
+      "definition": "Die Gruppe gleichartiger Entitäten, im ERD ein Rechteck, zum Beispiel „Kunde“.",
+      "i18n": {
+        "de": {
+          "term": "Entitätstyp",
+          "definition": "Die Gruppe gleichartiger Entitäten, im ERD ein Rechteck, zum Beispiel „Kunde“."
+        },
+        "en": {
+          "term": "entity type",
+          "definition": "The group of entities of the same kind, a rectangle in an ERD, for example \"Customer\"."
+        }
+      }
+    },
+    {
+      "term": "Beziehung",
+      "definition": "Eine Verbindung zwischen Entitätstypen, im ERD eine Raute, zum Beispiel „bucht“.",
+      "i18n": {
+        "de": {
+          "term": "Beziehung",
+          "definition": "Eine Verbindung zwischen Entitätstypen, im ERD eine Raute, zum Beispiel „bucht“."
+        },
+        "en": {
+          "term": "relationship",
+          "definition": "A link between entity types, a diamond in an ERD, for example \"books\"."
+        }
+      }
+    },
+    {
+      "term": "Kardinalität",
+      "definition": "Wie viele Entitäten auf jeder Seite einer Beziehung beteiligt sein können: 1:1, 1:n oder n:m.",
+      "i18n": {
+        "de": {
+          "term": "Kardinalität",
+          "definition": "Wie viele Entitäten auf jeder Seite einer Beziehung beteiligt sein können: 1:1, 1:n oder n:m."
+        },
+        "en": {
+          "term": "cardinality",
+          "definition": "How many entities on each side of a relationship can take part: 1:1, 1:n or n:m."
+        }
+      }
+    },
+    {
+      "term": "ER-Modell",
+      "definition": "Entity-Relationship-Modell: eine Zeichnung der Entitätstypen, Attribute und Beziehungen einer Datenbank.",
+      "i18n": {
+        "de": {
+          "term": "ER-Modell",
+          "definition": "Entity-Relationship-Modell: eine Zeichnung der Entitätstypen, Attribute und Beziehungen einer Datenbank.",
+          "aliases": [
+            "ERD",
+            "ER-Diagramm"
+          ]
+        },
+        "en": {
+          "term": "ER model",
+          "definition": "Entity-relationship model: a drawing of a database's entity types, attributes and relationships.",
+          "aliases": [
+            "ERD",
+            "ER diagram"
+          ]
+        }
+      },
+      "aliases": [
+        "ERD",
+        "ER-Diagramm"
+      ]
+    },
+    {
+      "term": "Zwischentabelle",
+      "definition": "Eine eigene Tabelle für eine n:m-Beziehung; sie enthält die Fremdschlüssel beider Seiten.",
+      "i18n": {
+        "de": {
+          "term": "Zwischentabelle",
+          "definition": "Eine eigene Tabelle für eine n:m-Beziehung; sie enthält die Fremdschlüssel beider Seiten."
+        },
+        "en": {
+          "term": "junction table",
+          "definition": "A table of its own for an n:m relationship; it holds the foreign keys of both sides.",
+          "aliases": [
+            "link table"
+          ]
+        }
+      }
+    },
+    {
+      "term": "Datentyp",
+      "definition": "Welche Art Wert ein Attribut speichert, zum Beispiel INT, VARCHAR(50), DATE oder DECIMAL(8,2).",
+      "i18n": {
+        "de": {
+          "term": "Datentyp",
+          "definition": "Welche Art Wert ein Attribut speichert, zum Beispiel INT, VARCHAR(50), DATE oder DECIMAL(8,2)."
+        },
+        "en": {
+          "term": "data type",
+          "definition": "What kind of value an attribute holds, for example INT, VARCHAR(50), DATE or DECIMAL(8,2)."
+        }
+      }
+    },
+    {
+      "term": "CREATE TABLE",
+      "definition": "Der SQL-Befehl, der eine neue Tabelle mit ihren Spalten, Datentypen und Schlüsseln anlegt.",
+      "i18n": {
+        "de": {
+          "term": "CREATE TABLE",
+          "definition": "Der SQL-Befehl, der eine neue Tabelle mit ihren Spalten, Datentypen und Schlüsseln anlegt."
+        },
+        "en": {
+          "term": "CREATE TABLE",
+          "definition": "The SQL command that creates a new table with its columns, data types and keys."
+        }
+      }
+    },
+    {
+      "term": "referentielle Integrität",
+      "definition": "Jeder Fremdschlüssel zeigt auf einen Datensatz, den es wirklich gibt.",
+      "i18n": {
+        "de": {
+          "term": "referentielle Integrität",
+          "definition": "Jeder Fremdschlüssel zeigt auf einen Datensatz, den es wirklich gibt."
+        },
+        "en": {
+          "term": "referential integrity",
+          "definition": "Every foreign key points to a record that really exists."
+        }
+      }
+    },
+    {
+      "term": "NULL",
+      "definition": "Kein Wert: das Feld ist leer. Ein Primärschlüssel darf nie NULL sein.",
+      "i18n": {
+        "de": {
+          "term": "NULL",
+          "definition": "Kein Wert: das Feld ist leer. Ein Primärschlüssel darf nie NULL sein."
+        },
+        "en": {
+          "term": "NULL",
+          "definition": "No value: the field is empty. A primary key may never be NULL."
+        }
+      }
+    }
+  ]
 }

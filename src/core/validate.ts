@@ -1,5 +1,7 @@
 import type { Course, Question, QuestionKind } from './types.ts';
 import { chessBlockErrors, chessQuestionErrors } from './chess.ts';
+import { drillById } from './drills.ts';
+import { graphErrors } from './graph.ts';
 
 export interface ValidationResult {
   ok: boolean;
@@ -17,13 +19,17 @@ const QUESTION_KINDS: QuestionKind[] = [
   'multi-select',
   'matching',
   'ordering',
-  'chess'
+  'chess',
+  'written',
+  'hotspot',
+  'code'
 ];
+const CODE_LANGUAGES = ['python', 'javascript'];
 const QUIZ_TYPES = ['quiz', 'module-test', 'final-exam'];
 /** Block types the player can render today. */
-export const RENDERED_BLOCK_TYPES = ['text', 'callout', 'video', 'image', 'example', 'flashcards', ...QUIZ_TYPES];
+export const RENDERED_BLOCK_TYPES = ['text', 'callout', 'video', 'image', 'example', 'flashcards', 'code', 'drill', 'graph', ...QUIZ_TYPES];
 /** Block types the schema reserves for later features; they validate but show a placeholder. */
-export const PLANNED_BLOCK_TYPES = ['exercise', 'code'];
+export const PLANNED_BLOCK_TYPES = ['exercise'];
 
 const ID_PATTERN = /^[A-Za-z0-9._-]+$/;
 
@@ -179,6 +185,13 @@ export function validateCourse(input: unknown): ValidationResult {
           ) {
             errors.push(`${path}.i18n.${lang}.items: must be a list of text.`);
           }
+          for (const k of ['points', 'areaLabels']) {
+            const v = rawEntry[k];
+            if (v !== undefined && (!Array.isArray(v) || !v.every((x) => typeof x === 'string'))) errors.push(`${path}.i18n.${lang}.${k}: must be a list of text.`);
+          }
+          for (const k of ['svg', 'alt']) {
+            if (rawEntry[k] !== undefined && typeof rawEntry[k] !== 'string') errors.push(`${path}.i18n.${lang}.${k}: must be text.`);
+          }
         }
       }
     }
@@ -235,6 +248,41 @@ export function validateCourse(input: unknown): ValidationResult {
       if (!Array.isArray(items) || items.length < 2 || !items.every(isNonEmptyString)) {
         errors.push(`${path}.items: need at least 2 pieces of text.`);
       }
+    } else if (kind === 'code') {
+      if (typeof q.language !== 'string' || !CODE_LANGUAGES.includes(q.language)) errors.push(`${path}.language: one of ${CODE_LANGUAGES.join(', ')}.`);
+      if (q.starter !== undefined && typeof q.starter !== 'string') errors.push(`${path}.starter: must be code as text.`);
+      if (q.answer !== undefined && typeof q.answer !== 'string') errors.push(`${path}.answer: the model solution, as code text.`);
+      const tests = q.tests;
+      if (!Array.isArray(tests) || tests.length === 0) {
+        errors.push(`${path}.tests: need at least one test: { "call": "add(2, 3)", "expect": 5 } or { "output": "Hello" }.`);
+      } else {
+        tests.forEach((t, ti) => {
+          const ok = isObject(t) && ((isNonEmptyString(t.call) && 'expect' in t) || (typeof t.output === 'string' && (t.stdin === undefined || typeof t.stdin === 'string')));
+          if (!ok) errors.push(`${path}.tests[${ti}]: use { "call": "...", "expect": value } or { "output": "...", "stdin": "..." }.`);
+        });
+      }
+    } else if (kind === 'written') {
+      const points = q.points;
+      if (!Array.isArray(points) || points.length < 2 || points.length > 8 || !points.every(isNonEmptyString)) {
+        errors.push(`${path}.points: need 2 to 8 key points as text.`);
+      }
+      if (!isNonEmptyString(q.answer)) errors.push(`${path}.answer: needs a model answer as text.`);
+    } else if (kind === 'hotspot') {
+      if (!isNonEmptyString(q.image) && !isNonEmptyString(q.svg)) errors.push(`${path}: a hotspot question needs "svg" (inline SVG) or "image" (a URL).`);
+      if (q.svg !== undefined && (typeof q.svg !== 'string' || !/^\s*<svg[\s>]/i.test(q.svg))) errors.push(`${path}.svg: must be SVG markup starting with <svg.`);
+      const areas = q.areas;
+      const inRange = (v: unknown) => typeof v === 'number' && Number.isFinite(v) && v >= 0 && v <= 100;
+      if (!Array.isArray(areas) || areas.length < 2) {
+        errors.push(`${path}.areas: need at least 2 areas as { x, y, w, h } in percent.`);
+      } else {
+        areas.forEach((a, ai) => {
+          const ok = isObject(a) && [a.x, a.y, a.w, a.h].every(inRange) && (a.w as number) > 0 && (a.h as number) > 0 && (a.x as number) + (a.w as number) <= 100.5 && (a.y as number) + (a.h as number) <= 100.5;
+          if (!ok) errors.push(`${path}.areas[${ai}]: x, y, w, h must be percent (0-100) and stay inside the picture.`);
+        });
+        if (!Number.isInteger(q.answer) || (q.answer as number) < 0 || (q.answer as number) >= areas.length) {
+          errors.push(`${path}.answer: must be the index (starting at 0) of the right area.`);
+        }
+      }
     }
   }
 
@@ -272,6 +320,16 @@ export function validateCourse(input: unknown): ValidationResult {
       }
     } else if (type === 'chess') {
       for (const message of chessBlockErrors(b)) errors.push(`${path}.${message}`);
+    } else if (type === 'code') {
+      if (typeof b.language !== 'string' || !CODE_LANGUAGES.includes(b.language)) errors.push(`${path}.language: one of ${CODE_LANGUAGES.join(', ')}.`);
+      const code = b.code;
+      if (!(isNonEmptyString(code) || (Array.isArray(code) && code.length > 0 && code.every((l) => typeof l === 'string')))) errors.push(`${path}.code: required code as text.`);
+    } else if (type === 'drill') {
+      if (typeof b.drill !== 'string' || !drillById(b.drill)) errors.push(`${path}.drill: an unknown drill "${String(b.drill)}".`);
+      if (b.level !== undefined && ![1, 2, 3].includes(b.level as number)) errors.push(`${path}.level: 1, 2 or 3.`);
+      if (b.count !== undefined && !(Number.isInteger(b.count) && (b.count as number) >= 1 && (b.count as number) <= 30)) errors.push(`${path}.count: a whole number from 1 to 30.`);
+    } else if (type === 'graph') {
+      for (const message of graphErrors(b)) errors.push(`${path}.${message}`);
     } else if (type === 'video') {
       const hasTerm = isNonEmptyString(b.searchTerm);
       const hasUrl = isNonEmptyString(b.url);
@@ -325,6 +383,21 @@ export function validateCourse(input: unknown): ValidationResult {
     }
   }
 
+  /** A glossary is optional; a broken entry is reported but never blocks the course. */
+  function checkGlossary(value: unknown, path: string) {
+    if (value === undefined) return;
+    if (!Array.isArray(value)) {
+      warnings.push(`${path}: must be a list of { term, definition }; it is ignored.`);
+      return;
+    }
+    value.forEach((entry, i) => {
+      if (!isObject(entry) || !isNonEmptyString(entry.term) || !isNonEmptyString(entry.definition)) {
+        warnings.push(`${path}[${i}]: needs "term" and "definition" text; it is ignored.`);
+      }
+    });
+  }
+  checkGlossary(course.glossary, 'glossary');
+
   (course.modules as unknown[]).forEach((m, mi) => {
     const mp = `modules[${mi}]`;
     if (!isObject(m)) {
@@ -334,6 +407,7 @@ export function validateCourse(input: unknown): ValidationResult {
     if (!isNonEmptyString(m.id)) errors.push(`${mp}.id: required.`);
     else unique('module', m.id, `${mp}.id`);
     if (!isNonEmptyString(m.title)) errors.push(`${mp}.title: required text.`);
+    checkGlossary(m.glossary, `${mp}.glossary`);
     if (!Array.isArray(m.lessons)) {
       errors.push(`${mp}.lessons: must be a list.`);
       return;

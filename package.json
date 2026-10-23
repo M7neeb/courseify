@@ -1,7 +1,7 @@
 {
   "name": "courseify",
   "private": true,
-  "version": "1.6.0",
+  "version": "1.7.0",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -19,7 +19,9 @@
     "chess.js": "^1.4.0",
     "dompurify": "^3.2.0",
     "idb": "^8.0.0",
+    "katex": "0.18.11",
     "marked": "^15.0.0",
+    "mermaid": "11.17.2",
     "ts-fsrs": "^5.4.2"
   },
   "devDependencies": {

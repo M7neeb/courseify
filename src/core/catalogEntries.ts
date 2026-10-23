@@ -26,7 +26,7 @@ export const CATALOG_INFO: CatalogInfo[] = [
     title: 'IT-Systeme: EVA-Modell, Einheiten und Zahlensysteme',
     subject: 'IT-Systeme',
     summary: 'Hardware und Software, das erweiterte EVA-Modell mit Schnittstellen, Bit und Byte, KiB gegen KB, Dual, Dezimal und Hex in alle Richtungen, Bitbedarf, Datenraten und Übertragungszeiten, dazu SSD und HDD.',
-    version: '1.0',
+    version: '1.1',
     lessons: 19
   },
   {
@@ -34,7 +34,7 @@ export const CATALOG_INFO: CatalogInfo[] = [
     title: 'Datenbanken: ER-Modell, Schlüssel und Tabellen',
     subject: 'Datenbanken',
     summary: 'Primär- und Fremdschlüssel, Kardinalitäten, ER-Diagramme zeichnen, vom Text zum ERD, vom ERD zu Tabellen, Datentypen, CREATE TABLE und Fehler in Tabellen finden. Mit vollständig gelösten Szenarien.',
-    version: '1.0',
+    version: '1.1',
     lessons: 20
   },
   {
@@ -42,7 +42,7 @@ export const CATALOG_INFO: CatalogInfo[] = [
     title: 'Elektrotechnik: Strom, Leistung und Wechselspannung',
     subject: 'Elektrotechnik',
     summary: 'SI-Präfixe, Arbeitsstättenverordnung, Ohmsches Gesetz, Leiterwiderstand, Reihen- und Parallelschaltung, Leistung, Wirkungsgrad, Arbeit, Stromkosten und sinusförmige Wechselspannung. Mit vielen durchgerechneten Aufgaben.',
-    version: '1.0',
+    version: '1.1',
     lessons: 23
   },
   {

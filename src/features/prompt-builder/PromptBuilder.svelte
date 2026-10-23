@@ -52,8 +52,8 @@
   type Mode = 'new' | 'continue' | 'fix';
   const STEPS = ['goal', 'material', 'languages', 'structure', 'practice', 'extras'] as const;
   type Step = (typeof STEPS)[number];
-  const PRESET_LIST: Preset[] = ['exam', 'programming', 'understand', 'chess', 'refresher', 'deep-dive', 'custom'];
-  const EXTRA_KEYS: (keyof Extras)[] = ['examples', 'analogies', 'mistakes', 'examTips', 'summaries', 'flashcards', 'images', 'videos', 'code', 'warmup', 'reading', 'checkins', 'chess'];
+  const PRESET_LIST: Preset[] = ['exam', 'programming', 'it', 'maths', 'understand', 'chess', 'refresher', 'deep-dive', 'custom'];
+  const EXTRA_KEYS: (keyof Extras)[] = ['examples', 'analogies', 'mistakes', 'examTips', 'summaries', 'flashcards', 'images', 'videos', 'code', 'warmup', 'reading', 'checkins', 'chess', 'practice'];
 
   let mode = $state<Mode>('new');
   let step = $state<Step>('goal');
@@ -78,6 +78,30 @@
   const savedForCourse = $derived(course ? load(courseKey(course.id)) : undefined);
   const unitSettings = $derived(savedForCourse ?? s);
   const units = $derived(course ? unitStatus(course) : []);
+
+  // Notes from text files: each file is added under its name, so the AI can cite it.
+  let materialNote = $state('');
+  async function loadMaterialFiles(event: Event) {
+    const input = event.currentTarget as HTMLInputElement;
+    const files = [...(input.files ?? [])];
+    const parts: string[] = [];
+    for (const file of files) {
+      try {
+        let text = await file.text();
+        if (/\.html?$/i.test(file.name)) text = new DOMParser().parseFromString(text, 'text/html').body.textContent ?? '';
+        if (text.trim()) parts.push(`### ${file.name}\n\n${text.trim()}`);
+      } catch {
+        /* unreadable file: skipped */
+      }
+    }
+    input.value = '';
+    if (parts.length === 0) {
+      materialNote = t('create.materialFileNone');
+      return;
+    }
+    s.material = [s.material.trim(), ...parts].filter(Boolean).join('\n\n');
+    materialNote = t('create.materialFileAdded', { n: parts.length });
+  }
 
   function choosePreset(preset: Preset) {
     s = applyPreset(s, preset);
@@ -218,6 +242,14 @@
               <textarea rows="12" bind:value={s.material}></textarea>
               <span class="cf-help">{t('create.materialCount', { n: s.material.length.toLocaleString(app.settings.uiLanguage) })}</span>
             </label>
+            <div class="row">
+              <label class="btn cf-file-btn">
+                {t('create.materialFile')}
+                <input type="file" accept=".txt,.md,.markdown,.csv,.json,.html,.htm,text/*" multiple onchange={loadMaterialFiles} />
+              </label>
+              <span class="cf-help">{t('create.materialFileHelp')}</span>
+            </div>
+            {#if materialNote}<p class="cf-help" role="status">{materialNote}</p>{/if}
             {#if s.material.length > 30000}<p class="cf-recommend">{t('create.materialLong')}</p>{/if}
           {:else if s.sourceMode === 'attached'}
             <p class="cf-recommend">{t('create.attachedHelp')}</p>

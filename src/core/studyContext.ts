@@ -31,6 +31,8 @@ export interface StudyOptions {
   media?: boolean;
   /** A practice set: questions start unanswered instead of showing the saved answers. */
   freshRun?: boolean;
+  /** A timed mock exam: when it ends (ms since 1970). No hints, no feedback until the end. */
+  examDeadline?: number;
 }
 
 export function studyContext(courseId: string, item: StudyItem, options: StudyOptions = {}): BlockContext {
@@ -48,9 +50,9 @@ export function studyContext(courseId: string, item: StudyItem, options: StudyOp
     explanationLanguage: settings.explanationLanguage,
     questionLanguage: settings.questionLanguage,
     autoplayVideo: settings.autoplayVideo,
-    askConfidence: settings.askConfidence,
-    recallFirst: settings.recallFirst,
-    allowHints: settings.allowHints,
+    askConfidence: options.examDeadline ? false : settings.askConfidence,
+    recallFirst: options.examDeadline ? false : settings.recallFirst,
+    allowHints: options.examDeadline ? false : settings.allowHints,
     acceptTypos: settings.acceptTypos,
     showWarmups: settings.showWarmups,
     sounds: settings.sounds,
@@ -79,6 +81,14 @@ export function studyContext(courseId: string, item: StudyItem, options: StudyOp
         p.imageOverrides[bid] = url;
       });
     },
+    reportQuestion: (qid, report) => {
+      void updateProgress(courseId, (p) => {
+        p.reports ??= {};
+        if (report) p.reports[qid] = report;
+        else delete p.reports[qid];
+      });
+    },
+    isReported: (qid) => app.progress[courseId]?.reports?.[qid] !== undefined,
     skillIdFor: (qid) => questionSkills.get(qid) ?? item.lessonId,
     skillTitleFor: (sid) => (course ? skillTitle(course, sid) : sid),
     getSkillMastery: (sid) => app.mastery[courseId]?.skills[sid],
@@ -87,6 +97,7 @@ export function studyContext(courseId: string, item: StudyItem, options: StudyOp
       recordMasteryAttempt(courseId, options.inTest ? { ...attempt, inTest: true } : attempt),
     getModuleMasteryPercent: (mid) => moduleMasteryPercentFor(courseId, mid),
     onSetContinue: options.onSetContinue,
-    freshRun: options.freshRun === true
+    freshRun: options.freshRun === true,
+    ...(options.examDeadline ? { examDeadline: options.examDeadline } : {})
   };
 }

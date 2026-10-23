@@ -252,3 +252,50 @@ test('image alt and caption must be text when present', () => {
   assert.ok(r.errors.some((e) => e.includes('.caption: must be text')));
   assert.ok(r.errors.some((e) => e.includes('.i18n.de.alt: must be text')));
 });
+
+test('written questions need 2-8 key points and a model answer', () => {
+  const ok = validateCourse(quizWith([{ id: 'w1', kind: 'written', prompt: 'Explain', answer: 'Model answer.', points: ['one', 'two'] }]));
+  assert.equal(ok.ok, true, ok.errors.join('\n'));
+  const noPoints = validateCourse(quizWith([{ id: 'w2', kind: 'written', prompt: 'Explain', answer: 'Model', points: ['only one'] }]));
+  assert.ok(noPoints.errors.some((e) => e.includes('points')));
+  const noModel = validateCourse(quizWith([{ id: 'w3', kind: 'written', prompt: 'Explain', points: ['a', 'b'] }]));
+  assert.ok(noModel.errors.some((e) => e.includes('model answer')));
+});
+
+test('hotspot questions need a picture, areas in percent and a valid answer', () => {
+  const areas = [{ x: 0, y: 0, w: 40, h: 40 }, { x: 50, y: 50, w: 40, h: 40 }];
+  const ok = validateCourse(quizWith([{ id: 'h1', kind: 'hotspot', prompt: 'Tap', svg: '<svg viewBox="0 0 10 10"></svg>', areas, answer: 1 }]));
+  assert.equal(ok.ok, true, ok.errors.join('\n'));
+  const noPic = validateCourse(quizWith([{ id: 'h2', kind: 'hotspot', prompt: 'Tap', areas, answer: 0 }]));
+  assert.ok(noPic.errors.some((e) => e.includes('needs "svg"')));
+  const outside = validateCourse(quizWith([{ id: 'h3', kind: 'hotspot', prompt: 'Tap', svg: '<svg></svg>', areas: [{ x: 80, y: 0, w: 40, h: 10 }, areas[0]], answer: 0 }]));
+  assert.ok(outside.errors.some((e) => e.includes('areas[0]')));
+  const badAnswer = validateCourse(quizWith([{ id: 'h4', kind: 'hotspot', prompt: 'Tap', svg: '<svg></svg>', areas, answer: 2 }]));
+  assert.ok(badAnswer.errors.some((e) => e.includes('answer')));
+  const notSvg = validateCourse(quizWith([{ id: 'h5', kind: 'hotspot', prompt: 'Tap', svg: '<div></div>', areas, answer: 0 }]));
+  assert.ok(notSvg.errors.some((e) => e.includes('SVG markup')));
+});
+
+test('drill and graph blocks validate', () => {
+  const c = clone();
+  c.modules[0].lessons[0].blocks.push(
+    { id: 'x-drill', type: 'drill', drill: 'subnet-network', level: 2, count: 5 },
+    { id: 'x-graph', type: 'graph', functions: [{ expr: 'a*x^2 + b' }], params: [{ name: 'a', min: -3, max: 3, value: 1 }, { name: 'b', min: -5, max: 5 }], x: [-6, 6], y: [-4, 8] }
+  );
+  const r = validateCourse(c);
+  assert.equal(r.ok, true, r.errors.join('\n'));
+  assert.equal(r.warnings.length, 0, r.warnings.join('\n'));
+});
+
+test('a broken drill or graph block is reported', () => {
+  const c = clone();
+  c.modules[0].lessons[0].blocks.push(
+    { id: 'x-drill', type: 'drill', drill: 'juggling', count: 99 },
+    { id: 'x-graph', type: 'graph', functions: [{ expr: 'a*x^2 + c' }], params: [{ name: 'x', min: 3, max: 1 }] }
+  );
+  const r = validateCourse(c);
+  assert.equal(r.ok, false);
+  for (const part of ['.drill: an unknown drill', '.count:', 'params[0].name', 'params[0]: needs', 'functions[0].expr']) {
+    assert.ok(r.errors.some((e) => e.includes(part)), part);
+  }
+});

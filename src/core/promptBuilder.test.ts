@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
   ALL_KINDS,
+  DEFAULT_KINDS,
   PRESETS,
   applyPreset,
   checkPrompt,
@@ -156,7 +157,9 @@ test('saved settings are restored safely', () => {
   assert.deepEqual(restored.kinds, ['matching']);
   assert.equal(restored.extras.code, true);
   assert.deepEqual(normalizeSettings(null), defaultSettings());
-  assert.deepEqual(normalizeSettings({ kinds: [] }).kinds, ALL_KINDS);
+  assert.deepEqual(normalizeSettings({ kinds: [] }).kinds, DEFAULT_KINDS);
+  // Picture questions need drawn diagrams, so a new course only gets them when asked for.
+  assert.ok(ALL_KINDS.includes('hotspot') && !DEFAULT_KINDS.includes('hotspot'));
 });
 
 test('unit status tells written units from outline-only ones', () => {
@@ -222,4 +225,17 @@ test('the chess preset asks for boards and puzzles, and other courses never get 
   assert.ok(!plain.includes('chess (a puzzle'));
   assert.ok(!ALL_KINDS.includes('chess'));
   assert.equal(normalizeSettings({ extras: { chess: true } }).extras.chess, true);
+});
+
+test('the IT and maths presets ask for drill and graph blocks; other courses do not get them', () => {
+  for (const preset of ['it', 'maths'] as const) {
+    const out = singlePrompt(applyPreset(settings({ topic: 'Subnetting', subject: 'Networks' }), preset), schema);
+    assert.ok(out.includes('PRACTICE BLOCKS'), preset);
+    assert.ok(out.includes('"type": "drill"') && out.includes('subnet-network') && out.includes('"type": "graph"'), preset);
+    assert.ok(out.includes('add a "drill" block right after the worked example'), preset);
+  }
+  const plain = singlePrompt(settings({ topic: 'History of Rome' }), schema);
+  assert.ok(!plain.includes('PRACTICE BLOCKS'));
+  assert.equal(normalizeSettings({ extras: { practice: true } }).extras.practice, true);
+  assert.equal(normalizeSettings({}).extras.practice, false);
 });

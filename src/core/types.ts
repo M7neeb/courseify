@@ -18,7 +18,26 @@ export type QuestionKind =
   | 'multi-select'
   | 'matching'
   | 'ordering'
-  | 'chess';
+  | 'chess'
+  | 'written'
+  | 'hotspot'
+  | 'code';
+
+/**
+ * A test for a code question: call a function and compare the result ("call" with "expect"), or
+ * run the whole program and compare what it prints ("output", with optional "stdin" lines).
+ */
+export type CodeTest = { call: string; expect: unknown } | { output: string; stdin?: string };
+
+/** A tappable area on a hotspot question's picture, in percent of its width and height. */
+export interface HotspotArea {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  /** What the area shows, used when the answer is revealed ("the resistor R2"). */
+  label?: string;
+}
 
 /** A matching question's canonical pair: one prompt on the left and its one correct right. */
 export interface QuestionPair {
@@ -56,6 +75,13 @@ export interface QuestionI18n {
   pairs?: QuestionPair[];
   /** Localized ordering items (same canonical order as the top-level `items`). */
   items?: string[];
+  /** Localized key points of a written answer. */
+  points?: string[];
+  /** Localized picture (inline SVG) and its description, for a hotspot question. */
+  svg?: string;
+  alt?: string;
+  /** Localized area labels, parallel to `areas`. */
+  areaLabels?: string[];
 }
 
 export interface Question {
@@ -106,6 +132,18 @@ export interface Question {
   lastMove?: string;
   /** Chess puzzle: where it came from, for example "lichess.org/training/BAjmY". */
   source?: string;
+  /** Written answer: the key points a good answer contains. `answer` holds a model answer. */
+  points?: string[];
+  /** Hotspot: the picture, as an image URL or inline SVG markup, and a description of it. */
+  image?: string;
+  svg?: string;
+  alt?: string;
+  /** Hotspot: the tappable areas; `answer` is the index of the right one. */
+  areas?: HotspotArea[];
+  /** Code: the language, the code the learner starts from and the tests; `answer` holds a model solution. */
+  language?: string;
+  starter?: string;
+  tests?: CodeTest[];
 }
 
 /** Every block has an id and a type. Any other field is block-specific and optional for the core. */
@@ -126,6 +164,16 @@ export interface Lesson {
   blocks: Block[];
 }
 
+/** A technical term with a short definition, shown when the term is tapped in lesson text. */
+export interface GlossaryEntry {
+  term: string;
+  definition: string;
+  /** Other spellings or abbreviations that mean the same ("PK" for "primary key"). */
+  aliases?: string[];
+  /** The term in each language of the course. */
+  i18n?: Record<string, { term?: string; definition?: string; aliases?: string[] }>;
+}
+
 export interface Module {
   id: string;
   title: string;
@@ -133,6 +181,8 @@ export interface Module {
   lessons: Lesson[];
   /** Optional end-of-module test, a block of type "module-test". */
   test?: Block;
+  /** The unit's key terms. */
+  glossary?: GlossaryEntry[];
 }
 
 export interface Course {
@@ -150,6 +200,8 @@ export interface Course {
   modules: Module[];
   /** Optional final exam, a block of type "final-exam". */
   finalExam?: Block;
+  /** Key terms of the whole course. */
+  glossary?: GlossaryEntry[];
 }
 
 // ---------- User data (stored separately from content) ----------
@@ -284,7 +336,16 @@ export interface CourseProgress {
   bookmarks?: string[];
   /** Brain dumps and "explain it simply" texts, keyed by lesson id or "unit:<moduleId>". */
   reflections?: Record<string, Reflection>;
+  /** Questions the learner reported as faulty, keyed by question id. */
+  reports?: Record<string, QuestionReport>;
   lastOpened: string;
+}
+
+/** A question the learner flagged as faulty, to be fixed later with a prompt. */
+export interface QuestionReport {
+  reason: 'wrong' | 'unclear' | 'typo' | 'other';
+  note?: string;
+  at: string;
 }
 
 /** What the learner wrote when reflecting on a lesson or unit. */
@@ -306,6 +367,8 @@ export interface CourseMeta {
   customTitle?: string;
   archived?: boolean;
   tags?: string[];
+  /** The day of the exam for this course (YYYY-MM-DD), for the study planner. */
+  examDate?: string;
 }
 
 /** How lessons, tests and modules unlock. */
@@ -358,6 +421,8 @@ export interface Settings {
   celebrations: boolean;
   /** Soft sounds for right and wrong answers. */
   sounds: boolean;
+  /** Underline glossary terms in lesson text; tapping one shows its meaning. */
+  glossaryTerms: boolean;
   /** Daily goal in energy points (XP); 0 turns it off. */
   dailyGoal: number;
   /** Reading font: the app font, or Atkinson Hyperlegible (designed for easy reading). */
@@ -419,6 +484,53 @@ export interface Backup {
   activity?: ActivityDay[];
   /** Courses in the trash. Optional: backups from older apps have none. */
   trash?: TrashedCourse[];
+  /** Chess games against the bots, with their reviews. Optional: older backups have none. */
+  games?: SavedGame[];
+  /** Chess records such as finished endgame drills. Optional: older backups have none. */
+  chess?: ChessRecord;
+}
+
+// ---------- Chess games ----------
+
+/** An engine's verdict on one position, always from White's point of view. */
+export interface PositionEval {
+  /** Centipawns, + is good for White. */
+  cp?: number;
+  /** Moves to mate: > 0 White mates, < 0 Black mates. */
+  mate?: number;
+  /** Set when the game is over in this position: the winner, or 'draw'. */
+  over?: 'w' | 'b' | 'draw';
+  /** Best move here (UCI) and the line that follows it. */
+  best?: string;
+  pv?: string[];
+  /** The second-best move and its score, to spot moves that were the only good one. */
+  second?: { move: string; cp?: number; mate?: number };
+}
+
+/** A game against a bot. `result` stays empty while the game is still being played. */
+export interface SavedGame {
+  id: string;
+  botId: string;
+  color: 'w' | 'b';
+  startFen: string;
+  /** Moves in UCI form ("e2e4", "e7e8q"). */
+  moves: string[];
+  result?: 'won' | 'lost' | 'draw';
+  /** How it ended: mate, resign, stalemate, repetition, material, fifty. */
+  reason?: string;
+  startedAt: string;
+  finishedAt?: string;
+  /** Hints and take-backs are allowed in this game. */
+  assist?: boolean;
+  /** Hints or take-backs were used. */
+  assisted?: boolean;
+  /** Engine verdicts per position (index 0 = start), filled in by the game review. */
+  evals?: (PositionEval | null)[];
+}
+
+/** Chess progress outside games: endgame drills finished, with the fewest moves needed. */
+export interface ChessRecord {
+  endgames: Record<string, { done: boolean; bestMoves?: number; at: string }>;
 }
 
 // ---------- Block rendering contract ----------
@@ -461,6 +573,10 @@ export interface BlockContext {
   setImageOverride(blockId: string, url: string): void;
   /** Mastery: which skill a question counts toward (the lesson id unless it names one). */
   skillIdFor(questionId: string): string;
+  /** Flags a question as faulty (or clears the flag with null). */
+  reportQuestion?(questionId: string, report: QuestionReport | null): void;
+  /** Whether a question is flagged. */
+  isReported?(questionId: string): boolean;
   /** Display name of a skill, for the results screen. */
   skillTitleFor(skillId: string): string;
   getSkillMastery(skillId: string): SkillMastery | undefined;
@@ -474,9 +590,17 @@ export interface BlockContext {
   onSetContinue?(): void;
   /** A practice set: every question starts unanswered, whatever was answered before. */
   freshRun?: boolean;
+  /**
+   * A timed mock exam ends at this moment (ms since 1970). In an exam, answers are saved without
+   * showing right or wrong, there are no hints, and the results come at the end.
+   */
+  examDeadline?: number;
 }
 
 // ---------- Routing ----------
+
+/** Pages of the Chess section: bots (default), a game, its review, games, endgames, free board. */
+export type ChessView = 'bots' | 'game' | 'review' | 'games' | 'endgames' | 'endgame' | 'board';
 
 export type Route =
   | { name: 'home' }
@@ -486,10 +610,12 @@ export type Route =
   | { name: 'import' }
   | { name: 'prompt' }
   | { name: 'settings'; courseId?: string }
-  | { name: 'play' }
+  | { name: 'play'; view?: ChessView; id?: string }
+  | { name: 'drills'; id?: string }
   | { name: 'profile' }
   | { name: 'stats' }
   | { name: 'review' }
   | { name: 'trash' }
   | { name: 'exercise'; courseId: string; skillId: string }
-  | { name: 'challenge'; courseId: string };
+  | { name: 'challenge'; courseId: string }
+  | { name: 'exam'; courseId: string };

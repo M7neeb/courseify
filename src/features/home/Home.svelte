@@ -25,6 +25,11 @@
   import MasteryIcon from '../../ui/MasteryIcon.svelte';
   import NavIcon from '../../ui/NavIcon.svelte';
   import CourseCatalog from '../../ui/CourseCatalog.svelte';
+  import WeekCard from '../../ui/WeekCard.svelte';
+  import { onMount } from 'svelte';
+  import { examPlan, weekStart } from '../../core/goals.ts';
+  import { dismissReport, goals, syncMilestones, syncWeek } from '../../core/goalsStore.svelte.ts';
+  import { previousDay } from '../../core/activity.ts';
   import { t } from '../../i18n/i18n.ts';
 
   /** Unit rows shown before "See all" reveals the rest. */
@@ -76,6 +81,38 @@
   const goal = $derived(app.settings.dailyGoal);
   const todayXp = $derived(app.activity[today]?.xp ?? 0);
   const goalPercent = $derived(goal > 0 ? Math.min(100, Math.round((todayXp / goal) * 100)) : 0);
+
+  onMount(() => {
+    void syncWeek();
+    void syncMilestones();
+  });
+
+  // Exam plans for courses with an exam date, soonest first.
+  const plans = $derived(
+    activeCourses
+      .map((course) => ({ course, plan: examPlan(course, app.progress[course.id], app.meta[course.id]?.examDate, today) }))
+      .filter((p): p is { course: Course; plan: NonNullable<typeof p.plan> } => p.plan !== null)
+      .sort((a, b) => a.plan.daysLeft - b.plan.daysLeft)
+  );
+  // Last week's report, shown until it is put away.
+  const lastWeek = $derived(weekStart(previousDay(weekStart(today))));
+  const report = $derived(
+    goals.weekly.lastReport && goals.weekly.lastReport.week === lastWeek && goals.weekly.dismissed !== lastWeek && goals.weekly.lastReport.xp > 0
+      ? goals.weekly.lastReport
+      : null
+  );
+
+  function openCourse(course: Course) {
+    const moduleId = entryModuleId(course, app.progress[course.id]);
+    if (moduleId) navigate({ name: 'unit', courseId: course.id, moduleId });
+    else navigate({ name: 'player', courseId: course.id });
+    window.scrollTo({ top: 0 });
+  }
+
+  function examDay(date: string): string {
+    const [y, m, d] = date.split('-').map(Number);
+    return new Date(y ?? 1970, (m ?? 1) - 1, d ?? 1, 12).toLocaleDateString(app.settings.uiLanguage === 'de' ? 'de-DE' : 'en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+  }
 
   function continueOn() {
     const course = continueCourse;
@@ -212,6 +249,39 @@
           {/if}
         </div>
       </section>
+      {#each plans as { course, plan } (course.id)}
+        <section class="cf-card cf-plan" aria-label={t('plan.cardLabel', { course: displayTitle(course) })}>
+          <div class="cf-plan-text">
+            <p class="cf-plan-when">{plan.daysLeft === 0 ? t('plan.today') : plan.daysLeft === 1 ? t('plan.tomorrow') : t('plan.inDays', { n: plan.daysLeft })}</p>
+            <h2>{displayTitle(course)}</h2>
+            <p class="cf-muted cf-small">{examDay(plan.examDate)}</p>
+            <p>
+              {#if plan.phase === 'learn'}
+                {t(plan.lessonsPerDay === 1 ? 'plan.learnOne' : 'plan.learnMany', { n: plan.lessonsPerDay, left: plan.lessonsLeft })}
+              {:else if plan.phase === 'review'}
+                {t('plan.review')}
+              {:else if plan.phase === 'last'}
+                {t('plan.last')}
+              {:else}
+                {t('plan.good')}
+              {/if}
+            </p>
+          </div>
+          <div class="cf-today-actions">
+            {#if plan.phase === 'learn'}
+              <button type="button" class="cf-btn cf-btn-secondary" onclick={() => openCourse(course)}>{t('plan.continue')}</button>
+            {/if}
+            {#if plan.phase !== 'today'}
+              <button type="button" class="cf-btn" class:cf-btn-primary={plan.phase !== 'learn'} class:cf-btn-secondary={plan.phase === 'learn'} onclick={() => navigate({ name: 'exam', courseId: course.id })}>{t('exam.cta')}</button>
+            {/if}
+          </div>
+        </section>
+      {/each}
+
+      {#if report}
+        <WeekCard {report} title={t('week.lastWeek')} ondismiss={() => dismissReport(report.week)} />
+      {/if}
+
       {#if shows(layout, 'extraStats')}
         <ul class="cf-stat-strip" aria-label={t('home.statsLabel')}>
           <li><strong>{today_.cards.length}</strong><span>{t('home.stat.due')}</span></li>

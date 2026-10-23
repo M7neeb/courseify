@@ -10,9 +10,22 @@ test('routes survive a format/parse round trip', () => {
     { name: 'player', courseId: 'c1' },
     { name: 'player', courseId: 'c 1', lessonId: 'm1:test' },
     { name: 'exercise', courseId: 'c1', skillId: 'l1' },
-    { name: 'exercise', courseId: 'c 1', skillId: 'm1:test' }
+    { name: 'exercise', courseId: 'c 1', skillId: 'm1:test' },
+    { name: 'exam', courseId: 'c 1' }
   ];
   for (const r of routes) assert.deepEqual(parseHash(formatHash(r)), r);
+});
+
+test('chess pages survive a round trip', () => {
+  const routes: Route[] = [
+    { name: 'play', view: 'games' }, { name: 'play', view: 'endgames' }, { name: 'play', view: 'board' },
+    { name: 'drills' }, { name: 'drills', id: 'subnet-network' }, { name: 'drills', id: 'graph' },
+    { name: 'play', view: 'game', id: 'g 1' }, { name: 'play', view: 'review', id: 'g1' }, { name: 'play', view: 'endgame', id: 'kq-k' }
+  ];
+  for (const r of routes) assert.deepEqual(parseHash(formatHash(r)), r);
+  assert.equal(formatHash({ name: 'play', view: 'bots' }), '#/play');
+  assert.deepEqual(parseHash('#/play/review'), { name: 'play', view: 'games' });
+  assert.deepEqual(parseHash('#/play/whatever'), { name: 'play' });
 });
 
 test('unknown or empty hashes fall back to Home', () => {

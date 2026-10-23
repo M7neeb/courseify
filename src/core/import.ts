@@ -1,4 +1,5 @@
-import type { Backup, Block, Course, CourseMastery, Module, TrashedCourse } from './types.ts';
+import type { Backup, Block, ChessRecord, Course, CourseMastery, Module, Question, SavedGame, TrashedCourse } from './types.ts';
+import { replaceQuestions } from './reports.ts';
 import { migrateBackup, migrateCourse } from './migrations.ts';
 import { mergeSettings } from './settings.ts';
 import { normalizeProgress } from './progress.ts';
@@ -9,6 +10,7 @@ export type ImportAnalysis =
   | { kind: 'course'; course: Course; warnings: string[] }
   | { kind: 'module'; module: Module; courseId?: string; warnings: string[] }
   | { kind: 'exam'; exam: Block; courseId?: string; warnings: string[] }
+  | { kind: 'questions'; questions: Question[]; courseId?: string; warnings: string[] }
   | { kind: 'backup'; backup: Backup; warnings: string[] }
   | { kind: 'error'; errors: string[] };
 
@@ -61,6 +63,14 @@ export function analyzeImport(text: string): ImportAnalysis {
     return { kind: 'module', module: check.course.modules[0] as Module, courseId, warnings: check.warnings };
   }
 
+  // Corrected questions from the "fix reported questions" prompt: {"courseId", "questions": [...]}.
+  if (Array.isArray(value.questions) && value.modules === undefined && value.module === undefined && value.finalExam === undefined) {
+    const check = validateCourse({ schemaVersion: 2, id: 'questions-check', title: 'questions-check', modules: [{ id: 'm', title: 'm', lessons: [{ id: 'l', title: 'l', blocks: [{ id: 'b', type: 'quiz', questions: value.questions }] }] }] });
+    if (!check.ok || !check.course) return { kind: 'error', errors: check.errors };
+    const questions = (check.course.modules[0]?.lessons[0]?.blocks[0]?.questions ?? []) as Question[];
+    return { kind: 'questions', questions, courseId, warnings: check.warnings };
+  }
+
   if (isObject(value.finalExam) && value.modules === undefined) {
     const check = validateCourse({ schemaVersion: 1, id: 'exam-check', title: 'exam-check', modules: [], finalExam: value.finalExam });
     if (!check.ok || !check.course?.finalExam) return { kind: 'error', errors: check.errors };
@@ -99,6 +109,15 @@ function analyzeBackup(value: Record<string, unknown>): ImportAnalysis {
   const mastery = (Array.isArray(b.mastery) ? b.mastery : []).filter(
     (m): m is CourseMastery => isObject(m) && typeof m.courseId === 'string' && isObject(m.skills) && Array.isArray(m.mistakes)
   );
+  // Day-by-day activity (streak and XP): keep days that carry their date.
+  const activity = (Array.isArray(b.activity) ? b.activity : []).filter(
+    (a): a is NonNullable<Backup['activity']>[number] => isObject(a) && typeof a.day === 'string'
+  );
+  // Chess games: keep the ones with an id, a start position and a move list.
+  const games = (Array.isArray(b.games) ? b.games : []).filter(
+    (g): g is SavedGame => isObject(g) && typeof g.id === 'string' && typeof g.startFen === 'string' && Array.isArray(g.moves) && typeof g.botId === 'string'
+  );
+  const chess: ChessRecord | undefined = isObject(b.chess) && isObject(b.chess.endgames) ? { endgames: b.chess.endgames as ChessRecord['endgames'] } : undefined;
   const backup: Backup = {
     kind: 'course-app-backup',
     schemaVersion: typeof b.schemaVersion === 'number' ? b.schemaVersion : 1,
@@ -108,9 +127,19 @@ function analyzeBackup(value: Record<string, unknown>): ImportAnalysis {
     courseMeta,
     settings: mergeSettings(b.settings),
     mastery,
-    trash
+    activity,
+    trash,
+    games,
+    ...(chess ? { chess } : {})
   };
   return { kind: 'backup', backup, warnings: [] };
+}
+
+/** Puts corrected questions into a course over the ones with the same id, and re-validates it. */
+export function applyQuestions(course: Course, questions: Question[]): ValidationResult {
+  const { course: next, missing } = replaceQuestions(course, questions);
+  if (missing.length > 0) return { ok: false, errors: missing.map((id) => `questions: no question with the id "${id}" in this course.`), warnings: [] };
+  return validateCourse(next);
 }
 
 /** Puts a final exam into a course (replacing any old one) and re-validates the whole result. */

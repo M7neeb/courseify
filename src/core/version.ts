@@ -1,7 +1,7 @@
 // The single source of truth for the app version and the "What's new" list.
 // Bump VERSION and add one CHANGELOG entry at the top when you ship user-visible changes.
 
-export const VERSION = '1.6.0';
+export const VERSION = '1.7.0';
 
 export interface ChangelogEntry {
   version: string;
@@ -11,6 +11,21 @@ export interface ChangelogEntry {
 
 /** Newest first. */
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.7.0',
+    date: '2026-10-23',
+    changes: [
+      'Chess: play against 13 bots from 250 to 3000 Elo. After the game you get a full review: go through it move by move, from brilliant moves to blunders, with the best move shown on the board and your accuracy. Plus endgame drills and a free board.',
+      'Drills: endless practice with new numbers every time. Number systems, storage units, download times and subnets for IT; equations, percent, fractions, powers of ten, Ohm\'s law, quadratic equations and straight lines for maths. Each problem has a worked solution you can open step by step. There is also a graph plotter with sliders.',
+      'New kinds of questions: written answers you compare with a model answer, questions where you tap the right spot on a picture, and programming exercises in Python or JavaScript that run in the app and are checked by tests.',
+      'Mock exam: a timed test from a whole course, with no hints, graded at the end. Set an exam date for a course and the start page plans your learning and review time up to that day.',
+      'A weekly report and milestones on the Progress page.',
+      'Lessons can show formulas, diagrams and graphs with sliders. Technical terms are underlined; tap one to see what it means.',
+      'Report a question that seems wrong. The course settings collect your reports and give you one prompt to have them fixed, and the answer is imported back in one step.',
+      'Share a course as a file from the library. When you create a course, you can add text files as material, and pick the new "IT and networks" or "Maths" starting points.',
+      'The courses IT-Systeme, Elektrotechnik and Datenbanken now have a glossary in German and English; IT-Systeme and Elektrotechnik also get drills and graphs.'
+    ]
+  },
   {
     version: '1.6.0',
     date: '2026-10-21',

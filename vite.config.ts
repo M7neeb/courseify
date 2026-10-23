@@ -11,7 +11,24 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icon.svg', 'apple-touch-icon.png'],
       // Fonts (the chess pieces among them) and the course chunks must work offline too.
-      workbox: { globPatterns: ['**/*.{js,css,html,woff2,svg,png}'] },
+      // The chess engine (7 MB) is too big to download with the app; it is kept once first used.
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,woff2,svg,png}'],
+        // Python (12 MB) is only downloaded by people who run Python code, then kept.
+        globIgnores: ['**/pyodide/**'],
+        runtimeCaching: [
+          {
+            urlPattern: ({ url }) => url.pathname.includes('/pyodide/'),
+            handler: 'CacheFirst',
+            options: { cacheName: 'python', expiration: { maxEntries: 12 } }
+          },
+          {
+            urlPattern: ({ url }) => url.pathname.endsWith('.wasm'),
+            handler: 'CacheFirst',
+            options: { cacheName: 'chess-engine', expiration: { maxEntries: 4 } }
+          }
+        ]
+      },
       manifest: {
         name: 'Courseify',
         short_name: 'Courseify',

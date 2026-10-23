@@ -10,7 +10,7 @@
   const markdown = $derived(resolveCalloutMarkdown(block, ctx.explanationLanguage));
 </script>
 
-<section class="block example">
+<section class="block example" lang={ctx.explanationLanguage} data-course={ctx.courseId}>
   <p class="example-label">{t('example.label')}</p>
   <div class="prose">{@html renderMarkdown(markdown)}</div>
 </section>

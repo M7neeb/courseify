@@ -322,6 +322,19 @@
         </div>
         <button type="button" class="cf-btn cf-btn-secondary" onclick={() => navigate({ name: 'challenge', courseId })}>{t('challenge.cta')}</button>
       </section>
+
+      <section class="cf-card cf-test-card cf-challenge-card">
+        <MasteryIcon kind="test" size={32} />
+        <div class="cf-test-text">
+          <h2>{t('exam.title')}</h2>
+          <p class="cf-muted">{t('exam.cardText')}</p>
+          <p class="cf-small">
+            {#if app.meta[courseId]?.examDate}{t('plan.examOn', { date: app.meta[courseId]?.examDate ?? '' })} {/if}
+            <a href={'#/settings/' + encodeURIComponent(courseId)}>{app.meta[courseId]?.examDate ? t('plan.change') : t('plan.setDate')}</a>
+          </p>
+        </div>
+        <button type="button" class="cf-btn cf-btn-secondary" onclick={() => navigate({ name: 'exam', courseId })}>{t('exam.cta')}</button>
+      </section>
     </main>
   </div>
 {/if}

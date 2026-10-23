@@ -1,6 +1,7 @@
 <script lang="ts">
   import { app, getCourse, navigate, restoreBackup, saveCourse, showToast } from '../../core/state.svelte.ts';
-  import { analyzeImport, applyFinalExam, applyModule, type ImportAnalysis } from '../../core/import.ts';
+  import { analyzeImport, applyFinalExam, applyModule, applyQuestions, type ImportAnalysis } from '../../core/import.ts';
+  import { clearReports } from '../../core/state.svelte.ts';
   import { flattenCourse } from '../../core/course-utils.ts';
   import type { Course } from '../../core/types.ts';
   import { copyText } from '../../ui/clipboard.ts';
@@ -21,7 +22,7 @@
     done = null;
     mergeErrors = [];
     analysis = analyzeImport(text);
-    if (analysis.kind === 'module' || analysis.kind === 'exam') {
+    if (analysis.kind === 'module' || analysis.kind === 'exam' || analysis.kind === 'questions') {
       const hinted = analysis.courseId && getCourse(analysis.courseId) ? analysis.courseId : undefined;
       targetId = hinted ?? app.courses[0]?.id ?? '';
     }
@@ -55,6 +56,18 @@
       }
       await saveCourse(merged.course);
       done = { courseId: target.id, message: t('import.moduleDone', { title: analysis.module.title }) };
+    } else if (analysis.kind === 'questions') {
+      const found = getCourse(targetId);
+      if (!found) return;
+      const target = $state.snapshot(found) as Course;
+      const merged = applyQuestions(target, analysis.questions);
+      if (!merged.ok || !merged.course) {
+        mergeErrors = merged.errors;
+        return;
+      }
+      await saveCourse(merged.course);
+      await clearReports(target.id, analysis.questions.map((q) => q.id));
+      done = { courseId: target.id, message: t('import.questionsDone', { n: analysis.questions.length, title: target.title }) };
     } else if (analysis.kind === 'exam') {
       const found = getCourse(targetId);
       if (!found) return;
@@ -117,8 +130,8 @@
         <h2>{analysis.course.title}</h2>
         <p>{t('import.courseSummary', { modules: analysis.course.modules.length, lessons })}</p>
         {#if getCourse(analysis.course.id)}<p>{t('import.willReplace')}</p>{/if}
-      {:else if analysis.kind === 'module' || analysis.kind === 'exam'}
-        <h2>{analysis.kind === 'module' ? analysis.module.title : t('import.examFound')}</h2>
+      {:else if analysis.kind === 'module' || analysis.kind === 'exam' || analysis.kind === 'questions'}
+        <h2>{analysis.kind === 'module' ? analysis.module.title : analysis.kind === 'questions' ? t('import.questionsFound', { n: analysis.questions.length }) : t('import.examFound')}</h2>
         {#if app.courses.length === 0}
           <p>{t('import.noCourses')}</p>
         {:else}
@@ -140,7 +153,7 @@
         </details>
       {/if}
 
-      <button type="button" class="btn primary" disabled={(analysis.kind === 'module' || analysis.kind === 'exam') && !targetId} onclick={commit}>
+      <button type="button" class="btn primary" disabled={(analysis.kind === 'module' || analysis.kind === 'exam' || analysis.kind === 'questions') && !targetId} onclick={commit}>
         {analysis.kind === 'backup' ? t('import.backupRestore') : t('import.confirm')}
       </button>
     </div>

@@ -22,16 +22,19 @@
   import Unit from './features/unit/Unit.svelte';
   import Challenge from './features/challenge/Challenge.svelte';
   import Play from './features/play/Play.svelte';
+  import Drills from './features/drills/Drills.svelte';
+  import MockExam from './features/challenge/MockExam.svelte';
   import NavIcon from './ui/NavIcon.svelte';
   import SearchBox from './ui/SearchBox.svelte';
   import ExploreMenu from './ui/ExploreMenu.svelte';
   import LearnerNav from './ui/LearnerNav.svelte';
   import TabBar from './ui/TabBar.svelte';
-  import { courseHasChess } from './core/chess.ts';
   import { t } from './i18n/i18n.ts';
+  import { watchDiagrams } from './ui/diagrams.ts';
+  import { watchGlossary } from './ui/glossaryLayer.ts';
 
   const route = $derived(app.route);
-  const courseRoute = $derived(route.name === 'player' || route.name === 'unit' || route.name === 'exercise' || route.name === 'challenge');
+  const courseRoute = $derived(route.name === 'player' || route.name === 'unit' || route.name === 'exercise' || route.name === 'challenge' || route.name === 'exam');
   let drawerOpen = $state(false);
   let profileMenuOpen = $state(false);
 
@@ -56,6 +59,8 @@
     style.textContent = themeCss();
     document.head.appendChild(style);
     void initApp();
+    watchDiagrams();
+    watchGlossary();
     return () => style.remove();
   });
 
@@ -128,7 +133,8 @@
               <hr />
               <a href="#/import" onclick={closeProfileMenu}>{t('home.nav.import')}</a>
               <a href="#/prompt" onclick={closeProfileMenu}>{t('home.nav.create')}</a>
-              {#if app.courses.some((c) => courseHasChess(c))}<a href="#/play" onclick={closeProfileMenu}>{t('play.nav')}</a>{/if}
+              <a href="#/drills" onclick={closeProfileMenu}>{t('drills.nav')}</a>
+              <a href="#/play" onclick={closeProfileMenu}>{t('play.nav')}</a>
               <a href="#/trash" onclick={closeProfileMenu}>{t('nav.trash')}</a>
             </div>
           </details>
@@ -173,6 +179,8 @@
     <main class="cf-page cf-page-narrow"><Exercise courseId={route.courseId} skillId={route.skillId} /></main>
   {:else if route.name === 'challenge'}
     <main class="cf-page cf-page-narrow"><Challenge courseId={route.courseId} /></main>
+  {:else if route.name === 'exam'}
+    <main class="cf-page cf-page-narrow"><MockExam courseId={route.courseId} /></main>
   {:else}
     <div class="cf-page cf-with-nav">
       <LearnerNav />
@@ -191,8 +199,10 @@
           <Profile />
         {:else if route.name === 'trash'}
           <Trash />
+        {:else if route.name === 'drills'}
+          {#key route.id}<Drills id={route.id} />{/key}
         {:else if route.name === 'play'}
-          <Play />
+          <Play view={route.view} id={route.id} />
         {:else}
           <Settings courseId={route.courseId} />
         {/if}
