@@ -65,6 +65,9 @@ export function currentStudyStyle(settings: Settings): StudyStyle | null {
 }
 
 /** Old saved settings may lack newer keys; every key falls back to its default. */
+/** Settings that belong to one device and are not synced (a phone and a PC want different text sizes). */
+export const DEVICE_SETTINGS: (keyof Settings)[] = ['fontSize', 'lastBackupAt', 'backupReminderDismissed'];
+
 export function mergeSettings(saved: unknown): Settings {
   const base = defaultSettings();
   if (typeof saved !== 'object' || saved === null) return base;
@@ -74,6 +77,7 @@ export function mergeSettings(saved: unknown): Settings {
   const colorTheme = normalizeColorTheme(s.colorTheme);
   if (colorTheme) out.colorTheme = colorTheme;
   if (typeof s.lastBackupAt === 'string' && s.lastBackupAt.trim() !== '') out.lastBackupAt = s.lastBackupAt;
+  if (typeof s.changedAt === 'string' && s.changedAt !== '') out.changedAt = s.changedAt;
   if (typeof s.fontSize === 'number' && s.fontSize >= 12 && s.fontSize <= 28) out.fontSize = s.fontSize;
   if (s.uiLanguage === 'en' || s.uiLanguage === 'de') out.uiLanguage = s.uiLanguage;
   if (s.explanationLevel === 'normal' || s.explanationLevel === 'simple' || s.explanationLevel === 'detailed') {

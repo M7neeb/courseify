@@ -24,6 +24,7 @@
   import type { CourseSettingKey, ExplanationLevel, LayoutMode, Settings } from '../../core/types.ts';
   import { t } from '../../i18n/i18n.ts';
   import CourseTools from './CourseTools.svelte';
+  import SyncCard from '../../ui/sync/SyncCard.svelte';
 
   let { courseId }: { courseId?: string } = $props();
 
@@ -384,6 +385,8 @@
         {t('settings.showLastOpened')}
       </label>
     </fieldset>
+
+    <SyncCard />
 
     <fieldset>
       <legend>{t('settings.data')}</legend>

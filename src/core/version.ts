@@ -1,7 +1,7 @@
 // The single source of truth for the app version and the "What's new" list.
 // Bump VERSION and add one CHANGELOG entry at the top when you ship user-visible changes.
 
-export const VERSION = '1.7.1';
+export const VERSION = '1.8.0';
 
 export interface ChangelogEntry {
   version: string;
@@ -11,6 +11,14 @@ export interface ChangelogEntry {
 
 /** Newest first. */
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.8.0',
+    date: '2026-10-23',
+    changes: [
+      'Sync between your PC and your phone through your own Google Drive: connect once on each device in Settings, and your courses, progress, mastery, reviews, chess games and drills stay the same on both. It syncs by itself when you open the app and when you leave it. Progress from both devices is combined, nothing is overwritten.',
+      'When a new version of the app brings updated built-in courses, they now update by themselves. Your progress stays.'
+    ]
+  },
   {
     version: '1.7.1',
     date: '2026-10-23',

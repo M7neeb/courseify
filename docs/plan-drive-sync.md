@@ -1,6 +1,6 @@
 # Plan: sync between PC and iPhone through Google Drive (D1)
 
-Status: planned, not built. It needs one thing from the owner first: a Google OAuth client ID (steps below).
+Status: built in 1.8.0. It switches on once the Google OAuth client ID (steps below) is put into `src/ui/sync/config.ts` (`BUILT_IN_CLIENT_ID`). Until then the Settings card says sync is not set up yet.
 
 ## What the learner gets
 
@@ -12,7 +12,7 @@ Status: planned, not built. It needs one thing from the owner first: a Google OA
 
 - **Sign-in:** Google Identity Services in the browser (OAuth 2 token flow). There's no backend and no client secret. The client ID is public and is fine to keep in the code.
 - **Permission:** only `drive.appdata`, a hidden folder that belongs to this app. The learner's own Drive files are never touched.
-- **What is stored:** one file, `courseify-sync.json`, in the same shape as today's backup (`exportBackup()`), plus a `deviceId` and an `updatedAt` per record.
+- **What is stored:** one gzip-compressed file, `courseify-sync.json.gz`: the backup data (`exportBackup()`) plus drill stats, milestones and a list of chess games deleted for good, with `deviceId` and `updatedAt`. Courses, settings and course details carry `savedAt`/`changedAt`/`updatedAt` stamps for the merge.
 - **Merging, not overwriting.** Two devices can both change things between syncs, so a new `core/syncMerge.ts` (pure, unit-tested) merges the local data with the Drive copy:
 
   | Data | Merge rule |
@@ -39,7 +39,7 @@ Status: planned, not built. It needs one thing from the owner first: a Google OA
 A Home Screen app on iOS can't use sign-in pop-ups: they open in Safari and never return. So the app uses the **redirect** flow:
 
 1. Leave the app for Google.
-2. Come back to `https://m7neeb.github.io/course-app/#access_token=...`.
+2. Come back to `https://m7neeb.github.io/courseify/#access_token=...`.
 
 The hash router must read and strip that token before it routes; this is a small change in `main.ts`/`router.ts`.
 
@@ -56,7 +56,7 @@ A token lasts one hour. After that, **Sync now** asks Google again, which is one
    - Publishing status: **Testing**, with the owner's Gmail added as a test user. That is enough for personal use; no Google review is needed.
 4. **Credentials → Create credentials → OAuth client ID → Web application**:
    - Authorized JavaScript origins: `https://m7neeb.github.io`, `http://localhost:5173`, `http://localhost:4173`
-   - Authorized redirect URIs: `https://m7neeb.github.io/course-app/`, `http://localhost:5173/`, `http://localhost:4173/`
+   - Authorized redirect URIs: `https://m7neeb.github.io/courseify/`, `http://localhost:5173/`, `http://localhost:4173/`
 5. Send the **Client ID** (it ends in `.apps.googleusercontent.com`). It is not a secret.
 
 ## Build steps (once the client ID is there)

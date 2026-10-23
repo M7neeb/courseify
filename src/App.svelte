@@ -7,6 +7,7 @@
   import { onMount } from 'svelte';
   import { app, dismissToast, initApp, runToastAction } from './core/state.svelte.ts';
   import { themeCss } from './core/themes.ts';
+  import { startSync } from './ui/sync/sync.svelte.ts';
   import Library from './features/library/Library.svelte';
   import Player from './features/player/Player.svelte';
   import ImportPanel from './features/import-export/ImportPanel.svelte';
@@ -58,7 +59,7 @@
     style.id = 'theme-vars';
     style.textContent = themeCss();
     document.head.appendChild(style);
-    void initApp();
+    void initApp().then(startSync);
     watchDiagrams();
     watchGlossary();
     return () => style.remove();

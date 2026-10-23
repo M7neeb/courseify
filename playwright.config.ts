@@ -33,6 +33,8 @@ export default defineConfig({
     url: `${ORIGIN}/`,
     // Never reuse a server that is already running: it may be serving an older build.
     reuseExistingServer: false,
+    // A stand-in Google client ID switches sync on; sync.spec.ts fakes Google itself.
+    env: { VITE_GOOGLE_CLIENT_ID: 'e2e-test.apps.googleusercontent.com' },
     timeout: 120_000
   }
 });

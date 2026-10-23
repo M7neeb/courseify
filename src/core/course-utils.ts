@@ -91,3 +91,11 @@ export function outlineOf(course: Course): string {
   };
   return JSON.stringify(outline, null, 2);
 }
+
+/** True when `candidate` (a catalog version such as "1.2") is newer than the installed course's version. */
+export function isNewerVersion(candidate: string | number | undefined, installed: string | number | undefined): boolean {
+  const a = Number(candidate);
+  const b = Number(installed ?? 0);
+  if (!Number.isFinite(a)) return false;
+  return a > (Number.isFinite(b) ? b : 0);
+}

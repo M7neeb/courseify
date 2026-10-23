@@ -369,12 +369,18 @@ export interface CourseMeta {
   tags?: string[];
   /** The day of the exam for this course (YYYY-MM-DD), for the study planner. */
   examDate?: string;
+  /** When these details last changed (ISO), so sync keeps the newer copy. */
+  updatedAt?: string;
+  /** When the course content was last added or replaced (ISO), so sync keeps the newer copy. */
+  savedAt?: string;
 }
 
 /** How lessons, tests and modules unlock. */
 export type GatingMode = 'locked' | 'free';
 
 export interface Settings {
+  /** When the settings last changed (ISO), so sync keeps the newer copy. */
+  changedAt?: string;
   theme: 'system' | 'light' | 'dark';
   colorTheme: ColorTheme;
   /** ISO timestamp of the last exported backup, or null when none was ever made. */

@@ -3,6 +3,7 @@
 
 import { Chess, type Square } from 'chess.js';
 import { storage } from '../../core/storage.ts';
+import { SYNCED_EVENT } from '../../core/syncMerge.ts';
 import { terminalEval } from '../../core/review.ts';
 import { botById, botSearch, fallbackLevel, pickWeakMove } from '../../core/bots.ts';
 import type { ChessRecord, PositionEval, SavedGame } from '../../core/types.ts';
@@ -34,6 +35,15 @@ export function loadChess(): Promise<void> {
     chess.loaded = true;
   })();
   return loading;
+}
+
+// A sync may have brought games from the other device.
+if (typeof window !== 'undefined') {
+  window.addEventListener(SYNCED_EVENT, () => {
+    if (!chess.loaded) return;
+    loading = null;
+    void loadChess();
+  });
 }
 
 export function gameById(id: string): SavedGame | undefined {

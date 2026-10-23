@@ -2,9 +2,10 @@
 // only these functions write to storage.
 
 import { storage } from './storage.ts';
-import { defaultSettings, patchOverrides, settingsFor } from './settings.ts';
+import { DEVICE_SETTINGS, defaultSettings, patchOverrides, settingsFor } from './settings.ts';
 import { formatHash, parseHash } from './router.ts';
-import { flattenCourse } from './course-utils.ts';
+import { flattenCourse, isNewerVersion } from './course-utils.ts';
+import { t } from '../i18n/i18n.ts';
 import { newProgress, pruneProgress } from './progress.ts';
 import { dayKey, emptyDay, withActivity, type ActivityDay } from './activity.ts';
 import { applyReview } from './exercise.ts';
@@ -140,12 +141,39 @@ async function installCatalog(): Promise<void> {
     }
     seen.push(entry.id);
   }
+  await updateCatalogCourses();
   if (seen.length === before) return;
   try {
     localStorage.setItem(CATALOG_SEEN_KEY, JSON.stringify(seen));
   } catch {
     // Storage blocked: the courses are installed; at worst a removed one comes back once.
   }
+}
+
+/**
+ * When a new app version ships a newer copy of a built-in course, installs it by itself. Progress
+ * stays: it is keyed by ids that do not change between versions.
+ */
+async function updateCatalogCourses(): Promise<void> {
+  const updated: string[] = [];
+  for (const entry of CATALOG) {
+    const installed = getCourse(entry.id);
+    if (!installed || !isNewerVersion(entry.version, installed.version)) continue;
+    try {
+      const result = validateCourse(await entry.load());
+      if (!result.ok || !result.course) continue;
+      await saveCourse(result.course);
+      updated.push(displayTitle(result.course));
+    } catch {
+      // Offline before the new copy was cached: try again on the next start.
+    }
+  }
+  if (updated.length > 0) showToast(t('catalog.autoUpdated', { titles: updated.join(', ') }));
+}
+
+/** Reads everything from storage again (after a sync wrote the merged data). */
+export function reloadAll(): Promise<void> {
+  return loadAll();
 }
 
 async function loadAll(): Promise<void> {
@@ -176,7 +204,8 @@ export function displayTitle(course: Course): string {
 }
 
 export async function updateSettings(patch: Partial<Settings>): Promise<void> {
-  app.settings = { ...app.settings, ...patch };
+  const synced = Object.keys(patch).some((key) => !DEVICE_SETTINGS.includes(key as keyof Settings));
+  app.settings = { ...app.settings, ...patch, ...(synced ? { changedAt: new Date().toISOString() } : {}) };
   await storage.saveSettings($state.snapshot(app.settings) as Settings);
 }
 
@@ -207,6 +236,7 @@ export async function saveCourse(course: Course): Promise<void> {
   const idx = app.courses.findIndex((c) => c.id === course.id);
   if (idx >= 0) app.courses[idx] = course;
   else app.courses.push(course);
+  await updateMeta(course.id, { savedAt: new Date().toISOString() }, false);
   const existing = app.progress[course.id];
   if (existing) {
     const ids = flattenCourse(course).map((i) => i.id);
@@ -240,6 +270,7 @@ export async function restoreCourse(id: string): Promise<boolean> {
   await storage.deleteTrash(id);
   delete app.trash[id];
   await loadAll();
+  await updateMeta(id, {});
   return true;
 }
 
@@ -253,8 +284,9 @@ export async function purgeTrash(now: Date = new Date()): Promise<TrashedCourse[
   return purged;
 }
 
-async function updateMeta(courseId: string, patch: Partial<CourseMeta>): Promise<void> {
+async function updateMeta(courseId: string, patch: Partial<CourseMeta>, stamp = true): Promise<void> {
   const next: CourseMeta = { ...(app.meta[courseId] ?? { courseId }), ...patch, courseId };
+  if (stamp) next.updatedAt = new Date().toISOString();
   app.meta[courseId] = next;
   await storage.saveMeta($state.snapshot(next) as CourseMeta);
 }

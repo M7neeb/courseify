@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { courseProgressPercent, firstOpenItem, flattenCourse, lessonKind, outlineOf } from './course-utils.ts';
+import { courseProgressPercent, firstOpenItem, flattenCourse, isNewerVersion, lessonKind, outlineOf } from './course-utils.ts';
 import { pruneProgress, newProgress } from './progress.ts';
 import type { Course } from './types.ts';
 
@@ -45,4 +45,12 @@ test('a lesson type is video, then exercise, then article', () => {
     'article'
   );
   assert.equal(lessonKind({ id: 'l', title: 'L', blocks: [{ id: 'b', type: 'video', url: 'https://youtu.be/UjOXLg7HauQ' }, { id: 'c', type: 'quiz' }] }), 'video');
+});
+
+test('isNewerVersion: only a higher catalog version counts as an update', () => {
+  assert.equal(isNewerVersion('1.1', 1), true);
+  assert.equal(isNewerVersion('1.1', 1.1), false);
+  assert.equal(isNewerVersion('1.0', 1.1), false);
+  assert.equal(isNewerVersion('1.0', undefined), true);
+  assert.equal(isNewerVersion('not a number', 1), false);
 });

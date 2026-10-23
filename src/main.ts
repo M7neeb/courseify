@@ -1,3 +1,5 @@
+// Must run before anything reads the address: it takes the Google sign-in out of it.
+import './ui/sync/redirect.ts';
 import { mount } from 'svelte';
 // Lato, bundled so the app works offline (Latin + Latin Extended covers German).
 import '@fontsource/lato/latin-400.css';

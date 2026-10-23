@@ -26,3 +26,44 @@ test('the courses that come with the app are installed on the first start, and a
   await expect(page.locator('.cf-catalog-item', { hasText: 'Das Pflichtenheft verstehen' }).getByRole('button', { name: 'Add to my courses' })).toBeVisible();
   expect(errors).toEqual([]);
 });
+
+test('a built-in course from an older app version updates by itself and keeps its progress', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (err) => errors.push(err.message));
+  const entry = CATALOG_INFO.find((e) => e.id === 'pflichtenheft')!;
+  await page.goto('./#/library');
+  await expect(page.getByRole('main').getByRole('heading', { name: entry.title, exact: true }).first()).toBeVisible();
+  // Make the installed copy look like it came with an older app, with a lesson done.
+  await page.evaluate(async (id) => {
+    const db = await new Promise<IDBDatabase>((resolve, reject) => {
+      const req = indexedDB.open('course-app');
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+    const tx = db.transaction(['courses', 'progress'], 'readwrite');
+    const courses = tx.objectStore('courses');
+    const get = courses.get(id);
+    await new Promise((r) => (get.onsuccess = r));
+    const course = get.result;
+    const firstLesson = course.modules[0].lessons[0].id;
+    courses.put({ ...course, version: 0.5, title: 'Old title' });
+    tx.objectStore('progress').put({ courseId: id, courseVersion: 0.5, completedLessons: [firstLesson], answers: {}, videoOverrides: {}, lastOpened: new Date().toISOString() });
+    await new Promise((r) => (tx.oncomplete = r));
+    db.close();
+  }, entry.id);
+  await page.reload();
+  await expect(page.getByText(`Updated to the new version: ${entry.title}. Your progress is kept.`)).toBeVisible();
+  await expect(page.getByRole('main').getByRole('heading', { name: entry.title, exact: true }).first()).toBeVisible();
+  const kept = await page.evaluate(async (id) => {
+    const db = await new Promise<IDBDatabase>((resolve) => {
+      const req = indexedDB.open('course-app');
+      req.onsuccess = () => resolve(req.result);
+    });
+    const get = db.transaction('progress').objectStore('progress').get(id);
+    await new Promise((r) => (get.onsuccess = r));
+    db.close();
+    return get.result.completedLessons.length;
+  }, entry.id);
+  expect(kept).toBe(1);
+  expect(errors).toEqual([]);
+});

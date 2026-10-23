@@ -3,6 +3,7 @@
 
 import { storage } from './storage.ts';
 import type { Level } from './drills.ts';
+import { SYNCED_EVENT } from './syncMerge.ts';
 
 export interface DrillStat {
   solved: number;
@@ -17,6 +18,15 @@ export async function loadDrillStats(): Promise<void> {
   const saved = await storage.getRecord<Record<string, DrillStat>>('drills');
   drillStats.stats = saved && typeof saved === 'object' ? saved : {};
   drillStats.loaded = true;
+}
+
+// A sync may have brought stats from the other device: read them again next time they are needed.
+if (typeof window !== 'undefined') {
+  window.addEventListener(SYNCED_EVENT, () => {
+    if (!drillStats.loaded) return;
+    drillStats.loaded = false;
+    void loadDrillStats();
+  });
 }
 
 function save(): Promise<void> {
