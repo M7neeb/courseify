@@ -1,5 +1,5 @@
 // Reported questions: a learner flags a question that looks wrong while studying; later one
-// prompt asks a chat AI to fix all of them, and the answer is imported back over the old ones.
+// prompt asks a chat assistant to fix all of them, and the answer is imported back over the old ones.
 
 import type { Block, Course, Question, QuestionReport } from './types.ts';
 import { languageName } from './promptBuilder.ts';
@@ -35,7 +35,7 @@ const REASON_TEXT: Record<QuestionReport['reason'], string> = {
   other: 'something else is wrong'
 };
 
-/** The prompt that asks a chat AI to fix the reported questions and send them back for import. */
+/** The prompt that asks a chat assistant to fix the reported questions and send them back for import. */
 export function fixQuestionsPrompt(course: Course, reported: ReturnType<typeof reportedQuestions>): string {
   const languages = (course.languages && course.languages.length > 0 ? course.languages : [course.language ?? 'en']).map(languageName).join(' and ');
   const items = reported

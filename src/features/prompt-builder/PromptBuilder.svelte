@@ -79,7 +79,7 @@
   const unitSettings = $derived(savedForCourse ?? s);
   const units = $derived(course ? unitStatus(course) : []);
 
-  // Notes from text files: each file is added under its name, so the AI can cite it.
+  // Notes from text files: each file is added under its name, so the course can cite it.
   let materialNote = $state('');
   async function loadMaterialFiles(event: Event) {
     const input = event.currentTarget as HTMLInputElement;

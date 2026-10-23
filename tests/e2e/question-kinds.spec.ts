@@ -96,7 +96,7 @@ test('a reported question is fixed with one prompt and an import', async ({ page
   await expect(page.getByText('Reported questions (1)')).toBeVisible();
   await expect(page.getByText('Say which kind of circuit.', { exact: false })).toBeVisible();
 
-  // The AI's answer: the same question, corrected.
+  // The reply: the same question, corrected.
   const fixed = { courseId: 'new-kinds', questions: [{ id: 'q-r1', kind: 'true-false', prompt: 'In a series circuit (one path) the current is the same everywhere.', answer: true, explanation: 'One path.' }] };
   await page.goto('./#/import');
   await page.locator('#import-text').fill(JSON.stringify(fixed));

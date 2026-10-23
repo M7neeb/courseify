@@ -1,4 +1,4 @@
-// The course-prompt generator (M3). Turns the Create screen's settings into the prompts a chat AI
+// The course-prompt generator (M3). Turns the Create screen's settings into the prompts a chat assistant
 // needs to write a course this app can import: an outline first, then one prompt per unit, then
 // the final exam (or everything in one reply for small courses), plus a repair prompt.
 //
@@ -848,8 +848,8 @@ export function checkPrompt(course: Course, target: string): string {
 }
 
 /**
- * The "Stuck?" tutor prompt for one question. It gives the chat AI the question but not the
- * answer, and tells it to coach instead of solving: an AI that just hands over answers makes
+ * The "Stuck?" tutor prompt for one question. It gives the chat assistant the question but not the
+ * answer, and tells it to coach instead of solving: a tutor that just hands over answers makes
  * learners do worse once it is gone, a tutor that makes them think does not.
  */
 export function tutorPrompt(

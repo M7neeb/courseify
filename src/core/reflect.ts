@@ -108,7 +108,7 @@ function languageName(code: string): string {
   return code === 'de' ? 'German' : 'English';
 }
 
-/** The lesson's own text for an AI to compare against: key points plus the main explanation. */
+/** The lesson's own text to compare against: key points plus the main explanation. */
 export function lessonDigest(lesson: Lesson, lang: Lang, limit = 6000): string {
   const parts: string[] = [];
   for (const block of lesson.blocks ?? []) {
@@ -119,7 +119,7 @@ export function lessonDigest(lesson: Lesson, lang: Lang, limit = 6000): string {
   return text.length > limit ? text.slice(0, limit) + '\n[...]' : text;
 }
 
-/** Copy-to-AI prompt: compare my brain dump with the lesson and tell me what is missing or wrong. */
+/** Copied prompt: compare my brain dump with the lesson and tell me what is missing or wrong. */
 export function dumpFeedbackPrompt(topic: string, source: string, dump: string, lang: Lang): string {
   return [
     `I am studying "${topic}". I closed my notes and wrote down everything I remember (a brain dump). Compare it with the lesson below.`,
@@ -140,7 +140,7 @@ export function dumpFeedbackPrompt(topic: string, source: string, dump: string, 
 }
 
 /**
- * Copy-to-AI prompt for the Feynman technique: the AI plays a curious 12-year-old who asks about
+ * Copied prompt for the Feynman technique: the chat assistant plays a curious 12-year-old who asks about
  * the gaps, then points out mistakes. Teaching someone is one of the best ways to find what you
  * do not understand yet.
  */

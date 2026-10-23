@@ -562,7 +562,7 @@ export interface BlockContext {
   sounds?: boolean;
   /** Celebrate a new mastery level at the end of a set. */
   celebrations?: boolean;
-  /** The course's display title, used in copy-to-AI prompts. */
+  /** The course's display title, used in copied prompts. */
   courseTitle?: string;
   getAnswer(questionId: string): AnswerRecord | undefined;
   recordAnswer(questionId: string, record: AnswerRecord): void;

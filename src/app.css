@@ -198,7 +198,7 @@ legend { font-weight: 700; padding: 0 0.4rem; }
   position: fixed; left: 50%; transform: translateX(-50%);
   bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
   display: flex; align-items: center; gap: 0.8rem;
-  background: var(--ink); color: var(--bg); padding: 0.7rem 1rem; border-radius: 8px; z-index: 40; max-width: 92vw;
+  background: var(--ink); color: var(--bg); padding: 0.7rem 1rem; border-radius: 8px; z-index: 40; width: max-content; max-width: 92vw;
   border: 1px solid var(--line);
 }
 .toast-action { font: inherit; font-weight: 650; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; }
