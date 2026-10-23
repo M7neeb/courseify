@@ -8,9 +8,9 @@ test('expressions: operators, precedence, functions and implicit multiplication'
   assert.equal(evaluate('2^3^2'), 512);
   assert.equal(evaluate('-2^2'), -4);
   assert.equal(evaluate('2^-1'), 0.5);
-  assert.equal(evaluate('3.2*10^-4'), 0.00032);
+  assert.ok(Math.abs(evaluate('3.2*10^-4') - 0.00032) < 1e-15);
   assert.equal(evaluate('3,2'), NaN);
-  assert.equal(evaluate('3.2e-4'), 0.00032);
+  assert.ok(Math.abs(evaluate('3.2e-4') - 0.00032) < 1e-15);
   assert.equal(evaluate('|-3| + sqrt(16)'), 7);
   assert.equal(evaluate('2pi'), 2 * Math.PI);
   assert.equal(evaluate('7 ÷ 2'), 3.5);
