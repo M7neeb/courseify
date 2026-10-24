@@ -54,7 +54,8 @@ export async function upload(token: string, text: string, existing: RemoteFile |
     await call(token, `${UPLOAD}/files/${encodeURIComponent(existing.id)}?uploadType=media`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/gzip' },
-      body
+      // Plain bytes rather than a Blob: every browser sends these the same way.
+      body: await body.arrayBuffer()
     });
     return;
   }
@@ -69,7 +70,7 @@ export async function upload(token: string, text: string, existing: RemoteFile |
   await call(token, `${UPLOAD}/files?uploadType=multipart`, {
     method: 'POST',
     headers: { 'Content-Type': `multipart/related; boundary=${boundary}` },
-    body: multipart
+    body: await multipart.arrayBuffer()
   });
 }
 

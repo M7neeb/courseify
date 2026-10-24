@@ -170,7 +170,7 @@
   <p><a class="link" href="#/play/endgames">{t('endgames.back')}</a></p>
   <div class="cf-chess cf-chess-play">
     <div class="cf-chess-layout">
-      <ChessBoard {fen} orientation={learner} movable={myTurn ? learner : null} {targets} {lastMove} marks={checkSquare} arrows={hintArrow ? [hintArrow] : []} label={t('endgames.name.' + id)} {onmove} />
+      <ChessBoard {fen} orientation={learner} movable={myTurn ? learner : null} {targets} {lastMove} marks={checkSquare} arrows={hintArrow ? [hintArrow] : []} label={t('endgames.name.' + id)} annotate {onmove} />
       <div class="cf-chess-side">
         <h2 class="cf-chess-title">{t('endgames.name.' + id)}</h2>
         <p class="cf-chess-note"><strong>{t('chess.goal')}</strong> {t('endgames.goal.' + drill.goal, { n: drill.maxMoves })}</p>

@@ -44,13 +44,16 @@ test('a hotspot question is answered by tapping the picture', async ({ page }) =
 
   const pic = page.locator('.hotspot-pic');
   await expect(pic).toBeVisible();
+  await pic.evaluate((el) => el.scrollIntoView({ block: 'center' }));
   const box = (await pic.boundingBox())!;
   // A wrong tap first: the lamp on the right.
   await page.mouse.click(box.x + box.width * 0.85, box.y + box.height * 0.5);
   await page.getByRole('button', { name: 'Check', exact: true }).click();
   await expect(page.locator('.question[data-state="wrong"]')).toBeVisible();
-  // Then the resistor at the top.
-  await page.mouse.click(box.x + box.width * 0.5, box.y + box.height * 0.2);
+  // Then the resistor at the top (the feedback moved the page, so measure again).
+  await pic.evaluate((el) => el.scrollIntoView({ block: 'center' }));
+  const box2 = (await pic.boundingBox())!;
+  await page.mouse.click(box2.x + box2.width * 0.5, box2.y + box2.height * 0.2);
   await page.getByRole('button', { name: 'Check', exact: true }).click();
   await expect(page.locator('.question[data-state="right"]')).toBeVisible();
   await expect(page.locator('.hotspot-area.right')).toBeVisible();

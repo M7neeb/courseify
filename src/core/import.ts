@@ -117,7 +117,13 @@ function analyzeBackup(value: Record<string, unknown>): ImportAnalysis {
   const games = (Array.isArray(b.games) ? b.games : []).filter(
     (g): g is SavedGame => isObject(g) && typeof g.id === 'string' && typeof g.startFen === 'string' && Array.isArray(g.moves) && typeof g.botId === 'string'
   );
-  const chess: ChessRecord | undefined = isObject(b.chess) && isObject(b.chess.endgames) ? { endgames: b.chess.endgames as ChessRecord['endgames'] } : undefined;
+  const chess: ChessRecord | undefined =
+    isObject(b.chess) && isObject(b.chess.endgames)
+      ? {
+          endgames: b.chess.endgames as ChessRecord['endgames'],
+          ...(isObject(b.chess.rating) && typeof b.chess.rating.value === 'number' ? { rating: b.chess.rating as ChessRecord['rating'] } : {})
+        }
+      : undefined;
   const backup: Backup = {
     kind: 'course-app-backup',
     schemaVersion: typeof b.schemaVersion === 'number' ? b.schemaVersion : 1,

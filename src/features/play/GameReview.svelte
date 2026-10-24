@@ -239,6 +239,7 @@
             arrows={boardArrows}
             badge={boardBadge}
             label={t('review.boardLabel')}
+            annotate
             onmove={onRetryMove}
           />
         </div>

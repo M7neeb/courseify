@@ -18,6 +18,7 @@
     learner: learnerColor,
     celebrations = true,
     sounds = false,
+    annotate = false,
     onfinish
   }: {
     fen: string;
@@ -27,6 +28,8 @@
     /** The learner's colour; by default the side to move in the position. */
     learner?: Color;
     celebrations?: boolean;
+    /** Long-press drawing on touch screens. */
+    annotate?: boolean;
     sounds?: boolean;
     onfinish?: (result: 'won' | 'lost' | 'draw') => void;
   } = $props();
@@ -172,6 +175,7 @@
       marks={checkSquare}
       arrows={hintArrow ? [hintArrow] : []}
       label={t('chess.playBoard')}
+      {annotate}
       {onmove}
     />
     <div class="cf-chess-side">

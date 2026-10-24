@@ -149,7 +149,9 @@ export const storage = {
 
   async getChess(): Promise<ChessRecord> {
     const saved = (await (await db()).get('kv', 'chess')) as ChessRecord | undefined;
-    return { endgames: { ...(saved?.endgames ?? {}) } };
+    const r = saved?.rating;
+    const rating = r && typeof r.value === 'number' && typeof r.games === 'number' ? { value: r.value, games: r.games, peak: typeof r.peak === 'number' ? r.peak : r.value } : undefined;
+    return { endgames: { ...(saved?.endgames ?? {}) }, ...(rating ? { rating } : {}) };
   },
   async saveChess(record: ChessRecord): Promise<void> {
     writes++;

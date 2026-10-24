@@ -44,6 +44,22 @@
 .cf-sq[data-mark='good']::before { background: var(--sq-good); }
 .cf-sq[data-mark='bad']::before { background: var(--sq-bad); }
 .cf-sq[data-mark='hint']::before { background: var(--sq-hint); }
+.cf-sq[data-mark='premove']::before { background: rgb(214 64 52 / 0.45); }
+/* Squares the learner coloured with a right-click. */
+.cf-sq[data-user]::before { opacity: 0.82; }
+.cf-sq[data-user='plan']::before { background: rgb(235 97 80); }
+.cf-sq[data-user='good']::before { background: rgb(172 206 89); }
+.cf-sq[data-user='bad']::before { background: rgb(255 170 0); }
+.cf-sq[data-user='hint']::before { background: rgb(82 176 220); }
+.no-dots .cf-sq.target::after { display: none; }
+.cf-board { -webkit-touch-callout: none; }
+.cf-board.annotate { touch-action: none; }
+
+/* Board colours (Board settings). */
+.cf-board-wrap[data-board-theme='brown'] { --sq-light: #f0d9b5; --sq-dark: #b58863; }
+.cf-board-wrap[data-board-theme='blue'] { --sq-light: #dee3e6; --sq-dark: #8ca2ad; }
+.cf-board-wrap[data-board-theme='purple'] { --sq-light: #efeaf6; --sq-dark: #8877b7; }
+.cf-board-wrap[data-board-theme='gray'] { --sq-light: #e3e3e3; --sq-dark: #a3a3a3; }
 .cf-sq.target::after {
   content: ''; position: absolute; left: 50%; top: 50%; width: 30%; height: 30%; border-radius: 50%;
   transform: translate(-50%, -50%); background: rgb(0 0 0 / 0.18); pointer-events: none; z-index: 2;
@@ -74,7 +90,9 @@
 .cf-sq.dark .cf-coord { color: var(--sq-light); }
 
 .cf-arrows { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
-.cf-arrows .shaft { stroke-width: 0.16; stroke-linecap: round; }
+.cf-arrows .shaft { fill: none; stroke-width: 0.16; stroke-linecap: round; stroke-linejoin: round; }
+.cf-arrows .shaft.user { stroke-width: 0.19; opacity: 0.85; }
+.cf-arrows .shaft.ghost { opacity: 0.5; }
 .cf-arrows .shaft.plan, .cf-arrows .head.plan { stroke: var(--arrow-plan); fill: var(--arrow-plan); }
 .cf-arrows .shaft.hint, .cf-arrows .head.hint { stroke: var(--arrow-hint); fill: var(--arrow-hint); }
 .cf-arrows .shaft.good, .cf-arrows .head.good { stroke: var(--arrow-good); fill: var(--arrow-good); }
@@ -337,4 +355,97 @@
   .cf-chess-tabs a { padding: 10px 10px; font-size: 0.92rem; }
   .cf-bot-grid { grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); }
   .cf-game .cf-board-wrap, .cf-review .cf-board-wrap { max-width: min(100%, max(280px, 100dvh - 190px)); }
+}
+
+/* ---------- 1.8: clocks, captured pieces, bot chat, board settings ---------- */
+.cf-chess-tabbar { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 8px; border-bottom: 1px solid var(--line); }
+.cf-chess-tabbar .cf-chess-tabs { border-bottom: 0; }
+.cf-board-settings { position: relative; margin-bottom: 6px; }
+.cf-board-settings > summary {
+  display: flex; align-items: center; gap: 6px;
+  list-style: none; cursor: pointer; padding: 6px 12px; border: 1px solid var(--line); border-radius: 6px;
+  font-weight: 700; font-size: 0.9rem; color: var(--ink); background: var(--surface);
+}
+.cf-board-settings > summary::-webkit-details-marker { display: none; }
+.cf-board-settings[open] > summary { border-color: var(--accent); color: var(--accent); }
+.cf-board-settings-panel {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 20; width: min(320px, 90vw); display: grid; gap: 10px;
+  padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); box-shadow: var(--shadow-float);
+}
+.cf-board-settings-panel .cf-check { font-weight: 600; }
+.cf-board-settings-panel p { margin: 0; }
+.cf-theme-pick { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; border: 0; }
+.cf-theme-pick legend { font-weight: 700; margin-bottom: 6px; padding: 0; }
+.cf-theme {
+  display: grid; grid-template-columns: 1fr 1fr; width: 40px; height: 40px; padding: 0; border: 2px solid var(--line);
+  border-radius: 6px; overflow: hidden; cursor: pointer; background: none;
+}
+.cf-theme span { display: block; }
+.cf-theme[aria-pressed='true'] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+
+.cf-player-bar { gap: 10px; }
+.cf-player-text { display: grid; gap: 1px; min-width: 0; flex: 1; }
+.cf-player-text .cf-player-name { line-height: 1.2; }
+.cf-captured { display: flex; flex-wrap: wrap; align-items: center; min-height: 18px; line-height: 1; }
+.cf-cap { font-family: 'Courseify Chess', serif; font-size: 17px; margin-left: -5px; }
+.cf-cap:first-child { margin-left: 0; }
+.cf-cap.gap { margin-left: 2px; }
+.cf-captured[data-color='w'] .cf-cap { color: #fff; -webkit-text-stroke: 1px #444; }
+.cf-captured[data-color='b'] .cf-cap { color: #333; }
+.cf-captured .cf-material { margin-left: 6px; font-size: 0.82rem; font-weight: 700; }
+.cf-clock {
+  margin-left: auto; min-width: 92px; padding: 6px 12px; border-radius: 6px; text-align: right;
+  font: 700 1.35rem/1.1 ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; font-variant-numeric: tabular-nums;
+  background: color-mix(in srgb, var(--ink) 8%, var(--surface)); color: color-mix(in srgb, var(--ink) 55%, transparent);
+}
+.cf-clock[data-color='w'].active { background: #fff; color: #111; box-shadow: 0 0 0 1px var(--line); }
+.cf-clock[data-color='b'].active { background: #262421; color: #fff; }
+.cf-clock.active.low { background: #c0392b; color: #fff; }
+.cf-thinking + .cf-clock { margin-left: 8px; }
+.cf-player-bar .cf-thinking { margin-left: auto; }
+
+.cf-game-meta { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--muted); font-size: 0.88rem; font-weight: 700; }
+.cf-chat { display: flex; align-items: flex-start; gap: 8px; }
+.cf-chat-bubble {
+  position: relative; margin: 0; padding: 9px 13px; border: 1px solid var(--line); border-radius: 4px 14px 14px 14px;
+  background: var(--surface); flex: 1;
+}
+.cf-rating-line { display: flex; align-items: baseline; gap: 8px; font-weight: 700; }
+.cf-rating-change { font-weight: 800; font-variant-numeric: tabular-nums; }
+.cf-rating-change.up { color: var(--good); }
+.cf-rating-change.down { color: var(--bad); }
+.cf-board-tools { margin-top: -4px; }
+.cf-draw-tip { margin: 0; }
+
+.cf-time-pick { margin: 0; padding: 0; border: 0; min-width: 0; }
+.cf-time-pick legend { margin-bottom: 6px; font-weight: 700; padding: 0; }
+.cf-time-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.cf-time {
+  display: grid; gap: 1px; justify-items: center; padding: 7px 4px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--surface); color: var(--ink); font: inherit; cursor: pointer;
+}
+.cf-time:hover { border-color: color-mix(in srgb, var(--accent) 40%, var(--line)); }
+.cf-time[aria-pressed='true'] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.cf-time-main { font-weight: 800; font-size: 0.95rem; white-space: nowrap; }
+.cf-time-kind { font-size: 0.72rem; color: var(--muted); }
+.cf-custom-elo { display: grid; gap: 4px; font-weight: 700; }
+.cf-custom-elo input { width: 100%; accent-color: var(--accent); }
+.cf-bot-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; }
+.cf-tag { padding: 3px 10px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-size: 0.8rem; font-weight: 700; }
+.cf-tag.soft { background: var(--accent-soft); color: var(--accent); }
+.cf-my-rating { padding-top: 10px; border-top: 1px solid var(--line); }
+.cf-my-rating p { margin: 0; }
+@media (max-width: 560px) {
+  .cf-clock { min-width: 80px; font-size: 1.15rem; padding: 5px 9px; }
+}
+
+.cf-gear { width: 18px; height: 18px; fill: currentColor; flex: none; }
+.cf-you-dot { border-radius: 50%; }
+@media (max-width: 560px) {
+  .cf-chess-tabbar { flex-wrap: nowrap; align-items: center; }
+  .cf-chess-tabbar .cf-chess-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; min-width: 0; }
+  .cf-chess-tabbar .cf-chess-tabs a { white-space: nowrap; }
+  .cf-gear-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .cf-board-settings > summary { padding: 8px; }
+  .cf-board-settings-panel { left: auto; right: 0; }
 }

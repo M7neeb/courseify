@@ -268,3 +268,12 @@ test('a merged copy also reads back unchanged', () => {
   const parsed = parseSyncFile(JSON.stringify({ kind: 'courseify-sync', formatVersion: SYNC_FORMAT_VERSION, userDataVersion: 3, data: merged }));
   assert.ok(parsed.ok && sameData(parsed.file.data, merged));
 });
+
+test('chess: the bot rating comes from the device with more rated games, keeping the best ever', () => {
+  const pc = data({ chess: { endgames: {}, rating: { value: 950, games: 12, peak: 1010 } } });
+  const phone = data({ chess: { endgames: {}, rating: { value: 880, games: 5, peak: 1050 } } });
+  const merged = mergeSyncData(pc, phone).chess.rating;
+  assert.deepEqual(merged, { value: 950, games: 12, peak: 1050 });
+  assert.deepEqual(mergeSyncData(data({}), phone).chess.rating, phone.chess.rating);
+  assert.equal(mergeSyncData(data({}), data({})).chess.rating, undefined);
+});

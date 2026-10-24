@@ -8,6 +8,7 @@
   import Endgames from './Endgames.svelte';
   import EndgameDrill from './EndgameDrill.svelte';
   import FreeBoard from './FreeBoard.svelte';
+  import BoardSettings from '../../ui/chess/BoardSettings.svelte';
   import { chess, loadChess } from './chessStore.svelte.ts';
   import { loadEngine } from '../../ui/chess/stockfish.ts';
   import type { ChessView } from '../../core/types.ts';
@@ -37,11 +38,14 @@
     </div>
   </div>
 
-  <nav class="cf-chess-tabs" aria-label={t('play.tabsLabel')}>
-    {#each tabs as tab (tab.view)}
-      <a href={tab.href} class:active={tabOf(view) === tab.view} aria-current={tabOf(view) === tab.view ? 'page' : undefined}>{t(tab.key)}</a>
-    {/each}
-  </nav>
+  <div class="cf-chess-tabbar">
+    <nav class="cf-chess-tabs" aria-label={t('play.tabsLabel')}>
+      {#each tabs as tab (tab.view)}
+        <a href={tab.href} class:active={tabOf(view) === tab.view} aria-current={tabOf(view) === tab.view ? 'page' : undefined}>{t(tab.key)}</a>
+      {/each}
+    </nav>
+    <BoardSettings />
+  </div>
 
   {#if !chess.loaded}
     <div class="loading" role="status"><span class="spinner" aria-hidden="true"></span><span>{t('app.loading')}</span></div>

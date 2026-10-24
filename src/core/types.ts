@@ -532,11 +532,23 @@ export interface SavedGame {
   assisted?: boolean;
   /** Engine verdicts per position (index 0 = start), filled in by the game review. */
   evals?: (PositionEval | null)[];
+  /** The clock: base minutes and increment in seconds. None means no clock. */
+  time?: { base: number; inc: number };
+  /** Time left on each clock (ms) when the game was last saved. */
+  clock?: { w: number; b: number };
+  /** Time left for the side that moved, after each move (ms). */
+  times?: number[];
+  /** Counts toward the rating against the bots (played without hints or take-backs). */
+  rated?: boolean;
+  /** How the rating changed when the game ended. */
+  ratingChange?: number;
 }
 
 /** Chess progress outside games: endgame drills finished, with the fewest moves needed. */
 export interface ChessRecord {
   endgames: Record<string, { done: boolean; bestMoves?: number; at: string }>;
+  /** Rating against the bots, from rated games. */
+  rating?: { value: number; games: number; peak: number };
 }
 
 // ---------- Block rendering contract ----------

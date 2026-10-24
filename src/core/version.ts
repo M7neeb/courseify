@@ -1,7 +1,7 @@
 // The single source of truth for the app version and the "What's new" list.
 // Bump VERSION and add one CHANGELOG entry at the top when you ship user-visible changes.
 
-export const VERSION = '1.8.0';
+export const VERSION = '1.9.0';
 
 export interface ChangelogEntry {
   version: string;
@@ -11,6 +11,18 @@ export interface ChangelogEntry {
 
 /** Newest first. */
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.9.0',
+    date: '2026-10-24',
+    changes: [
+      'Chess: 29 bots from 100 to 3200 Elo, each with a style (aggressive, defensive, loves the queen, pushes pawns, trades pieces, positional or unpredictable) and favourite openings. They talk to you during the game. Or make a custom bot at any strength.',
+      'Play with a clock: bullet, blitz, rapid or no timer at all, with increments. Premove while the bot thinks.',
+      'Draw on the board like on chess.com: right-click a square to colour it, right-drag for an arrow (Shift green, Ctrl red, Alt blue). On a phone, press and hold, then drag.',
+      'Board settings: five board colours, legal-move dots, coordinates, sounds, piece animation, premoves and auto-queen.',
+      'Move, capture and check sounds, captured pieces next to each player, flip the board, offer a draw, and abort a game before your first move.',
+      'Play without hints to get a bot rating that goes up and down with your results. It syncs between your devices too.'
+    ]
+  },
   {
     version: '1.8.0',
     date: '2026-10-23',

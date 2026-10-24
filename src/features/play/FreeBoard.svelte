@@ -39,7 +39,7 @@
 </div>
 
 {#key game}
-  <ChessPlay {fen} learner={color} level={3} celebrations={app.settings.celebrations} sounds={app.settings.sounds} />
+  <ChessPlay {fen} learner={color} level={3} celebrations={app.settings.celebrations} sounds={app.settings.sounds} annotate />
 {/key}
 
 <details class="cf-play-setup">

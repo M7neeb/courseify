@@ -436,7 +436,12 @@ function mergeChess(l: ChessRecord, r: ChessRecord): ChessRecord {
     if (best.length > 0) merged.bestMoves = Math.min(...best);
     endgames[id] = merged;
   }
-  return { endgames };
+  // The bot rating comes from the device that played more rated games; the best ever is kept.
+  const rl = l.rating;
+  const rr = r.rating;
+  const pick = !rl ? rr : !rr ? rl : rr.games > rl.games ? rr : rl;
+  if (!pick) return { endgames };
+  return { endgames, rating: { ...pick, peak: Math.max(rl?.peak ?? 0, rr?.peak ?? 0, pick.value) } };
 }
 
 function mergeDrills(l: Record<string, SyncDrillStat>, r: Record<string, SyncDrillStat>): Record<string, SyncDrillStat> {

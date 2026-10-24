@@ -9,7 +9,7 @@
 <br />
 
 [![Deploy](https://github.com/M7neeb/courseify/actions/workflows/deploy.yml/badge.svg)](https://github.com/M7neeb/courseify/actions/workflows/deploy.yml)
-![Version](https://img.shields.io/badge/version-1.7.1-0b2149)
+![Version](https://img.shields.io/badge/version-1.9.0-0b2149)
 ![Svelte 5](https://img.shields.io/badge/Svelte-5-ff3e00?logo=svelte&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)
 ![Offline](https://img.shields.io/badge/PWA-works%20offline-5a0fc8)
@@ -57,9 +57,11 @@ and stays on your device. No account, no subscription, no tracking.
     <td width="50%" valign="top">
       <h3>Play chess</h3>
       <ul>
-        <li><b>13 bots</b> from 250 to 3000 Elo, each with its own style.</li>
+        <li><b>29 bots</b> from 100 to 3200 Elo, each with a style and favourite openings, or a custom bot at any strength.</li>
+        <li><b>Clocks</b> from bullet to rapid, or no timer, with premoves.</li>
+        <li><b>Draw on the board:</b> right-click for coloured squares and arrows.</li>
         <li><b>Game review</b> move by move: brilliant moves to blunders, the best move on the board, accuracy and the opening.</li>
-        <li><b>Endgame drills</b> and a free board.</li>
+        <li><b>Endgame drills</b>, a free board, board colours and sounds, and a bot rating.</li>
       </ul>
     </td>
     <td width="50%" valign="top">
@@ -97,7 +99,7 @@ and stays on your device. No account, no subscription, no tracking.
 <table>
   <tr>
     <td width="50%" valign="top"><img src="docs/screenshots/desktop-chess-review.png" alt="Chess game review with move classes, accuracy and the evaluation graph" /><br /><sub><b>Game review.</b> Every move classified, the best move on the board, accuracy for both sides.</sub></td>
-    <td width="50%" valign="top"><img src="docs/screenshots/desktop-chess-bots.png" alt="Choosing a chess bot" /><br /><sub><b>13 bots.</b> From a first game to master strength, with optional hints and take-backs.</sub></td>
+    <td width="50%" valign="top"><img src="docs/screenshots/desktop-chess-bots.png" alt="Choosing a chess bot" /><br /><sub><b>29 bots.</b> From a first game to 3200, each with its own style, plus clocks from bullet to rapid.</sub></td>
   </tr>
   <tr>
     <td width="50%" valign="top"><img src="docs/screenshots/desktop-drill.png" alt="A subnetting drill with the worked solution opened step by step" /><br /><sub><b>Drills.</b> A new problem every time; open the solution one step at a time.</sub></td>

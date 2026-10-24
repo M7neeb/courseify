@@ -100,7 +100,7 @@ test('a hint marks the piece, and the full solution plays itself', async ({ page
   await page.getByRole('button', { name: 'Get a hint' }).click();
   await expect(puzzle.locator(`[data-square="${first.slice(0, 2)}"]`)).toHaveAttribute('data-mark', 'hint');
   await page.getByRole('button', { name: 'Get a hint' }).click();
-  await expect(puzzle.locator('.cf-arrows line')).toHaveCount(1);
+  await expect(puzzle.locator('.cf-arrows path.shaft')).toHaveCount(1);
   await page.getByRole('button', { name: 'Show full solution' }).click();
   await expect(puzzle.getByText('This was the solution.')).toBeVisible({ timeout: 6000 });
 });

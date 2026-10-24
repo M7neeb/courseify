@@ -5,7 +5,9 @@ import { Chess, type Square } from 'chess.js';
 import { storage } from '../../core/storage.ts';
 import { SYNCED_EVENT } from '../../core/syncMerge.ts';
 import { terminalEval } from '../../core/review.ts';
-import { botById, botSearch, fallbackLevel, pickWeakMove } from '../../core/bots.ts';
+import { bookMove, botById, botSearch, fallbackLevel, lineScore, pickStyledMove, pickWeakMove, styleBonus } from '../../core/bots.ts';
+import { canMate, ratingChange, START_RATING } from '../../core/clock.ts';
+import { START_FEN } from '../../core/chess.ts';
 import type { ChessRecord, PositionEval, SavedGame } from '../../core/types.ts';
 import { analyse, type EngineLine } from '../../ui/chess/stockfish.ts';
 import { think } from '../../ui/chess/engine.ts';
@@ -95,20 +97,40 @@ function legalUci(fen: string): string[] {
   return new Chess(fen).moves({ verbose: true }).map((m) => m.from + m.to + (m.promotion ?? ''));
 }
 
+export interface BotMoveOptions {
+  /** The game so far (UCI), for the bot's favourite openings and its style. */
+  played?: readonly string[];
+  /** The position the game started from; openings are only played from the normal start. */
+  startFen?: string;
+  /** On a clock: the most the bot may think, in ms. */
+  thinkMs?: number;
+}
+
 /** The bot's move in a position, with a short human-feeling pause. Never throws. */
-export async function botMove(fen: string, botId: string): Promise<string | null> {
+export async function botMove(fen: string, botId: string, options: BotMoveOptions = {}): Promise<string | null> {
   const bot = botById(botId);
   const started = Date.now();
   let move: string | null = null;
   if (bot) {
+    const legal = legalUci(fen);
+    const ply = options.played?.length ?? 0;
+    if (options.played && (options.startFen ?? START_FEN) === START_FEN) {
+      const book = bookMove(bot, options.played);
+      if (book && legal.includes(book)) move = book;
+    }
+    const bonus = (m: string) => styleBonus(fen, m, bot.style, ply);
     const s = botSearch(bot);
     try {
-      if (s.kind === 'weak') {
+      if (move) {
+        // Played from memory.
+      } else if (s.kind === 'weak') {
         const r = await analyse(fen, { depth: s.depth, multipv: s.multipv });
-        if (r) move = pickWeakMove(r.lines, legalUci(fen), s);
+        if (r) move = pickWeakMove(r.lines, legal, s, Math.random, bonus);
       } else {
-        const r = await analyse(fen, s.kind === 'elo' ? { movetime: s.movetime, elo: s.elo } : { movetime: s.movetime });
-        if (r) move = r.bestmove;
+        const movetime = options.thinkMs ? Math.min(s.movetime, options.thinkMs) : s.movetime;
+        const multipv = bot.style === 'balanced' ? 1 : 3;
+        const r = await analyse(fen, s.kind === 'elo' ? { movetime, elo: s.elo, multipv } : { movetime, multipv });
+        if (r?.bestmove) move = multipv > 1 ? pickStyledMove(r.bestmove, r.lines, bot.elo, bonus) : r.bestmove;
       }
     } catch {
       move = null;
@@ -116,9 +138,44 @@ export async function botMove(fen: string, botId: string): Promise<string | null
     // Stockfish could not load (offline before its first download): the app's own engine plays.
     if (!move) move = (await think(fen, fallbackLevel(bot), 0)).move;
   }
-  const wait = 550 + Math.random() * 450 - (Date.now() - started);
+  const pause = options.thinkMs ? Math.min(550 + Math.random() * 450, options.thinkMs * 0.6) : 550 + Math.random() * 450;
+  const wait = pause - (Date.now() - started);
   if (wait > 0) await new Promise((r) => setTimeout(r, wait));
   return move;
+}
+
+/**
+ * Whether the bot takes a draw offer: always when nobody can mate any more, never in the first
+ * 15 moves, and otherwise only when it is not better.
+ */
+export async function botAcceptsDraw(fen: string, botId: string, botColor: 'w' | 'b', ply: number): Promise<boolean> {
+  if (!canMate(fen, 'w') && !canMate(fen, 'b')) return true;
+  if (ply < 30) return false;
+  const bot = botById(botId);
+  const r = await analyse(fen, { depth: 12 });
+  const top = r?.lines[0];
+  if (!top) return false;
+  const turn = fen.split(' ')[1] === 'b' ? 'b' : 'w';
+  const score = lineScore(top) * (turn === botColor ? 1 : -1);
+  return score <= ((bot?.elo ?? 1500) < 1000 ? 100 : 30);
+}
+
+/** Counts a finished rated game toward the rating against the bots. Returns the change. */
+export async function applyRating(game: SavedGame): Promise<number | undefined> {
+  if (!game.rated || !game.result || game.ratingChange !== undefined) return undefined;
+  const bot = botById(game.botId);
+  if (!bot) return undefined;
+  const now = chess.record.rating ?? { value: START_RATING, games: 0, peak: START_RATING };
+  const score = game.result === 'won' ? 1 : game.result === 'draw' ? 0.5 : 0;
+  const change = ratingChange(now.value, bot.elo, score, now.games);
+  const value = Math.max(100, now.value + change);
+  chess.record.rating = { value, games: now.games + 1, peak: Math.max(now.peak, value) };
+  try {
+    await storage.saveChess($state.snapshot(chess.record) as ChessRecord);
+  } catch {
+    /* not kept */
+  }
+  return change;
 }
 
 /** The engine's best move for a hint, or null. */

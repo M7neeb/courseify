@@ -4,6 +4,7 @@
   import { botById } from '../../core/bots.ts';
   import { reviewGame } from '../../core/review.ts';
   import { START_FEN } from '../../core/chess.ts';
+  import { timeLabel } from '../../core/clock.ts';
   import { app } from '../../core/state.svelte.ts';
   import type { SavedGame } from '../../core/types.ts';
   import { chess, deleteGame, isReviewed } from './chessStore.svelte.ts';
@@ -61,7 +62,9 @@
             </p>
             <p class="muted small">
               {when(g.startedAt)} · {t('games.moves', { n: Math.ceil(g.moves.length / 2) })} · {t(g.color === 'w' ? 'chess.white' : 'chess.black')}
+              · {g.time ? timeLabel(g.time) : t('bots.noTimer')}
               {#if acc !== null} · {t('games.accuracy', { n: acc.toFixed(1) })}{/if}
+              {#if g.ratingChange !== undefined} · <span class="cf-rating-change" class:up={g.ratingChange > 0} class:down={g.ratingChange < 0}>{g.ratingChange > 0 ? '+' : ''}{g.ratingChange}</span>{/if}
             </p>
           </div>
           <div class="cf-game-actions">
