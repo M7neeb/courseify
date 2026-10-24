@@ -967,3 +967,36 @@ p.code-error { color: var(--bad); font-weight: 700; }
   .graph-labels text { font-size: 16px; }
   .drill-answer { max-width: none; }
 }
+
+/* Subnet solver: one task, several boxes. */
+.subnet-drill { display: grid; gap: 0.7rem; }
+.subnet-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.2rem; }
+.subnet-fill { display: flex; align-items: center; gap: 0.45rem; font-size: 0.95rem; }
+.subnet-fill input { width: 1.1rem; height: 1.1rem; }
+.subnet-form { display: grid; gap: 0.7rem; }
+.subnet-field { display: grid; grid-template-columns: auto auto; justify-content: start; align-items: center; gap: 0.25rem 0.5rem; }
+.subnet-label { grid-column: 1 / -1; font-weight: 700; font-size: 0.92rem; color: var(--muted); }
+.subnet-octets, .subnet-single { display: flex; align-items: center; gap: 0.25rem; min-width: 0; }
+.subnet-dot { font: 700 1.2rem/1 ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; color: var(--muted); }
+.subnet-octets input, .subnet-single input {
+  width: 3.6rem; min-width: 0; padding: 0.55rem 0.3rem; text-align: center; border: 2px solid var(--line); border-radius: 8px;
+  background: var(--bg); color: var(--ink); font: 600 1.1rem/1.3 ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+}
+.subnet-single input { width: 6.5rem; }
+.subnet-octets input:focus, .subnet-single input:focus { outline: none; border-color: var(--accent); }
+.subnet-octets input[readonly], .subnet-single input[readonly] { background: var(--surface); }
+.subnet-field[data-status='ok'] input { border-color: var(--good); background: var(--good-soft); }
+.subnet-field[data-status='bad'] input { border-color: var(--bad); }
+.subnet-field[data-status='shown'] input { border-style: dashed; }
+.subnet-yesno { display: flex; gap: 0.5rem; }
+.subnet-yesno .btn { min-width: 4.5rem; }
+.subnet-yesno .btn[aria-pressed='true'] { border-color: var(--accent); box-shadow: inset 0 0 0 2px var(--accent); }
+.subnet-field[data-status='ok'] .subnet-yesno .btn[aria-pressed='true'] { border-color: var(--good); box-shadow: inset 0 0 0 2px var(--good); }
+.subnet-field[data-status='bad'] .subnet-yesno .btn[aria-pressed='true'] { border-color: var(--bad); box-shadow: inset 0 0 0 2px var(--bad); }
+.subnet-mark { font-weight: 800; font-size: 1.2rem; }
+.subnet-mark.good { color: var(--good); }
+.subnet-mark.bad { color: var(--bad); }
+.subnet-submit { display: flex; }
+@media (max-width: 560px) {
+  .subnet-octets input { width: 3.1rem; font-size: 1rem; }
+}
