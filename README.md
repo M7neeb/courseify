@@ -1,6 +1,6 @@
 <div align="center">
 
-<a href="https://m7neeb.github.io/courseify/"><img src="docs/banner.png" alt="Courseify: learn anything properly. Courses, practice and progress that work offline on your phone and computer." width="100%" /></a>
+<a href="https://m7neeb.github.io/courseify/"><img src="docs/banner.png" alt="Courseify: courses from your own notes, endless practice with worked solutions, and chess against 29 bots. Free, offline, no sign-up." width="100%" /></a>
 
 <br />
 
@@ -13,7 +13,7 @@
 ![Svelte 5](https://img.shields.io/badge/Svelte-5-ff3e00?logo=svelte&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)
 ![Offline](https://img.shields.io/badge/PWA-works%20offline-5a0fc8)
-![Tests](https://img.shields.io/badge/tests-293%20unit%20%C2%B7%2075%20end--to--end-1fab54)
+![Tests](https://img.shields.io/badge/tests-323%20unit%20%C2%B7%2092%20end--to--end-1fab54)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 </div>
@@ -131,8 +131,9 @@ and stays on your device. No account, no subscription, no tracking.
 
 ## Courses included
 
-These come with the app, in your library from the first start. Delete one and it stays deleted; add it
-back any time from *Ready-made courses*.
+These come with the app, in your library from the first start, and update by themselves when a new
+version is out (your progress stays). Delete one and it stays deleted; add it back any time from
+*Ready-made courses*.
 
 | Course | Language | Lessons |
 |---|---|---|
