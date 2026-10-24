@@ -19,7 +19,7 @@
   } from '../../core/home.ts';
   import { indexQuestions } from '../../core/mistakes.ts';
   import { shows } from '../../core/layout.ts';
-  import { dueCards, reviewedToday, todayQueue } from '../../core/srs.ts';
+  import { dueCards, examBoost, reviewedToday, todayQueue, type ExamFocus } from '../../core/srs.ts';
   import type { Course, Module } from '../../core/types.ts';
   import LearnerNav from '../../ui/LearnerNav.svelte';
   import Celebrate from '../../ui/Celebrate.svelte';
@@ -38,7 +38,7 @@
 
   const layout = $derived(app.settings.layout);
   const today = $derived(dayKey(new Date(clock.now)));
-  const stats = $derived(computeStats(app.activity, today));
+  const stats = $derived(computeStats(app.activity, today, app.settings.restDays));
   const greeting = $derived(greetingFor(today, stats.streak));
   const weeks = $derived(streakWeeks(stats.streak));
 
@@ -70,14 +70,23 @@
   const masteredCount = $derived(badges.find((badge) => badge.id === 'mastered')?.count ?? 0);
   const familiarCount = $derived(badges.find((badge) => badge.id === 'familiar')?.count ?? 0);
 
+  // Exam plans for courses with an exam date, soonest first.
+  const plans = $derived(
+    activeCourses
+      .map((course) => ({ course, plan: examPlan(course, app.progress[course.id], app.meta[course.id]?.examDate, today, app.mastery[course.id]) }))
+      .filter((p): p is { course: Course; plan: NonNullable<typeof p.plan> } => p.plan !== null)
+      .sort((a, b) => a.plan.daysLeft - b.plan.daysLeft)
+  );
   // Today: the reviews that are due (capped per day) and the course to carry on with.
   const today_ = $derived.by(() => {
     const now = new Date(clock.now);
     const indexes = new Map(activeCourses.map((course) => [course.id, indexQuestions(course)]));
-    const due = dueCards(activeCourses, app.mastery, (courseId, qid) => indexes.get(courseId)?.has(qid) === true, now);
-    return todayQueue(due, reviewedToday(app.mastery, now), app.settings.dailyReviewLimit);
+    const due = dueCards(activeCourses, app.mastery, (courseId, qid) => indexes.get(courseId)?.has(qid) === true, now, focus);
+    return todayQueue(due, reviewedToday(app.mastery, now), app.settings.dailyReviewLimit, examBoost(due, focus));
   });
-  const continueCourse = $derived(courses[0]);
+  // The course with the nearest exam comes first: its reviews and its next lesson.
+  const focus = $derived<ExamFocus[]>(plans.map((p) => ({ courseId: p.course.id, daysLeft: p.plan.daysLeft })));
+  const continueCourse = $derived(plans.find((p) => p.plan.phase === 'learn')?.course ?? courses[0]);
   // Daily goal, in energy points (XP) earned today. Kept separate from the streak on purpose.
   const goal = $derived(app.settings.dailyGoal);
   const todayXp = $derived(app.activity[today]?.xp ?? 0);
@@ -88,13 +97,6 @@
     void syncMilestones();
   });
 
-  // Exam plans for courses with an exam date, soonest first.
-  const plans = $derived(
-    activeCourses
-      .map((course) => ({ course, plan: examPlan(course, app.progress[course.id], app.meta[course.id]?.examDate, today) }))
-      .filter((p): p is { course: Course; plan: NonNullable<typeof p.plan> } => p.plan !== null)
-      .sort((a, b) => a.plan.daysLeft - b.plan.daysLeft)
-  );
   // Last week's report, shown until it is put away.
   const lastWeek = $derived(weekStart(previousDay(weekStart(today))));
   const report = $derived(
@@ -232,6 +234,12 @@
             <p>{t('home.todayNoReviews')}</p>
           {/if}
           {#if continueCourse}<p class="cf-muted cf-small">{t('home.todayContinue', { course: displayTitle(continueCourse) })}</p>{/if}
+          {#if app.settings.habitCue}
+            <p class="cf-small cf-habit">{t('home.habitPlan', { cue: app.settings.habitCue })}</p>
+          {:else}
+            <p class="cf-muted cf-small"><a href="#/settings">{t('home.habitMake')}</a></p>
+          {/if}
+          {#if stats.freezes > 0}<p class="cf-muted cf-small">{t(stats.freezes === 1 ? 'home.freezeOne' : 'home.freezeMany', { n: stats.freezes })}</p>{/if}
           {#if goal > 0}
             <div class="cf-goal">
               <span class="cf-progress" role="progressbar" aria-valuenow={Math.min(todayXp, goal)} aria-valuemin="0" aria-valuemax={goal} aria-label={t('home.goal')}>
@@ -256,6 +264,12 @@
             <p class="cf-plan-when">{plan.daysLeft === 0 ? t('plan.today') : plan.daysLeft === 1 ? t('plan.tomorrow') : t('plan.inDays', { n: plan.daysLeft })}</p>
             <h2>{displayTitle(course)}</h2>
             <p class="cf-muted cf-small">{examDay(plan.examDate)}</p>
+            <div class="cf-goal">
+              <span class="cf-progress" role="progressbar" aria-valuenow={plan.readiness} aria-valuemin="0" aria-valuemax="100" aria-label={t('plan.readiness')}>
+                <span style:width={plan.readiness + '%'}></span>
+              </span>
+              <span class="cf-small">{t('plan.readinessValue', { n: plan.readiness })}</span>
+            </div>
             <p>
               {#if plan.phase === 'learn'}
                 {t(plan.lessonsPerDay === 1 ? 'plan.learnOne' : 'plan.learnMany', { n: plan.lessonsPerDay, left: plan.lessonsLeft })}

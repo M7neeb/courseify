@@ -183,12 +183,18 @@ export function dueCards(
   courses: Course[],
   mastery: Record<string, CourseMastery>,
   questionExists: (courseId: string, questionId: string) => boolean,
-  now: Date = new Date()
+  now: Date = new Date(),
+  focus: ExamFocus[] = []
 ): DueCard[] {
   const out: DueCard[] = [];
+  const today = dayKey(now);
   for (const course of courses) {
+    const exam = focus.find((f) => f.courseId === course.id);
+    // In the last days before an exam, every card of that course is offered once more.
+    const final = exam !== undefined && exam.daysLeft <= FINAL_DAYS;
     for (const card of Object.values(mastery[course.id]?.cards ?? {})) {
-      if (!isCardDue(card, now) || !questionExists(course.id, card.questionId)) continue;
+      const extra = final && !!card.lastReview && dayKey(new Date(card.lastReview)) !== today;
+      if ((!isCardDue(card, now) && !extra) || !questionExists(course.id, card.questionId)) continue;
       const overdue = Math.max(0, Math.floor((now.getTime() - new Date(card.due).getTime()) / 86_400_000));
       out.push({
         courseId: course.id,
@@ -200,13 +206,39 @@ export function dueCards(
       });
     }
   }
+  const rank = (courseId: string): number => {
+    const f = focus.find((x) => x.courseId === courseId);
+    return f ? f.daysLeft : Number.POSITIVE_INFINITY;
+  };
   return out.sort(
     (a, b) =>
+      // The course with the nearest exam comes first.
+      (rank(a.courseId) === rank(b.courseId) ? 0 : rank(a.courseId) < rank(b.courseId) ? -1 : 1) ||
       Number(b.confidentMiss) - Number(a.confidentMiss) ||
       a.retrievability - b.retrievability ||
       a.courseId.localeCompare(b.courseId) ||
       a.questionId.localeCompare(b.questionId)
   );
+}
+
+/** A course with an exam date: its cards go first, and near the end every card gets one more look. */
+export interface ExamFocus {
+  courseId: string;
+  daysLeft: number;
+}
+
+/** From this many days before the exam, all cards of that course are offered once more. */
+export const FINAL_DAYS = 3;
+
+/** The daily limit may grow in the final days, so every card of the exam course is seen again without a pile-up. */
+export function examBoost(due: DueCard[], focus: ExamFocus[]): number {
+  let boost = 0;
+  for (const f of focus) {
+    if (f.daysLeft > FINAL_DAYS) continue;
+    const mine = due.filter((c) => c.courseId === f.courseId).length;
+    boost += Math.ceil(mine / Math.max(1, f.daysLeft));
+  }
+  return boost;
 }
 
 /** How many cards were reviewed today (answered again after their first time). */
@@ -232,8 +264,8 @@ export interface TodayQueue {
 }
 
 /** Today's review session: the most urgent due cards, capped so a long break never overwhelms. */
-export function todayQueue(due: DueCard[], done: number, limit: number = SRS.dailyLimit): TodayQueue {
-  const cap = Math.max(0, Math.floor(limit));
+export function todayQueue(due: DueCard[], done: number, limit: number = SRS.dailyLimit, boost = 0): TodayQueue {
+  const cap = Math.max(0, Math.floor(Math.max(limit, boost)));
   const room = Math.max(0, cap - Math.max(0, done));
   const cards = due.slice(0, room);
   return { cards, waiting: due.length - cards.length, done, limit: cap };

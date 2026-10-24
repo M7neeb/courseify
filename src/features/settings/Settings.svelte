@@ -15,7 +15,8 @@
     updateCourseSettings,
     updateSettings
   } from '../../core/state.svelte.ts';
-  import { downloadJson } from '../../core/download.ts';
+  import { downloadFile, downloadJson } from '../../core/download.ts';
+  import { buildReminderIcs } from '../../core/habit.ts';
   import { entryModuleId } from '../../core/home.ts';
   import { COLOR_THEMES, PALETTES } from '../../core/themes.ts';
   import { backupStatus } from '../../core/backup.ts';
@@ -333,6 +334,12 @@
     {@render mark('showWarmups')}
     <p class="muted small cf-hint">{t('settings.showWarmupsHint')}</p>
     <label class="check">
+      <input type="checkbox" checked={s.askWhy} onchange={(e) => set({ askWhy: e.currentTarget.checked })} />
+      {t('settings.askWhy')}
+    </label>
+    {@render mark('askWhy')}
+    <p class="muted small cf-hint">{t('settings.askWhyHint')}</p>
+    <label class="check">
       <input type="checkbox" checked={s.showReflect} onchange={(e) => set({ showReflect: e.currentTarget.checked })} />
       {t('settings.showReflect')}
     </label>
@@ -349,6 +356,50 @@
         </select>
       </label>
       <p class="muted small cf-hint">{t('settings.dailyGoalHint')}</p>
+      <h3 class="settings-sub">{t('settings.habit')}</h3>
+      <p class="muted small cf-hint">{t('settings.habitHint')}</p>
+      <label>{t('settings.habitCue')}
+        <input
+          type="text"
+          maxlength="80"
+          value={app.settings.habitCue}
+          placeholder={t('settings.habitCuePlaceholder')}
+          onchange={(e) => updateSettings({ habitCue: e.currentTarget.value.trim() })}
+        />
+      </label>
+      <fieldset class="habit-days">
+        <legend>{t('settings.restDays')}</legend>
+        {#each [1, 2, 3, 4, 5, 6, 0] as d (d)}
+          <label class="check">
+            <input
+              type="checkbox"
+              checked={app.settings.restDays.includes(d)}
+              onchange={(e) => {
+                const next = e.currentTarget.checked ? [...app.settings.restDays, d] : app.settings.restDays.filter((x) => x !== d);
+                if (next.length <= 6) void updateSettings({ restDays: [...new Set(next)].sort() });
+                else e.currentTarget.checked = false;
+              }}
+            />
+            {new Date(2024, 0, 7 + d).toLocaleDateString(app.settings.uiLanguage, { weekday: 'short' })}
+          </label>
+        {/each}
+      </fieldset>
+      <p class="muted small cf-hint">{t('settings.restDaysHint')}</p>
+      <label>{t('settings.habitTime')}
+        <input type="time" value={app.settings.habitTime} onchange={(e) => updateSettings({ habitTime: e.currentTarget.value })} />
+      </label>
+      <div class="row">
+        <button
+          type="button"
+          class="btn"
+          disabled={!app.settings.habitTime}
+          onclick={() => {
+            const ics = buildReminderIcs({ cue: app.settings.habitCue, time: app.settings.habitTime, restDays: app.settings.restDays, title: t('settings.reminderTitle') });
+            if (ics) downloadFile('courseify-reminder.ics', ics, 'text/calendar;charset=utf-8');
+          }}
+        >{t('settings.reminderDownload')}</button>
+      </div>
+      <p class="muted small cf-hint">{t('settings.reminderHint')}</p>
     {/if}
     <label class="check">
       <input type="checkbox" checked={s.celebrations} onchange={(e) => set({ celebrations: e.currentTarget.checked })} />

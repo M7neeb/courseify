@@ -27,7 +27,7 @@ const QUESTION_KINDS: QuestionKind[] = [
 const CODE_LANGUAGES = ['python', 'javascript'];
 const QUIZ_TYPES = ['quiz', 'module-test', 'final-exam'];
 /** Block types the player can render today. */
-export const RENDERED_BLOCK_TYPES = ['text', 'callout', 'video', 'image', 'example', 'flashcards', 'code', 'drill', 'graph', ...QUIZ_TYPES];
+export const RENDERED_BLOCK_TYPES = ['text', 'callout', 'video', 'image', 'example', 'flashcards', 'code', 'drill', 'graph', 'occlusion', ...QUIZ_TYPES];
 /** Block types the schema reserves for later features; they validate but show a placeholder. */
 export const PLANNED_BLOCK_TYPES = ['exercise'];
 
@@ -330,6 +330,16 @@ export function validateCourse(input: unknown): ValidationResult {
       if (b.count !== undefined && !(Number.isInteger(b.count) && (b.count as number) >= 1 && (b.count as number) <= 30)) errors.push(`${path}.count: a whole number from 1 to 30.`);
     } else if (type === 'graph') {
       for (const message of graphErrors(b)) errors.push(`${path}.${message}`);
+    } else if (type === 'occlusion') {
+      if (!isNonEmptyString(b.svg) && !(isNonEmptyString(b.url) && /^https?:\/\//i.test(b.url as string))) errors.push(`${path}: an occlusion block needs "svg" or an https "url".`);
+      if (!Array.isArray(b.areas) || b.areas.length === 0) errors.push(`${path}.areas: at least one area { x, y, w, h, label } in percent.`);
+      else {
+        b.areas.forEach((a, i) => {
+          const ok = isObject(a) && ['x', 'y', 'w', 'h'].every((k) => typeof a[k] === 'number' && Number.isFinite(a[k] as number));
+          if (!ok) errors.push(`${path}.areas[${i}]: needs numbers x, y, w and h (percent of the picture).`);
+          else if ((a.w as number) <= 0 || (a.h as number) <= 0 || (a.x as number) < 0 || (a.y as number) < 0 || (a.x as number) + (a.w as number) > 100 || (a.y as number) + (a.h as number) > 100) errors.push(`${path}.areas[${i}]: must lie inside the picture (0 to 100 percent).`);
+        });
+      }
     } else if (type === 'video') {
       const hasTerm = isNonEmptyString(b.searchTerm);
       const hasUrl = isNonEmptyString(b.url);

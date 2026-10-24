@@ -4,6 +4,7 @@ import {
   SRS,
   applyCard,
   dueCards,
+  examBoost,
   isCardDue,
   isFading,
   ratingFor,
@@ -212,4 +213,32 @@ test('a card is due on its day, not only from its clock time', () => {
   const card = { due: new Date(2026, 9, 25, 22, 0).toISOString() } as Parameters<typeof isCardDue>[0];
   assert.equal(isCardDue(card, new Date(2026, 9, 25, 8, 0)), true);
   assert.equal(isCardDue(card, new Date(2026, 9, 24, 23, 0)), false);
+});
+
+test('exam focus: the nearest exam comes first, and the last days offer every card once more', () => {
+  const a = course('a', 1, 2);
+  const b = course('b', 1, 2);
+  const mk = (id: string) => {
+    let cards = applyCard(undefined, 'l1q1', 'l1', right, NOW);
+    cards = applyCard(cards, 'l1q2', 'l1', right, NOW);
+    return { courseId: id, skills: {}, mistakes: [], updatedAt: NOW.toISOString(), cards };
+  };
+  const mastery = { a: mk('a'), b: mk('b') };
+  const exists = () => true;
+  // The day after the first answers nothing is due yet.
+  const tomorrow = later(1);
+  assert.equal(dueCards([a, b], mastery, exists, tomorrow).length, 0);
+  // Exam of b in 2 days: all of b's cards come again, a's stay quiet, b first.
+  const focus = [{ courseId: 'b', daysLeft: 2 }];
+  const due = dueCards([a, b], mastery, exists, tomorrow, focus);
+  assert.deepEqual([...new Set(due.map((d) => d.courseId))], ['b']);
+  assert.equal(due.length, 2);
+  // A card already reviewed today is not offered again.
+  assert.equal(dueCards([a, b], mastery, exists, NOW, focus).length, 0);
+  // Exam in 10 days: no extra pass yet.
+  assert.equal(dueCards([a, b], mastery, exists, tomorrow, [{ courseId: 'b', daysLeft: 10 }]).length, 0);
+  // The daily limit grows so the final pass is spread over the days left, not piled onto one.
+  assert.equal(examBoost(due, focus), 1);
+  assert.equal(examBoost(due, [{ courseId: 'b', daysLeft: 0 }]), 2);
+  assert.equal(todayQueue(due, 0, 0, examBoost(due, focus)).cards.length, 1);
 });

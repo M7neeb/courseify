@@ -19,6 +19,7 @@
   import { studyContext } from '../../core/studyContext.ts';
   import { lessonDigest, lessonKeyPoints } from '../../core/reflect.ts';
   import ReflectCard from '../../ui/ReflectCard.svelte';
+  import { autoPretest } from '../../core/pretest.ts';
   import { lessonQuestionCount, readingMinutes, shows } from '../../core/layout.ts';
   import type { BlockContext, MasteryTier } from '../../core/types.ts';
   import { getBlockRenderer } from '../../blocks/registry.ts';
@@ -52,6 +53,8 @@
 
   // Settings inside this course: the course's own choices on top of the app settings.
   const cs = $derived(courseSettings(courseId));
+  // Guess-first warm-up made from the lesson's own questions when the lesson has none of its own.
+  const warmup = $derived(current && current.kind === 'lesson' && cs.showWarmups ? autoPretest(current.id, current.blocks) : null);
 
   function setLanguage(lang: Lang) {
     // A course that has its own language keeps the switch to itself.
@@ -290,6 +293,10 @@
 
     <article class="cf-lesson">
       <div class="lesson-content">
+        {#if warmup && ctx}
+          {@const WarmupRenderer = getBlockRenderer(warmup.type)}
+          {#if WarmupRenderer}<WarmupRenderer block={warmup} {ctx} />{/if}
+        {/if}
         {#each current.blocks as block (block.id)}
           {@const Renderer = getBlockRenderer(block.type)}
           {#if Renderer && ctx}

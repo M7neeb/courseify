@@ -1,9 +1,13 @@
 // Board sounds for games: a wooden knock for a move, a sharper one for a capture, a ping for
 // check. Made with the Web Audio API on the fly, so there is nothing to download. Played only
-// while "Sounds" is on in the board settings.
+// while "Sounds" is on in the board settings and in the app's Settings.
 
 import type { Move } from 'chess.js';
+import { app } from '../../core/state.svelte.ts';
 import { chessPrefs } from './prefs.svelte.ts';
+
+/** Board sounds need both switches: the board's own and the app-wide Sounds setting. */
+const enabled = (): boolean => chessPrefs.sounds && app.settings.sounds;
 
 let context: AudioContext | undefined;
 
@@ -60,7 +64,7 @@ function ping(at: number, pitch: number, volume: number, length = 0.16) {
 
 /** The right sound for a move that was just played. */
 export function playMoveSound(move: Move, givesCheck: boolean): void {
-  if (!chessPrefs.sounds) return;
+  if (!enabled()) return;
   try {
     if (givesCheck) {
       knock(0, 210, 0.2);
@@ -83,20 +87,20 @@ export function playMoveSound(move: Move, givesCheck: boolean): void {
 }
 
 export function playGameStart(): void {
-  if (!chessPrefs.sounds) return;
+  if (!enabled()) return;
   ping(0, 523, 0.05);
   ping(0.1, 784, 0.05);
 }
 
 export function playGameEnd(): void {
-  if (!chessPrefs.sounds) return;
+  if (!enabled()) return;
   ping(0, 784, 0.05, 0.22);
   ping(0.14, 523, 0.05, 0.3);
 }
 
 /** A soft tick when your clock runs low. */
 export function playLowTime(): void {
-  if (!chessPrefs.sounds) return;
+  if (!enabled()) return;
   ping(0, 1320, 0.04, 0.08);
   ping(0.16, 1320, 0.04, 0.08);
 }

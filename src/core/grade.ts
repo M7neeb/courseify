@@ -108,7 +108,9 @@ function gradeMatching(q: Question, given: unknown): boolean {
   if (pairs.length === 0) return false;
   const selection = normalizedSelection(given);
   if (selection === null || selection.length !== pairs.length) return false;
-  return selection.every((right, left) => right === left);
+  // Compared by text, so two lefts with the same right can take either copy of it.
+  const same = (x: string | undefined, y: string | undefined) => (x ?? '').trim() === (y ?? '').trim();
+  return selection.every((right, left) => right === left || (right >= 0 && right < pairs.length && same(pairs[right]?.right, pairs[left]?.right)));
 }
 
 /**
@@ -120,7 +122,8 @@ function gradeOrdering(q: Question, given: unknown): boolean {
   if (items.length === 0) return false;
   const order = normalizedSelection(given);
   if (order === null || order.length !== items.length) return false;
-  return order.every((itemIndex, position) => itemIndex === position);
+  // Compared by text, so two identical items may swap places.
+  return order.every((itemIndex, position) => itemIndex === position || (items[itemIndex] ?? null) === items[position]);
 }
 
 /** Key points a written answer must cover to count: two thirds, rounded up. */

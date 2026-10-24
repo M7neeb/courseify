@@ -415,6 +415,8 @@ export interface Settings {
   recallFirst: boolean;
   /** Show the guess-first warm-up questions at the start of lessons. */
   showWarmups: boolean;
+  /** After a right answer to a concept question, ask "Why?" in the learner's own words first. */
+  askWhy: boolean;
   /** Show the brain dump and "explain it simply" card at the end of lessons and units. */
   showReflect: boolean;
   /** Offer hints and the full solution in quizzes. */
@@ -431,6 +433,12 @@ export interface Settings {
   glossaryTerms: boolean;
   /** Daily goal in energy points (XP); 0 turns it off. */
   dailyGoal: number;
+  /** The if-then plan in the learner's words: "After breakfast". Empty when not set. */
+  habitCue: string;
+  /** The time of day for the calendar reminder, "HH:MM", or empty. */
+  habitTime: string;
+  /** Weekdays (0 = Sunday) that never break the streak. */
+  restDays: number[];
   /** Reading font: the app font, or Atkinson Hyperlegible (designed for easy reading). */
   readingFont: 'default' | 'hyperlegible';
   /** Line spacing for lesson text. */
@@ -456,6 +464,7 @@ export type CourseSettingKey =
   | 'askConfidence'
   | 'recallFirst'
   | 'showWarmups'
+  | 'askWhy'
   | 'showReflect'
   | 'allowHints'
   | 'acceptTypos'
@@ -576,6 +585,8 @@ export interface BlockContext {
   acceptTypos?: boolean;
   /** Show guess-first warm-up quizzes (default true). */
   showWarmups?: boolean;
+  /** Ask "Why?" after a right answer to a concept question (default true). */
+  askWhy?: boolean;
   /** Play soft sounds for right and wrong answers. */
   sounds?: boolean;
   /** Celebrate a new mastery level at the end of a set. */

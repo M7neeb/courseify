@@ -26,6 +26,7 @@ export function defaultSettings(): Settings {
     desiredRetention: 0.9,
     recallFirst: false,
     showWarmups: true,
+    askWhy: true,
     showReflect: true,
     allowHints: true,
     acceptTypos: true,
@@ -34,6 +35,9 @@ export function defaultSettings(): Settings {
     sounds: false,
     glossaryTerms: true,
     dailyGoal: 50,
+    habitCue: '',
+    habitTime: '',
+    restDays: [],
     readingFont: 'default',
     lineSpacing: 'normal',
     layout: 'standard',
@@ -102,9 +106,12 @@ export function mergeSettings(saved: unknown): Settings {
   if (typeof s.desiredRetention === 'number' && Number.isFinite(s.desiredRetention)) {
     out.desiredRetention = Math.min(0.95, Math.max(0.8, Math.round(s.desiredRetention * 100) / 100));
   }
-  for (const key of ['recallFirst', 'showWarmups', 'showReflect', 'allowHints', 'acceptTypos', 'interleavePractice', 'celebrations', 'sounds', 'glossaryTerms'] as const) {
+  for (const key of ['recallFirst', 'showWarmups', 'askWhy', 'showReflect', 'allowHints', 'acceptTypos', 'interleavePractice', 'celebrations', 'sounds', 'glossaryTerms'] as const) {
     if (typeof s[key] === 'boolean') out[key] = s[key] as boolean;
   }
+  if (typeof s.habitCue === 'string') out.habitCue = s.habitCue.slice(0, 80);
+  if (typeof s.habitTime === 'string' && (s.habitTime === '' || /^([01]?\d|2[0-3]):[0-5]\d$/.test(s.habitTime))) out.habitTime = s.habitTime;
+  if (Array.isArray(s.restDays)) out.restDays = [...new Set(s.restDays.filter((d): d is number => Number.isInteger(d) && d >= 0 && d <= 6))].sort().slice(0, 6);
   if (typeof s.dailyGoal === 'number' && [0, 30, 50, 100, 200].includes(s.dailyGoal)) out.dailyGoal = s.dailyGoal;
   if (s.readingFont === 'default' || s.readingFont === 'hyperlegible') out.readingFont = s.readingFont;
   if (s.lineSpacing === 'normal' || s.lineSpacing === 'relaxed' || s.lineSpacing === 'loose') out.lineSpacing = s.lineSpacing;
@@ -125,6 +132,7 @@ export const COURSE_SETTING_KEYS: readonly CourseSettingKey[] = [
   'askConfidence',
   'recallFirst',
   'showWarmups',
+  'askWhy',
   'showReflect',
   'allowHints',
   'acceptTypos',

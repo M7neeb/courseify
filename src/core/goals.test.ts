@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { daysBetween, examPlan, longestStreak, MILESTONES, milestoneStates, weekReport, weekStart, type MilestoneInput } from './goals.ts';
+import { daysBetween, examFocus, examPlan, longestStreak, MILESTONES, milestoneStates, weekReport, weekStart, type MilestoneInput } from './goals.ts';
 import type { Course } from './types.ts';
 
 const lesson = (id: string, filled = true) => ({ id, title: id, blocks: filled ? [{ id: id + '-b', type: 'text' }] : [] });
@@ -73,4 +73,24 @@ test('milestones are earned from real numbers and new ones are reported once', (
   assert.equal(again.fresh.length, 0);
   assert.equal(again.states.find((s) => s.milestone.id === 'lessons-10')?.at, '2026-10-20T10:00:00Z');
   assert.equal(new Set(MILESTONES.map((m) => m.id)).size, MILESTONES.length);
+});
+
+test('readiness mixes lessons done with skill points, and the plan carries it', () => {
+  const progress = { completedLessons: ['l1', 'l2'] } as never;
+  // No skill points yet: 2 of 4 lessons done = 40% of the lesson half... the skill half is still empty.
+  const plan = examPlan(course, progress, '2026-10-30', '2026-10-22')!;
+  assert.ok(plan.readiness >= 0 && plan.readiness <= 40);
+  const all = examPlan(course, { completedLessons: ['l1', 'l2', 'l3', 'l4'] } as never, '2026-10-30', '2026-10-22')!;
+  assert.ok(all.readiness > plan.readiness);
+});
+
+test('exam focus lists courses with a future exam date, nearest first', () => {
+  const other = { ...course, id: 'd' } as Course;
+  const out = examFocus([course, other], { c: { examDate: '2026-10-30' }, d: { examDate: '2026-10-24' } }, '2026-10-22');
+  assert.deepEqual(out, [
+    { courseId: 'd', daysLeft: 2 },
+    { courseId: 'c', daysLeft: 8 }
+  ]);
+  assert.deepEqual(examFocus([course], { c: { examDate: '2026-10-01' } }, '2026-10-22'), []);
+  assert.deepEqual(examFocus([course], {}, '2026-10-22'), []);
 });

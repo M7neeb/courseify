@@ -111,7 +111,7 @@ async function milestoneInput(): Promise<MilestoneInput> {
     skillsMastered,
     coursesDone: coursesCompleted(app.courses, app.mastery),
     correctAnswers,
-    bestStreak: Math.max(longestStreak(app.activity), computeStats(app.activity, dayKey(new Date())).streak),
+    bestStreak: Math.max(longestStreak(app.activity), computeStats(app.activity, dayKey(new Date()), app.settings.restDays).streak),
     reviewsDone,
     chessWins,
     bestBotBeaten,

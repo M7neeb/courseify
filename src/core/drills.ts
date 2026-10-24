@@ -3,9 +3,10 @@
 // step. Text is stored as i18n keys plus values, so the same problem reads in English and German.
 
 import { evaluate } from './expr.ts';
+import { IPV6_DRILLS, isFullIpv6, isShortestIpv6, sameIpv6 } from './ipv6.ts';
 
 export type DrillGroup = 'it' | 'maths';
-export type AnswerType = 'int' | 'number' | 'bin' | 'hex' | 'ip' | 'fraction' | 'set';
+export type AnswerType = 'int' | 'number' | 'bin' | 'hex' | 'ip' | 'fraction' | 'set' | 'ipv6' | 'ipv6short' | 'ipv6full';
 export type Level = 1 | 2 | 3;
 
 /** One line of a prompt or a solution: UI text by key, a formula, or fixed-width text (bits, addresses). */
@@ -668,6 +669,7 @@ export const DRILLS: DrillDef[] = [
   subnetHosts,
   subnetDef('subnet-network'),
   subnetDef('subnet-broadcast'),
+  ...IPV6_DRILLS,
   linear,
   percent,
   fractions,
@@ -727,6 +729,12 @@ export function checkDrillAnswer(problem: DrillProblem, given: string): boolean 
       const parts = raw.replace(/\s/g, '').split('.');
       return parts.length === 4 && parts.every((p) => /^\d{1,3}$/.test(p)) && parts.map(Number).join('.') === problem.answer;
     }
+    case 'ipv6':
+      return sameIpv6(raw, problem.answer);
+    case 'ipv6short':
+      return isShortestIpv6(raw, problem.answer);
+    case 'ipv6full':
+      return isFullIpv6(raw, problem.answer);
     case 'set': {
       const want = problem.answer.split(',').map(Number);
       const got = raw

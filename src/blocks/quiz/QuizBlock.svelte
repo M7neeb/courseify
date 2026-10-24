@@ -35,6 +35,11 @@
     if (pretest) return localAnswers[id];
     return runAnswers ? runAnswers[id] : ctx.getAnswer(id);
   }
+  // "Why?" after a right concept answer: the learner's own words first, then the explanation.
+  const WHY_KINDS = new Set(['multiple-choice', 'true-false', 'multi-select']);
+  let whyText = $state<Record<string, string>>({});
+  let whyDone = $state<Record<string, boolean>>({});
+  const askWhy = (q: Question): boolean => ctx.askWhy !== false && !pretest && !exam && WHY_KINDS.has(q.kind) && !!q.explanation && whyDone[q.id] !== true;
   // "How sure are you?" per question, and which tutor prompt was just copied.
   let confidence = $state<Record<string, Confidence>>({});
   let tutorCopied = $state<string | null>(null);
@@ -838,7 +843,18 @@
           {#if typoOf[current.id]}<p class="typo-note">{t('quiz.typo', { answer: typoOf[current.id] ?? '' })}</p>{/if}
           {#if recalled[current.id]?.trim()}<p class="given muted">{t('quiz.youRecalled', { text: recalled[current.id]?.trim() ?? '' })}</p>{/if}
           {#if !currentRecord.correct}<p class="given">{t('quiz.correctAnswer', { answer: answerText(current) })}</p>{/if}
-          {#if current.explanation}<p class="explanation">{current.explanation}</p>{/if}
+          {#if current.explanation}
+            {#if currentRecord.correct && askWhy(current)}
+              <div class="why-card">
+                <label for={`why-${current.id}`}>{t('quiz.whyPrompt')}</label>
+                <textarea id={`why-${current.id}`} rows="2" placeholder={t('quiz.whyPlaceholder')} bind:value={whyText[current.id]}></textarea>
+                <button type="button" class="btn" onclick={() => (whyDone[current.id] = true)}>{t('quiz.whyShow')}</button>
+              </div>
+            {:else}
+              {#if whyText[current.id]?.trim()}<p class="given muted">{t('quiz.youExplained', { text: whyText[current.id]?.trim() ?? '' })}</p>{/if}
+              <p class="explanation">{current.explanation}</p>
+            {/if}
+          {/if}
           <div class="row">
             <button type="button" class="btn primary" onclick={advance}>
               {index + 1 < active.length ? t('quiz.nextQuestion') : t('results.seeResults')}

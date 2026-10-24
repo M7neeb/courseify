@@ -59,7 +59,10 @@
     hex: 'drill.ph.hex',
     ip: 'drill.ph.ip',
     fraction: 'drill.ph.fraction',
-    set: 'drill.ph.set'
+    set: 'drill.ph.set',
+    ipv6: 'drill.ph.ipv6',
+    ipv6short: 'drill.ph.ipv6',
+    ipv6full: 'drill.ph.ipv6full'
   };
 
   function lineHtml(line: Line): string {

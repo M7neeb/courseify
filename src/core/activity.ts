@@ -1,5 +1,7 @@
 // Per-day activity and the derived streak / XP / level numbers. Pure logic, no storage.
 
+import { streakInfo } from './habit.ts';
+
 export interface ActivityDay {
   day: string; // local calendar day, YYYY-MM-DD
   correct: number;
@@ -118,18 +120,22 @@ export interface Stats {
   level: number;
   xpToNext: number | null;
   streak: number;
+  /** Streak freezes ready (see habit.ts). */
+  freezes: number;
   activeDays: number;
   days: ActivityDay[];
 }
 
-export function computeStats(days: Record<string, ActivityDay>, today: string): Stats {
+export function computeStats(days: Record<string, ActivityDay>, today: string, restDays: readonly number[] = []): Stats {
   const list = Object.values(days).sort((a, b) => a.day.localeCompare(b.day));
   const xp = totalXp(days);
+  const info = streakInfo(days, today, restDays);
   return {
     totalXp: xp,
     level: levelForXp(xp),
     xpToNext: xpToNextLevel(xp),
-    streak: currentStreak(days, today),
+    streak: info.streak,
+    freezes: info.freezes,
     activeDays: list.length,
     days: list
   };

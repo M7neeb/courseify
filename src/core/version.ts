@@ -1,7 +1,7 @@
 // The single source of truth for the app version and the "What's new" list.
 // Bump VERSION and add one CHANGELOG entry at the top when you ship user-visible changes.
 
-export const VERSION = '1.10.0';
+export const VERSION = '1.11.0';
 
 export interface ChangelogEntry {
   version: string;
@@ -11,6 +11,20 @@ export interface ChangelogEntry {
 
 /** Newest first. */
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.11.0',
+    date: '2026-10-24',
+    changes: [
+      'New in Drills: a subnet solver with one box each for network, first and last host, broadcast, host count and mask (also subnet size, same network? and exam tasks), IPv6 drills, and bit tiles you tap.',
+      'New in Drills: follow a web page request packet by packet, a mini terminal (ipconfig, ping, arp, nslookup, tracert) and a capture reader.',
+      'Lessons start with a guess-first warm-up made from their own questions, a right answer can ask "Why?" in your own words first, and worked examples hide their last steps as you get better.',
+      'Picture cards: parts of a picture are covered, uncover them or test yourself.',
+      'Study habit: write when you will study, pick rest days, earn streak freezes, and add a repeating reminder to your calendar.',
+      'Exam date: a readiness bar, the exam course first, and every card once more in the last days.',
+      'Phones: every control is at least 24 px, a field you type in never hides behind the bottom bar, the side menu keeps keyboard focus inside, and chess board sounds follow the Sounds setting.',
+      'Matching and ordering questions with repeated texts are graded by text.'
+    ]
+  },
   {
     version: '1.10.0',
     date: '2026-10-24',

@@ -5,7 +5,9 @@
   import { app, displayTitle, getCourse, navigate } from '../../core/state.svelte.ts';
   import { groupMistakes, indexQuestions, listMistakes, mistakesToBlock, type MistakeEntry } from '../../core/mistakes.ts';
   import { FINAL_EXAM_ITEM_ID, testItemId } from '../../core/course-utils.ts';
-  import { dueCards, reviewedToday, todayQueue, type DueCard } from '../../core/srs.ts';
+  import { dueCards, examBoost, reviewedToday, todayQueue, type DueCard } from '../../core/srs.ts';
+  import { examFocus } from '../../core/goals.ts';
+  import { dayKey } from '../../core/activity.ts';
   import { studyContext } from '../../core/studyContext.ts';
   import { getBlockRenderer } from '../../blocks/registry.ts';
   import type { Block, BlockContext, Question } from '../../core/types.ts';
@@ -24,8 +26,9 @@
   const indexes = $derived(new Map(app.courses.map((course) => [course.id, indexQuestions(course)])));
   const queue = $derived.by(() => {
     const now = new Date();
-    const due = dueCards(app.courses, app.mastery, (courseId, qid) => indexes.get(courseId)?.has(qid) === true, now);
-    return todayQueue(due, reviewedToday(app.mastery, now), app.settings.dailyReviewLimit);
+    const focus = examFocus(app.courses, app.meta, dayKey(now));
+    const due = dueCards(app.courses, app.mastery, (courseId, qid) => indexes.get(courseId)?.has(qid) === true, now, focus);
+    return todayQueue(due, reviewedToday(app.mastery, now), app.settings.dailyReviewLimit, examBoost(due, focus));
   });
 
   function startMistakes(entries: MistakeEntry[]) {

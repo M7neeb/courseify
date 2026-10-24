@@ -4,6 +4,7 @@
   // Progress, …) sit beside the "My stuff / My account" sidebar; course pages (unit, lesson,
   // exercise) get the dark header and their own course sidebar. On phones both sidebars move into
   // the menu drawer.
+  import { trapTab } from './ui/focusTrap.ts';
   import { onMount } from 'svelte';
   import { app, dismissToast, initApp, runToastAction, showToast } from './core/state.svelte.ts';
   import { themeCss } from './core/themes.ts';
@@ -46,7 +47,10 @@
     profileMenuOpen = false;
   }
 
+  let drawerEl: HTMLElement | undefined = $state();
+
   function onKeydown(event: KeyboardEvent) {
+    if (drawerOpen) trapTab(event, drawerEl ?? null);
     if (event.key === 'Escape') {
       drawerOpen = false;
       profileMenuOpen = false;
@@ -189,6 +193,7 @@
     <div class="cf-overlay" role="presentation" onclick={closeDrawer}></div>
     <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions, a11y_no_noninteractive_element_to_interactive_role -->
     <aside
+      bind:this={drawerEl}
       class="cf-drawer"
       role="dialog"
       aria-modal="true"

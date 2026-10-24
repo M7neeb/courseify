@@ -55,6 +55,7 @@ export function studyContext(courseId: string, item: StudyItem, options: StudyOp
     allowHints: options.examDeadline ? false : settings.allowHints,
     acceptTypos: settings.acceptTypos,
     showWarmups: settings.showWarmups,
+    askWhy: options.examDeadline ? false : settings.askWhy,
     sounds: settings.sounds,
     celebrations: settings.celebrations,
     courseTitle: course ? displayTitle(course) : courseId,

@@ -168,3 +168,21 @@ test('numbers with German thousands dots count, and umlauts can be typed as ae/o
   assert.equal(gradeAnswer(q({ answer: 'Schlüssel' }), 'Schluessel'), true);
   assert.equal(gradeAnswer(q({ answer: 'Straße' }), 'strasse'), true);
 });
+
+test('matching and ordering with repeated texts are graded by text, not by position', () => {
+  const m = q({
+    kind: 'matching',
+    pairs: [
+      { left: 'TCP', right: 'Transport' },
+      { left: 'UDP', right: 'Transport' },
+      { left: 'IP', right: 'Network' }
+    ]
+  });
+  assert.equal(gradeAnswer(m, [0, 1, 2]), true);
+  // The learner picked the other "Transport" for each: still right.
+  assert.equal(gradeAnswer(m, [1, 0, 2]), true);
+  assert.equal(gradeAnswer(m, [2, 0, 2]), false);
+  const o = q({ kind: 'ordering', items: ['Start', 'Wait', 'Wait', 'End'] });
+  assert.equal(gradeAnswer(o, [0, 2, 1, 3]), true);
+  assert.equal(gradeAnswer(o, [0, 3, 1, 2]), false);
+});

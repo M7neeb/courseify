@@ -10,6 +10,7 @@ import ChessBlock from './chess/ChessBlock.svelte';
 import CodeBlock from './code/CodeBlock.svelte';
 import DrillBlock from './drill/DrillBlock.svelte';
 import GraphBlock from './graph/GraphBlock.svelte';
+import OcclusionBlock from './occlusion/OcclusionBlock.svelte';
 
 registerBlock('text', TextBlock);
 registerBlock('callout', CalloutBlock);
@@ -22,5 +23,6 @@ registerBlock('chess', ChessBlock);
 registerBlock('code', CodeBlock);
 registerBlock('drill', DrillBlock);
 registerBlock('graph', GraphBlock);
+registerBlock('occlusion', OcclusionBlock);
 registerBlock('module-test', QuizBlock);
 registerBlock('final-exam', QuizBlock);

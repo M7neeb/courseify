@@ -6,6 +6,10 @@
   import { app } from '../../core/state.svelte.ts';
   import DrillRunner from '../../ui/drills/DrillRunner.svelte';
   import SubnetDrill from '../../ui/drills/SubnetDrill.svelte';
+  import BitTiles from '../../ui/drills/BitTiles.svelte';
+  import PacketWalk from '../../ui/lab/PacketWalk.svelte';
+  import FakeTerminal from '../../ui/lab/FakeTerminal.svelte';
+  import CaptureReader from '../../ui/lab/CaptureReader.svelte';
   import GraphPlotter from './GraphPlotter.svelte';
   import { t } from '../../i18n/i18n.ts';
 
@@ -13,6 +17,8 @@
 
   onMount(() => void loadDrillStats());
 
+  /** Hand-built drills (several boxes, tiles, a terminal): not in the one-answer list of DRILLS. */
+  const CUSTOM = ['subnet', 'bits', 'walk', 'terminal', 'capture'];
   const groups: { group: DrillGroup; key: string }[] = [
     { group: 'it', key: 'drills.group.it' },
     { group: 'maths', key: 'drills.group.maths' }
@@ -21,7 +27,9 @@
 
   const def = $derived(id ? drillById(id) : undefined);
   /** The subnet drill has several boxes per task, so it is not in the one-answer list. */
-  const drillId = $derived(id === 'subnet' ? 'subnet' : def?.id);
+  const drillId = $derived(id && CUSTOM.includes(id) ? id : def?.id);
+  /** No level choice: these have their own fixed content. */
+  const levelless = $derived(drillId === 'walk' || drillId === 'terminal' || drillId === 'capture');
   const stat = $derived(drillId ? statFor(drillId) : null);
   let streak = $state(0);
   const level = $derived<Level>(stat?.level ?? 1);
@@ -54,11 +62,13 @@
     </div>
     <p class="muted">{t(`drill.${drillId}.desc`)}</p>
     <div class="drills-bar">
+      {#if !levelless}
       <div class="cf-segmented" role="group" aria-label={t('drills.level')}>
         {#each levels as l (l)}
           <button type="button" aria-pressed={level === l} onclick={() => chooseLevel(l)}>{t(`drills.level${l}`)}</button>
         {/each}
       </div>
+      {/if}
       {#if drillStats.loaded}
         <p class="drills-stats muted small">
           <span>{t('drills.streak', { n: streak })}</span>
@@ -69,6 +79,14 @@
     </div>
     {#if drillStats.loaded && drillId === 'subnet'}
       <SubnetDrill {level} lang={app.settings.uiLanguage} sounds={app.settings.sounds} {onResult} />
+    {:else if drillStats.loaded && drillId === 'walk'}
+      <PacketWalk lang={app.settings.uiLanguage} sounds={app.settings.sounds} {onResult} />
+    {:else if drillStats.loaded && drillId === 'terminal'}
+      <FakeTerminal lang={app.settings.uiLanguage} sounds={app.settings.sounds} {onResult} />
+    {:else if drillStats.loaded && drillId === 'capture'}
+      <CaptureReader lang={app.settings.uiLanguage} sounds={app.settings.sounds} {onResult} />
+    {:else if drillStats.loaded && drillId === 'bits'}
+      <BitTiles {level} lang={app.settings.uiLanguage} sounds={app.settings.sounds} {onResult} />
     {:else if drillStats.loaded && def}
       <DrillRunner drill={def.id} {level} lang={app.settings.uiLanguage} sounds={app.settings.sounds} {onResult} />
     {/if}
@@ -83,13 +101,15 @@
       <h2 class="drills-group">{t(g.key)}</h2>
       <ul class="drills-list">
         {#if g.group === 'it'}
-          <li>
-            <a class="drills-item" href="#/drills/subnet">
-              <span class="drills-name">{t('drill.subnet.name')}</span>
-              <span class="drills-desc muted small">{t('drill.subnet.desc')}</span>
-              {#if statFor('subnet').solved > 0}<span class="drills-count small">{t('drills.solved', { n: statFor('subnet').solved })}</span>{/if}
-            </a>
-          </li>
+          {#each CUSTOM as cid (cid)}
+            <li>
+              <a class="drills-item" href={`#/drills/${cid}`}>
+                <span class="drills-name">{t(`drill.${cid}.name`)}</span>
+                <span class="drills-desc muted small">{t(`drill.${cid}.desc`)}</span>
+                {#if statFor(cid).solved > 0}<span class="drills-count small">{t('drills.solved', { n: statFor(cid).solved })}</span>{/if}
+              </a>
+            </li>
+          {/each}
         {/if}
         {#each DRILLS.filter((d) => d.group === g.group) as d (d.id)}
           {@const s = statFor(d.id)}

@@ -21,7 +21,9 @@ import './styles/layouts.css';
 import './styles/chess.css';
 import './blocks/index.ts';
 import App from './App.svelte';
+import { installKeepFieldVisible } from './ui/keepFieldVisible.ts';
 
 const app = mount(App, { target: document.getElementById('app')! });
+installKeepFieldVisible();
 
 export default app;

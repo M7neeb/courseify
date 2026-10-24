@@ -97,3 +97,80 @@ test('subnet solver: same-network, subnet-size and exam tasks work and show the 
   await expect(page.getByText('Fixed tasks like in exams', { exact: false })).toBeVisible();
   await expect(page.locator('[data-field="broadcast"]')).toBeVisible();
 });
+
+test('bit tiles: tapping the tiles that add up to the number is right', async ({ page }) => {
+  await page.goto('./#/drills/bits');
+  await expect(page.getByRole('heading', { name: 'Bit tiles' })).toBeVisible();
+  const target = Number(await page.getByTestId('bit-target').innerText());
+  const tiles = page.locator('.bit-tile');
+  const n = await tiles.count();
+  expect(n).toBe(4);
+  await page.getByRole('button', { name: 'Check' }).click();
+  await expect(page.getByText('That is not enough yet', { exact: false })).toBeVisible();
+  for (let i = 0; i < n; i++) if (target & (2 ** (n - 1 - i))) await tiles.nth(i).click();
+  await page.getByRole('button', { name: 'Check' }).click();
+  await expect(page.getByText('Right.', { exact: false })).toBeVisible();
+});
+
+test('IPv6 drills: shortening takes the shortest form', async ({ page }) => {
+  await page.goto('./#/drills/ipv6-short');
+  const given = (await page.locator('.drill-prompt .drill-mono').innerText()).trim();
+  const groups = given.split(':').map((g) => parseInt(g, 16));
+  let best = -1;
+  let bestLen = 0;
+  for (let i = 0; i < 8; ) {
+    if (groups[i] !== 0) { i++; continue; }
+    let j = i;
+    while (j < 8 && groups[j] === 0) j++;
+    if (j - i > bestLen) { best = i; bestLen = j - i; }
+    i = j;
+  }
+  const hex = groups.map((g) => g.toString(16));
+  const short = bestLen < 2 ? hex.join(':') : `${hex.slice(0, best).join(':')}::${hex.slice(best + bestLen).join(':')}`;
+  const answer = page.getByLabel('Your answer');
+  await answer.fill(given);
+  await page.getByRole('button', { name: 'Check' }).click();
+  await expect(page.getByText('Not quite.', { exact: false })).toBeVisible();
+  await answer.fill(short);
+  await answer.press('Enter');
+  await expect(page.getByText('Right', { exact: false }).first()).toBeVisible();
+});
+
+test('network lab: walk-through, terminal and capture reader', async ({ page }) => {
+  await page.goto('./#/drills/walk');
+  await expect(page.getByRole('heading', { name: 'Packet walk-through' })).toBeVisible();
+  await expect(page.locator('.drills-bar .cf-segmented')).toHaveCount(0);
+  const options = page.locator('.lab-option');
+  await expect(options).toHaveCount(4);
+  for (let i = 0; i < 4; i++) {
+    await options.nth(i).click();
+    if (await page.getByRole('button', { name: 'Next problem' }).isVisible()) break;
+  }
+  await expect(page.getByRole('button', { name: 'Next problem' })).toBeVisible();
+  await expect(page.locator('.drill-card .lab-frame').first()).toBeVisible();
+
+  await page.goto('./#/drills/terminal');
+  const cmd = page.getByLabel('Command');
+  await cmd.fill('dir');
+  await cmd.press('Enter');
+  await expect(page.getByText('not available in this task')).toBeVisible();
+  await page.getByRole('button', { name: 'Show a hint' }).click();
+  await expect(page.getByText('Windows: ipconfig')).toBeVisible();
+  await page.getByLabel('Command').fill('ipconfig');
+  await page.getByRole('button', { name: 'Run' }).click();
+  await expect(page.getByText('Default Gateway', { exact: false }).first()).toBeVisible();
+  await expect(page.getByText('Done.', { exact: false })).toBeVisible();
+
+  await page.goto('./#/drills/capture');
+  await expect(page.locator('.cap-row')).toHaveCount(12);
+  const prompt = await page.locator('.drill-prompt').innerText();
+  if (/frame 5|frames 3 and 4|IP address did/.test(prompt)) {
+    await page.locator('.lab-option').first().click();
+    await expect(page.getByRole('button', { name: /Next problem|See the result/ })).toBeVisible();
+  } else {
+    await page.locator('.cap-row').nth(0).click();
+    await expect(page.locator('.cap-detail')).toBeVisible();
+    await page.getByRole('button', { name: 'Check' }).click();
+    await expect(page.locator('.drill-feedback p')).toBeVisible();
+  }
+});

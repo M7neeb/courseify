@@ -2,7 +2,9 @@
 // the screens pass in what they read from the app state.
 
 import { dayKey, lastDays, type ActivityDay } from './activity.ts';
-import type { Course, CourseProgress } from './types.ts';
+import { courseSkills, skillPoints } from './mastery.ts';
+import type { ExamFocus } from './srs.ts';
+import type { Course, CourseMastery, CourseProgress } from './types.ts';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -29,6 +31,8 @@ export interface ExamPlan {
    * last: the exam is tomorrow; today: the exam is today.
    */
   phase: 'learn' | 'review' | 'last' | 'today';
+  /** 0-100: how ready the learner is, from lessons done and skill points. */
+  readiness: number;
 }
 
 /** Lessons with content that are not finished yet. */
@@ -40,7 +44,25 @@ export function lessonsLeft(course: Course, progress: CourseProgress | undefined
 }
 
 /** The plan for a course with an exam date, or null when there is none or it has passed. */
-export function examPlan(course: Course, progress: CourseProgress | undefined, examDate: string | undefined, today: string): ExamPlan | null {
+/** How ready a course is, 0-100: 40% lessons done, 60% average skill points (fading counted). */
+export function readiness(course: Course, progress: CourseProgress | undefined, mastery: CourseMastery | undefined, now: Date = new Date()): number {
+  let total = 0;
+  for (const m of course.modules) for (const l of m.lessons) if (l.blocks.length > 0) total += 1;
+  const lessonShare = total === 0 ? 0 : (total - lessonsLeft(course, progress)) / total;
+  const skills = courseSkills(course);
+  if (skills.length === 0) return Math.round(lessonShare * 100);
+  const points = skills.reduce((sum, s) => sum + skillPoints(mastery, s.id, now), 0) / skills.length;
+  return Math.round((0.4 * lessonShare + 0.6 * (points / 100)) * 100);
+}
+
+/** The plan for a course with an exam date, or null when there is none or it has passed. Re-computed every day, so missed days are spread over the days that are left. */
+export function examPlan(
+  course: Course,
+  progress: CourseProgress | undefined,
+  examDate: string | undefined,
+  today: string,
+  mastery?: CourseMastery
+): ExamPlan | null {
   if (!examDate || !/^\d{4}-\d{2}-\d{2}$/.test(examDate)) return null;
   const daysLeft = daysBetween(today, examDate);
   if (daysLeft < 0) return null;
@@ -48,7 +70,27 @@ export function examPlan(course: Course, progress: CourseProgress | undefined, e
   // Keep the last day before the exam free for review and a mock exam.
   const studyDays = Math.max(1, daysLeft - 1);
   const phase: ExamPlan['phase'] = daysLeft === 0 ? 'today' : daysLeft === 1 ? 'last' : left === 0 ? 'review' : 'learn';
-  return { courseId: course.id, examDate, daysLeft, lessonsLeft: left, lessonsPerDay: left === 0 ? 0 : Math.ceil(left / studyDays), phase };
+  return {
+    courseId: course.id,
+    examDate,
+    daysLeft,
+    lessonsLeft: left,
+    lessonsPerDay: left === 0 ? 0 : Math.ceil(left / studyDays),
+    phase,
+    readiness: readiness(course, progress, mastery)
+  };
+}
+
+/** The courses whose exam date is still ahead, for ordering reviews: the nearest exam first. */
+export function examFocus(courses: Course[], meta: Record<string, { examDate?: string } | undefined>, today: string): ExamFocus[] {
+  const out: ExamFocus[] = [];
+  for (const course of courses) {
+    const date = meta[course.id]?.examDate;
+    if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) continue;
+    const daysLeft = daysBetween(today, date);
+    if (daysLeft >= 0) out.push({ courseId: course.id, daysLeft });
+  }
+  return out.sort((a, b) => a.daysLeft - b.daysLeft);
 }
 
 // ---------- weekly report ----------
