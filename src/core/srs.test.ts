@@ -207,3 +207,9 @@ test('warm-up (pretest) questions never count as skill or review questions', () 
   assert.deepEqual(skill?.questionIds, ['l1q1', 'l1q2']);
   assert.equal(indexQuestions(c).has('w1'), false);
 });
+
+test('a card is due on its day, not only from its clock time', () => {
+  const card = { due: new Date(2026, 9, 25, 22, 0).toISOString() } as Parameters<typeof isCardDue>[0];
+  assert.equal(isCardDue(card, new Date(2026, 9, 25, 8, 0)), true);
+  assert.equal(isCardDue(card, new Date(2026, 9, 24, 23, 0)), false);
+});

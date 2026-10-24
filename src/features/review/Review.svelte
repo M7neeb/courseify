@@ -73,11 +73,11 @@
     const moduleId = course
       ? (course.modules.find((m) => m.id === itemId || testItemId(m.id) === itemId || m.lessons.some((l) => l.id === itemId))?.id ?? null)
       : null;
-    return studyContext(first.courseId, { lessonId: itemId, itemKind, moduleId }, { onSetContinue: stop });
+    return studyContext(first.courseId, { lessonId: itemId, itemKind, moduleId }, { onSetContinue: stop, freshRun: true });
   }
 
   function dueCtx(courseId: string): BlockContext {
-    return studyContext(courseId, { lessonId: 'review', itemKind: 'lesson', moduleId: null }, { onSetContinue: stop });
+    return studyContext(courseId, { lessonId: 'review', itemKind: 'lesson', moduleId: null }, { onSetContinue: stop, freshRun: true });
   }
 
   /** The prompt as plain text for the list (puzzle prompts start with bold Markdown). */

@@ -1531,5 +1531,8 @@
   "chess.settings.sounds": "Sounds",
   "chess.settings.animate": "Animate pieces",
   "chess.settings.premoves": "Premoves (move while the bot thinks)",
-  "chess.settings.autoQueen": "Always promote to a queen"
+  "chess.settings.autoQueen": "Always promote to a queen",
+  "storage.unavailable": "Could not open local storage. Courses and progress will not be saved.",
+  "settings.backupFailed": "The backup could not be made. Try again.",
+  "storage.saveFailed": "Your last change could not be saved. Reload the app to keep your progress safe."
 }

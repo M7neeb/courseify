@@ -26,6 +26,8 @@
   .cf-tabbar { display: grid; }
   .cf-has-tabs .cf-page { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   .cf-has-tabs ~ .toast { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+  /* On course screens the quiz bar sits at the bottom instead: stay above its Check button. */
+  .cf-app:not(.cf-has-tabs) ~ .toast { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
 }
 :root[data-layout='simple'] .cf-tabbar { display: grid; }
 :root[data-layout='simple'] .cf-has-tabs .cf-page { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }

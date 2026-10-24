@@ -210,7 +210,11 @@
 
   /** The learner's current order for an ordering question (canonical indexes), or the shuffled start. */
   function orderOf(q: Question): number[] {
-    return orders[q.id] ?? seededOrder(q.id, q.items?.length ?? 0, ':order');
+    const saved = orders[q.id];
+    if (saved) return saved;
+    const o = seededOrder(q.id, q.items?.length ?? 0, ':order');
+    // Never hand out the list already in the right order.
+    return o.length > 1 && o.every((v, i) => v === i) ? [...o.slice(1), o[0] as number] : o;
   }
 
   /** The right-hand options shown for a matching question, as canonical indexes. */
@@ -340,10 +344,17 @@
   }
 
   /** Grades the current draft. A wrong answer never advances: it stays open for another try. */
+  /** The last wrong answer checked per question: checking it again unchanged is not a new attempt. */
+  const lastWrong: Record<string, string> = {};
+
   function check(q: Question) {
     const given = draftOf(q);
+    const key = JSON.stringify(given ?? null);
+    if (lastWrong[q.id] === key) return;
     const result = gradeWithTypos(q, given, ctx.acceptTypos === true);
     const correct = result.correct;
+    if (correct) delete lastWrong[q.id];
+    else lastWrong[q.id] = key;
     if (result.typoOf) typoOf[q.id] = result.typoOf;
     const previous = answerOf(q.id);
     const usedHint = hinted[q.id] === true;

@@ -141,8 +141,10 @@ export function retrievability(card: ReviewCard, now: Date = new Date()): number
 
 export function isCardDue(card: ReviewCard | undefined, now: Date = new Date()): boolean {
   if (!card) return false;
-  const at = new Date(card.due).getTime();
-  return Number.isFinite(at) && at <= now.getTime();
+  // Due on a calendar day, not at a clock time: a card answered at 22:00 with a one-day interval is
+  // ready the next morning.
+  const at = new Date(card.due);
+  return Number.isFinite(at.getTime()) && (at.getTime() <= now.getTime() || dayKey(at) <= dayKey(now));
 }
 
 /**

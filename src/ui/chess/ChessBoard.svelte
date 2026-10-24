@@ -106,7 +106,13 @@
   }
 
   let selected = $state<string | null>(null);
+  // `drag` changes only when a drag starts or ends; the floating piece's position lives apart in
+  // `dragAt`, updated once per frame, so moving the pointer does not re-render the 64 squares.
   let drag = $state<{ from: string; x: number; y: number; moved: boolean } | null>(null);
+  let dragAt = $state({ x: 0, y: 0 });
+  let dragBox = $state({ left: 0, top: 0, size: 0 });
+  let frame = 0;
+  let nextAt = { x: 0, y: 0 };
   let promotion = $state<{ from: string; to: string } | null>(null);
   let boardEl: HTMLDivElement | undefined = $state();
 
@@ -115,6 +121,9 @@
   let userMarks = $state<Record<string, Tone>>({});
   let drawing = $state<{ from: string; to: string; tone: Tone } | null>(null);
   let pressTimer: ReturnType<typeof setTimeout> | undefined;
+  let pressAt = { x: 0, y: 0 };
+  /** The square a piece was just dropped on: it is already there, so it does not slide in. */
+  let droppedOn: string | null = null;
 
   const selectedTargets = $derived(selected ? (targets.get(selected) ?? []) : []);
 
@@ -124,7 +133,17 @@
     void fen;
     const keep = untrack(() => selected !== null && movable !== null && pieces.get(selected)?.[0] === movable);
     if (!keep) selected = null;
-    promotion = null;
+    untrack(() => {
+      if (lastMove?.[1] !== droppedOn) droppedOn = null;
+      // A piece in your hand that the other side just took is gone.
+      if (drag && pieces.get(drag.from)?.[0] !== movable) {
+        drag = null;
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
+      // A premove waiting for its promotion piece keeps its picker.
+      if (!(premove && promotion && pieces.get(promotion.from)?.[0] === movable)) promotion = null;
+    });
     userArrows = [];
     userMarks = {};
   });
@@ -229,10 +248,11 @@
       userArrows = [];
       userMarks = {};
     }
-    if (annotate && event.pointerType !== 'mouse') {
+    if (annotate && event.pointerType !== 'mouse' && !canMove(square)) {
       clearTimeout(pressTimer);
+      pressAt = { x: event.clientX, y: event.clientY };
       pressTimer = setTimeout(() => {
-        if (drag?.moved) return;
+        if (drag) return;
         navigator.vibrate?.(12);
         suppressClick = true;
         startDrawing(event, square, 'plan');
@@ -253,16 +273,27 @@
       return;
     }
     if (!drag) {
-      if (pressTimer && event.pointerType !== 'mouse') clearTimeout(pressTimer);
+      if (pressTimer && event.pointerType !== 'mouse' && Math.hypot(event.clientX - pressAt.x, event.clientY - pressAt.y) > 8) clearTimeout(pressTimer);
       return;
     }
-    const moved = drag.moved || Math.hypot(event.clientX - drag.x, event.clientY - drag.y) > 6;
-    if (moved && !drag.moved) {
+    if (!drag.moved) {
+      if (Math.hypot(event.clientX - drag.x, event.clientY - drag.y) <= 6) return;
       clearTimeout(pressTimer);
       boardEl?.setPointerCapture(event.pointerId);
+      const rect = boardEl?.getBoundingClientRect();
+      if (rect) dragBox = { left: rect.left, top: rect.top, size: rect.width / 8 };
+      dragAt = { x: event.clientX - dragBox.left, y: event.clientY - dragBox.top };
       selected = drag.from;
+      drag = { ...drag, moved: true };
+      return;
     }
-    drag = { ...drag, x: event.clientX, y: event.clientY, moved };
+    nextAt = { x: event.clientX - dragBox.left, y: event.clientY - dragBox.top };
+    if (!frame) {
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        dragAt = nextAt;
+      });
+    }
   }
 
   function pointerUp(event: PointerEvent) {
@@ -274,10 +305,16 @@
     if (!drag) return;
     const { from, moved } = drag;
     drag = null;
+    cancelAnimationFrame(frame);
+    frame = 0;
     if (!moved) return;
     suppressClick = true;
     const to = squareAt(event.clientX, event.clientY);
-    if (to && to !== from && attempt(from, to)) return;
+    if (to && to !== from) {
+      droppedOn = to;
+      if (attempt(from, to)) return;
+    }
+    droppedOn = null;
     selected = from;
   }
 
@@ -328,9 +365,13 @@
     ...(drawing && drawing.from !== drawing.to ? [{ from: drawing.from, to: drawing.to, tone: drawing.tone, ghost: true }] : [])
   ]);
 
+  function focusFirst(node: HTMLElement, on: boolean) {
+    if (on) node.focus({ preventScroll: true });
+  }
+
   /** Slide offset (in squares) for the piece that just arrived, for the move animation. */
   function slide(square: string): string | undefined {
-    if (!animate || !chessPrefs.animate || !lastMove || lastMove[1] !== square || drag) return undefined;
+    if (!animate || !chessPrefs.animate || !lastMove || lastMove[1] !== square || droppedOn === square) return undefined;
     const from = cell(lastMove[0]);
     const to = cell(square);
     return `--dx:${from.col - to.col};--dy:${from.row - to.row}`;
@@ -350,6 +391,8 @@
     onpointerup={pointerUp}
     onpointercancel={() => {
       clearTimeout(pressTimer);
+      cancelAnimationFrame(frame);
+      frame = 0;
       drag = null;
       drawing = null;
     }}
@@ -379,7 +422,7 @@
         onpointerdown={(e) => pointerDown(e, square)}
       >
         {#if piece}
-          {#key lastMove?.join('') + square}
+          {#key square === lastMove?.[1] ? lastMove.join('') : ''}
             <span class="cf-piece" data-color={piece[0]} class:lifted={drag?.moved && drag.from === square} style={slide(square)} aria-hidden="true">
               <span class="fill">{FILLED[piece[1] as string]}&#xFE0E;</span><span class="line">{OUTLINE[piece[1] as string]}&#xFE0E;</span>
             </span>
@@ -406,17 +449,15 @@
       </svg>
     {/if}
 
-    {#if drag?.moved && boardEl}
-      {@const rect = boardEl.getBoundingClientRect()}
+    {#if drag?.moved}
       {@const piece = pieces.get(drag.from)}
       {#if piece}
         <span
           class="cf-piece cf-floating"
           data-color={piece[0]}
-          style:left={drag.x - rect.left + 'px'}
-          style:top={drag.y - rect.top + 'px'}
-          style:width={rect.width / 8 + 'px'}
-          style:height={rect.width / 8 + 'px'}
+          style:transform={`translate3d(${dragAt.x - dragBox.size / 2}px, ${dragAt.y - dragBox.size / 2}px, 0) scale(1.12)`}
+          style:width={dragBox.size + 'px'}
+          style:height={dragBox.size + 'px'}
           aria-hidden="true"
         >
           <span class="fill">{FILLED[piece[1] as string]}&#xFE0E;</span><span class="line">{OUTLINE[piece[1] as string]}&#xFE0E;</span>
@@ -429,7 +470,7 @@
         <p>{t('chess.promoteTo')}</p>
         <div class="cf-promo-choices">
           {#each ['q', 'r', 'b', 'n'] as p (p)}
-            <button type="button" aria-label={t('chess.' + NAMES[p])} onclick={() => choosePromotion(p)}>
+            <button type="button" use:focusFirst={p === 'q'} aria-label={t('chess.' + NAMES[p])} onclick={() => choosePromotion(p)}>
               <span class="cf-piece" data-color={movable ?? 'w'} aria-hidden="true"><span class="fill">{FILLED[p]}&#xFE0E;</span><span class="line">{OUTLINE[p]}&#xFE0E;</span></span>
             </button>
           {/each}

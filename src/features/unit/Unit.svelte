@@ -40,6 +40,11 @@
   const testItem = $derived(mod ? items.find((i) => i.id === testItemId(mod.id)) : undefined);
   const testGate = $derived(gateOf(testItem));
 
+  function examDay(date: string): string {
+    const [y, m, d] = date.split('-').map(Number);
+    return new Date(y ?? 1970, (m ?? 1) - 1, d ?? 1, 12).toLocaleDateString(app.settings.uiLanguage === 'de' ? 'de-DE' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
   function flatFor(id: string): FlatItem | undefined {
     return items.find((i) => i.id === id);
   }
@@ -329,7 +334,7 @@
           <h2>{t('exam.title')}</h2>
           <p class="cf-muted">{t('exam.cardText')}</p>
           <p class="cf-small">
-            {#if app.meta[courseId]?.examDate}{t('plan.examOn', { date: app.meta[courseId]?.examDate ?? '' })} {/if}
+            {#if app.meta[courseId]?.examDate}{t('plan.examOn', { date: examDay(app.meta[courseId]?.examDate ?? '') })} {/if}
             <a href={'#/settings/' + encodeURIComponent(courseId)}>{app.meta[courseId]?.examDate ? t('plan.change') : t('plan.setDate')}</a>
           </p>
         </div>

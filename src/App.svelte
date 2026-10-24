@@ -5,7 +5,7 @@
   // exercise) get the dark header and their own course sidebar. On phones both sidebars move into
   // the menu drawer.
   import { onMount } from 'svelte';
-  import { app, dismissToast, initApp, runToastAction } from './core/state.svelte.ts';
+  import { app, dismissToast, initApp, runToastAction, showToast } from './core/state.svelte.ts';
   import { themeCss } from './core/themes.ts';
   import { startSync } from './ui/sync/sync.svelte.ts';
   import Library from './features/library/Library.svelte';
@@ -87,13 +87,54 @@
   });
 
   // Close the drawer and menus whenever the route changes, and start the new screen at the top
-  // (a tab bar link would otherwise open halfway down the page).
+  // (a tab bar link would otherwise open halfway down the page). Going back returns to where you were.
+  const scrollByHash = new Map<string, number>();
+  let wentBack = false;
+  onMount(() => {
+    const remember = () => scrollByHash.set(location.hash, window.scrollY);
+    const back = () => (wentBack = true);
+    // A tap outside the profile menu closes it.
+    const outside = (event: PointerEvent) => {
+      if (profileMenuOpen && !(event.target as Element | null)?.closest('.cf-user')) profileMenuOpen = false;
+    };
+    // A save that failed in the background (storage full, connection lost) says so once.
+    let warned = false;
+    const failed = (event: PromiseRejectionEvent) => {
+      const name = (event.reason as { name?: string } | null)?.name ?? '';
+      if (warned || !['QuotaExceededError', 'InvalidStateError', 'TransactionInactiveError', 'UnknownError', 'AbortError'].includes(name)) return;
+      warned = true;
+      showToast(t('storage.saveFailed'));
+    };
+    window.addEventListener('unhandledrejection', failed);
+    window.addEventListener('scroll', remember, { passive: true });
+    window.addEventListener('popstate', back);
+    document.addEventListener('pointerdown', outside);
+    return () => {
+      window.removeEventListener('scroll', remember);
+      window.removeEventListener('unhandledrejection', failed);
+      window.removeEventListener('popstate', back);
+      document.removeEventListener('pointerdown', outside);
+    };
+  });
   $effect(() => {
     void route;
     drawerOpen = false;
     profileMenuOpen = false;
+    const y = wentBack ? (scrollByHash.get(location.hash) ?? 0) : 0;
+    wentBack = false;
     window.scrollTo({ top: 0 });
+    // Wait for the page to draw before going back down to the old place.
+    if (y > 0) requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo({ top: y })));
   });
+
+  let drawerClose: HTMLButtonElement | undefined = $state();
+  $effect(() => {
+    if (drawerOpen) drawerClose?.focus({ preventScroll: true });
+  });
+  function closeDrawer() {
+    drawerOpen = false;
+    document.querySelector<HTMLElement>('.cf-menu-btn')?.focus({ preventScroll: true });
+  }
 </script>
 
 <svelte:window onkeydown={onKeydown} />
@@ -145,11 +186,21 @@
   {/if}
 
   {#if drawerOpen && !app.focusMode}
-    <div class="cf-overlay" role="presentation" onclick={() => (drawerOpen = false)}></div>
-    <aside class="cf-drawer" aria-label={t('nav.label')}>
+    <div class="cf-overlay" role="presentation" onclick={closeDrawer}></div>
+    <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions, a11y_no_noninteractive_element_to_interactive_role -->
+    <aside
+      class="cf-drawer"
+      role="dialog"
+      aria-modal="true"
+      aria-label={t('nav.label')}
+      onclick={(e) => {
+        // A link to the page you are on changes no route, so close here too.
+        if ((e.target as HTMLElement).closest('a')) drawerOpen = false;
+      }}
+    >
       <div class="cf-drawer-head">
         <span>{t('app.name')}</span>
-        <button type="button" class="cf-icon-btn" aria-label={t('shell.close')} onclick={() => (drawerOpen = false)}>
+        <button type="button" class="cf-icon-btn" bind:this={drawerClose} aria-label={t('shell.close')} onclick={closeDrawer}>
           <NavIcon name="close" />
         </button>
       </div>

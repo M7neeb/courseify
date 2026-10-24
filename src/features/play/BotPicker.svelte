@@ -9,7 +9,7 @@
   import { app, navigate } from '../../core/state.svelte.ts';
   import BotAvatar from '../../ui/chess/BotAvatar.svelte';
   import { newGame, watchEngineStatus, type EngineStatus } from '../../ui/chess/stockfish.ts';
-  import { chess, deleteGame, newGameId, saveGame, unfinishedGame } from './chessStore.svelte.ts';
+  import { applyRating, chess, deleteGame, newGameId, saveGame, unfinishedGame } from './chessStore.svelte.ts';
   import { t } from '../../i18n/i18n.ts';
 
   const PREF_KEY = 'courseify:chessBot';
@@ -76,7 +76,15 @@
     // An unfinished game is left behind: count it as given up, or drop it when it barely began.
     if (waiting) {
       if (waiting.moves.length < 2) await deleteGame(waiting.id);
-      else await saveGame({ ...waiting, result: 'lost', reason: 'resign', finishedAt: new Date().toISOString() });
+      else {
+        const given = { ...waiting, result: 'lost' as const, reason: 'resign', finishedAt: new Date().toISOString() };
+        await saveGame(given);
+        // A rated game given up this way counts like a resignation.
+        if (given.rated) {
+          const change = await applyRating(given);
+          if (change !== undefined) await saveGame({ ...given, ratingChange: change });
+        }
+      }
     }
     const id = newGameId();
     newGame();

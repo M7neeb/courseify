@@ -81,7 +81,7 @@
   from { transform: translate(calc(var(--dx) * 100%), calc(var(--dy) * 100%)); }
 }
 .cf-piece.lifted { opacity: 0.35; }
-.cf-floating { inset: auto; z-index: 6; transform: translate(-50%, -50%) scale(1.12); filter: drop-shadow(0 4px 6px rgb(0 0 0 / 0.3)); }
+.cf-floating { inset: auto; left: 0; top: 0; z-index: 6; pointer-events: none; will-change: transform; filter: drop-shadow(0 4px 6px rgb(0 0 0 / 0.3)); }
 
 .cf-coord { position: absolute; z-index: 2; font-size: max(9px, 2.4cqi); font-weight: 700; line-height: 1; pointer-events: none; }
 .cf-coord.rank { left: 4%; top: 5%; }

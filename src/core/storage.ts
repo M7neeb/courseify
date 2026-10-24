@@ -55,7 +55,20 @@ function db(): Promise<IDBPDatabase<CourseAppDB>> {
       if (oldVersion < 5) {
         database.createObjectStore('games', { keyPath: 'id' });
       }
+    },
+    // A newer version opened in another tab: let it upgrade, and open again next time.
+    blocking() {
+      void dbPromise?.then((d) => d.close());
+      dbPromise = null;
+    },
+    // iOS can drop the connection while the app sits in the background: reconnect on the next save
+    // instead of failing every save until a restart.
+    terminated() {
+      dbPromise = null;
     }
+  }).catch((error: unknown) => {
+    dbPromise = null;
+    throw error;
   });
   return dbPromise;
 }

@@ -241,7 +241,7 @@ export async function runReview(id: string): Promise<boolean> {
       const done = terminalEval(fen);
       if (done) evals[i] = done;
       else {
-        const r = await analyse(fen, { depth: REVIEW_DEPTH, movetime: 2500, multipv: 2 });
+        const r = await analyse(fen, { depth: REVIEW_DEPTH, movetime: 2500, multipv: 2, background: true });
         if (!r) {
           ok = false;
           break;

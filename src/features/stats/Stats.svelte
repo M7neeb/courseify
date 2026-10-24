@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { today as clock } from '../../core/today.svelte.ts';
   import { app, navigate } from '../../core/state.svelte.ts';
   import { activityWeeks, computeStats, dayKey, xpForLevel, LEVEL_THRESHOLDS } from '../../core/activity.ts';
   import { focusSkills, measuredSkills, progressBySubject, tierSegments, type MasterySummary } from '../../core/progressView.ts';
@@ -21,7 +22,7 @@
   });
   import { t } from '../../i18n/i18n.ts';
 
-  const today = $derived(dayKey(new Date()));
+  const today = $derived(dayKey(new Date(clock.now)));
   const stats = $derived(computeStats(app.activity, today));
   const weeks = $derived(activityWeeks(today));
   const months = $derived.by(() => {

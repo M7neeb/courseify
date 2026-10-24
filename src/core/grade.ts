@@ -6,6 +6,11 @@ export function normalizeText(s: string): string {
     .normalize('NFC')
     .trim()
     .toLowerCase()
+    // A keyboard without umlauts: "Schluessel" and "Strasse" count.
+    .replace(/ä/g, 'ae')
+    .replace(/ö/g, 'oe')
+    .replace(/ü/g, 'ue')
+    .replace(/ß/g, 'ss')
     .replace(/\s+/g, ' ')
     .replace(/[.,;:!?]+$/u, '');
 }
@@ -29,14 +34,28 @@ export function parseNumeric(value: unknown): number | null {
   return Number.isFinite(n) ? n : null;
 }
 
+/** Every way a numeric answer can be read: also with German thousands dots ("349.000", "1.234,5"). */
+export function numericReadings(value: unknown): number[] {
+  const out: number[] = [];
+  const one = parseNumeric(value);
+  if (one !== null) out.push(one);
+  if (typeof value === 'string') {
+    const s = value.trim().replace(/\s+/g, '').replace(/^\+/, '');
+    if (/^-?\d{1,3}(\.\d{3})+(,\d+)?$/.test(s)) {
+      const n = Number(s.replace(/\./g, '').replace(',', '.'));
+      if (Number.isFinite(n)) out.push(n);
+    }
+  }
+  return out;
+}
+
 function gradeNumeric(q: Question, given: unknown): boolean {
   if (typeof q.answer !== 'number' || !Number.isFinite(q.answer)) return false;
-  const parsed = parseNumeric(given);
-  if (parsed === null) return false;
+  const answer = q.answer;
   const tolerance =
     typeof q.tolerance === 'number' && Number.isFinite(q.tolerance) && q.tolerance > 0 ? q.tolerance : 0;
   // A tiny relative epsilon absorbs float parsing noise; it never accepts a real near-miss.
-  return Math.abs(parsed - q.answer) <= tolerance + Number.EPSILON * Math.max(1, Math.abs(q.answer));
+  return numericReadings(given).some((n) => Math.abs(n - answer) <= tolerance + Number.EPSILON * Math.max(1, Math.abs(answer)));
 }
 
 function normalizedSelection(given: unknown): number[] | null {

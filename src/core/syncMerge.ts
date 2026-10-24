@@ -11,6 +11,7 @@ import type {
   CourseMeta,
   CourseProgress,
   MistakeLogEntry,
+  QuestionReview,
   Reflection,
   ReviewCard,
   SavedGame,
@@ -19,6 +20,7 @@ import type {
   TrashedCourse
 } from './types.ts';
 import { analyzeImport } from './import.ts';
+import { reviewInterval } from './exercise.ts';
 import { USERDATA_SCHEMA_VERSION } from './types.ts';
 import { MASTERY } from './mastery.ts';
 import { isExpired } from './trash.ts';
@@ -360,8 +362,23 @@ export function mergeMastery(l: CourseMastery | undefined, r: CourseMastery | un
     mistakes: mergeMistakes(primary.mistakes, other.mistakes),
     updatedAt: primary.updatedAt
   };
-  if (primary.reviews || other.reviews) out.reviews = { ...other.reviews, ...primary.reviews };
+  if (primary.reviews || other.reviews) out.reviews = mergeReviews(primary, other);
   if (primary.cards || other.cards) out.cards = mergeKeyed(primary.cards ?? {}, other.cards ?? {}, newerCard);
+  return out;
+}
+
+/** A missed question waits for review until it is answered right, which deletes its entry. So an
+ *  entry only the other device has comes back only when that miss is newer than this device's last
+ *  answer to the question; otherwise it was already cleared here. */
+function mergeReviews(primary: CourseMastery, other: CourseMastery): Record<string, QuestionReview> {
+  const out: Record<string, QuestionReview> = { ...(primary.reviews ?? {}) };
+  for (const [id, entry] of Object.entries(other.reviews ?? {})) {
+    if (out[id]) continue;
+    const answered = primary.cards?.[id]?.lastReview;
+    const missedAt = new Date(entry.nextAt).getTime() - reviewInterval(entry.misses) * 86_400_000;
+    if (answered && new Date(answered).getTime() > missedAt) continue;
+    out[id] = entry;
+  }
   return out;
 }
 

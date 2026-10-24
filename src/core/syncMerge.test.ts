@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { defaultSettings } from './settings.ts';
-import { mergeSyncData, parseSyncFile, sameData, syncDataFrom, SYNC_FORMAT_VERSION, type SyncData } from './syncMerge.ts';
+import { mergeMastery, mergeSyncData, parseSyncFile, sameData, syncDataFrom, SYNC_FORMAT_VERSION, type SyncData } from './syncMerge.ts';
 import type { Course, CourseMastery, CourseProgress, SavedGame } from './types.ts';
 
 const NOW = new Date('2026-10-23T12:00:00.000Z');
@@ -276,4 +276,21 @@ test('chess: the bot rating comes from the device with more rated games, keeping
   assert.deepEqual(merged, { value: 950, games: 12, peak: 1050 });
   assert.deepEqual(mergeSyncData(data({}), phone).chess.rating, phone.chess.rating);
   assert.equal(mergeSyncData(data({}), data({})).chess.rating, undefined);
+});
+
+test('mastery: a review already cleared here does not come back from the other device', () => {
+  const base = { courseId: 'c', skills: {}, mistakes: [] };
+  // The other device missed q1 on 1 Oct (next try 2 Oct); this device answered it right on 5 Oct.
+  const here = { ...base, updatedAt: '2026-10-05T10:00:00.000Z', reviews: {}, cards: { q1: { lastReview: '2026-10-05T10:00:00.000Z' } } } as unknown as CourseMastery;
+  const there = {
+    ...base,
+    updatedAt: '2026-10-01T10:00:00.000Z',
+    reviews: {
+      q1: { questionId: 'q1', misses: 1, nextAt: '2026-10-02T10:00:00.000Z' },
+      q2: { questionId: 'q2', misses: 1, nextAt: '2026-10-02T10:00:00.000Z' }
+    }
+  } as unknown as CourseMastery;
+  const merged = mergeMastery(here, there);
+  assert.equal(merged?.reviews?.q1, undefined);
+  assert.ok(merged?.reviews?.q2);
 });

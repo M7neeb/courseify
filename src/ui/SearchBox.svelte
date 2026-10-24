@@ -41,7 +41,15 @@
   }
 </script>
 
-<form class="kh-search-form" role="search" onsubmit={submit}>
+<form
+  class="kh-search-form"
+  role="search"
+  onsubmit={submit}
+  onfocusout={(e) => {
+    // Tabbing from the box to a result keeps the list open.
+    if (!e.currentTarget.contains(e.relatedTarget as Node | null)) open = false;
+  }}
+>
   <label class="sr-only" for="header-search">{t('shell.search')}</label>
   <span class="kh-search-icon" aria-hidden="true"><NavIcon name="search" size={18} /></span>
   <input
@@ -51,13 +59,12 @@
     placeholder={t('shell.searchPlaceholder')}
     bind:value={query}
     onfocus={() => (open = true)}
-    onblur={() => (open = false)}
   />
   {#if showList}
     <ul class="kh-results">
       {#each results as course (course.id)}
         <li>
-          <button type="button" onmousedown={(event) => { event.preventDefault(); openCourse(course); }}>
+          <button type="button" onmousedown={(event) => event.preventDefault()} onclick={() => openCourse(course)}>
             <span class="kh-result-title">{displayTitle(course)}</span>
             {#if course.subject}<span class="kh-result-sub muted small">{course.subject}</span>{/if}
           </button>

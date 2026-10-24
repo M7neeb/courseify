@@ -103,8 +103,8 @@
   onMount(() => {
     if (tc) {
       ticker = setInterval(() => {
-        now = performance.now();
         if (!running || !record) return;
+        now = performance.now();
         const left = shown[turnColor];
         if (turnColor === learner && !warnedLow && left < 10_000 && tc.base >= 60) {
           warnedLow = true;
@@ -138,16 +138,56 @@
     chat = t(`bots.chat.${bot.style}.${event}`, { name: profileName });
   }
 
-  /** Squares the learner could premove to: their moves as if it were already their turn. */
+  /** Squares the learner could premove to. Like lichess, by how the piece moves, through other
+   *  pieces and onto your own (so "if he takes, I take back" works); whether the move is legal is
+   *  checked when it is played. */
   function premoveTargets(position: string): Map<string, string[]> {
-    const parts = position.split(' ');
-    parts[1] = learner;
-    parts[3] = '-';
-    try {
-      return legalTargets(new Chess(parts.join(' ')));
-    } catch {
-      return new Map();
-    }
+    const out = new Map<string, string[]>();
+    const rows = (position.split(' ')[0] ?? '').split('/');
+    const at = (f: number, r: number) => (f >= 0 && f < 8 && r >= 1 && r <= 8 ? 'abcdefgh'[f] + r : null);
+    rows.forEach((row, i) => {
+      let f = 0;
+      for (const ch of row) {
+        if (/\d/.test(ch)) {
+          f += Number(ch);
+          continue;
+        }
+        const color = ch === ch.toUpperCase() ? 'w' : 'b';
+        const kind = ch.toLowerCase();
+        const r = 8 - i;
+        const file = f;
+        f += 1;
+        if (color !== learner) continue;
+        const to: string[] = [];
+        const add = (df: number, dr: number) => {
+          const sq = at(file + df, r + dr);
+          if (sq) to.push(sq);
+        };
+        const ray = (df: number, dr: number) => {
+          for (let k = 1; k < 8; k += 1) add(df * k, dr * k);
+        };
+        if (kind === 'p') {
+          const dir = color === 'w' ? 1 : -1;
+          add(0, dir);
+          if (r === (color === 'w' ? 2 : 7)) add(0, 2 * dir);
+          add(-1, dir);
+          add(1, dir);
+        } else if (kind === 'n') {
+          for (const [df, dr] of [[1, 2], [2, 1], [2, -1], [1, -2], [-1, -2], [-2, -1], [-2, 1], [-1, 2]] as const) add(df, dr);
+        } else if (kind === 'k') {
+          for (let df = -1; df <= 1; df += 1) for (let dr = -1; dr <= 1; dr += 1) if (df || dr) add(df, dr);
+          if (file === 4 && r === (color === 'w' ? 1 : 8)) {
+            add(2, 0);
+            add(-2, 0);
+          }
+        } else {
+          if (kind !== 'b') for (const [df, dr] of [[1, 0], [-1, 0], [0, 1], [0, -1]] as const) ray(df, dr);
+          if (kind !== 'r') for (const [df, dr] of [[1, 1], [1, -1], [-1, 1], [-1, -1]] as const) ray(df, dr);
+        }
+        if (to.length) out.set('abcdefgh'[file] + r, to);
+      }
+    });
+    return out;
   }
 
   async function persist(patch: Partial<SavedGame> = {}) {
@@ -196,7 +236,15 @@
   function punchClock(color: 'w' | 'b') {
     if (!tc) return;
     // The mover's clock ran during this turn when two moves had been made before it.
-    if (history.length >= 3) clock[color] = Math.max(0, clock[color] - (performance.now() - turnStart)) + tc.inc * 1000;
+    if (history.length >= 3) {
+      const left = clock[color] - (performance.now() - turnStart);
+      // Out of time before the move landed: the flag fell first.
+      if (left <= 0 && !record?.result) {
+        flag(color);
+        return;
+      }
+      clock[color] = left + tc.inc * 1000;
+    }
     turnStart = performance.now();
     now = turnStart;
     const times = [...(record?.times ?? []), Math.round(clock[color])];
@@ -271,6 +319,8 @@
     history = game.history({ verbose: true });
     hintArrow = null;
     premove = null;
+    drawState = 'idle';
+    lastOfferPly = Math.min(lastOfferPly, index - 10);
     turnStart = performance.now();
     void persist({ assisted: true, times: (record.times ?? []).slice(0, index) });
   }
@@ -279,9 +329,11 @@
     if (!myTurn || hinting || !record?.assist) return;
     hinting = true;
     const mine = generation;
-    const uci = await bestMoveFor(game.fen());
+    const asked = game.fen();
+    const uci = await bestMoveFor(asked);
     hinting = false;
-    if (mine !== generation || !uci || destroyed) return;
+    // You moved while the hint was on its way: it no longer fits the board.
+    if (mine !== generation || !uci || destroyed || game.fen() !== asked) return;
     hintArrow = { from: uci.slice(0, 2), to: uci.slice(2, 4), tone: 'hint' };
     void persist({ assisted: true });
   }
@@ -309,9 +361,16 @@
     if (!record || !bot || finished || drawState === 'asking') return;
     drawState = 'asking';
     lastOfferPly = history.length;
+    const plies = history.length;
     chat = t('bots.drawThinking', { name: bot.name });
     const yes = await botAcceptsDraw(fen, bot.id, botColor, history.length);
     if (!record || record.result || destroyed) return;
+    // The position moved on while the bot was thinking about it: the offer lapses.
+    if (history.length !== plies) {
+      drawState = 'idle';
+      chat = '';
+      return;
+    }
     if (yes) {
       chat = t('bots.drawYes');
       void finish('draw', 'agreement');

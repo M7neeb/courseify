@@ -1,7 +1,7 @@
 // The single source of truth for the app version and the "What's new" list.
 // Bump VERSION and add one CHANGELOG entry at the top when you ship user-visible changes.
 
-export const VERSION = '1.9.1';
+export const VERSION = '1.10.0';
 
 export interface ChangelogEntry {
   version: string;
@@ -11,6 +11,19 @@ export interface ChangelogEntry {
 
 /** Newest first. */
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.10.0',
+    date: '2026-10-24',
+    changes: [
+      'Chess: dragging a piece is smooth now, and stepping through a game review no longer scrolls the page.',
+      'Chess: premoves work through other pieces, so you can premove a recapture. The bot no longer waits behind a game review, and a stuck engine starts again by itself.',
+      'Chess: pieces no longer slide again when you touch one, long press draws only on empty squares, and a hint that comes too late is dropped.',
+      "Today's review asks the questions again instead of showing your old answers, and reviews are ready in the morning of the day they are due.",
+      'Numbers with thousands dots (349.000) and words typed without umlauts (Schluessel) count as right.',
+      'Going back returns to where you were on the page, the side menu closes when you pick a page, and pop-up messages stay clear of the Check button.',
+      'Fixes for restoring from the trash, syncing reviews between devices, the date after midnight and saving on iPhone.'
+    ]
+  },
   {
     version: '1.9.1',
     date: '2026-10-24',

@@ -18,9 +18,16 @@
     return { won: done.filter((g) => g.result === 'won').length, draw: done.filter((g) => g.result === 'draw').length, lost: done.filter((g) => g.result === 'lost').length };
   });
 
+  // A full review is heavy; remember each game's result until its analysis changes.
+  const accuracyCache = new Map<string, { key: number; value: number }>();
   function accuracy(g: SavedGame): number | null {
     if (!isReviewed(g)) return null;
-    return reviewGame(g.startFen, g.moves, g.evals ?? [], g.startFen === START_FEN).accuracy[g.color];
+    const key = g.evals?.length ?? 0;
+    const hit = accuracyCache.get(g.id);
+    if (hit && hit.key === key) return hit.value;
+    const value = reviewGame(g.startFen, g.moves, g.evals ?? [], g.startFen === START_FEN).accuracy[g.color];
+    accuracyCache.set(g.id, { key, value });
+    return value;
   }
 
   function when(iso: string): string {

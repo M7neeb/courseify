@@ -3,6 +3,7 @@
   // band, then the learner sidebar beside a two-column grid of course groups. Each group lists its
   // units on a timeline with the unit's mastery line, and the unit the learner is in gets Resume.
   // The data model calls units `modules`; the UI says units.
+  import { today as clock } from '../../core/today.svelte.ts';
   import { app, displayTitle, moduleMasteryPercentFor, navigate } from '../../core/state.svelte.ts';
   import { computeStats, dayKey } from '../../core/activity.ts';
   import { tierForPoints } from '../../core/mastery.ts';
@@ -36,7 +37,7 @@
   const MODULE_LIMIT = 5;
 
   const layout = $derived(app.settings.layout);
-  const today = $derived(dayKey(new Date()));
+  const today = $derived(dayKey(new Date(clock.now)));
   const stats = $derived(computeStats(app.activity, today));
   const greeting = $derived(greetingFor(today, stats.streak));
   const weeks = $derived(streakWeeks(stats.streak));
@@ -71,7 +72,7 @@
 
   // Today: the reviews that are due (capped per day) and the course to carry on with.
   const today_ = $derived.by(() => {
-    const now = new Date();
+    const now = new Date(clock.now);
     const indexes = new Map(activeCourses.map((course) => [course.id, indexQuestions(course)]));
     const due = dueCards(activeCourses, app.mastery, (courseId, qid) => indexes.get(courseId)?.has(qid) === true, now);
     return todayQueue(due, reviewedToday(app.mastery, now), app.settings.dailyReviewLimit);

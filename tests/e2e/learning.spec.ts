@@ -64,6 +64,8 @@ test('confident mistakes are flagged and come back for review on a later day', a
   await expect(page.getByText(/questions? (is|are) due for review/)).toBeVisible();
   await page.getByRole('button', { name: 'Start review' }).click();
   await expect(page.locator('.question-prompt').first()).toBeVisible();
+  // A due question starts unanswered, not on the answer it had in the lesson.
+  await expect(page.locator('.question').first()).toHaveAttribute('data-state', 'open');
   expect(errors).toEqual([]);
 });
 

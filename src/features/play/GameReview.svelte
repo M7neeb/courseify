@@ -8,7 +8,7 @@
   import { KIND_STYLE } from '../../ui/chess/moveKinds.ts';
   import { legalTargets, START_FEN, type BoardArrow } from '../../core/chess.ts';
   import { botById } from '../../core/bots.ts';
-  import { BAD_KINDS, MOVE_KINDS, formatEval, reviewGame, whiteWinChance, winChance, type MoveKind, type ReviewedMove } from '../../core/review.ts';
+  import { BAD_KINDS, MOVE_KINDS, formatEval, reviewGame, terminalEval, whiteWinChance, winChance, type MoveKind, type ReviewedMove } from '../../core/review.ts';
   import { app } from '../../core/state.svelte.ts';
   import { analyse } from '../../ui/chess/stockfish.ts';
   import { chess, gameById, isReviewed, runReview, toPositionEval } from './chessStore.svelte.ts';
@@ -57,7 +57,9 @@
   }
   function onKey(event: KeyboardEvent) {
     const target = event.target as HTMLElement | null;
-    if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) return;
+    if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT' || target.isContentEditable)) return;
+    // Alt+arrow is the browser's back and forward.
+    if (event.altKey || event.ctrlKey || event.metaKey) return;
     if (event.key === 'ArrowLeft') {
       event.preventDefault();
       if (line) line.step = Math.max(0, line.step - 1);
@@ -114,8 +116,10 @@
       return;
     }
     retry = { ...retry, result: 'checking', tried: uci };
-    const r = await analyse(g.fen(), { depth: 12, movetime: 1500 });
-    const after = r ? toPositionEval(g.fen(), r.lines) : null;
+    // A checkmate (or stalemate) has no engine lines; score it directly.
+    const ended = terminalEval(g.fen());
+    const r = ended ? null : await analyse(g.fen(), { depth: 12, movetime: 1500 });
+    const after = ended ?? (r ? toPositionEval(g.fen(), r.lines) : null);
     if (!retry || retry.tried !== uci) return;
     if (!after || !before) {
       retry = { ...retry, result: 'wrong' };
@@ -192,9 +196,15 @@
   const shownKinds = $derived(MOVE_KINDS.filter((k) => review && (review.counts.w[k] > 0 || review.counts.b[k] > 0 || ['best', 'inaccuracy', 'mistake', 'blunder'].includes(k))));
 
   $effect(() => {
-    // Keep the current move in view in the move list.
+    // Keep the current move in view by scrolling the move list only, never the page.
     void ply;
-    document.querySelector('.cf-review-moves .on')?.scrollIntoView({ block: 'nearest' });
+    const list = document.querySelector<HTMLElement>('.cf-review-moves');
+    const on = list?.querySelector<HTMLElement>('.on');
+    if (!list || !on) return;
+    const box = list.getBoundingClientRect();
+    const item = on.getBoundingClientRect();
+    if (item.top < box.top) list.scrollTop -= box.top - item.top + 6;
+    else if (item.bottom > box.bottom) list.scrollTop += item.bottom - box.bottom + 6;
   });
 </script>
 
@@ -356,7 +366,7 @@
             <span class="n">{row.n}.</span>
             {#each [row.w, row.b] as m, j (j)}
               {#if m}
-                <button type="button" class="cf-rmove" class:on={m.ply === ply} onclick={() => go(m.ply)}>
+                <button type="button" class="cf-rmove" class:on={m.ply === ply} aria-current={m.ply === ply ? 'true' : undefined} onclick={() => go(m.ply)}>
                   <span class="cf-kind small" style:background={KIND_STYLE[m.kind].color} title={t('review.kind.' + m.kind)} aria-hidden="true">{KIND_STYLE[m.kind].text}</span>{m.san}
                 </button>
               {:else}

@@ -105,7 +105,7 @@ export async function initApp(): Promise<void> {
     await installCatalog();
   } catch {
     // Storage can be blocked (for example in some private browsing modes). The app still opens, empty.
-    showToast('Could not open local storage. Courses and progress will not be saved.');
+    showToast(t('storage.unavailable'));
   }
   app.ready = true;
   app.persisted = await storage.requestPersistence();
@@ -233,6 +233,11 @@ export async function resetCourseSettings(courseId: string): Promise<void> {
 /** Saves a course. If it already exists its content is replaced and progress is kept. */
 export async function saveCourse(course: Course): Promise<void> {
   await storage.saveCourse(course);
+  // The course is back: an old copy in the trash must not overwrite it later.
+  if (app.trash[course.id]) {
+    await storage.deleteTrash(course.id);
+    delete app.trash[course.id];
+  }
   const idx = app.courses.findIndex((c) => c.id === course.id);
   if (idx >= 0) app.courses[idx] = course;
   else app.courses.push(course);
@@ -257,6 +262,7 @@ export async function removeCourse(id: string): Promise<void> {
   app.courses = app.courses.filter((c) => c.id !== id);
   delete app.progress[id];
   delete app.meta[id];
+  delete app.mastery[id];
 }
 
 /** Puts a trashed course back, with its meta and progress. */

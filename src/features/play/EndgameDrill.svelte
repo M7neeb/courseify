@@ -150,9 +150,10 @@
     if (!myTurn || hinting) return;
     hinting = true;
     const mine = generation;
-    const uci = await bestMoveFor(game.fen());
+    const asked = game.fen();
+    const uci = await bestMoveFor(asked);
     hinting = false;
-    if (mine !== generation || !uci || destroyed) return;
+    if (mine !== generation || !uci || destroyed || game.fen() !== asked) return;
     hintArrow = { from: uci.slice(0, 2), to: uci.slice(2, 4), tone: 'hint' };
   }
 

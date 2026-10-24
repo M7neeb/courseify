@@ -1,5 +1,6 @@
 // Stockfish in a Web Worker, spoken to in UCI. Loaded the first time the Chess section needs it
-// (about 7 MB, kept by the browser afterwards). One request runs at a time; the rest wait in line.
+// (about 7 MB, kept by the browser afterwards). One request runs at a time; the rest wait in line,
+// game moves and hints ahead of background game reviews. A crashed or stuck engine is restarted.
 // Lines come back with scores from the side to move's point of view, as UCI sends them.
 
 export interface EngineLine {
@@ -16,7 +17,10 @@ let worker: Worker | null = null;
 let status: EngineStatus = 'idle';
 let readyPromise: Promise<boolean> | null = null;
 let listener: ((line: string) => void) | null = null;
-let queue: Promise<unknown> = Promise.resolve();
+let current: ((r: { lines: EngineLine[]; bestmove: string | null }) => void) | null = null;
+const urgent: (() => Promise<void>)[] = [];
+const background: (() => Promise<void>)[] = [];
+let pumping = false;
 const statusWatchers = new Set<(s: EngineStatus) => void>();
 
 function setStatus(s: EngineStatus) {
@@ -76,10 +80,26 @@ export function loadEngine(): Promise<boolean> {
       else if (text === 'readyok' && !settled) finish(true);
       listener?.(text);
     };
-    worker.onerror = () => finish(false);
+    worker.onerror = () => {
+      if (!settled) finish(false);
+      else crash();
+    };
     worker.postMessage('uci');
   });
   return readyPromise;
+}
+
+/** The engine died or got stuck: drop it, answer the waiting search with nothing (callers then use
+ *  their own fallback), and load a fresh one next time. */
+function crash() {
+  worker?.terminate();
+  worker = null;
+  readyPromise = null;
+  listener = null;
+  setStatus('idle');
+  const done = current;
+  current = null;
+  done?.({ lines: [], bestmove: null });
 }
 
 function send(cmd: string) {
@@ -87,9 +107,16 @@ function send(cmd: string) {
 }
 
 /** Runs one search and collects the final line for each multipv slot. */
-function search(setup: string[], go: string, multipv: number): Promise<{ lines: EngineLine[]; bestmove: string | null }> {
-  return new Promise((resolve) => {
+function search(setup: string[], go: string, multipv: number, limitMs: number): Promise<{ lines: EngineLine[]; bestmove: string | null }> {
+  return new Promise((done) => {
     const lines: EngineLine[] = [];
+    const guard = setTimeout(crash, limitMs);
+    const resolve = (r: { lines: EngineLine[]; bestmove: string | null }) => {
+      clearTimeout(guard);
+      current = null;
+      done(r);
+    };
+    current = resolve;
     listener = (text) => {
       if (text.startsWith('info ') && text.includes(' pv ') && text.includes(' score ')) {
         const depth = Number(/ depth (\d+)/.exec(text)?.[1] ?? 0);
@@ -111,10 +138,23 @@ function search(setup: string[], go: string, multipv: number): Promise<{ lines: 
   });
 }
 
-function enqueue<T>(job: () => Promise<T>): Promise<T> {
-  const run = queue.then(job, job);
-  queue = run.catch(() => undefined);
-  return run;
+function enqueue<T>(job: () => Promise<T>, low = false): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    (low ? background : urgent).push(() => job().then(resolve, reject));
+    void pump();
+  });
+}
+
+async function pump() {
+  if (pumping) return;
+  pumping = true;
+  try {
+    for (let next = urgent.shift() ?? background.shift(); next; next = urgent.shift() ?? background.shift()) {
+      await next().catch(() => undefined);
+    }
+  } finally {
+    pumping = false;
+  }
 }
 
 export interface AnalyseOptions {
@@ -123,13 +163,17 @@ export interface AnalyseOptions {
   multipv?: number;
   /** Stockfish's strength limit (1320-3190), or undefined for full strength. */
   elo?: number;
+  /** A background job (game review): waits behind game moves and hints. */
+  background?: boolean;
 }
 
 /** Analyses a position. Returns null when the engine is not available. */
 export async function analyse(fen: string, options: AnalyseOptions = {}): Promise<{ lines: EngineLine[]; bestmove: string | null } | null> {
   if (!(await loadEngine())) return null;
   const multipv = options.multipv ?? 1;
-  return enqueue(() => {
+  return enqueue(async () => {
+    // The engine may have crashed while this job waited.
+    if (!worker && !(await loadEngine())) return { lines: [], bestmove: null };
     const setup = [
       `setoption name MultiPV value ${multipv}`,
       `setoption name UCI_LimitStrength value ${options.elo ? 'true' : 'false'}`,
@@ -140,8 +184,8 @@ export async function analyse(fen: string, options: AnalyseOptions = {}): Promis
     if (options.depth) parts.push('depth', String(options.depth));
     if (options.movetime) parts.push('movetime', String(options.movetime));
     if (parts.length === 1) parts.push('depth', '12');
-    return search(setup, parts.join(' '), multipv);
-  });
+    return search(setup, parts.join(' '), multipv, (options.movetime ?? 20_000) + 15_000);
+  }, options.background);
 }
 
 /** Tells the engine a new game starts, so old search memory does not carry over. */

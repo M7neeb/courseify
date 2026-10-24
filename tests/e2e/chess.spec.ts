@@ -150,6 +150,13 @@ test('play a bot, resign, and review the game move by move', async ({ page }) =>
   await expect(page.locator('.cf-coach-title')).toContainText('e4');
   // The badge on the board marks the move's class.
   await expect(page.locator('.cf-sq-badge')).toHaveCount(1);
+  // Stepping through the moves keeps the page where it is.
+  await page.getByRole('button', { name: 'Back one move' }).click();
+  const y = await page.evaluate(() => window.scrollY);
+  await page.getByRole('button', { name: 'Next move' }).click();
+  await page.getByRole('button', { name: 'Back one move' }).click();
+  await page.getByRole('button', { name: 'Next move' }).click();
+  expect(await page.evaluate(() => window.scrollY)).toBe(y);
 
   await page.goto('./#/play/games');
   await expect(page.getByText('vs Pip (250)')).toBeVisible();

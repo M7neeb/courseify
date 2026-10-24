@@ -1531,5 +1531,8 @@
   "chess.settings.sounds": "Töne",
   "chess.settings.animate": "Figuren gleiten lassen",
   "chess.settings.premoves": "Vorauszüge (ziehen, während der Bot nachdenkt)",
-  "chess.settings.autoQueen": "Immer in eine Dame umwandeln"
+  "chess.settings.autoQueen": "Immer in eine Dame umwandeln",
+  "storage.unavailable": "Der lokale Speicher lässt sich nicht öffnen. Kurse und Fortschritt werden nicht gespeichert.",
+  "settings.backupFailed": "Die Sicherung konnte nicht erstellt werden. Versuch es noch einmal.",
+  "storage.saveFailed": "Deine letzte Änderung konnte nicht gespeichert werden. Lade die App neu, damit dein Fortschritt sicher bleibt."
 }

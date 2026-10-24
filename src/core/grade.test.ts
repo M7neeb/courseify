@@ -156,3 +156,15 @@ test('a hotspot answer is right when the tap lands in the right area', async () 
   // Overlapping areas: the smaller one wins.
   assert.equal(hotspotHit([{ x: 0, y: 0, w: 100, h: 100 }, { x: 40, y: 40, w: 10, h: 10 }], 45, 45), 1);
 });
+
+test('numbers with German thousands dots count, and umlauts can be typed as ae/oe/ue/ss', () => {
+  const big = q({ kind: 'numeric', answer: 349000 });
+  assert.equal(gradeAnswer(big, '349.000'), true);
+  assert.equal(gradeAnswer(big, '349000'), true);
+  assert.equal(gradeAnswer(q({ kind: 'numeric', answer: 74400000 }), '74.400.000'), true);
+  assert.equal(gradeAnswer(q({ kind: 'numeric', answer: 1234.5 }), '1.234,5'), true);
+  assert.equal(gradeAnswer(q({ kind: 'numeric', answer: 1.5 }), '1,5'), true);
+  assert.equal(gradeAnswer(big, '349'), false);
+  assert.equal(gradeAnswer(q({ answer: 'Schlüssel' }), 'Schluessel'), true);
+  assert.equal(gradeAnswer(q({ answer: 'Straße' }), 'strasse'), true);
+});

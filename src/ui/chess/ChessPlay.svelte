@@ -88,7 +88,12 @@
     if (mine !== generation || destroyed) return;
     thinking = false;
     if (!result.move) return;
-    const move = game.move({ from: result.move.slice(0, 2), to: result.move.slice(2, 4), promotion: result.move[4] });
+    let move: Move;
+    try {
+      move = game.move({ from: result.move.slice(0, 2), to: result.move.slice(2, 4), promotion: result.move[4] });
+    } catch {
+      return;
+    }
     fen = game.fen();
     history = [...history, move];
     judge(move);
@@ -138,9 +143,10 @@
     if (!myTurn || hinting) return;
     hinting = true;
     const mine = generation;
-    const result = await think(game.fen(), 5, 0);
+    const asked = game.fen();
+    const result = await think(asked, 5, 0);
     hinting = false;
-    if (mine !== generation || !result.move) return;
+    if (mine !== generation || !result.move || game.fen() !== asked) return;
     hintArrow = { from: result.move.slice(0, 2), to: result.move.slice(2, 4), tone: 'hint' };
   }
 

@@ -84,12 +84,19 @@
   }
 
   async function backupData() {
-    // Stamp the export time first so the downloaded file carries it too.
+    // Stamp the export time first so the downloaded file carries it too, but put the old stamp back
+    // when the file could not be made, so the backup reminder stays.
+    const before = app.settings.lastBackupAt;
     await updateSettings({ lastBackupAt: new Date().toISOString() });
-    const data = await exportBackup();
-    const stamp = new Date().toISOString().slice(0, 10);
-    downloadJson(`courseify-backup-${stamp}.json`, data);
-    showToast(t('settings.backupDone'));
+    try {
+      const data = await exportBackup();
+      const stamp = new Date().toISOString().slice(0, 10);
+      downloadJson(`courseify-backup-${stamp}.json`, data);
+      showToast(t('settings.backupDone'));
+    } catch {
+      await updateSettings({ lastBackupAt: before });
+      showToast(t('settings.backupFailed'));
+    }
   }
 </script>
 
