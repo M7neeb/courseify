@@ -1,7 +1,7 @@
 // The single source of truth for the app version and the "What's new" list.
 // Bump VERSION and add one CHANGELOG entry at the top when you ship user-visible changes.
 
-export const VERSION = '1.9.0';
+export const VERSION = '1.9.1';
 
 export interface ChangelogEntry {
   version: string;
@@ -11,6 +11,11 @@ export interface ChangelogEntry {
 
 /** Newest first. */
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.9.1',
+    date: '2026-10-24',
+    changes: ['"Create a course" and "Import" are now in the side menu, so they are easy to find on a phone.']
+  },
   {
     version: '1.9.0',
     date: '2026-10-24',

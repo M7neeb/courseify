@@ -19,6 +19,13 @@
       ]
     },
     {
+      key: 'home.nav.newCourses',
+      links: [
+        { route: 'prompt', href: '#/prompt', key: 'home.nav.create' },
+        { route: 'import', href: '#/import', key: 'home.nav.import' }
+      ]
+    },
+    {
       key: 'home.nav.myAccount',
       links: [
         { route: 'stats', href: '#/stats', key: 'home.nav.progress' },
