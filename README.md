@@ -13,7 +13,7 @@
 ![Svelte 5](https://img.shields.io/badge/Svelte-5-ff3e00?logo=svelte&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)
 ![Offline](https://img.shields.io/badge/PWA-works%20offline-5a0fc8)
-![Tests](https://img.shields.io/badge/tests-323%20unit%20%C2%B7%2092%20end--to--end-1fab54)
+![Tests](https://img.shields.io/badge/tests-386%20unit%20%C2%B7%20124%20end--to--end-1fab54)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 </div>
@@ -46,8 +46,8 @@ and stays on your device. No account, no subscription, no tracking.
     <td width="50%" valign="top">
       <h3>Practise</h3>
       <ul>
-        <li><b>Twelve question types</b>, from multiple choice to written answers, tap-the-picture questions and programming tasks checked by tests.</li>
-        <li><b>Drills:</b> endless new problems with a worked solution you open step by step, for IT (binary, hex, units, subnets) and maths.</li>
+        <li><b>Fifteen question types</b>, from multiple choice to written answers, tap-the-picture questions, trace tables, and programming, SQL and command-line tasks checked by the app.</li>
+        <li><b>Drills:</b> endless new problems with a worked solution you open step by step, for IT (binary, hex, units, subnets, IPv6, packets and captures) and maths, plus a hash lab, a password check and a network plan builder.</li>
         <li><b>Mock exams:</b> a timed test over a whole course, graded at the end.</li>
         <li><b>Mistake review</b> brings back what you missed, spaced out so it sticks.</li>
       </ul>
@@ -142,6 +142,11 @@ version is out (your progress stays). Delete one and it stays deleted; add it ba
 | Datenbanken: ER-Modell, Schlüssel und Tabellen | German and English | 20 |
 | Elektrotechnik: Strom, Leistung und Wechselspannung | German and English | 23 |
 | Das Pflichtenheft verstehen | German | 11 |
+| SQL-Detektiv: Der Fall des Blauen Kristalls | German and English | 7 |
+| Programmieren: Pseudocode und Python | German and English | 8 |
+| Linux: Die Kommandozeile von Grund auf | German and English | 7 |
+| IT-Sicherheit: Schutzziele, Phishing und Passwörter | German and English | 7 |
+| Wirtschaft und Rechnen: Prozent, Netzplan, Kosten und Ausbildungsrecht | German and English | 8 |
 
 ## How a course is made
 
