@@ -89,6 +89,7 @@ export function resolveQuestion(q: Question, lang: Lang): Question {
   if (Array.isArray(localized.pairs) && localized.pairs.length > 0) out.pairs = localized.pairs;
   if (Array.isArray(localized.items) && localized.items.length > 0) out.items = localized.items;
   if (Array.isArray(localized.points) && localized.points.length > 0) out.points = localized.points;
+  if (Array.isArray(localized.columns) && localized.columns.length > 0) out.columns = localized.columns;
   if (typeof localized.svg === 'string' && localized.svg.trim() !== '') out.svg = localized.svg;
   if (typeof localized.alt === 'string' && localized.alt.trim() !== '') out.alt = localized.alt;
   if (Array.isArray(localized.areaLabels) && out.areas) {

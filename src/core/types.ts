@@ -21,7 +21,10 @@ export type QuestionKind =
   | 'chess'
   | 'written'
   | 'hotspot'
-  | 'code';
+  | 'code'
+  | 'sql'
+  | 'trace'
+  | 'shell';
 
 /**
  * A test for a code question: call a function and compare the result ("call" with "expect"), or
@@ -77,6 +80,8 @@ export interface QuestionI18n {
   items?: string[];
   /** Localized key points of a written answer. */
   points?: string[];
+  /** Localized column headings of a trace table. */
+  columns?: string[];
   /** Localized picture (inline SVG) and its description, for a hotspot question. */
   svg?: string;
   alt?: string;
@@ -144,6 +149,17 @@ export interface Question {
   language?: string;
   starter?: string;
   tests?: CodeTest[];
+  /** A SQL question: the script that builds the practice database, and whether row order counts. */
+  setup?: string;
+  ordered?: boolean;
+  /** A trace table question: the column names, the complete correct rows, and which cells [row, column] the learner fills. */
+  columns?: string[];
+  rows?: string[][];
+  blanks?: number[][];
+  /** A shell question: the starting file tree (nested objects, text = file content), the folder to start in, and the goal. */
+  fs?: Record<string, unknown>;
+  cwd?: string;
+  goal?: Record<string, unknown>;
 }
 
 /** Every block has an id and a type. Any other field is block-specific and optional for the core. */

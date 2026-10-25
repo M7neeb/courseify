@@ -1,0 +1,2101 @@
+{
+  "schemaVersion": 2,
+  "id": "it-sicherheit-grundlagen",
+  "title": "IT-Sicherheit: Schutzziele, Phishing und Passwörter",
+  "subject": "IT-Sicherheit",
+  "level": "Grundlagen",
+  "language": "de",
+  "languages": [
+    "de",
+    "en"
+  ],
+  "version": "1.0",
+  "meta": {
+    "tags": [
+      "it-sicherheit",
+      "phishing",
+      "passwort",
+      "datenschutz"
+    ],
+    "description": "Schutzziele nach BSI, Malware und Social Engineering, Phishing erkennen, Passwörter und 2FA, Hashes und Verschlüsselung, Backup, WLAN und Datenschutz. Mit einem Hash-Labor und einer Passwort-Prüfung."
+  },
+  "modules": [
+    {
+      "id": "m1",
+      "title": "Grundlagen",
+      "summary": "Schutzziele und Bedrohungen.",
+      "lessons": [
+        {
+          "id": "m1-l1",
+          "title": "Schutzziele: Vertraulichkeit, Integrität, Verfügbarkeit",
+          "goal": "Du kannst die drei Schutzziele erklären und Vorfälle dem richtigen Ziel zuordnen.",
+          "blocks": [
+            {
+              "id": "m1-l1-b1",
+              "type": "text",
+              "markdown": "IT-Sicherheit schützt **Daten und Systeme**. Die drei klassischen **Schutzziele** (auch **CIA-Triade** nach den englischen Namen):\n\n| Schutzziel | Frage | Beispiel für einen Verstoß |\n|---|---|---|\n| **Vertraulichkeit** (confidentiality) | Sehen nur Berechtigte die Daten? | Ein Angreifer liest Kundendaten |\n| **Integrität** (integrity) | Sind die Daten unverändert und echt? | Jemand ändert unbemerkt eine Rechnung |\n| **Verfügbarkeit** (availability) | Sind Daten und Dienste da, wenn man sie braucht? | Ein Server fällt durch einen Angriff aus |\n\nDas **BSI** (Bundesamt für Sicherheit in der Informationstechnik) nennt diese drei als Grundlage. Dazu kommen oft **Authentizität** (stammt es wirklich von dem Absender?) und **Verbindlichkeit** (man kann es nicht abstreiten).",
+              "i18n": {
+                "de": {
+                  "normal": "IT-Sicherheit schützt **Daten und Systeme**. Die drei klassischen **Schutzziele** (auch **CIA-Triade** nach den englischen Namen):\n\n| Schutzziel | Frage | Beispiel für einen Verstoß |\n|---|---|---|\n| **Vertraulichkeit** (confidentiality) | Sehen nur Berechtigte die Daten? | Ein Angreifer liest Kundendaten |\n| **Integrität** (integrity) | Sind die Daten unverändert und echt? | Jemand ändert unbemerkt eine Rechnung |\n| **Verfügbarkeit** (availability) | Sind Daten und Dienste da, wenn man sie braucht? | Ein Server fällt durch einen Angriff aus |\n\nDas **BSI** (Bundesamt für Sicherheit in der Informationstechnik) nennt diese drei als Grundlage. Dazu kommen oft **Authentizität** (stammt es wirklich von dem Absender?) und **Verbindlichkeit** (man kann es nicht abstreiten)."
+                },
+                "en": {
+                  "normal": "IT security protects **data and systems**. The three classic **protection goals** (also the **CIA triad**, after the English names):\n\n| Goal | Question | Example of a breach |\n|---|---|---|\n| **Confidentiality** | Do only authorised people see the data? | An attacker reads customer data |\n| **Integrity** | Is the data unchanged and genuine? | Someone changes an invoice unnoticed |\n| **Availability** | Are data and services there when needed? | A server goes down because of an attack |\n\nThe **BSI** (the German Federal Office for Information Security) names these three as the basis. Often added: **authenticity** (does it really come from that sender?) and **non-repudiation** (it cannot be denied)."
+                }
+              }
+            },
+            {
+              "id": "m1-l1-b2",
+              "type": "example",
+              "markdown": "**Aufgabe:** Eine Ransomware verschlüsselt alle Dateien einer Firma. Welches Schutzziel ist verletzt?\n\n1. Die Daten sind weiter vorhanden, aber nicht lesbar für die Firma.\n2. Die Firma kommt nicht mehr an die Daten heran: **Verfügbarkeit**.\n3. Zusätzlich drohen Angreifer oft, die Daten zu veröffentlichen: dann auch **Vertraulichkeit**.",
+              "i18n": {
+                "de": {
+                  "markdown": "**Aufgabe:** Eine Ransomware verschlüsselt alle Dateien einer Firma. Welches Schutzziel ist verletzt?\n\n1. Die Daten sind weiter vorhanden, aber nicht lesbar für die Firma.\n2. Die Firma kommt nicht mehr an die Daten heran: **Verfügbarkeit**.\n3. Zusätzlich drohen Angreifer oft, die Daten zu veröffentlichen: dann auch **Vertraulichkeit**."
+                },
+                "en": {
+                  "markdown": "**Task:** ransomware encrypts all files of a company. Which protection goal is violated?\n\n1. The data still exists, but the company cannot read it.\n2. The company can no longer get at the data: **availability**.\n3. Attackers often also threaten to publish the data: then **confidentiality** too."
+                }
+              }
+            },
+            {
+              "id": "m1-l1-b3",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "matching",
+                  "prompt": "Ordne jedem Vorfall das verletzte Schutzziel zu.",
+                  "explanation": "Lesen = Vertraulichkeit, Ändern = Integrität, Ausfall = Verfügbarkeit.",
+                  "pairs": [
+                    {
+                      "left": "Ein Dritter liest private Nachrichten mit",
+                      "right": "Vertraulichkeit"
+                    },
+                    {
+                      "left": "Eine Überweisung wird unterwegs auf einen anderen Betrag geändert",
+                      "right": "Integrität"
+                    },
+                    {
+                      "left": "Ein Onlineshop ist durch eine Flut an Anfragen nicht erreichbar",
+                      "right": "Verfügbarkeit"
+                    }
+                  ],
+                  "id": "m1-l1-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Ordne jedem Vorfall das verletzte Schutzziel zu.",
+                      "explanation": "Lesen = Vertraulichkeit, Ändern = Integrität, Ausfall = Verfügbarkeit.",
+                      "pairs": [
+                        {
+                          "left": "Ein Dritter liest private Nachrichten mit",
+                          "right": "Vertraulichkeit"
+                        },
+                        {
+                          "left": "Eine Überweisung wird unterwegs auf einen anderen Betrag geändert",
+                          "right": "Integrität"
+                        },
+                        {
+                          "left": "Ein Onlineshop ist durch eine Flut an Anfragen nicht erreichbar",
+                          "right": "Verfügbarkeit"
+                        }
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Match every incident with the goal it violates.",
+                      "explanation": "Reading = confidentiality, changing = integrity, outage = availability.",
+                      "pairs": [
+                        {
+                          "left": "A third party reads private messages",
+                          "right": "Confidentiality"
+                        },
+                        {
+                          "left": "A transfer is changed to another amount on the way",
+                          "right": "Integrity"
+                        },
+                        {
+                          "left": "An online shop is unreachable because of a flood of requests",
+                          "right": "Availability"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Ein Mitarbeiter löscht aus Versehen eine Datenbank, und es gibt kein Backup. Welches Ziel ist vor allem betroffen?",
+                  "explanation": "Die Daten sind nicht mehr da, wenn man sie braucht.",
+                  "options": [
+                    "Verfügbarkeit",
+                    "Vertraulichkeit",
+                    "Authentizität",
+                    "Keines"
+                  ],
+                  "answer": 0,
+                  "id": "m1-l1-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Ein Mitarbeiter löscht aus Versehen eine Datenbank, und es gibt kein Backup. Welches Ziel ist vor allem betroffen?",
+                      "explanation": "Die Daten sind nicht mehr da, wenn man sie braucht.",
+                      "options": [
+                        "Verfügbarkeit",
+                        "Vertraulichkeit",
+                        "Authentizität",
+                        "Keines"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "An employee deletes a database by accident and there is no backup. Which goal is mainly affected?",
+                      "explanation": "The data is not there when it is needed.",
+                      "options": [
+                        "Availability",
+                        "Confidentiality",
+                        "Authenticity",
+                        "None"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "true-false",
+                  "prompt": "Verschlüsselung schützt vor allem die Vertraulichkeit.",
+                  "explanation": "Wer keinen Schlüssel hat, kann die Daten nicht lesen.",
+                  "answer": true,
+                  "id": "m1-l1-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Verschlüsselung schützt vor allem die Vertraulichkeit.",
+                      "explanation": "Wer keinen Schlüssel hat, kann die Daten nicht lesen."
+                    },
+                    "en": {
+                      "prompt": "Encryption mainly protects confidentiality.",
+                      "explanation": "Without the key nobody can read the data."
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Schutzziele: Vertraulichkeit, Integrität, Verfügbarkeit",
+              "goal": "Du kannst die drei Schutzziele erklären und Vorfälle dem richtigen Ziel zuordnen."
+            },
+            "en": {
+              "title": "Protection goals: confidentiality, integrity, availability",
+              "goal": "You can explain the three protection goals and match incidents to the right one."
+            }
+          }
+        },
+        {
+          "id": "m1-l2",
+          "title": "Bedrohungen: Malware und Social Engineering",
+          "goal": "Du kannst Malware-Arten unterscheiden und Social Engineering erkennen.",
+          "blocks": [
+            {
+              "id": "m1-l2-b1",
+              "type": "text",
+              "markdown": "**Malware** ist Schadsoftware. Die wichtigsten Arten:\n\n| Art | Merkmal |\n|---|---|\n| **Virus** | hängt sich an Dateien und verbreitet sich, wenn man sie öffnet |\n| **Wurm** | verbreitet sich **selbst** über das Netz |\n| **Trojaner** | gibt sich als nützliches Programm aus und öffnet eine Hintertür |\n| **Ransomware** | verschlüsselt Daten und fordert Lösegeld |\n| **Spyware** | spioniert aus (Eingaben, Passwörter) |\n\n**Social Engineering** greift nicht die Technik an, sondern den **Menschen**: Man erzeugt Druck, Neugier oder Vertrauen. Beispiele: ein Anruf *\"vom IT-Support\"*, ein USB-Stick auf dem Parkplatz, eine Mail *\"vom Chef\"*. Die beste Abwehr ist **Wissen und Nachfragen** über einen zweiten, bekannten Weg.",
+              "i18n": {
+                "de": {
+                  "normal": "**Malware** ist Schadsoftware. Die wichtigsten Arten:\n\n| Art | Merkmal |\n|---|---|\n| **Virus** | hängt sich an Dateien und verbreitet sich, wenn man sie öffnet |\n| **Wurm** | verbreitet sich **selbst** über das Netz |\n| **Trojaner** | gibt sich als nützliches Programm aus und öffnet eine Hintertür |\n| **Ransomware** | verschlüsselt Daten und fordert Lösegeld |\n| **Spyware** | spioniert aus (Eingaben, Passwörter) |\n\n**Social Engineering** greift nicht die Technik an, sondern den **Menschen**: Man erzeugt Druck, Neugier oder Vertrauen. Beispiele: ein Anruf *\"vom IT-Support\"*, ein USB-Stick auf dem Parkplatz, eine Mail *\"vom Chef\"*. Die beste Abwehr ist **Wissen und Nachfragen** über einen zweiten, bekannten Weg."
+                },
+                "en": {
+                  "normal": "**Malware** is harmful software. The main kinds:\n\n| Kind | Feature |\n|---|---|\n| **Virus** | attaches to files and spreads when they are opened |\n| **Worm** | spreads **by itself** over the network |\n| **Trojan** | pretends to be a useful program and opens a back door |\n| **Ransomware** | encrypts data and demands a ransom |\n| **Spyware** | spies (typing, passwords) |\n\n**Social engineering** does not attack the technology but the **person**: it creates pressure, curiosity or trust. Examples: a call *\"from IT support\"*, a USB stick in the car park, an email *\"from the boss\"*. The best defence is **knowing and asking back** through a second, known channel."
+                }
+              }
+            },
+            {
+              "id": "m1-l2-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "matching",
+                  "prompt": "Ordne jeder Malware ihre Beschreibung zu.",
+                  "explanation": "Das Unterscheidungsmerkmal ist, wie es sich verbreitet oder was es tut.",
+                  "pairs": [
+                    {
+                      "left": "Wurm",
+                      "right": "Verbreitet sich selbst über das Netz"
+                    },
+                    {
+                      "left": "Trojaner",
+                      "right": "Getarnt als nützliches Programm"
+                    },
+                    {
+                      "left": "Ransomware",
+                      "right": "Verschlüsselt Daten gegen Lösegeld"
+                    },
+                    {
+                      "left": "Spyware",
+                      "right": "Spioniert Eingaben aus"
+                    }
+                  ],
+                  "id": "m1-l2-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Ordne jeder Malware ihre Beschreibung zu.",
+                      "explanation": "Das Unterscheidungsmerkmal ist, wie es sich verbreitet oder was es tut.",
+                      "pairs": [
+                        {
+                          "left": "Wurm",
+                          "right": "Verbreitet sich selbst über das Netz"
+                        },
+                        {
+                          "left": "Trojaner",
+                          "right": "Getarnt als nützliches Programm"
+                        },
+                        {
+                          "left": "Ransomware",
+                          "right": "Verschlüsselt Daten gegen Lösegeld"
+                        },
+                        {
+                          "left": "Spyware",
+                          "right": "Spioniert Eingaben aus"
+                        }
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Match every malware with its description.",
+                      "explanation": "The difference is how it spreads or what it does.",
+                      "pairs": [
+                        {
+                          "left": "Worm",
+                          "right": "Spreads by itself over the network"
+                        },
+                        {
+                          "left": "Trojan",
+                          "right": "Disguised as a useful program"
+                        },
+                        {
+                          "left": "Ransomware",
+                          "right": "Encrypts data for a ransom"
+                        },
+                        {
+                          "left": "Spyware",
+                          "right": "Spies on typing"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Ein Anrufer sagt: \"Hier ist die IT. Ihr Konto ist gesperrt, sagen Sie mir schnell Ihr Passwort.\" Was ist das?",
+                  "explanation": "Druck und falsche Autorität: ein klassischer Angriff auf den Menschen.",
+                  "options": [
+                    "Social Engineering",
+                    "Ein Wurm",
+                    "Eine Firewall",
+                    "Eine Sicherung"
+                  ],
+                  "answer": 0,
+                  "id": "m1-l2-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Ein Anrufer sagt: \"Hier ist die IT. Ihr Konto ist gesperrt, sagen Sie mir schnell Ihr Passwort.\" Was ist das?",
+                      "explanation": "Druck und falsche Autorität: ein klassischer Angriff auf den Menschen.",
+                      "options": [
+                        "Social Engineering",
+                        "Ein Wurm",
+                        "Eine Firewall",
+                        "Eine Sicherung"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "A caller says: \"This is IT. Your account is locked, tell me your password quickly.\" What is this?",
+                      "explanation": "Pressure and false authority: a classic attack on the person.",
+                      "options": [
+                        "Social engineering",
+                        "A worm",
+                        "A firewall",
+                        "A backup"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Was tust du richtig?",
+                  "explanation": "Niemals ein Passwort herausgeben, und über einen bekannten Weg nachfragen.",
+                  "options": [
+                    "Auflegen und die IT über die bekannte Nummer zurückrufen",
+                    "Das Passwort nennen, um zu helfen",
+                    "Nach der Telefonnummer des Anrufers fragen und diese zurückrufen",
+                    "Das Passwort per Mail schicken"
+                  ],
+                  "answer": 0,
+                  "id": "m1-l2-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was tust du richtig?",
+                      "explanation": "Niemals ein Passwort herausgeben, und über einen bekannten Weg nachfragen.",
+                      "options": [
+                        "Auflegen und die IT über die bekannte Nummer zurückrufen",
+                        "Das Passwort nennen, um zu helfen",
+                        "Nach der Telefonnummer des Anrufers fragen und diese zurückrufen",
+                        "Das Passwort per Mail schicken"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "What is the right thing to do?",
+                      "explanation": "Never give out a password, and ask back through a known channel.",
+                      "options": [
+                        "Hang up and call IT back on the known number",
+                        "Give the password to help",
+                        "Ask for the caller's number and call it back",
+                        "Send the password by email"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Bedrohungen: Malware und Social Engineering",
+              "goal": "Du kannst Malware-Arten unterscheiden und Social Engineering erkennen."
+            },
+            "en": {
+              "title": "Threats: malware and social engineering",
+              "goal": "You can tell malware types apart and recognise social engineering."
+            }
+          }
+        }
+      ],
+      "test": {
+        "id": "m1-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "kind": "multiple-choice",
+            "prompt": "Ein Angreifer ändert unbemerkt den Preis in einer Bestellung. Welches Schutzziel ist verletzt?",
+            "explanation": "Daten wurden verändert.",
+            "options": [
+              "Integrität",
+              "Vertraulichkeit",
+              "Verfügbarkeit",
+              "Keines"
+            ],
+            "answer": 0,
+            "id": "m1-t1",
+            "skillId": "m1-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Ein Angreifer ändert unbemerkt den Preis in einer Bestellung. Welches Schutzziel ist verletzt?",
+                "explanation": "Daten wurden verändert.",
+                "options": [
+                  "Integrität",
+                  "Vertraulichkeit",
+                  "Verfügbarkeit",
+                  "Keines"
+                ]
+              },
+              "en": {
+                "prompt": "An attacker changes the price in an order unnoticed. Which goal is violated?",
+                "explanation": "Data was changed.",
+                "options": [
+                  "Integrity",
+                  "Confidentiality",
+                  "Availability",
+                  "None"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Welche Malware verbreitet sich selbst über das Netz, ohne dass jemand etwas öffnet?",
+            "explanation": "Der Wurm braucht keinen Wirt.",
+            "options": [
+              "Wurm",
+              "Virus",
+              "Trojaner",
+              "Spyware"
+            ],
+            "answer": 0,
+            "id": "m1-t2",
+            "skillId": "m1-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Welche Malware verbreitet sich selbst über das Netz, ohne dass jemand etwas öffnet?",
+                "explanation": "Der Wurm braucht keinen Wirt.",
+                "options": [
+                  "Wurm",
+                  "Virus",
+                  "Trojaner",
+                  "Spyware"
+                ]
+              },
+              "en": {
+                "prompt": "Which malware spreads by itself over the network without anyone opening anything?",
+                "explanation": "The worm needs no host.",
+                "options": [
+                  "Worm",
+                  "Virus",
+                  "Trojan",
+                  "Spyware"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "true-false",
+            "prompt": "Social Engineering greift die Technik an, nicht den Menschen.",
+            "explanation": "Es zielt auf den Menschen.",
+            "answer": false,
+            "id": "m1-t3",
+            "skillId": "m1-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Social Engineering greift die Technik an, nicht den Menschen.",
+                "explanation": "Es zielt auf den Menschen."
+              },
+              "en": {
+                "prompt": "Social engineering attacks the technology, not the person.",
+                "explanation": "It targets the person."
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Was ist die Verfügbarkeit?",
+            "explanation": "Das dritte Schutzziel.",
+            "options": [
+              "Daten und Dienste sind da, wenn man sie braucht",
+              "Nur Berechtigte lesen die Daten",
+              "Die Daten sind unverändert",
+              "Die Daten sind verschlüsselt"
+            ],
+            "answer": 0,
+            "id": "m1-t4",
+            "skillId": "m1-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Was ist die Verfügbarkeit?",
+                "explanation": "Das dritte Schutzziel.",
+                "options": [
+                  "Daten und Dienste sind da, wenn man sie braucht",
+                  "Nur Berechtigte lesen die Daten",
+                  "Die Daten sind unverändert",
+                  "Die Daten sind verschlüsselt"
+                ]
+              },
+              "en": {
+                "prompt": "What is availability?",
+                "explanation": "The third goal.",
+                "options": [
+                  "Data and services are there when needed",
+                  "Only authorised people read the data",
+                  "The data is unchanged",
+                  "The data is encrypted"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Welche Aussage über Ransomware stimmt?",
+            "explanation": "Daher heißt sie so: Ransom = Lösegeld.",
+            "options": [
+              "Sie verschlüsselt Daten und fordert Lösegeld",
+              "Sie spioniert Passwörter aus",
+              "Sie ist ein Antivirus",
+              "Sie beschleunigt den Rechner"
+            ],
+            "answer": 0,
+            "id": "m1-t5",
+            "skillId": "m1-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Welche Aussage über Ransomware stimmt?",
+                "explanation": "Daher heißt sie so: Ransom = Lösegeld.",
+                "options": [
+                  "Sie verschlüsselt Daten und fordert Lösegeld",
+                  "Sie spioniert Passwörter aus",
+                  "Sie ist ein Antivirus",
+                  "Sie beschleunigt den Rechner"
+                ]
+              },
+              "en": {
+                "prompt": "Which statement about ransomware is true?",
+                "explanation": "That is the name: ransom.",
+                "options": [
+                  "It encrypts data and demands a ransom",
+                  "It spies on passwords",
+                  "It is an antivirus",
+                  "It speeds up the computer"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "true-false",
+            "prompt": "Das BSI ist eine Behörde, die sich um IT-Sicherheit in Deutschland kümmert.",
+            "explanation": "Bundesamt für Sicherheit in der Informationstechnik.",
+            "answer": true,
+            "id": "m1-t6",
+            "skillId": "m1-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Das BSI ist eine Behörde, die sich um IT-Sicherheit in Deutschland kümmert.",
+                "explanation": "Bundesamt für Sicherheit in der Informationstechnik."
+              },
+              "en": {
+                "prompt": "The BSI is an authority that looks after IT security in Germany.",
+                "explanation": "Federal Office for Information Security."
+              }
+            }
+          }
+        ]
+      },
+      "i18n": {
+        "de": {
+          "title": "Grundlagen",
+          "summary": "Schutzziele und Bedrohungen."
+        },
+        "en": {
+          "title": "Basics",
+          "summary": "Protection goals and threats."
+        }
+      }
+    },
+    {
+      "id": "m2",
+      "title": "Angriffe erkennen, Zugänge sichern",
+      "summary": "Phishing, Passwörter, Hashes und Verschlüsselung.",
+      "lessons": [
+        {
+          "id": "m2-l1",
+          "title": "Phishing erkennen",
+          "goal": "Du kannst Warnzeichen einer Phishing-Nachricht erkennen.",
+          "blocks": [
+            {
+              "id": "m2-l1-b1",
+              "type": "text",
+              "markdown": "**Phishing** (von *fishing*, Angeln) lockt mit gefälschten Mails, SMS oder Seiten an Zugangsdaten oder Geld. Typische Warnzeichen:\n\n1. **Absender**: Die Adresse passt nicht zur Firma (`service@paypa1-support.com`).\n2. **Druck**: *\"Handeln Sie in 24 Stunden, sonst wird Ihr Konto gesperrt!\"*\n3. **Allgemeine Anrede**: *\"Sehr geehrter Kunde\"* statt deines Namens.\n4. **Link**: Der Text sagt `bank.de`, das Ziel ist ein anderes. Auf dem Handy länger auf den Link drücken zeigt das Ziel.\n5. **Anhang oder Login-Seite**, die du nicht erwartet hast.\n6. **Fehler** in Sprache und Aufmachung, aber gute Fälschungen haben keine mehr.\n\nRegel: **Nie über den Link in der Nachricht anmelden.** Öffne die Seite selbst über die bekannte Adresse.",
+              "i18n": {
+                "de": {
+                  "normal": "**Phishing** (von *fishing*, Angeln) lockt mit gefälschten Mails, SMS oder Seiten an Zugangsdaten oder Geld. Typische Warnzeichen:\n\n1. **Absender**: Die Adresse passt nicht zur Firma (`service@paypa1-support.com`).\n2. **Druck**: *\"Handeln Sie in 24 Stunden, sonst wird Ihr Konto gesperrt!\"*\n3. **Allgemeine Anrede**: *\"Sehr geehrter Kunde\"* statt deines Namens.\n4. **Link**: Der Text sagt `bank.de`, das Ziel ist ein anderes. Auf dem Handy länger auf den Link drücken zeigt das Ziel.\n5. **Anhang oder Login-Seite**, die du nicht erwartet hast.\n6. **Fehler** in Sprache und Aufmachung, aber gute Fälschungen haben keine mehr.\n\nRegel: **Nie über den Link in der Nachricht anmelden.** Öffne die Seite selbst über die bekannte Adresse."
+                },
+                "en": {
+                  "normal": "**Phishing** (from *fishing*) lures with fake emails, texts or pages to get log-in data or money. Typical warning signs:\n\n1. **Sender**: the address does not fit the company (`service@paypa1-support.com`).\n2. **Pressure**: *\"Act within 24 hours or your account will be locked!\"*\n3. **Generic greeting**: *\"Dear customer\"* instead of your name.\n4. **Link**: the text says `bank.com`, the target is a different one. On a phone a long press on the link shows the target.\n5. An **attachment or log-in page** you did not expect.\n6. **Mistakes** in language and layout, but good fakes have none any more.\n\nRule: **never log in through the link in the message.** Open the site yourself through the known address."
+                }
+              }
+            },
+            {
+              "id": "m2-l1-b2",
+              "type": "example",
+              "markdown": "**Beispiel-Mail:**\n\n> Von: `sicherheit@sparkasse-online.info`\n> Betreff: Dringend: Ihr Konto wird gesperrt\n> Sehr geehrter Kunde, wir haben ungewöhnliche Aktivitäten festgestellt. Bestätigen Sie Ihre Daten innerhalb von 24 Stunden unter *http://sparkasse-login.info*.\n\n1. Absender: `.info`, nicht die echte Bankadresse.\n2. Druck: 24 Stunden, Sperrung.\n3. Anrede: \"Sehr geehrter Kunde\".\n4. Link: eine fremde Adresse.\n5. Ergebnis: Phishing. Nicht klicken, Mail löschen oder melden.",
+              "i18n": {
+                "de": {
+                  "markdown": "**Beispiel-Mail:**\n\n> Von: `sicherheit@sparkasse-online.info`\n> Betreff: Dringend: Ihr Konto wird gesperrt\n> Sehr geehrter Kunde, wir haben ungewöhnliche Aktivitäten festgestellt. Bestätigen Sie Ihre Daten innerhalb von 24 Stunden unter *http://sparkasse-login.info*.\n\n1. Absender: `.info`, nicht die echte Bankadresse.\n2. Druck: 24 Stunden, Sperrung.\n3. Anrede: \"Sehr geehrter Kunde\".\n4. Link: eine fremde Adresse.\n5. Ergebnis: Phishing. Nicht klicken, Mail löschen oder melden."
+                },
+                "en": {
+                  "markdown": "**Example email:**\n\n> From: `security@bank-online.info`\n> Subject: Urgent: your account will be locked\n> Dear customer, we have noticed unusual activity. Confirm your data within 24 hours at *http://bank-login.info*.\n\n1. Sender: `.info`, not the real bank address.\n2. Pressure: 24 hours, locking.\n3. Greeting: \"Dear customer\".\n4. Link: a foreign address.\n5. Result: phishing. Do not click, delete the mail or report it."
+                }
+              }
+            },
+            {
+              "id": "m2-l1-b3",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "multi-select",
+                  "prompt": "Welche Merkmale dieser Nachricht sind Warnzeichen?\n\n> Von: `rechnung@dhl-paket.top`\n> Betreff: Ihr Paket wartet. Zahlen Sie 1,99 € Zollgebühr **sofort**, sonst wird es zurückgesendet.\n> Hallo Kunde, hier bezahlen: *http://dhl-zoll.top/pay*",
+                  "explanation": "Das Wort Paket allein ist harmlos. Absender, Druck und Anrede sind die Zeichen.",
+                  "options": [
+                    "Fremde Absenderadresse mit `.top`",
+                    "Druck durch eine Frist",
+                    "Allgemeine Anrede",
+                    "Der Betreff enthält das Wort Paket"
+                  ],
+                  "answer": [
+                    0,
+                    1,
+                    2
+                  ],
+                  "id": "m2-l1-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Welche Merkmale dieser Nachricht sind Warnzeichen?\n\n> Von: `rechnung@dhl-paket.top`\n> Betreff: Ihr Paket wartet. Zahlen Sie 1,99 € Zollgebühr **sofort**, sonst wird es zurückgesendet.\n> Hallo Kunde, hier bezahlen: *http://dhl-zoll.top/pay*",
+                      "explanation": "Das Wort Paket allein ist harmlos. Absender, Druck und Anrede sind die Zeichen.",
+                      "options": [
+                        "Fremde Absenderadresse mit `.top`",
+                        "Druck durch eine Frist",
+                        "Allgemeine Anrede",
+                        "Der Betreff enthält das Wort Paket"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Which features of this message are warning signs?\n\n> From: `bill@dhl-parcel.top`\n> Subject: Your parcel is waiting. Pay a 1.99 € customs fee **immediately** or it will be sent back.\n> Hello customer, pay here: *http://dhl-customs.top/pay*",
+                      "explanation": "The word parcel alone is harmless. Sender, pressure and greeting are the signs.",
+                      "options": [
+                        "Foreign sender address with `.top`",
+                        "Pressure through a deadline",
+                        "Generic greeting",
+                        "The subject contains the word parcel"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "In einer Mail steht der Link `www.meinebank.de`, beim Antippen öffnet sich aber `meinebank.login-sicher.com`. Was bedeutet das?",
+                  "explanation": "Die echte Domain steht direkt vor dem ersten Schrägstrich: hier `login-sicher.com`.",
+                  "options": [
+                    "Der sichtbare Text täuscht: das Ziel ist eine fremde Seite",
+                    "Alles in Ordnung, Hauptsache der Name kommt vor",
+                    "Die Bank hat die Adresse gewechselt",
+                    "Der Browser ist veraltet"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l1-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "In einer Mail steht der Link `www.meinebank.de`, beim Antippen öffnet sich aber `meinebank.login-sicher.com`. Was bedeutet das?",
+                      "explanation": "Die echte Domain steht direkt vor dem ersten Schrägstrich: hier `login-sicher.com`.",
+                      "options": [
+                        "Der sichtbare Text täuscht: das Ziel ist eine fremde Seite",
+                        "Alles in Ordnung, Hauptsache der Name kommt vor",
+                        "Die Bank hat die Adresse gewechselt",
+                        "Der Browser ist veraltet"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "An email shows the link `www.mybank.com`, but tapping opens `mybank.login-secure.net`. What does that mean?",
+                      "explanation": "The real domain is right before the first slash: here `login-secure.net`.",
+                      "options": [
+                        "The visible text deceives: the target is a foreign site",
+                        "All fine, the name appears",
+                        "The bank changed its address",
+                        "The browser is outdated"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Du bist unsicher, ob eine Mail deiner Bank echt ist. Was ist am besten?",
+                  "explanation": "Immer über einen bekannten, selbst gewählten Weg.",
+                  "options": [
+                    "Die Bank-Seite selbst im Browser öffnen oder anrufen",
+                    "Auf den Link klicken und nachsehen",
+                    "Den Anhang öffnen",
+                    "Auf die Mail antworten"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l1-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Du bist unsicher, ob eine Mail deiner Bank echt ist. Was ist am besten?",
+                      "explanation": "Immer über einen bekannten, selbst gewählten Weg.",
+                      "options": [
+                        "Die Bank-Seite selbst im Browser öffnen oder anrufen",
+                        "Auf den Link klicken und nachsehen",
+                        "Den Anhang öffnen",
+                        "Auf die Mail antworten"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "You are unsure whether an email from your bank is real. What is best?",
+                      "explanation": "Always through a known path you choose yourself.",
+                      "options": [
+                        "Open the bank site yourself in the browser or call",
+                        "Click the link and look",
+                        "Open the attachment",
+                        "Reply to the email"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "true-false",
+                  "prompt": "Eine Mail ohne Rechtschreibfehler kann kein Phishing sein.",
+                  "explanation": "Gute Fälschungen sind fehlerfrei. Achte auf Absender, Druck und Link.",
+                  "answer": false,
+                  "id": "m2-l1-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Eine Mail ohne Rechtschreibfehler kann kein Phishing sein.",
+                      "explanation": "Gute Fälschungen sind fehlerfrei. Achte auf Absender, Druck und Link."
+                    },
+                    "en": {
+                      "prompt": "An email without spelling mistakes cannot be phishing.",
+                      "explanation": "Good fakes are free of mistakes. Watch sender, pressure and link."
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Phishing erkennen",
+              "goal": "Du kannst Warnzeichen einer Phishing-Nachricht erkennen."
+            },
+            "en": {
+              "title": "Spotting phishing",
+              "goal": "You can recognise the warning signs of a phishing message."
+            }
+          }
+        },
+        {
+          "id": "m2-l2",
+          "title": "Passwörter und zweiter Faktor",
+          "goal": "Du kannst ein gutes Passwort beschreiben und erklären, warum ein zweiter Faktor hilft.",
+          "blocks": [
+            {
+              "id": "m2-l2-b1",
+              "type": "text",
+              "markdown": "Ein Angreifer rät Passwörter nicht von Hand, sondern probiert **Milliarden pro Sekunde**: erst die häufigsten, dann Wörterbücher, dann alle Kombinationen (**Brute Force**). Was zählt:\n\n- **Länge schlägt Komplexität.** Jedes Zeichen mehr macht es um ein Vielfaches schwerer. Ein Satz aus mehreren zufälligen Wörtern ist gut zu merken und stark.\n- **Nie wiederverwenden.** Wird eine Seite gehackt, probieren Angreifer dasselbe Passwort überall (**Credential Stuffing**).\n- Ein **Passwortmanager** erzeugt und speichert für jedes Konto ein eigenes Passwort. Du merkst dir nur ein starkes Hauptpasswort.\n- **Zwei-Faktor-Authentifizierung (2FA)**: zusätzlich zu etwas, das du **weißt** (Passwort), brauchst du etwas, das du **hast** (Handy, Sicherheitsschlüssel) oder **bist** (Fingerabdruck). Ein erratenes Passwort reicht dann nicht.\n\nProbiere es im [Passwort-Labor](#/drills/password) aus.",
+              "i18n": {
+                "de": {
+                  "normal": "Ein Angreifer rät Passwörter nicht von Hand, sondern probiert **Milliarden pro Sekunde**: erst die häufigsten, dann Wörterbücher, dann alle Kombinationen (**Brute Force**). Was zählt:\n\n- **Länge schlägt Komplexität.** Jedes Zeichen mehr macht es um ein Vielfaches schwerer. Ein Satz aus mehreren zufälligen Wörtern ist gut zu merken und stark.\n- **Nie wiederverwenden.** Wird eine Seite gehackt, probieren Angreifer dasselbe Passwort überall (**Credential Stuffing**).\n- Ein **Passwortmanager** erzeugt und speichert für jedes Konto ein eigenes Passwort. Du merkst dir nur ein starkes Hauptpasswort.\n- **Zwei-Faktor-Authentifizierung (2FA)**: zusätzlich zu etwas, das du **weißt** (Passwort), brauchst du etwas, das du **hast** (Handy, Sicherheitsschlüssel) oder **bist** (Fingerabdruck). Ein erratenes Passwort reicht dann nicht.\n\nProbiere es im [Passwort-Labor](#/drills/password) aus."
+                },
+                "en": {
+                  "normal": "An attacker does not guess passwords by hand but tries **billions per second**: first the most common, then dictionaries, then all combinations (**brute force**). What counts:\n\n- **Length beats complexity.** Every extra character makes it many times harder. A phrase of several random words is easy to remember and strong.\n- **Never reuse.** If one site is hacked, attackers try the same password everywhere (**credential stuffing**).\n- A **password manager** creates and stores a separate password for every account. You remember only one strong master password.\n- **Two-factor authentication (2FA)**: in addition to something you **know** (password), you need something you **have** (phone, security key) or **are** (fingerprint). A guessed password is then not enough.\n\nTry it in the [password lab](#/drills/password)."
+                }
+              }
+            },
+            {
+              "id": "m2-l2-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Welches Passwort ist bei gleicher Merkbarkeit am stärksten?",
+                  "explanation": "Länge schlägt Komplexität: vier zufällige Wörter sind lang und merkbar.",
+                  "options": [
+                    "kaffee-lampe-regen-zebra",
+                    "Kaffee1!",
+                    "qwertz123",
+                    "P@ssw0rd"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l2-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Welches Passwort ist bei gleicher Merkbarkeit am stärksten?",
+                      "explanation": "Länge schlägt Komplexität: vier zufällige Wörter sind lang und merkbar.",
+                      "options": [
+                        "kaffee-lampe-regen-zebra",
+                        "Kaffee1!",
+                        "qwertz123",
+                        "P@ssw0rd"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Which password is strongest at the same memorability?",
+                      "explanation": "Length beats complexity: four random words are long and memorable.",
+                      "options": [
+                        "coffee-lamp-rain-zebra",
+                        "Coffee1!",
+                        "qwerty123",
+                        "P@ssw0rd"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Warum ist dasselbe Passwort für viele Konten gefährlich?",
+                  "explanation": "Das nennt man Credential Stuffing.",
+                  "options": [
+                    "Wenn eine Seite gehackt wird, sind alle Konten offen",
+                    "Weil man sich es schlechter merkt",
+                    "Weil Seiten es verbieten",
+                    "Weil es dann kürzer ist"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l2-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Warum ist dasselbe Passwort für viele Konten gefährlich?",
+                      "explanation": "Das nennt man Credential Stuffing.",
+                      "options": [
+                        "Wenn eine Seite gehackt wird, sind alle Konten offen",
+                        "Weil man sich es schlechter merkt",
+                        "Weil Seiten es verbieten",
+                        "Weil es dann kürzer ist"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Why is the same password for many accounts dangerous?",
+                      "explanation": "This is called credential stuffing.",
+                      "options": [
+                        "If one site is hacked all accounts are open",
+                        "Because it is harder to remember",
+                        "Because sites forbid it",
+                        "Because it is then shorter"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "matching",
+                  "prompt": "Ordne den Faktor der Art zu.",
+                  "explanation": "Wissen, Besitz, Sein.",
+                  "pairs": [
+                    {
+                      "left": "Passwort",
+                      "right": "Wissen"
+                    },
+                    {
+                      "left": "Handy mit Code-App",
+                      "right": "Besitz"
+                    },
+                    {
+                      "left": "Fingerabdruck",
+                      "right": "Biometrie (Sein)"
+                    }
+                  ],
+                  "id": "m2-l2-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Ordne den Faktor der Art zu.",
+                      "explanation": "Wissen, Besitz, Sein.",
+                      "pairs": [
+                        {
+                          "left": "Passwort",
+                          "right": "Wissen"
+                        },
+                        {
+                          "left": "Handy mit Code-App",
+                          "right": "Besitz"
+                        },
+                        {
+                          "left": "Fingerabdruck",
+                          "right": "Biometrie (Sein)"
+                        }
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Match the factor with its kind.",
+                      "explanation": "Knowledge, possession, being.",
+                      "pairs": [
+                        {
+                          "left": "Password",
+                          "right": "Knowledge"
+                        },
+                        {
+                          "left": "Phone with code app",
+                          "right": "Possession"
+                        },
+                        {
+                          "left": "Fingerprint",
+                          "right": "Biometrics (being)"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "true-false",
+                  "prompt": "Mit 2FA ist ein gestohlenes Passwort allein nicht mehr genug, um ins Konto zu kommen.",
+                  "explanation": "Der Angreifer braucht zusätzlich den zweiten Faktor.",
+                  "answer": true,
+                  "id": "m2-l2-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Mit 2FA ist ein gestohlenes Passwort allein nicht mehr genug, um ins Konto zu kommen.",
+                      "explanation": "Der Angreifer braucht zusätzlich den zweiten Faktor."
+                    },
+                    "en": {
+                      "prompt": "With 2FA a stolen password alone is no longer enough to get into the account.",
+                      "explanation": "The attacker also needs the second factor."
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Passwörter und zweiter Faktor",
+              "goal": "Du kannst ein gutes Passwort beschreiben und erklären, warum ein zweiter Faktor hilft."
+            },
+            "en": {
+              "title": "Passwords and the second factor",
+              "goal": "You can describe a good password and explain why a second factor helps."
+            }
+          }
+        },
+        {
+          "id": "m2-l3",
+          "title": "Hashes und Verschlüsselung",
+          "goal": "Du kannst Hash, symmetrische und asymmetrische Verschlüsselung unterscheiden.",
+          "blocks": [
+            {
+              "id": "m2-l3-b1",
+              "type": "text",
+              "markdown": "**Hash** (Streuwert): Eine Funktion macht aus beliebigem Text einen **Fingerabdruck fester Länge** (SHA-256: 256 Bit). Gleiche Eingabe, gleicher Hash. Schon ein Buchstabe mehr ändert etwa die Hälfte aller Bits. Man kann aus dem Hash den Text **nicht zurückrechnen**. Dienste speichern von Passwörtern nur den Hash (gut: mit **Salt**, einem zufälligen Zusatz) und vergleichen beim Login. Auch Dateien prüft man so auf **Integrität**.\n\n**Verschlüsselung** dagegen ist umkehrbar, mit dem richtigen Schlüssel:\n\n| | Schlüssel | Beispiel |\n|---|---|---|\n| **Symmetrisch** | **ein** gemeinsamer Schlüssel zum Ver- und Entschlüsseln | AES, schnell |\n| **Asymmetrisch** | **Schlüsselpaar**: öffentlich zum Verschlüsseln, privat zum Entschlüsseln | RSA, für den Schlüsselaustausch |\n\nIm Web nutzt **HTTPS** beides: asymmetrisch, um sich auf einen Schlüssel zu einigen, danach symmetrisch für die Daten. Sieh dir einen Hash im [Hash-Labor](#/drills/hash) an.",
+              "i18n": {
+                "de": {
+                  "normal": "**Hash** (Streuwert): Eine Funktion macht aus beliebigem Text einen **Fingerabdruck fester Länge** (SHA-256: 256 Bit). Gleiche Eingabe, gleicher Hash. Schon ein Buchstabe mehr ändert etwa die Hälfte aller Bits. Man kann aus dem Hash den Text **nicht zurückrechnen**. Dienste speichern von Passwörtern nur den Hash (gut: mit **Salt**, einem zufälligen Zusatz) und vergleichen beim Login. Auch Dateien prüft man so auf **Integrität**.\n\n**Verschlüsselung** dagegen ist umkehrbar, mit dem richtigen Schlüssel:\n\n| | Schlüssel | Beispiel |\n|---|---|---|\n| **Symmetrisch** | **ein** gemeinsamer Schlüssel zum Ver- und Entschlüsseln | AES, schnell |\n| **Asymmetrisch** | **Schlüsselpaar**: öffentlich zum Verschlüsseln, privat zum Entschlüsseln | RSA, für den Schlüsselaustausch |\n\nIm Web nutzt **HTTPS** beides: asymmetrisch, um sich auf einen Schlüssel zu einigen, danach symmetrisch für die Daten. Sieh dir einen Hash im [Hash-Labor](#/drills/hash) an."
+                },
+                "en": {
+                  "normal": "**Hash**: a function turns any text into a **fingerprint of fixed length** (SHA-256: 256 bits). Same input, same hash. Even one more letter changes about half of all bits. You **cannot calculate back** from the hash to the text. Services store only the hash of passwords (good: with **salt**, a random addition) and compare at log-in. Files are checked for **integrity** the same way.\n\n**Encryption**, in contrast, is reversible with the right key:\n\n| | Key | Example |\n|---|---|---|\n| **Symmetric** | **one** shared key to encrypt and decrypt | AES, fast |\n| **Asymmetric** | **key pair**: public to encrypt, private to decrypt | RSA, for exchanging keys |\n\nOn the web **HTTPS** uses both: asymmetric to agree on a key, then symmetric for the data. See a hash in the [hash lab](#/drills/hash)."
+                }
+              }
+            },
+            {
+              "id": "m2-l3-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Was stimmt über einen Hash?",
+                  "explanation": "Ein Hash ist eine Einbahnstraße.",
+                  "options": [
+                    "Man kann aus ihm den Text nicht zurückrechnen",
+                    "Man entschlüsselt ihn mit dem Passwort",
+                    "Er ist immer so lang wie der Text",
+                    "Gleiche Texte ergeben verschiedene Hashes"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l3-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was stimmt über einen Hash?",
+                      "explanation": "Ein Hash ist eine Einbahnstraße.",
+                      "options": [
+                        "Man kann aus ihm den Text nicht zurückrechnen",
+                        "Man entschlüsselt ihn mit dem Passwort",
+                        "Er ist immer so lang wie der Text",
+                        "Gleiche Texte ergeben verschiedene Hashes"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "What is true about a hash?",
+                      "explanation": "A hash is a one-way street.",
+                      "options": [
+                        "You cannot calculate back to the text",
+                        "You decrypt it with the password",
+                        "It is always as long as the text",
+                        "Equal texts give different hashes"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Bei welchem Verfahren gibt es ein Schlüsselpaar aus öffentlichem und privatem Schlüssel?",
+                  "explanation": "Öffentlich zum Verschlüsseln, privat zum Entschlüsseln.",
+                  "options": [
+                    "Asymmetrisch",
+                    "Symmetrisch",
+                    "Hash",
+                    "Keines"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l3-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Bei welchem Verfahren gibt es ein Schlüsselpaar aus öffentlichem und privatem Schlüssel?",
+                      "explanation": "Öffentlich zum Verschlüsseln, privat zum Entschlüsseln.",
+                      "options": [
+                        "Asymmetrisch",
+                        "Symmetrisch",
+                        "Hash",
+                        "Keines"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Which method uses a key pair of a public and a private key?",
+                      "explanation": "Public to encrypt, private to decrypt.",
+                      "options": [
+                        "Asymmetric",
+                        "Symmetric",
+                        "Hash",
+                        "None"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Du lädst eine Datei herunter und die Seite nennt ihren SHA-256-Hash. Wozu vergleichst du ihn mit dem Hash deiner Datei?",
+                  "explanation": "Ein einziges geändertes Bit ergibt einen ganz anderen Hash.",
+                  "options": [
+                    "Um zu prüfen, ob die Datei unverändert ist (Integrität)",
+                    "Um die Datei zu entschlüsseln",
+                    "Um die Datei zu komprimieren",
+                    "Um das Passwort zu ändern"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l3-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Du lädst eine Datei herunter und die Seite nennt ihren SHA-256-Hash. Wozu vergleichst du ihn mit dem Hash deiner Datei?",
+                      "explanation": "Ein einziges geändertes Bit ergibt einen ganz anderen Hash.",
+                      "options": [
+                        "Um zu prüfen, ob die Datei unverändert ist (Integrität)",
+                        "Um die Datei zu entschlüsseln",
+                        "Um die Datei zu komprimieren",
+                        "Um das Passwort zu ändern"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "You download a file and the page lists its SHA-256 hash. Why do you compare it with the hash of your file?",
+                      "explanation": "A single changed bit gives a completely different hash.",
+                      "options": [
+                        "To check that the file is unchanged (integrity)",
+                        "To decrypt the file",
+                        "To compress the file",
+                        "To change the password"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "true-false",
+                  "prompt": "Hash und Verschlüsselung sind dasselbe.",
+                  "explanation": "Verschlüsselung ist umkehrbar, ein Hash nicht.",
+                  "answer": false,
+                  "id": "m2-l3-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Hash und Verschlüsselung sind dasselbe.",
+                      "explanation": "Verschlüsselung ist umkehrbar, ein Hash nicht."
+                    },
+                    "en": {
+                      "prompt": "Hash and encryption are the same.",
+                      "explanation": "Encryption is reversible, a hash is not."
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Hashes und Verschlüsselung",
+              "goal": "Du kannst Hash, symmetrische und asymmetrische Verschlüsselung unterscheiden."
+            },
+            "en": {
+              "title": "Hashes and encryption",
+              "goal": "You can tell hash, symmetric and asymmetric encryption apart."
+            }
+          }
+        }
+      ],
+      "test": {
+        "id": "m2-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "kind": "multi-select",
+            "prompt": "Welche sind typische Phishing-Warnzeichen?",
+            "explanation": "Ein bekannter Absender mit richtiger Anrede ist kein Warnzeichen.",
+            "options": [
+              "Druck mit einer Frist",
+              "Fremde Absenderadresse",
+              "Persönliche Anrede mit richtigem Namen und bekanntem Absender",
+              "Link, dessen Ziel anders ist als der Text"
+            ],
+            "answer": [
+              0,
+              1,
+              3
+            ],
+            "id": "m2-t1",
+            "skillId": "m2-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Welche sind typische Phishing-Warnzeichen?",
+                "explanation": "Ein bekannter Absender mit richtiger Anrede ist kein Warnzeichen.",
+                "options": [
+                  "Druck mit einer Frist",
+                  "Fremde Absenderadresse",
+                  "Persönliche Anrede mit richtigem Namen und bekanntem Absender",
+                  "Link, dessen Ziel anders ist als der Text"
+                ]
+              },
+              "en": {
+                "prompt": "Which are typical phishing warning signs?",
+                "explanation": "A known sender with the right greeting is no warning sign.",
+                "options": [
+                  "Pressure with a deadline",
+                  "Foreign sender address",
+                  "Personal greeting with the right name and a known sender",
+                  "Link whose target differs from the text"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Was ist 2FA?",
+            "explanation": "Zum Beispiel ein Code vom Handy.",
+            "options": [
+              "Ein zweiter Nachweis zusätzlich zum Passwort",
+              "Zwei Passwörter",
+              "Eine zweite E-Mail-Adresse",
+              "Ein zweites Konto"
+            ],
+            "answer": 0,
+            "id": "m2-t2",
+            "skillId": "m2-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Was ist 2FA?",
+                "explanation": "Zum Beispiel ein Code vom Handy.",
+                "options": [
+                  "Ein zweiter Nachweis zusätzlich zum Passwort",
+                  "Zwei Passwörter",
+                  "Eine zweite E-Mail-Adresse",
+                  "Ein zweites Konto"
+                ]
+              },
+              "en": {
+                "prompt": "What is 2FA?",
+                "explanation": "For example a code from the phone.",
+                "options": [
+                  "A second proof in addition to the password",
+                  "Two passwords",
+                  "A second email address",
+                  "A second account"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Was passiert, wenn man einen Text um einen Buchstaben ändert und den SHA-256-Hash neu berechnet?",
+            "explanation": "Lawineneffekt.",
+            "options": [
+              "Etwa die Hälfte der Bits ändert sich",
+              "Nur ein Bit ändert sich",
+              "Der Hash bleibt gleich",
+              "Der Hash wird länger"
+            ],
+            "answer": 0,
+            "id": "m2-t3",
+            "skillId": "m2-l3",
+            "i18n": {
+              "de": {
+                "prompt": "Was passiert, wenn man einen Text um einen Buchstaben ändert und den SHA-256-Hash neu berechnet?",
+                "explanation": "Lawineneffekt.",
+                "options": [
+                  "Etwa die Hälfte der Bits ändert sich",
+                  "Nur ein Bit ändert sich",
+                  "Der Hash bleibt gleich",
+                  "Der Hash wird länger"
+                ]
+              },
+              "en": {
+                "prompt": "What happens if you change a text by one letter and calculate the SHA-256 hash again?",
+                "explanation": "Avalanche effect.",
+                "options": [
+                  "About half of the bits change",
+                  "Only one bit changes",
+                  "The hash stays the same",
+                  "The hash gets longer"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Warum speichern Dienste von Passwörtern nur den Hash (mit Salt)?",
+            "explanation": "Das Gesicherte ist nicht umkehrbar.",
+            "options": [
+              "Bei einem Datendiebstahl sind die Passwörter nicht direkt lesbar",
+              "Damit Hashes schneller sind",
+              "Weil Passwörter zu lang sind",
+              "Weil man sie vergessen darf"
+            ],
+            "answer": 0,
+            "id": "m2-t4",
+            "skillId": "m2-l3",
+            "i18n": {
+              "de": {
+                "prompt": "Warum speichern Dienste von Passwörtern nur den Hash (mit Salt)?",
+                "explanation": "Das Gesicherte ist nicht umkehrbar.",
+                "options": [
+                  "Bei einem Datendiebstahl sind die Passwörter nicht direkt lesbar",
+                  "Damit Hashes schneller sind",
+                  "Weil Passwörter zu lang sind",
+                  "Weil man sie vergessen darf"
+                ]
+              },
+              "en": {
+                "prompt": "Why do services store only the hash (with salt) of passwords?",
+                "explanation": "What is stored cannot be reversed.",
+                "options": [
+                  "In a data theft the passwords are not directly readable",
+                  "To make hashes faster",
+                  "Because passwords are too long",
+                  "Because you may forget them"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "true-false",
+            "prompt": "Ein Passwortmanager ist unsicher, weil alle Passwörter an einem Ort liegen.",
+            "explanation": "Er ist verschlüsselt und besser als wiederverwendete Passwörter.",
+            "answer": false,
+            "id": "m2-t5",
+            "skillId": "m2-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Ein Passwortmanager ist unsicher, weil alle Passwörter an einem Ort liegen.",
+                "explanation": "Er ist verschlüsselt und besser als wiederverwendete Passwörter."
+              },
+              "en": {
+                "prompt": "A password manager is unsafe because all passwords are in one place.",
+                "explanation": "It is encrypted and better than reused passwords."
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Welches Verfahren nutzt einen gemeinsamen Schlüssel für Ver- und Entschlüsselung?",
+            "explanation": "Zum Beispiel AES.",
+            "options": [
+              "Symmetrisch",
+              "Asymmetrisch",
+              "Hash",
+              "Salt"
+            ],
+            "answer": 0,
+            "id": "m2-t6",
+            "skillId": "m2-l3",
+            "i18n": {
+              "de": {
+                "prompt": "Welches Verfahren nutzt einen gemeinsamen Schlüssel für Ver- und Entschlüsselung?",
+                "explanation": "Zum Beispiel AES.",
+                "options": [
+                  "Symmetrisch",
+                  "Asymmetrisch",
+                  "Hash",
+                  "Salt"
+                ]
+              },
+              "en": {
+                "prompt": "Which method uses one shared key for encryption and decryption?",
+                "explanation": "For example AES.",
+                "options": [
+                  "Symmetric",
+                  "Asymmetric",
+                  "Hash",
+                  "Salt"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "i18n": {
+        "de": {
+          "title": "Angriffe erkennen, Zugänge sichern",
+          "summary": "Phishing, Passwörter, Hashes und Verschlüsselung."
+        },
+        "en": {
+          "title": "Recognise attacks, secure access",
+          "summary": "Phishing, passwords, hashes and encryption."
+        }
+      }
+    },
+    {
+      "id": "m3",
+      "title": "Schützen",
+      "summary": "Maßnahmen, Netzwerk und Datenschutz.",
+      "lessons": [
+        {
+          "id": "m3-l1",
+          "title": "Schutzmaßnahmen: Updates, Backup, Firewall",
+          "goal": "Du kannst die wichtigsten Schutzmaßnahmen und die 3-2-1-Regel nennen.",
+          "blocks": [
+            {
+              "id": "m3-l1-b1",
+              "type": "text",
+              "markdown": "Die wirksamsten Maßnahmen sind **einfach**:\n\n- **Updates**: Sicherheitslücken werden bekannt und geschlossen. Wer nicht aktualisiert, bleibt angreifbar. Automatische Updates anschalten.\n- **Backup**: Die Daten gibt es mehrfach. **3-2-1-Regel**: **3** Kopien, auf **2** verschiedenen Medien, **1** davon an einem anderen Ort (oder offline). Ein Backup, das immer am Rechner hängt, verschlüsselt die Ransomware gleich mit.\n- **Firewall**: Filtert Verbindungen nach Regeln und lässt nur Erlaubtes durch.\n- **Virenschutz**: Erkennt bekannte Schadsoftware, ersetzt aber kein vorsichtiges Verhalten.\n- **Rechte**: Arbeite mit einem normalen Konto, nicht als Administrator. **Minimalprinzip**: Jeder bekommt nur die Rechte, die er braucht.\n- **Verschlüsselung** von Laptop und Handy: Bei Verlust bleiben die Daten geschützt.",
+              "i18n": {
+                "de": {
+                  "normal": "Die wirksamsten Maßnahmen sind **einfach**:\n\n- **Updates**: Sicherheitslücken werden bekannt und geschlossen. Wer nicht aktualisiert, bleibt angreifbar. Automatische Updates anschalten.\n- **Backup**: Die Daten gibt es mehrfach. **3-2-1-Regel**: **3** Kopien, auf **2** verschiedenen Medien, **1** davon an einem anderen Ort (oder offline). Ein Backup, das immer am Rechner hängt, verschlüsselt die Ransomware gleich mit.\n- **Firewall**: Filtert Verbindungen nach Regeln und lässt nur Erlaubtes durch.\n- **Virenschutz**: Erkennt bekannte Schadsoftware, ersetzt aber kein vorsichtiges Verhalten.\n- **Rechte**: Arbeite mit einem normalen Konto, nicht als Administrator. **Minimalprinzip**: Jeder bekommt nur die Rechte, die er braucht.\n- **Verschlüsselung** von Laptop und Handy: Bei Verlust bleiben die Daten geschützt."
+                },
+                "en": {
+                  "normal": "The most effective measures are **simple**:\n\n- **Updates**: security holes become known and are closed. If you do not update, you stay open to attack. Switch on automatic updates.\n- **Backup**: the data exists more than once. **3-2-1 rule**: **3** copies, on **2** different media, **1** of them in another place (or offline). A backup that is always connected to the computer is encrypted by ransomware too.\n- **Firewall**: filters connections by rules and lets through only what is allowed.\n- **Antivirus**: detects known malware, but does not replace careful behaviour.\n- **Rights**: work with a normal account, not as administrator. **Principle of least privilege**: everyone gets only the rights they need.\n- **Encryption** of laptop and phone: if lost, the data stays protected."
+                }
+              }
+            },
+            {
+              "id": "m3-l1-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Was bedeutet die 3-2-1-Regel?",
+                  "explanation": "Drei Kopien auf zwei Medien, eine davon extern.",
+                  "options": [
+                    "3 Kopien, 2 Medien, 1 an einem anderen Ort",
+                    "3 Passwörter, 2 Faktoren, 1 Manager",
+                    "3 Updates pro Jahr, 2 Backups, 1 Scan",
+                    "3 Firewalls, 2 Router, 1 Switch"
+                  ],
+                  "answer": 0,
+                  "id": "m3-l1-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was bedeutet die 3-2-1-Regel?",
+                      "explanation": "Drei Kopien auf zwei Medien, eine davon extern.",
+                      "options": [
+                        "3 Kopien, 2 Medien, 1 an einem anderen Ort",
+                        "3 Passwörter, 2 Faktoren, 1 Manager",
+                        "3 Updates pro Jahr, 2 Backups, 1 Scan",
+                        "3 Firewalls, 2 Router, 1 Switch"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "What does the 3-2-1 rule mean?",
+                      "explanation": "Three copies on two media, one of them off-site.",
+                      "options": [
+                        "3 copies, 2 media, 1 in another place",
+                        "3 passwords, 2 factors, 1 manager",
+                        "3 updates a year, 2 backups, 1 scan",
+                        "3 firewalls, 2 routers, 1 switch"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Warum sollte man ein Backup nicht dauerhaft am Rechner angeschlossen lassen?",
+                  "explanation": "Ein getrenntes Backup bleibt unberührt.",
+                  "options": [
+                    "Ransomware verschlüsselt sonst auch das Backup",
+                    "Es verbraucht zu viel Strom",
+                    "Es wird dann zu alt",
+                    "Das Backup ist dann nicht mehr lesbar"
+                  ],
+                  "answer": 0,
+                  "id": "m3-l1-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Warum sollte man ein Backup nicht dauerhaft am Rechner angeschlossen lassen?",
+                      "explanation": "Ein getrenntes Backup bleibt unberührt.",
+                      "options": [
+                        "Ransomware verschlüsselt sonst auch das Backup",
+                        "Es verbraucht zu viel Strom",
+                        "Es wird dann zu alt",
+                        "Das Backup ist dann nicht mehr lesbar"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Why should a backup not stay connected to the computer all the time?",
+                      "explanation": "A disconnected backup stays untouched.",
+                      "options": [
+                        "Otherwise ransomware encrypts the backup too",
+                        "It uses too much power",
+                        "It gets too old",
+                        "The backup is then unreadable"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "matching",
+                  "prompt": "Ordne jeder Maßnahme ihren Zweck zu.",
+                  "explanation": "Jede Maßnahme schützt vor etwas anderem.",
+                  "pairs": [
+                    {
+                      "left": "Updates",
+                      "right": "Schließen bekannte Sicherheitslücken"
+                    },
+                    {
+                      "left": "Firewall",
+                      "right": "Filtert Verbindungen nach Regeln"
+                    },
+                    {
+                      "left": "Backup",
+                      "right": "Stellt Daten nach einem Verlust wieder her"
+                    },
+                    {
+                      "left": "Minimalprinzip",
+                      "right": "Nur die nötigen Rechte vergeben"
+                    }
+                  ],
+                  "id": "m3-l1-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Ordne jeder Maßnahme ihren Zweck zu.",
+                      "explanation": "Jede Maßnahme schützt vor etwas anderem.",
+                      "pairs": [
+                        {
+                          "left": "Updates",
+                          "right": "Schließen bekannte Sicherheitslücken"
+                        },
+                        {
+                          "left": "Firewall",
+                          "right": "Filtert Verbindungen nach Regeln"
+                        },
+                        {
+                          "left": "Backup",
+                          "right": "Stellt Daten nach einem Verlust wieder her"
+                        },
+                        {
+                          "left": "Minimalprinzip",
+                          "right": "Nur die nötigen Rechte vergeben"
+                        }
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Match every measure with its purpose.",
+                      "explanation": "Every measure protects against something else.",
+                      "pairs": [
+                        {
+                          "left": "Updates",
+                          "right": "Close known security holes"
+                        },
+                        {
+                          "left": "Firewall",
+                          "right": "Filters connections by rules"
+                        },
+                        {
+                          "left": "Backup",
+                          "right": "Restores data after a loss"
+                        },
+                        {
+                          "left": "Least privilege",
+                          "right": "Give only the rights needed"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Schutzmaßnahmen: Updates, Backup, Firewall",
+              "goal": "Du kannst die wichtigsten Schutzmaßnahmen und die 3-2-1-Regel nennen."
+            },
+            "en": {
+              "title": "Protection measures: updates, backup, firewall",
+              "goal": "You can name the most important protection measures and the 3-2-1 rule."
+            }
+          }
+        },
+        {
+          "id": "m3-l2",
+          "title": "Netzwerk und Datenschutz",
+          "goal": "Du kannst WLAN-Sicherheit, HTTPS und die Grundidee des Datenschutzes beschreiben.",
+          "blocks": [
+            {
+              "id": "m3-l2-b1",
+              "type": "text",
+              "markdown": "**WLAN**: Nutze **WPA2 oder WPA3** mit einem langen Passwort. Offene WLANs (Café, Bahnhof) sind unsicher: Andere können Verkehr mitlesen. Dort nur **HTTPS**-Seiten oder ein **VPN** (verschlüsselter Tunnel zu einem Server).\n\n**HTTPS**: Das Schloss in der Adresszeile heißt: Die Verbindung ist **verschlüsselt** und die Seite hat ein **Zertifikat**. Es heißt **nicht**, dass die Seite vertrauenswürdig ist. Auch Phishing-Seiten haben ein Schloss.\n\n**Datenschutz** schützt **Personen**, nicht Daten an sich. Die **DSGVO** (GDPR) gibt Grundsätze vor: Daten nur **zweckgebunden** und **sparsam** erheben (**Datenminimierung**), nur mit **Rechtsgrundlage** (zum Beispiel Einwilligung), transparent, und Betroffene dürfen **Auskunft, Berichtigung und Löschung** verlangen. Daten **personenbezogen** sind alle, die sich auf eine erkennbare Person beziehen: Name, E-Mail, IP-Adresse, Foto.",
+              "i18n": {
+                "de": {
+                  "normal": "**WLAN**: Nutze **WPA2 oder WPA3** mit einem langen Passwort. Offene WLANs (Café, Bahnhof) sind unsicher: Andere können Verkehr mitlesen. Dort nur **HTTPS**-Seiten oder ein **VPN** (verschlüsselter Tunnel zu einem Server).\n\n**HTTPS**: Das Schloss in der Adresszeile heißt: Die Verbindung ist **verschlüsselt** und die Seite hat ein **Zertifikat**. Es heißt **nicht**, dass die Seite vertrauenswürdig ist. Auch Phishing-Seiten haben ein Schloss.\n\n**Datenschutz** schützt **Personen**, nicht Daten an sich. Die **DSGVO** (GDPR) gibt Grundsätze vor: Daten nur **zweckgebunden** und **sparsam** erheben (**Datenminimierung**), nur mit **Rechtsgrundlage** (zum Beispiel Einwilligung), transparent, und Betroffene dürfen **Auskunft, Berichtigung und Löschung** verlangen. Daten **personenbezogen** sind alle, die sich auf eine erkennbare Person beziehen: Name, E-Mail, IP-Adresse, Foto."
+                },
+                "en": {
+                  "normal": "**Wi-Fi**: use **WPA2 or WPA3** with a long password. Open Wi-Fi (café, station) is unsafe: others can read the traffic. There use only **HTTPS** sites or a **VPN** (an encrypted tunnel to a server).\n\n**HTTPS**: the padlock in the address bar means the connection is **encrypted** and the site has a **certificate**. It does **not** mean the site is trustworthy. Phishing sites have a padlock too.\n\n**Data protection** protects **people**, not data as such. The **GDPR** sets principles: collect data only for a **purpose** and **sparingly** (**data minimisation**), only with a **legal basis** (for example consent), transparently, and people may ask for **access, correction and deletion**. Data is **personal** if it relates to an identifiable person: name, email, IP address, photo."
+                }
+              }
+            },
+            {
+              "id": "m3-l2-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Eine Seite hat das Schloss-Symbol (HTTPS). Was folgt daraus?",
+                  "explanation": "Verschlüsselt heißt nicht vertrauenswürdig.",
+                  "options": [
+                    "Die Verbindung ist verschlüsselt, über die Seriosität sagt es nichts",
+                    "Die Seite ist sicher und seriös",
+                    "Es gibt keine Viren",
+                    "Die Seite gehört der Bank"
+                  ],
+                  "answer": 0,
+                  "id": "m3-l2-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Eine Seite hat das Schloss-Symbol (HTTPS). Was folgt daraus?",
+                      "explanation": "Verschlüsselt heißt nicht vertrauenswürdig.",
+                      "options": [
+                        "Die Verbindung ist verschlüsselt, über die Seriosität sagt es nichts",
+                        "Die Seite ist sicher und seriös",
+                        "Es gibt keine Viren",
+                        "Die Seite gehört der Bank"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "A site shows the padlock (HTTPS). What follows?",
+                      "explanation": "Encrypted does not mean trustworthy.",
+                      "options": [
+                        "The connection is encrypted, it says nothing about trustworthiness",
+                        "The site is safe and trustworthy",
+                        "There are no viruses",
+                        "The site belongs to the bank"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Was ist im offenen Café-WLAN am sinnvollsten?",
+                  "explanation": "Der Tunnel schützt vor Mitlesen im offenen Netz.",
+                  "options": [
+                    "Ein VPN und nur HTTPS-Seiten nutzen",
+                    "Online-Banking ohne Schutz",
+                    "Alle Dateien freigeben",
+                    "Das Passwort für das WLAN notieren und teilen"
+                  ],
+                  "answer": 0,
+                  "id": "m3-l2-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was ist im offenen Café-WLAN am sinnvollsten?",
+                      "explanation": "Der Tunnel schützt vor Mitlesen im offenen Netz.",
+                      "options": [
+                        "Ein VPN und nur HTTPS-Seiten nutzen",
+                        "Online-Banking ohne Schutz",
+                        "Alle Dateien freigeben",
+                        "Das Passwort für das WLAN notieren und teilen"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "What makes most sense in open café Wi-Fi?",
+                      "explanation": "The tunnel protects against eavesdropping in the open network.",
+                      "options": [
+                        "Use a VPN and only HTTPS sites",
+                        "Online banking without protection",
+                        "Share all files",
+                        "Write down and share the Wi-Fi password"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multi-select",
+                  "prompt": "Welche Angaben sind personenbezogene Daten?",
+                  "explanation": "Personenbezogen ist, was sich auf eine erkennbare Person bezieht.",
+                  "options": [
+                    "E-Mail-Adresse mit Namen",
+                    "Foto einer erkennbaren Person",
+                    "Die Zahl der Mitarbeiter einer Firma",
+                    "IP-Adresse eines Besuchers"
+                  ],
+                  "answer": [
+                    0,
+                    1,
+                    3
+                  ],
+                  "id": "m3-l2-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Welche Angaben sind personenbezogene Daten?",
+                      "explanation": "Personenbezogen ist, was sich auf eine erkennbare Person bezieht.",
+                      "options": [
+                        "E-Mail-Adresse mit Namen",
+                        "Foto einer erkennbaren Person",
+                        "Die Zahl der Mitarbeiter einer Firma",
+                        "IP-Adresse eines Besuchers"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Which data is personal data?",
+                      "explanation": "Personal is what relates to an identifiable person.",
+                      "options": [
+                        "Email address with a name",
+                        "Photo of an identifiable person",
+                        "The number of employees of a company",
+                        "IP address of a visitor"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Was heißt Datenminimierung?",
+                  "explanation": "Weniger Daten, weniger Risiko.",
+                  "options": [
+                    "Nur so viele Daten erheben, wie für den Zweck nötig sind",
+                    "Alle Daten komprimieren",
+                    "Daten nach einem Tag löschen",
+                    "Nur Zahlen speichern"
+                  ],
+                  "answer": 0,
+                  "id": "m3-l2-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was heißt Datenminimierung?",
+                      "explanation": "Weniger Daten, weniger Risiko.",
+                      "options": [
+                        "Nur so viele Daten erheben, wie für den Zweck nötig sind",
+                        "Alle Daten komprimieren",
+                        "Daten nach einem Tag löschen",
+                        "Nur Zahlen speichern"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "What does data minimisation mean?",
+                      "explanation": "Less data, less risk.",
+                      "options": [
+                        "Collect only as much data as the purpose needs",
+                        "Compress all data",
+                        "Delete data after one day",
+                        "Store only numbers"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Netzwerk und Datenschutz",
+              "goal": "Du kannst WLAN-Sicherheit, HTTPS und die Grundidee des Datenschutzes beschreiben."
+            },
+            "en": {
+              "title": "Network and data protection",
+              "goal": "You can describe Wi-Fi security, HTTPS and the basic idea of data protection."
+            }
+          }
+        }
+      ],
+      "test": {
+        "id": "m3-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "kind": "multiple-choice",
+            "prompt": "Wofür steht die 1 in der 3-2-1-Regel?",
+            "explanation": "3 Kopien, 2 Medien, 1 extern.",
+            "options": [
+              "Eine Kopie an einem anderen Ort",
+              "Ein Passwort",
+              "Ein Update",
+              "Ein Administrator"
+            ],
+            "answer": 0,
+            "id": "m3-t1",
+            "skillId": "m3-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Wofür steht die 1 in der 3-2-1-Regel?",
+                "explanation": "3 Kopien, 2 Medien, 1 extern.",
+                "options": [
+                  "Eine Kopie an einem anderen Ort",
+                  "Ein Passwort",
+                  "Ein Update",
+                  "Ein Administrator"
+                ]
+              },
+              "en": {
+                "prompt": "What does the 1 in the 3-2-1 rule stand for?",
+                "explanation": "3 copies, 2 media, 1 off-site.",
+                "options": [
+                  "One copy in another place",
+                  "One password",
+                  "One update",
+                  "One administrator"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Was ist ein VPN?",
+            "explanation": "Der Verkehr im offenen Netz ist dann nicht lesbar.",
+            "options": [
+              "Ein verschlüsselter Tunnel zu einem Server",
+              "Ein Virenscanner",
+              "Ein Passwortmanager",
+              "Eine Firewall-Regel"
+            ],
+            "answer": 0,
+            "id": "m3-t2",
+            "skillId": "m3-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Was ist ein VPN?",
+                "explanation": "Der Verkehr im offenen Netz ist dann nicht lesbar.",
+                "options": [
+                  "Ein verschlüsselter Tunnel zu einem Server",
+                  "Ein Virenscanner",
+                  "Ein Passwortmanager",
+                  "Eine Firewall-Regel"
+                ]
+              },
+              "en": {
+                "prompt": "What is a VPN?",
+                "explanation": "The traffic in the open network is then unreadable.",
+                "options": [
+                  "An encrypted tunnel to a server",
+                  "A virus scanner",
+                  "A password manager",
+                  "A firewall rule"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "true-false",
+            "prompt": "Eine IP-Adresse kann ein personenbezogenes Datum sein.",
+            "explanation": "Wenn sie sich einer Person zuordnen lässt.",
+            "answer": true,
+            "id": "m3-t3",
+            "skillId": "m3-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Eine IP-Adresse kann ein personenbezogenes Datum sein.",
+                "explanation": "Wenn sie sich einer Person zuordnen lässt."
+              },
+              "en": {
+                "prompt": "An IP address can be personal data.",
+                "explanation": "If it can be linked to a person."
+              }
+            }
+          }
+        ]
+      },
+      "i18n": {
+        "de": {
+          "title": "Schützen",
+          "summary": "Maßnahmen, Netzwerk und Datenschutz."
+        },
+        "en": {
+          "title": "Protect",
+          "summary": "Measures, network and data protection."
+        }
+      }
+    }
+  ],
+  "finalExam": {
+    "id": "final-exam",
+    "type": "final-exam",
+    "questions": [
+      {
+        "kind": "matching",
+        "prompt": "Ordne jedem Vorfall das Schutzziel zu.",
+        "explanation": "Lesen, Ändern, Ausfall.",
+        "pairs": [
+          {
+            "left": "Gestohlene Zugangsdaten werden verkauft",
+            "right": "Vertraulichkeit"
+          },
+          {
+            "left": "Eine Datei wird unbemerkt manipuliert",
+            "right": "Integrität"
+          },
+          {
+            "left": "Ein Server ist wegen einer Überlastung offline",
+            "right": "Verfügbarkeit"
+          }
+        ],
+        "id": "fex-q1",
+        "skillId": "m1-l1",
+        "i18n": {
+          "de": {
+            "prompt": "Ordne jedem Vorfall das Schutzziel zu.",
+            "explanation": "Lesen, Ändern, Ausfall.",
+            "pairs": [
+              {
+                "left": "Gestohlene Zugangsdaten werden verkauft",
+                "right": "Vertraulichkeit"
+              },
+              {
+                "left": "Eine Datei wird unbemerkt manipuliert",
+                "right": "Integrität"
+              },
+              {
+                "left": "Ein Server ist wegen einer Überlastung offline",
+                "right": "Verfügbarkeit"
+              }
+            ]
+          },
+          "en": {
+            "prompt": "Match each incident with the goal.",
+            "explanation": "Reading, changing, outage.",
+            "pairs": [
+              {
+                "left": "Stolen log-in data is sold",
+                "right": "Confidentiality"
+              },
+              {
+                "left": "A file is tampered with unnoticed",
+                "right": "Integrity"
+              },
+              {
+                "left": "A server is offline because of overload",
+                "right": "Availability"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "kind": "multiple-choice",
+        "prompt": "Welche Maßnahme hilft am besten gegen Datenverlust durch Ransomware?",
+        "explanation": "Ohne Kopie keine Wiederherstellung.",
+        "options": [
+          "Ein getrenntes Backup nach der 3-2-1-Regel",
+          "Ein längerer Bildschirmschoner",
+          "Ein zweites Passwort",
+          "Mehr Arbeitsspeicher"
+        ],
+        "answer": 0,
+        "id": "fex-q2",
+        "skillId": "m3-l1",
+        "i18n": {
+          "de": {
+            "prompt": "Welche Maßnahme hilft am besten gegen Datenverlust durch Ransomware?",
+            "explanation": "Ohne Kopie keine Wiederherstellung.",
+            "options": [
+              "Ein getrenntes Backup nach der 3-2-1-Regel",
+              "Ein längerer Bildschirmschoner",
+              "Ein zweites Passwort",
+              "Mehr Arbeitsspeicher"
+            ]
+          },
+          "en": {
+            "prompt": "Which measure helps best against data loss through ransomware?",
+            "explanation": "Without a copy no recovery.",
+            "options": [
+              "A disconnected backup following the 3-2-1 rule",
+              "A longer screensaver",
+              "A second password",
+              "More memory"
+            ]
+          }
+        }
+      },
+      {
+        "kind": "multiple-choice",
+        "prompt": "Du bekommst eine SMS: \"Ihr Paket wartet, zahlen Sie hier 1 € Gebühr: kurzlink.xyz/abc\". Was tust du?",
+        "explanation": "Das ist Smishing, Phishing per SMS.",
+        "options": [
+          "Nicht anklicken, beim Paketdienst über die bekannte Seite prüfen",
+          "Anklicken, es ist nur 1 €",
+          "Die Kartendaten eingeben",
+          "Die SMS weiterleiten"
+        ],
+        "answer": 0,
+        "id": "fex-q3",
+        "skillId": "m2-l1",
+        "i18n": {
+          "de": {
+            "prompt": "Du bekommst eine SMS: \"Ihr Paket wartet, zahlen Sie hier 1 € Gebühr: kurzlink.xyz/abc\". Was tust du?",
+            "explanation": "Das ist Smishing, Phishing per SMS.",
+            "options": [
+              "Nicht anklicken, beim Paketdienst über die bekannte Seite prüfen",
+              "Anklicken, es ist nur 1 €",
+              "Die Kartendaten eingeben",
+              "Die SMS weiterleiten"
+            ]
+          },
+          "en": {
+            "prompt": "You get a text: \"Your parcel is waiting, pay a 1 € fee here: shortlink.xyz/abc\". What do you do?",
+            "explanation": "This is smishing, phishing by text.",
+            "options": [
+              "Do not click, check on the known site of the courier",
+              "Click, it is only 1 €",
+              "Enter the card data",
+              "Forward the text"
+            ]
+          }
+        }
+      },
+      {
+        "kind": "multiple-choice",
+        "prompt": "Welches Passwort-Verhalten ist am besten?",
+        "explanation": "Einzigartig und lang, plus zweiter Faktor.",
+        "options": [
+          "Lange, einzigartige Passwörter im Manager plus 2FA",
+          "Ein starkes Passwort für alles",
+          "Passwörter auf einem Zettel am Monitor",
+          "Das Passwort monatlich um eine Ziffer ändern"
+        ],
+        "answer": 0,
+        "id": "fex-q4",
+        "skillId": "m2-l2",
+        "i18n": {
+          "de": {
+            "prompt": "Welches Passwort-Verhalten ist am besten?",
+            "explanation": "Einzigartig und lang, plus zweiter Faktor.",
+            "options": [
+              "Lange, einzigartige Passwörter im Manager plus 2FA",
+              "Ein starkes Passwort für alles",
+              "Passwörter auf einem Zettel am Monitor",
+              "Das Passwort monatlich um eine Ziffer ändern"
+            ]
+          },
+          "en": {
+            "prompt": "Which password behaviour is best?",
+            "explanation": "Unique and long, plus a second factor.",
+            "options": [
+              "Long, unique passwords in a manager plus 2FA",
+              "One strong password for everything",
+              "Passwords on a note at the monitor",
+              "Change the password by one digit every month"
+            ]
+          }
+        }
+      },
+      {
+        "kind": "multiple-choice",
+        "prompt": "Eine Seite nutzt HTTPS. Was ist daraus sicher abzuleiten?",
+        "explanation": "Mehr nicht.",
+        "options": [
+          "Die Übertragung ist verschlüsselt",
+          "Die Seite ist seriös",
+          "Die Seite hat keine Werbung",
+          "Die Seite ist in Deutschland"
+        ],
+        "answer": 0,
+        "id": "fex-q5",
+        "skillId": "m3-l2",
+        "i18n": {
+          "de": {
+            "prompt": "Eine Seite nutzt HTTPS. Was ist daraus sicher abzuleiten?",
+            "explanation": "Mehr nicht.",
+            "options": [
+              "Die Übertragung ist verschlüsselt",
+              "Die Seite ist seriös",
+              "Die Seite hat keine Werbung",
+              "Die Seite ist in Deutschland"
+            ]
+          },
+          "en": {
+            "prompt": "A site uses HTTPS. What can be safely concluded?",
+            "explanation": "No more than that.",
+            "options": [
+              "The transfer is encrypted",
+              "The site is trustworthy",
+              "The site has no ads",
+              "The site is in Germany"
+            ]
+          }
+        }
+      },
+      {
+        "kind": "multiple-choice",
+        "prompt": "Was besagt das Minimalprinzip?",
+        "explanation": "So bleibt der Schaden eines gekaperten Kontos klein.",
+        "options": [
+          "Jeder bekommt nur die Rechte, die er braucht",
+          "Alle bekommen alle Rechte",
+          "Nur der Chef hat Rechte",
+          "Rechte laufen nach einem Jahr ab"
+        ],
+        "answer": 0,
+        "id": "fex-q6",
+        "skillId": "m3-l1",
+        "i18n": {
+          "de": {
+            "prompt": "Was besagt das Minimalprinzip?",
+            "explanation": "So bleibt der Schaden eines gekaperten Kontos klein.",
+            "options": [
+              "Jeder bekommt nur die Rechte, die er braucht",
+              "Alle bekommen alle Rechte",
+              "Nur der Chef hat Rechte",
+              "Rechte laufen nach einem Jahr ab"
+            ]
+          },
+          "en": {
+            "prompt": "What does the principle of least privilege say?",
+            "explanation": "That keeps the damage of a hijacked account small.",
+            "options": [
+              "Everyone gets only the rights they need",
+              "Everyone gets all rights",
+              "Only the boss has rights",
+              "Rights expire after a year"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "glossary": [
+    {
+      "term": "Schutzziele",
+      "definition": "Vertraulichkeit, Integrität und Verfügbarkeit: was IT-Sicherheit bewahren will.",
+      "i18n": {
+        "de": {
+          "term": "Schutzziele",
+          "definition": "Vertraulichkeit, Integrität und Verfügbarkeit: was IT-Sicherheit bewahren will."
+        },
+        "en": {
+          "term": "protection goals",
+          "definition": "Confidentiality, integrity and availability: what IT security wants to preserve."
+        }
+      }
+    },
+    {
+      "term": "Phishing",
+      "definition": "Gefälschte Nachrichten oder Seiten, die Zugangsdaten oder Geld erbeuten wollen.",
+      "i18n": {
+        "de": {
+          "term": "Phishing",
+          "definition": "Gefälschte Nachrichten oder Seiten, die Zugangsdaten oder Geld erbeuten wollen."
+        },
+        "en": {
+          "term": "phishing",
+          "definition": "Fake messages or sites that try to get log-in data or money."
+        }
+      }
+    },
+    {
+      "term": "Hash",
+      "definition": "Ein Fingerabdruck fester Länge, aus dem man den Text nicht zurückrechnen kann.",
+      "i18n": {
+        "de": {
+          "term": "Hash",
+          "definition": "Ein Fingerabdruck fester Länge, aus dem man den Text nicht zurückrechnen kann."
+        },
+        "en": {
+          "term": "hash",
+          "definition": "A fingerprint of fixed length from which the text cannot be calculated back."
+        }
+      }
+    },
+    {
+      "term": "2FA",
+      "definition": "Zwei-Faktor-Authentifizierung: ein zweiter Nachweis neben dem Passwort.",
+      "i18n": {
+        "de": {
+          "term": "2FA",
+          "definition": "Zwei-Faktor-Authentifizierung: ein zweiter Nachweis neben dem Passwort."
+        },
+        "en": {
+          "term": "2FA",
+          "definition": "Two-factor authentication: a second proof besides the password."
+        }
+      }
+    },
+    {
+      "term": "Ransomware",
+      "definition": "Schadsoftware, die Daten verschlüsselt und Lösegeld fordert.",
+      "i18n": {
+        "de": {
+          "term": "Ransomware",
+          "definition": "Schadsoftware, die Daten verschlüsselt und Lösegeld fordert."
+        },
+        "en": {
+          "term": "ransomware",
+          "definition": "Malware that encrypts data and demands a ransom."
+        }
+      }
+    },
+    {
+      "term": "Minimalprinzip",
+      "definition": "Jeder bekommt nur die Rechte, die er für seine Aufgabe braucht.",
+      "i18n": {
+        "de": {
+          "term": "Minimalprinzip",
+          "definition": "Jeder bekommt nur die Rechte, die er für seine Aufgabe braucht."
+        },
+        "en": {
+          "term": "least privilege",
+          "definition": "Everyone gets only the rights needed for their task."
+        }
+      }
+    }
+  ]
+}

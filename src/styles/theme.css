@@ -1082,3 +1082,55 @@ p.code-error { color: var(--bad); font-weight: 700; }
 .occlusion-test { display: grid; gap: 0.4rem; }
 .occlusion-test p { margin: 0; }
 .occlusion-answer { font-size: 1.1rem; }
+
+/* SQL exercise. */
+.sql-ex { display: grid; gap: 0.6rem; }
+.sql-schema { padding: 0.5rem 0.8rem; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+.sql-schema summary { cursor: pointer; font-weight: 700; }
+.sql-schema ul { margin: 0.4rem 0 0; padding-left: 1.1rem; display: grid; gap: 0.3rem; }
+.sql-cols { display: block; font: 500 0.85rem/1.5 ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; }
+.sql-pk { text-decoration: underline; font-weight: 700; }
+.sql-table-wrap { overflow-x: auto; max-width: 100%; }
+.sql-table { border-collapse: collapse; font: 500 0.85rem/1.4 ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; }
+.sql-table th, .sql-table td { border: 1px solid var(--line); padding: 0.25rem 0.5rem; text-align: left; white-space: nowrap; }
+.sql-table th { background: var(--bg); }
+.sql-null { color: var(--muted); font-style: italic; }
+
+/* Trace table. */
+.trace-wrap { overflow-x: auto; max-width: 100%; display: grid; gap: 0.3rem; margin: 0.4rem 0 0.8rem; }
+.trace-table { border-collapse: collapse; font: 600 0.95rem/1.4 ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; }
+.trace-table th, .trace-table td { border: 1px solid var(--line); padding: 0.25rem 0.4rem; text-align: center; min-width: 3.2rem; }
+.trace-table th { background: var(--bg); }
+.trace-table input { width: 4rem; padding: 0.3rem 0.2rem; text-align: center; border: 2px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); font: inherit; font-size: 16px; }
+.trace-table input:focus { outline: none; border-color: var(--accent); }
+.trace-table input.bad { border-color: var(--bad); }
+.trace-answer { color: var(--good); }
+
+/* Security tools. */
+.hash-play, .pw-meter { display: grid; gap: 0.6rem; }
+.hash-field { display: grid; gap: 0.25rem; font-weight: 700; }
+.hash-field input { padding: 0.55rem 0.7rem; border: 2px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); font: 600 1rem/1.3 ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; font-size: 16px; min-width: 0; }
+.hash-field input:focus { outline: none; border-color: var(--accent); }
+.hash-out { overflow-wrap: anywhere; font-size: 0.95rem; letter-spacing: 0.02em; }
+.hash-diff { background: color-mix(in srgb, var(--bad) 25%, transparent); border-radius: 2px; }
+.hash-result { font-weight: 700; margin: 0; }
+.pw-row { display: flex; gap: 0.5rem; align-items: stretch; }
+.pw-row input { flex: 1; }
+.pw-issues { margin: 0; padding-left: 1.2rem; color: var(--bad); }
+.pw-veryWeak { background: var(--bad); }
+.pw-weak { background: #e07a1f; }
+.pw-fair { background: #d9a400; }
+.pw-strong, .pw-veryStrong { background: var(--good); }
+
+/* Network plan builder. */
+.np { display: grid; gap: 0.7rem; }
+.np-wrap { overflow-x: auto; max-width: 100%; }
+.np-input, .np-result { border-collapse: collapse; }
+.np-input th, .np-input td, .np-result th, .np-result td { border: 1px solid var(--line); padding: 0.2rem 0.35rem; text-align: center; }
+.np-input th, .np-result thead th { background: var(--bg); font-size: 0.85rem; }
+.np-input input { width: 5.5rem; padding: 0.35rem 0.4rem; border: 2px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); font: inherit; font-size: 16px; text-align: center; }
+.np-input td:nth-child(3) input { width: 8rem; }
+.np-input input:focus { outline: none; border-color: var(--accent); }
+.np-result td, .np-result th { font: 600 0.95rem/1.4 ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; min-width: 2.4rem; }
+.np-crit td, .np-crit th { background: color-mix(in srgb, var(--bad) 14%, transparent); }
+.np-sum { margin: 0; }

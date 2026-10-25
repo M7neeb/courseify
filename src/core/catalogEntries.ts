@@ -52,5 +52,45 @@ export const CATALOG_INFO: CatalogInfo[] = [
     summary: 'Was ein Pflichtenheft ist, wie es sich vom Lastenheft unterscheidet, seine sieben Kapitel und wie man Anforderungen richtig zuordnet, Satz für Satz an einem echten Gesprächsprotokoll.',
     version: '1.0',
     lessons: 11
+  },
+  {
+    id: 'sql-detektiv',
+    title: 'SQL-Detektiv: Der Fall des Blauen Kristalls',
+    subject: 'Datenbanken',
+    summary: 'SQL lernen in einer Detektivgeschichte: SELECT, WHERE, ORDER BY, Zählen, GROUP BY und JOIN. Du schreibst echte Abfragen in der App, ohne Installation und ohne Internet.',
+    version: '1.0',
+    lessons: 7
+  },
+  {
+    id: 'programmieren-grundlagen',
+    title: 'Programmieren: Pseudocode und Python',
+    subject: 'Programmieren',
+    summary: 'Variablen, Verzweigungen, Schleifen, Listen und Funktionen: erst mit Ablauftabellen und Pseudocode, dann in echtem Python, das du direkt in der App schreibst und testest.',
+    version: '1.0',
+    lessons: 8
+  },
+  {
+    id: 'linux-kommandozeile',
+    title: 'Linux: Die Kommandozeile von Grund auf',
+    subject: 'Betriebssysteme',
+    summary: 'pwd, ls, cd, cat, mkdir, cp, mv, rm, echo und Dateirechte, geübt in einem kleinen Terminal mit eigenem Dateibaum, in dem nichts kaputtgehen kann.',
+    version: '1.0',
+    lessons: 7
+  },
+  {
+    id: 'it-sicherheit-grundlagen',
+    title: 'IT-Sicherheit: Schutzziele, Phishing und Passwörter',
+    subject: 'IT-Sicherheit',
+    summary: 'Schutzziele nach BSI, Malware und Social Engineering, Phishing erkennen, Passwörter und zweiter Faktor, Hashes und Verschlüsselung, Backup, WLAN und Datenschutz. Mit Hash-Labor und Passwort-Prüfung.',
+    version: '1.0',
+    lessons: 7
+  },
+  {
+    id: 'ap1-wiso-rechnen',
+    title: 'Wirtschaft und Rechnen: Prozent, Netzplan, Kosten und Ausbildungsrecht',
+    subject: 'Wirtschaft',
+    summary: 'Prozent und Mehrwertsteuer, Dreisatz, Rabatt und Skonto, Zinsen, Netzplan mit kritischem Weg, Amortisation, Gewinnschwelle, Ausbildungsvertrag und Sozialversicherung. Mit Netzplan-Rechner.',
+    version: '1.0',
+    lessons: 8
   }
 ];

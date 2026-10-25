@@ -23,7 +23,7 @@ export default defineConfig({
             options: { cacheName: 'python', expiration: { maxEntries: 12 } }
           },
           {
-            urlPattern: ({ url }) => url.pathname.endsWith('.wasm'),
+            urlPattern: ({ url }) => url.pathname.endsWith('.wasm') || url.pathname.endsWith('/sql/sql-worker.js'),
             handler: 'CacheFirst',
             options: { cacheName: 'chess-engine', expiration: { maxEntries: 4 } }
           }

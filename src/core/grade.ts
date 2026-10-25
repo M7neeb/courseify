@@ -202,6 +202,21 @@ export function gradeAnswer(q: Question, given: unknown): boolean {
     case 'code':
       // The code runs in a worker before grading; what comes here is whether every test passed.
       return typeof given === 'object' && given !== null && (given as { passed?: unknown }).passed === true;
+    case 'trace': {
+      const blanks = Array.isArray(q.blanks) ? q.blanks : [];
+      const rows = Array.isArray(q.rows) ? q.rows : [];
+      if (blanks.length === 0 || !Array.isArray(given) || given.length !== blanks.length) return false;
+      return blanks.every(([r, c], i) => {
+        const want = rows[r]?.[c];
+        return typeof want === 'string' && typeof given[i] === 'string' && normalizeText(given[i] as string) === normalizeText(want);
+      });
+    }
+    case 'shell':
+      // The goal is checked while the learner types; what comes here is whether it was reached.
+      return typeof given === 'object' && given !== null && (given as { passed?: unknown }).passed === true;
+    case 'sql':
+      // The query runs in a worker and is compared with the model answer before grading.
+      return typeof given === 'object' && given !== null && (given as { passed?: unknown }).passed === true;
     default:
       return false;
   }

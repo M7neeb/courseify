@@ -360,7 +360,10 @@ const KIND_TEXT: Record<QuestionKind, string> = {
   chess: 'chess (a puzzle on a board: a legal FEN with the learner to move and the solution line in SAN, 1-3 learner moves)',
   written: 'written (an exam-style task answered in 2-5 sentences, with a model answer and 2-6 key points; use it for "explain", "describe" and "compare" tasks, at most one per lesson quiz)',
   hotspot: 'hotspot (the learner taps the right part of a simple SVG diagram you draw: a circuit, a table, a network or a labelled sketch)',
-  code: 'code (a small programming task: the learner writes code in the app and it is checked by tests you write; see the CODE part of the schema)'
+  code: 'code (a small programming task: the learner writes code in the app and it is checked by tests you write; see the CODE part of the schema)',
+  shell: 'shell (a command-line task in a small fake file tree: hand-written courses only)',
+  trace: 'trace (a trace table of a program: hand-written courses only)',
+  sql: 'sql (a query task: the learner writes SQL against a small practice database; not offered by the builder, hand-written courses only)'
 };
 
 /** Chess courses get the chess part of the schema too; every other course keeps it short. */

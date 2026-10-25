@@ -1,0 +1,2245 @@
+{
+  "schemaVersion": 2,
+  "id": "programmieren-grundlagen",
+  "title": "Programmieren: Pseudocode und Python",
+  "subject": "Programmieren",
+  "level": "Grundlagen",
+  "language": "de",
+  "languages": [
+    "de",
+    "en"
+  ],
+  "version": "1.0",
+  "meta": {
+    "tags": [
+      "programmieren",
+      "python",
+      "pseudocode",
+      "algorithmen"
+    ],
+    "description": "Variablen, Verzweigungen, Schleifen, Listen und Funktionen: erst im Kopf mit Ablauftabellen und Pseudocode, dann in echtem Python, das du direkt in der App schreibst und testest."
+  },
+  "modules": [
+    {
+      "id": "m1",
+      "title": "Grundbausteine",
+      "summary": "Variablen, Verzweigungen und Schleifen.",
+      "lessons": [
+        {
+          "id": "m1-l1",
+          "title": "Variablen und Zuweisung",
+          "goal": "Du kannst Werte in Variablen speichern und eine Zuweisung Zeile für Zeile verfolgen.",
+          "blocks": [
+            {
+              "id": "m1-l1-b1",
+              "type": "text",
+              "markdown": "Ein Programm besteht aus **Anweisungen**, die der Computer **von oben nach unten** ausführt. Eine **Variable** ist ein Name für einen Platz im Speicher, in dem ein Wert liegt.\n\nIn **Pseudocode** schreibt man den Pfeil, in **Python** das Gleichheitszeichen:\n\n| Pseudocode | Python |\n|---|---|\n| `a ← 3` | `a = 3` |\n| `b ← a + 2` | `b = a + 2` |\n\nDas `=` bedeutet hier **nicht** \"ist gleich\", sondern: *rechne die rechte Seite aus und speichere das Ergebnis links*. Darum ist `a = a + 1` sinnvoll: nimm den alten Wert, addiere 1 und speichere ihn wieder in `a`.",
+              "i18n": {
+                "de": {
+                  "normal": "Ein Programm besteht aus **Anweisungen**, die der Computer **von oben nach unten** ausführt. Eine **Variable** ist ein Name für einen Platz im Speicher, in dem ein Wert liegt.\n\nIn **Pseudocode** schreibt man den Pfeil, in **Python** das Gleichheitszeichen:\n\n| Pseudocode | Python |\n|---|---|\n| `a ← 3` | `a = 3` |\n| `b ← a + 2` | `b = a + 2` |\n\nDas `=` bedeutet hier **nicht** \"ist gleich\", sondern: *rechne die rechte Seite aus und speichere das Ergebnis links*. Darum ist `a = a + 1` sinnvoll: nimm den alten Wert, addiere 1 und speichere ihn wieder in `a`."
+                },
+                "en": {
+                  "normal": "A program is made of **statements** that the computer runs **from top to bottom**. A **variable** is a name for a place in memory that holds a value.\n\nIn **pseudocode** you write an arrow, in **Python** the equals sign:\n\n| Pseudocode | Python |\n|---|---|\n| `a ← 3` | `a = 3` |\n| `b ← a + 2` | `b = a + 2` |\n\nThe `=` here does **not** mean \"is equal to\", but: *work out the right side and store the result on the left*. That is why `a = a + 1` makes sense: take the old value, add 1 and store it in `a` again."
+                }
+              }
+            },
+            {
+              "id": "m1-l1-b2",
+              "type": "example",
+              "markdown": "**Aufgabe:** Was steht nach den drei Zeilen in `a` und `b`?\n\n```\na = 3\nb = a + 2\na = a * b\n```\n\n1. Zeile 1: `a` ist 3.\n2. Zeile 2: `b` ist 3 + 2 = 5, `a` bleibt 3.\n3. Zeile 3: `a` ist 3 · 5 = 15, `b` bleibt 5.",
+              "i18n": {
+                "de": {
+                  "markdown": "**Aufgabe:** Was steht nach den drei Zeilen in `a` und `b`?\n\n```\na = 3\nb = a + 2\na = a * b\n```\n\n1. Zeile 1: `a` ist 3.\n2. Zeile 2: `b` ist 3 + 2 = 5, `a` bleibt 3.\n3. Zeile 3: `a` ist 3 · 5 = 15, `b` bleibt 5."
+                },
+                "en": {
+                  "markdown": "**Task:** what do `a` and `b` hold after the three lines?\n\n```\na = 3\nb = a + 2\na = a * b\n```\n\n1. Line 1: `a` is 3.\n2. Line 2: `b` is 3 + 2 = 5, `a` stays 3.\n3. Line 3: `a` is 3 · 5 = 15, `b` stays 5."
+                }
+              }
+            },
+            {
+              "id": "m1-l1-b3",
+              "type": "callout",
+              "style": "tip",
+              "markdown": "Eine **Ablauftabelle** (Trace-Tabelle) schreibt nach jeder Zeile alle Variablen auf. So findet man Fehler, ohne zu raten.",
+              "i18n": {
+                "de": {
+                  "markdown": "Eine **Ablauftabelle** (Trace-Tabelle) schreibt nach jeder Zeile alle Variablen auf. So findet man Fehler, ohne zu raten."
+                },
+                "en": {
+                  "markdown": "A **trace table** writes down all variables after every line. That is how you find mistakes without guessing."
+                }
+              }
+            },
+            {
+              "id": "m1-l1-b4",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "trace",
+                  "prompt": "Fülle die Ablauftabelle aus. Das Programm:\n\n```\na = 3\nb = a + 2\na = a * b\n```\n\nDie Tabelle zeigt die Werte **nach** jeder Zeile.",
+                  "explanation": "Zeile 2 setzt `b`, Zeile 3 ändert nur `a`.",
+                  "hint": "Nur die Variable ganz links vom `=` ändert sich.",
+                  "columns": [
+                    "Zeile",
+                    "a",
+                    "b"
+                  ],
+                  "rows": [
+                    [
+                      "1",
+                      "3",
+                      "-"
+                    ],
+                    [
+                      "2",
+                      "3",
+                      "5"
+                    ],
+                    [
+                      "3",
+                      "15",
+                      "5"
+                    ]
+                  ],
+                  "blanks": [
+                    [
+                      1,
+                      2
+                    ],
+                    [
+                      2,
+                      1
+                    ],
+                    [
+                      2,
+                      2
+                    ]
+                  ],
+                  "id": "m1-l1-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Fülle die Ablauftabelle aus. Das Programm:\n\n```\na = 3\nb = a + 2\na = a * b\n```\n\nDie Tabelle zeigt die Werte **nach** jeder Zeile.",
+                      "explanation": "Zeile 2 setzt `b`, Zeile 3 ändert nur `a`.",
+                      "hint": "Nur die Variable ganz links vom `=` ändert sich.",
+                      "columns": [
+                        "Zeile",
+                        "a",
+                        "b"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Fill in the trace table. The program:\n\n```\na = 3\nb = a + 2\na = a * b\n```\n\nThe table shows the values **after** each line.",
+                      "explanation": "Line 2 sets `b`, line 3 changes only `a`.",
+                      "hint": "Only the variable left of the `=` changes.",
+                      "columns": [
+                        "Zeile",
+                        "a",
+                        "b"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Was steht nach `x = 4` und `x = x + 1` in `x`?",
+                  "explanation": "Der alte Wert 4 plus 1 wird wieder in `x` gespeichert.",
+                  "options": [
+                    "5",
+                    "4",
+                    "8",
+                    "Fehler"
+                  ],
+                  "answer": 0,
+                  "id": "m1-l1-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was steht nach `x = 4` und `x = x + 1` in `x`?",
+                      "explanation": "Der alte Wert 4 plus 1 wird wieder in `x` gespeichert.",
+                      "options": [
+                        "5",
+                        "4",
+                        "8",
+                        "Fehler"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "What does `x` hold after `x = 4` and `x = x + 1`?",
+                      "explanation": "The old value 4 plus 1 is stored in `x` again.",
+                      "options": [
+                        "5",
+                        "4",
+                        "8",
+                        "Error"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "code",
+                  "prompt": "Schreibe eine Funktion `double(n)`, die das Doppelte von `n` zurückgibt.",
+                  "explanation": "`return` gibt das Ergebnis zurück: `n * 2`.",
+                  "language": "python",
+                  "starter": "def double(n):\n    return ",
+                  "tests": [
+                    {
+                      "call": "double(4)",
+                      "expect": 8
+                    },
+                    {
+                      "call": "double(0)",
+                      "expect": 0
+                    },
+                    {
+                      "call": "double(-3)",
+                      "expect": -6
+                    }
+                  ],
+                  "answer": "def double(n):\n    return n * 2",
+                  "id": "m1-l1-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Schreibe eine Funktion `double(n)`, die das Doppelte von `n` zurückgibt.",
+                      "explanation": "`return` gibt das Ergebnis zurück: `n * 2`."
+                    },
+                    "en": {
+                      "prompt": "Write a function `double(n)` that returns twice `n`.",
+                      "explanation": "`return` gives back the result: `n * 2`."
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Variablen und Zuweisung",
+              "goal": "Du kannst Werte in Variablen speichern und eine Zuweisung Zeile für Zeile verfolgen."
+            },
+            "en": {
+              "title": "Variables and assignment",
+              "goal": "You can store values in variables and follow an assignment line by line."
+            }
+          }
+        },
+        {
+          "id": "m1-l2",
+          "title": "Verzweigungen: if und else",
+          "goal": "Du kannst Bedingungen schreiben und den Weg durch ein Programm bestimmen.",
+          "blocks": [
+            {
+              "id": "m1-l2-b1",
+              "type": "text",
+              "markdown": "Mit einer **Verzweigung** führt das Programm Zeilen nur aus, **wenn** eine Bedingung stimmt:\n\n| Pseudocode | Python |\n|---|---|\n| `WENN x > 0 DANN` | `if x > 0:` |\n| `SONST` | `else:` |\n| `SONST WENN x = 0 DANN` | `elif x == 0:` |\n\nIn Python gehört alles, was **eingerückt** ist (4 Leerzeichen), zum Zweig. Zum **Vergleichen** nimmt man `==` (zwei Gleichheitszeichen), `!=`, `<`, `>`, `<=`, `>=`. Bedingungen verbindet man mit `and`, `or`, `not`.",
+              "i18n": {
+                "de": {
+                  "normal": "Mit einer **Verzweigung** führt das Programm Zeilen nur aus, **wenn** eine Bedingung stimmt:\n\n| Pseudocode | Python |\n|---|---|\n| `WENN x > 0 DANN` | `if x > 0:` |\n| `SONST` | `else:` |\n| `SONST WENN x = 0 DANN` | `elif x == 0:` |\n\nIn Python gehört alles, was **eingerückt** ist (4 Leerzeichen), zum Zweig. Zum **Vergleichen** nimmt man `==` (zwei Gleichheitszeichen), `!=`, `<`, `>`, `<=`, `>=`. Bedingungen verbindet man mit `and`, `or`, `not`."
+                },
+                "en": {
+                  "normal": "A **branch** makes the program run lines only **if** a condition holds:\n\n| Pseudocode | Python |\n|---|---|\n| `IF x > 0 THEN` | `if x > 0:` |\n| `ELSE` | `else:` |\n| `ELSE IF x = 0 THEN` | `elif x == 0:` |\n\nIn Python everything that is **indented** (4 spaces) belongs to the branch. To **compare** you use `==` (two equals signs), `!=`, `<`, `>`, `<=`, `>=`. You combine conditions with `and`, `or`, `not`."
+                }
+              }
+            },
+            {
+              "id": "m1-l2-b2",
+              "type": "example",
+              "markdown": "**Aufgabe:** Was gibt das Programm für `x = 7` aus?\n\n```\nif x % 2 == 0:\n    print(\"gerade\")\nelse:\n    print(\"ungerade\")\n```\n\n1. `x % 2` ist der Rest der Division durch 2: 7 % 2 = 1.\n2. `1 == 0` ist falsch, also läuft der `else`-Zweig.\n3. Ausgabe: `ungerade`.",
+              "i18n": {
+                "de": {
+                  "markdown": "**Aufgabe:** Was gibt das Programm für `x = 7` aus?\n\n```\nif x % 2 == 0:\n    print(\"gerade\")\nelse:\n    print(\"ungerade\")\n```\n\n1. `x % 2` ist der Rest der Division durch 2: 7 % 2 = 1.\n2. `1 == 0` ist falsch, also läuft der `else`-Zweig.\n3. Ausgabe: `ungerade`."
+                },
+                "en": {
+                  "markdown": "**Task:** what does the program print for `x = 7`?\n\n```\nif x % 2 == 0:\n    print(\"even\")\nelse:\n    print(\"odd\")\n```\n\n1. `x % 2` is the remainder of dividing by 2: 7 % 2 = 1.\n2. `1 == 0` is false, so the `else` branch runs.\n3. Output: `odd`."
+                }
+              }
+            },
+            {
+              "id": "m1-l2-b3",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Welcher Ausdruck prüft, ob `x` gleich 5 ist?",
+                  "explanation": "`=` speichert, `==` vergleicht.",
+                  "options": [
+                    "x == 5",
+                    "x = 5",
+                    "x => 5",
+                    "x equals 5"
+                  ],
+                  "answer": 0,
+                  "id": "m1-l2-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Welcher Ausdruck prüft, ob `x` gleich 5 ist?",
+                      "explanation": "`=` speichert, `==` vergleicht.",
+                      "options": [
+                        "x == 5",
+                        "x = 5",
+                        "x => 5",
+                        "x equals 5"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Which expression checks whether `x` equals 5?",
+                      "explanation": "`=` stores, `==` compares.",
+                      "options": [
+                        "x == 5",
+                        "x = 5",
+                        "x => 5",
+                        "x equals 5"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "ordering",
+                  "prompt": "Bringe die Zeilen in die richtige Reihenfolge. Das Programm gibt `\"ja\"` aus, wenn `n` größer als 10 ist, sonst `\"nein\"`.",
+                  "explanation": "Erst die Bedingung, dann ihr Zweig, dann `else` mit seinem Zweig.",
+                  "items": [
+                    "if n > 10:",
+                    "    print(\"ja\")",
+                    "else:",
+                    "    print(\"nein\")"
+                  ],
+                  "id": "m1-l2-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Bringe die Zeilen in die richtige Reihenfolge. Das Programm gibt `\"ja\"` aus, wenn `n` größer als 10 ist, sonst `\"nein\"`.",
+                      "explanation": "Erst die Bedingung, dann ihr Zweig, dann `else` mit seinem Zweig.",
+                      "items": [
+                        "if n > 10:",
+                        "    print(\"ja\")",
+                        "else:",
+                        "    print(\"nein\")"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Put the lines in the right order. The program prints `\"yes\"` if `n` is greater than 10, otherwise `\"no\"`.",
+                      "explanation": "First the condition, then its branch, then `else` with its branch.",
+                      "items": [
+                        "if n > 10:",
+                        "    print(\"yes\")",
+                        "else:",
+                        "    print(\"no\")"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "code",
+                  "prompt": "Schreibe `sign(n)`: gib `\"positive\"` zurück, wenn `n > 0`, `\"negative\"`, wenn `n < 0`, sonst `\"zero\"`.",
+                  "explanation": "Drei Fälle: `if`, `elif`, und der Rest.",
+                  "language": "python",
+                  "starter": "def sign(n):\n    ",
+                  "tests": [
+                    {
+                      "call": "sign(5)",
+                      "expect": "positive"
+                    },
+                    {
+                      "call": "sign(-2)",
+                      "expect": "negative"
+                    },
+                    {
+                      "call": "sign(0)",
+                      "expect": "zero"
+                    }
+                  ],
+                  "answer": "def sign(n):\n    if n > 0:\n        return \"positive\"\n    elif n < 0:\n        return \"negative\"\n    return \"zero\"",
+                  "id": "m1-l2-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Schreibe `sign(n)`: gib `\"positive\"` zurück, wenn `n > 0`, `\"negative\"`, wenn `n < 0`, sonst `\"zero\"`.",
+                      "explanation": "Drei Fälle: `if`, `elif`, und der Rest."
+                    },
+                    "en": {
+                      "prompt": "Write `sign(n)`: return `\"positive\"` if `n > 0`, `\"negative\"` if `n < 0`, otherwise `\"zero\"`.",
+                      "explanation": "Three cases: `if`, `elif`, and the rest."
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Verzweigungen: if und else",
+              "goal": "Du kannst Bedingungen schreiben und den Weg durch ein Programm bestimmen."
+            },
+            "en": {
+              "title": "Branching: if and else",
+              "goal": "You can write conditions and decide the path through a program."
+            }
+          }
+        },
+        {
+          "id": "m1-l3",
+          "title": "Schleifen: for und while",
+          "goal": "Du kannst Schleifen schreiben und mit einer Ablauftabelle verfolgen.",
+          "blocks": [
+            {
+              "id": "m1-l3-b1",
+              "type": "text",
+              "markdown": "Eine **Schleife** wiederholt Anweisungen.\n\n- **Zählschleife**: man weiß vorher, wie oft. `for i in range(1, 4):` läuft mit `i = 1, 2, 3` (die obere Grenze **gehört nicht dazu**).\n- **Bedingungsschleife**: man wiederholt, **solange** etwas stimmt. `while n > 1:`.\n\n| Pseudocode | Python |\n|---|---|\n| `FÜR i VON 1 BIS 3` | `for i in range(1, 4):` |\n| `SOLANGE n > 1` | `while n > 1:` |\n\nBei `while` musst du in der Schleife etwas ändern, das die Bedingung irgendwann falsch macht. Sonst läuft sie **endlos**.",
+              "i18n": {
+                "de": {
+                  "normal": "Eine **Schleife** wiederholt Anweisungen.\n\n- **Zählschleife**: man weiß vorher, wie oft. `for i in range(1, 4):` läuft mit `i = 1, 2, 3` (die obere Grenze **gehört nicht dazu**).\n- **Bedingungsschleife**: man wiederholt, **solange** etwas stimmt. `while n > 1:`.\n\n| Pseudocode | Python |\n|---|---|\n| `FÜR i VON 1 BIS 3` | `for i in range(1, 4):` |\n| `SOLANGE n > 1` | `while n > 1:` |\n\nBei `while` musst du in der Schleife etwas ändern, das die Bedingung irgendwann falsch macht. Sonst läuft sie **endlos**."
+                },
+                "en": {
+                  "normal": "A **loop** repeats statements.\n\n- **Counting loop**: you know beforehand how often. `for i in range(1, 4):` runs with `i = 1, 2, 3` (the upper limit is **not included**).\n- **Condition loop**: you repeat **as long as** something is true. `while n > 1:`.\n\n| Pseudocode | Python |\n|---|---|\n| `FOR i FROM 1 TO 3` | `for i in range(1, 4):` |\n| `WHILE n > 1` | `while n > 1:` |\n\nWith `while` you must change something inside the loop that makes the condition false at some point. Otherwise it runs **forever**."
+                }
+              }
+            },
+            {
+              "id": "m1-l3-b2",
+              "type": "example",
+              "markdown": "**Aufgabe:** Welchen Wert hat `s` am Ende?\n\n```\ns = 0\nfor i in range(1, 4):\n    s = s + i\n```\n\n1. Start: `s = 0`.\n2. `i = 1`: `s = 0 + 1 = 1`.\n3. `i = 2`: `s = 1 + 2 = 3`.\n4. `i = 3`: `s = 3 + 3 = 6`. Danach ist die Schleife zu Ende.",
+              "i18n": {
+                "de": {
+                  "markdown": "**Aufgabe:** Welchen Wert hat `s` am Ende?\n\n```\ns = 0\nfor i in range(1, 4):\n    s = s + i\n```\n\n1. Start: `s = 0`.\n2. `i = 1`: `s = 0 + 1 = 1`.\n3. `i = 2`: `s = 1 + 2 = 3`.\n4. `i = 3`: `s = 3 + 3 = 6`. Danach ist die Schleife zu Ende."
+                },
+                "en": {
+                  "markdown": "**Task:** what is the value of `s` at the end?\n\n```\ns = 0\nfor i in range(1, 4):\n    s = s + i\n```\n\n1. Start: `s = 0`.\n2. `i = 1`: `s = 0 + 1 = 1`.\n3. `i = 2`: `s = 1 + 2 = 3`.\n4. `i = 3`: `s = 3 + 3 = 6`. Then the loop is over."
+                }
+              }
+            },
+            {
+              "id": "m1-l3-b3",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "trace",
+                  "prompt": "Fülle die Ablauftabelle der Schleife aus (Werte am **Ende** jedes Durchlaufs):\n\n```\nn = 40\ncount = 0\nwhile n > 3:\n    n = n // 2\n    count = count + 1\n```\n\n`//` teilt und schneidet den Rest ab.",
+                  "explanation": "40 → 20 → 10 → 5 → 2. Bei `n = 2` ist `n > 3` falsch, die Schleife endet.",
+                  "columns": [
+                    "Durchlauf",
+                    "n",
+                    "count"
+                  ],
+                  "rows": [
+                    [
+                      "0",
+                      "40",
+                      "0"
+                    ],
+                    [
+                      "1",
+                      "20",
+                      "1"
+                    ],
+                    [
+                      "2",
+                      "10",
+                      "2"
+                    ],
+                    [
+                      "3",
+                      "5",
+                      "3"
+                    ],
+                    [
+                      "4",
+                      "2",
+                      "4"
+                    ]
+                  ],
+                  "blanks": [
+                    [
+                      1,
+                      1
+                    ],
+                    [
+                      2,
+                      1
+                    ],
+                    [
+                      3,
+                      1
+                    ],
+                    [
+                      3,
+                      2
+                    ],
+                    [
+                      4,
+                      1
+                    ],
+                    [
+                      4,
+                      2
+                    ]
+                  ],
+                  "id": "m1-l3-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Fülle die Ablauftabelle der Schleife aus (Werte am **Ende** jedes Durchlaufs):\n\n```\nn = 40\ncount = 0\nwhile n > 3:\n    n = n // 2\n    count = count + 1\n```\n\n`//` teilt und schneidet den Rest ab.",
+                      "explanation": "40 → 20 → 10 → 5 → 2. Bei `n = 2` ist `n > 3` falsch, die Schleife endet.",
+                      "columns": [
+                        "Durchlauf",
+                        "n",
+                        "count"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Fill in the trace table of the loop (values at the **end** of each pass):\n\n```\nn = 40\ncount = 0\nwhile n > 3:\n    n = n // 2\n    count = count + 1\n```\n\n`//` divides and cuts off the remainder.",
+                      "explanation": "40 → 20 → 10 → 5 → 2. At `n = 2`, `n > 3` is false and the loop ends.",
+                      "columns": [
+                        "Pass",
+                        "n",
+                        "count"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Wie oft läuft `for i in range(0, 5):`?",
+                  "explanation": "Die obere Grenze gehört nicht dazu.",
+                  "options": [
+                    "5 Mal (i = 0 bis 4)",
+                    "6 Mal",
+                    "4 Mal",
+                    "Endlos"
+                  ],
+                  "answer": 0,
+                  "id": "m1-l3-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Wie oft läuft `for i in range(0, 5):`?",
+                      "explanation": "Die obere Grenze gehört nicht dazu.",
+                      "options": [
+                        "5 Mal (i = 0 bis 4)",
+                        "6 Mal",
+                        "4 Mal",
+                        "Endlos"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "How often does `for i in range(0, 5):` run?",
+                      "explanation": "The upper limit is not included.",
+                      "options": [
+                        "5 times (i = 0 to 4)",
+                        "6 times",
+                        "4 times",
+                        "Forever"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "code",
+                  "prompt": "Schreibe `sum_to(n)`: die Summe der Zahlen von 1 bis `n`.",
+                  "explanation": "`range(1, n + 1)`, weil die Grenze nicht dazugehört.",
+                  "language": "python",
+                  "starter": "def sum_to(n):\n    s = 0\n    ",
+                  "tests": [
+                    {
+                      "call": "sum_to(4)",
+                      "expect": 10
+                    },
+                    {
+                      "call": "sum_to(1)",
+                      "expect": 1
+                    },
+                    {
+                      "call": "sum_to(10)",
+                      "expect": 55
+                    }
+                  ],
+                  "answer": "def sum_to(n):\n    s = 0\n    for i in range(1, n + 1):\n        s = s + i\n    return s",
+                  "id": "m1-l3-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Schreibe `sum_to(n)`: die Summe der Zahlen von 1 bis `n`.",
+                      "explanation": "`range(1, n + 1)`, weil die Grenze nicht dazugehört."
+                    },
+                    "en": {
+                      "prompt": "Write `sum_to(n)`: the sum of the numbers from 1 to `n`.",
+                      "explanation": "`range(1, n + 1)`, because the limit is not included."
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Schleifen: for und while",
+              "goal": "Du kannst Schleifen schreiben und mit einer Ablauftabelle verfolgen."
+            },
+            "en": {
+              "title": "Loops: for and while",
+              "goal": "You can write loops and follow them with a trace table."
+            }
+          }
+        }
+      ],
+      "test": {
+        "id": "m1-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "kind": "trace",
+            "prompt": "Fülle die Tabelle aus:\n\n```\nx = 2\ny = x * 3\nx = y - 1\n```",
+            "explanation": "`y` wird 6, dann `x = 6 - 1 = 5`.",
+            "columns": [
+              "Zeile",
+              "x",
+              "y"
+            ],
+            "rows": [
+              [
+                "1",
+                "2",
+                "-"
+              ],
+              [
+                "2",
+                "2",
+                "6"
+              ],
+              [
+                "3",
+                "5",
+                "6"
+              ]
+            ],
+            "blanks": [
+              [
+                1,
+                2
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                2,
+                2
+              ]
+            ],
+            "id": "m1-t1",
+            "skillId": "m1-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Fülle die Tabelle aus:\n\n```\nx = 2\ny = x * 3\nx = y - 1\n```",
+                "explanation": "`y` wird 6, dann `x = 6 - 1 = 5`.",
+                "columns": [
+                  "Zeile",
+                  "x",
+                  "y"
+                ]
+              },
+              "en": {
+                "prompt": "Fill in the table:\n\n```\nx = 2\ny = x * 3\nx = y - 1\n```",
+                "explanation": "`y` becomes 6, then `x = 6 - 1 = 5`.",
+                "columns": [
+                  "Line",
+                  "x",
+                  "y"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Was gibt `print(7 % 3)` aus?",
+            "explanation": "7 durch 3 ist 2 Rest 1. `%` liefert den Rest.",
+            "options": [
+              "1",
+              "2",
+              "3",
+              "0"
+            ],
+            "answer": 0,
+            "id": "m1-t2",
+            "skillId": "m1-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Was gibt `print(7 % 3)` aus?",
+                "explanation": "7 durch 3 ist 2 Rest 1. `%` liefert den Rest.",
+                "options": [
+                  "1",
+                  "2",
+                  "3",
+                  "0"
+                ]
+              },
+              "en": {
+                "prompt": "What does `print(7 % 3)` print?",
+                "explanation": "7 divided by 3 is 2 remainder 1. `%` gives the remainder.",
+                "options": [
+                  "1",
+                  "2",
+                  "3",
+                  "0"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "code",
+            "prompt": "Schreibe `is_even(n)`: `True`, wenn `n` gerade ist, sonst `False`.",
+            "explanation": "Gerade Zahlen haben Rest 0 bei Division durch 2.",
+            "language": "python",
+            "starter": "def is_even(n):\n    ",
+            "tests": [
+              {
+                "call": "is_even(4)",
+                "expect": true
+              },
+              {
+                "call": "is_even(7)",
+                "expect": false
+              },
+              {
+                "call": "is_even(0)",
+                "expect": true
+              }
+            ],
+            "answer": "def is_even(n):\n    return n % 2 == 0",
+            "id": "m1-t3",
+            "skillId": "m1-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Schreibe `is_even(n)`: `True`, wenn `n` gerade ist, sonst `False`.",
+                "explanation": "Gerade Zahlen haben Rest 0 bei Division durch 2."
+              },
+              "en": {
+                "prompt": "Write `is_even(n)`: `True` if `n` is even, otherwise `False`.",
+                "explanation": "Even numbers have remainder 0 when divided by 2."
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Welche Schleife läuft endlos?",
+            "explanation": "`n` wächst, `n > 0` bleibt immer wahr.",
+            "options": [
+              "n = 5\nwhile n > 0:\n    n = n + 1",
+              "n = 5\nwhile n > 0:\n    n = n - 1",
+              "for i in range(3):\n    print(i)",
+              "n = 0\nwhile n < 3:\n    n += 1"
+            ],
+            "answer": 0,
+            "id": "m1-t4",
+            "skillId": "m1-l3",
+            "i18n": {
+              "de": {
+                "prompt": "Welche Schleife läuft endlos?",
+                "explanation": "`n` wächst, `n > 0` bleibt immer wahr.",
+                "options": [
+                  "n = 5\nwhile n > 0:\n    n = n + 1",
+                  "n = 5\nwhile n > 0:\n    n = n - 1",
+                  "for i in range(3):\n    print(i)",
+                  "n = 0\nwhile n < 3:\n    n += 1"
+                ]
+              },
+              "en": {
+                "prompt": "Which loop runs forever?",
+                "explanation": "`n` grows, so `n > 0` stays true forever.",
+                "options": [
+                  "n = 5\nwhile n > 0:\n    n = n + 1",
+                  "n = 5\nwhile n > 0:\n    n = n - 1",
+                  "for i in range(3):\n    print(i)",
+                  "n = 0\nwhile n < 3:\n    n += 1"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "code",
+            "prompt": "Schreibe `count_down(n)`: gib die Zahl der Schritte zurück, die man von `n` bis 0 in Einerschritten zählt (`n` ist nicht negativ).",
+            "explanation": "`while n > 0` und `n` jedes Mal um 1 verkleinern.",
+            "language": "python",
+            "starter": "def count_down(n):\n    steps = 0\n    ",
+            "tests": [
+              {
+                "call": "count_down(3)",
+                "expect": 3
+              },
+              {
+                "call": "count_down(0)",
+                "expect": 0
+              }
+            ],
+            "answer": "def count_down(n):\n    steps = 0\n    while n > 0:\n        n = n - 1\n        steps = steps + 1\n    return steps",
+            "id": "m1-t5",
+            "skillId": "m1-l3",
+            "i18n": {
+              "de": {
+                "prompt": "Schreibe `count_down(n)`: gib die Zahl der Schritte zurück, die man von `n` bis 0 in Einerschritten zählt (`n` ist nicht negativ).",
+                "explanation": "`while n > 0` und `n` jedes Mal um 1 verkleinern."
+              },
+              "en": {
+                "prompt": "Write `count_down(n)`: return the number of steps to count from `n` down to 0 in steps of 1 (`n` is not negative).",
+                "explanation": "`while n > 0` and reduce `n` by 1 each time."
+              }
+            }
+          },
+          {
+            "kind": "true-false",
+            "prompt": "In `x = x + 1` ist die Gleichung falsch, weil `x` nicht gleich `x + 1` sein kann.",
+            "explanation": "Das `=` ist eine Zuweisung, keine Gleichung.",
+            "answer": false,
+            "id": "m1-t6",
+            "skillId": "m1-l1",
+            "i18n": {
+              "de": {
+                "prompt": "In `x = x + 1` ist die Gleichung falsch, weil `x` nicht gleich `x + 1` sein kann.",
+                "explanation": "Das `=` ist eine Zuweisung, keine Gleichung."
+              },
+              "en": {
+                "prompt": "In `x = x + 1` the equation is wrong because `x` cannot equal `x + 1`.",
+                "explanation": "The `=` is an assignment, not an equation."
+              }
+            }
+          }
+        ]
+      },
+      "i18n": {
+        "de": {
+          "title": "Grundbausteine",
+          "summary": "Variablen, Verzweigungen und Schleifen."
+        },
+        "en": {
+          "title": "Basic building blocks",
+          "summary": "Variables, branches and loops."
+        }
+      }
+    },
+    {
+      "id": "m2",
+      "title": "Daten und Funktionen",
+      "summary": "Listen, Funktionen und Fehlersuche.",
+      "lessons": [
+        {
+          "id": "m2-l1",
+          "title": "Listen und Index",
+          "goal": "Du kannst Werte in einer Liste speichern und über den Index darauf zugreifen.",
+          "blocks": [
+            {
+              "id": "m2-l1-b1",
+              "type": "text",
+              "markdown": "Eine **Liste** speichert viele Werte unter einem Namen: `zahlen = [4, 8, 15]`. Jeder Platz hat einen **Index**. **Gezählt wird ab 0!**\n\n| Index | 0 | 1 | 2 |\n|---|---|---|---|\n| Wert | 4 | 8 | 15 |\n\n- `zahlen[0]` ist 4, `zahlen[2]` ist 15, `zahlen[-1]` ist das letzte Element.\n- `len(zahlen)` ist die Länge (3). Der letzte Index ist `len(zahlen) - 1`.\n- `zahlen.append(23)` hängt hinten an.\n- `for x in zahlen:` läuft über alle Werte.",
+              "i18n": {
+                "de": {
+                  "normal": "Eine **Liste** speichert viele Werte unter einem Namen: `zahlen = [4, 8, 15]`. Jeder Platz hat einen **Index**. **Gezählt wird ab 0!**\n\n| Index | 0 | 1 | 2 |\n|---|---|---|---|\n| Wert | 4 | 8 | 15 |\n\n- `zahlen[0]` ist 4, `zahlen[2]` ist 15, `zahlen[-1]` ist das letzte Element.\n- `len(zahlen)` ist die Länge (3). Der letzte Index ist `len(zahlen) - 1`.\n- `zahlen.append(23)` hängt hinten an.\n- `for x in zahlen:` läuft über alle Werte."
+                },
+                "en": {
+                  "normal": "A **list** stores many values under one name: `numbers = [4, 8, 15]`. Every place has an **index**. **Counting starts at 0!**\n\n| Index | 0 | 1 | 2 |\n|---|---|---|---|\n| Value | 4 | 8 | 15 |\n\n- `numbers[0]` is 4, `numbers[2]` is 15, `numbers[-1]` is the last element.\n- `len(numbers)` is the length (3). The last index is `len(numbers) - 1`.\n- `numbers.append(23)` adds at the end.\n- `for x in numbers:` runs over all values."
+                }
+              }
+            },
+            {
+              "id": "m2-l1-b2",
+              "type": "example",
+              "markdown": "**Aufgabe:** Summe aller Werte einer Liste.\n\n```\ntotal = 0\nfor x in zahlen:\n    total = total + x\n```\n\n1. `total` startet bei 0.\n2. Für jedes `x` in der Liste wird `x` addiert.\n3. Für `[4, 8, 15]`: 0 + 4 + 8 + 15 = 27.",
+              "i18n": {
+                "de": {
+                  "markdown": "**Aufgabe:** Summe aller Werte einer Liste.\n\n```\ntotal = 0\nfor x in zahlen:\n    total = total + x\n```\n\n1. `total` startet bei 0.\n2. Für jedes `x` in der Liste wird `x` addiert.\n3. Für `[4, 8, 15]`: 0 + 4 + 8 + 15 = 27."
+                },
+                "en": {
+                  "markdown": "**Task:** the sum of all values in a list.\n\n```\ntotal = 0\nfor x in numbers:\n    total = total + x\n```\n\n1. `total` starts at 0.\n2. For every `x` in the list, `x` is added.\n3. For `[4, 8, 15]`: 0 + 4 + 8 + 15 = 27."
+                }
+              }
+            },
+            {
+              "id": "m2-l1-b3",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "`z = [10, 20, 30, 40]`. Was ist `z[1]`?",
+                  "explanation": "Der Index 0 ist das erste Element, der Index 1 das zweite.",
+                  "options": [
+                    "20",
+                    "10",
+                    "30",
+                    "Fehler"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l1-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "`z = [10, 20, 30, 40]`. Was ist `z[1]`?",
+                      "explanation": "Der Index 0 ist das erste Element, der Index 1 das zweite.",
+                      "options": [
+                        "20",
+                        "10",
+                        "30",
+                        "Fehler"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "`z = [10, 20, 30, 40]`. What is `z[1]`?",
+                      "explanation": "Index 0 is the first element, index 1 the second.",
+                      "options": [
+                        "20",
+                        "10",
+                        "30",
+                        "Error"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "numeric",
+                  "prompt": "`z = [10, 20, 30, 40]`. Was ist `len(z)`?",
+                  "explanation": "Die Liste hat vier Elemente. Der letzte Index ist 3.",
+                  "answer": 4,
+                  "id": "m2-l1-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "`z = [10, 20, 30, 40]`. Was ist `len(z)`?",
+                      "explanation": "Die Liste hat vier Elemente. Der letzte Index ist 3."
+                    },
+                    "en": {
+                      "prompt": "`z = [10, 20, 30, 40]`. What is `len(z)`?",
+                      "explanation": "The list has four elements. The last index is 3."
+                    }
+                  }
+                },
+                {
+                  "kind": "code",
+                  "prompt": "Schreibe `last(xs)`: gib das letzte Element der Liste `xs` zurück.",
+                  "explanation": "`xs[-1]` oder `xs[len(xs) - 1]`.",
+                  "language": "python",
+                  "starter": "def last(xs):\n    return ",
+                  "tests": [
+                    {
+                      "call": "last([1, 2, 3])",
+                      "expect": 3
+                    },
+                    {
+                      "call": "last([9])",
+                      "expect": 9
+                    },
+                    {
+                      "call": "last([\"a\", \"b\"])",
+                      "expect": "b"
+                    }
+                  ],
+                  "answer": "def last(xs):\n    return xs[-1]",
+                  "id": "m2-l1-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Schreibe `last(xs)`: gib das letzte Element der Liste `xs` zurück.",
+                      "explanation": "`xs[-1]` oder `xs[len(xs) - 1]`."
+                    },
+                    "en": {
+                      "prompt": "Write `last(xs)`: return the last element of the list `xs`.",
+                      "explanation": "`xs[-1]` or `xs[len(xs) - 1]`."
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Listen und Index",
+              "goal": "Du kannst Werte in einer Liste speichern und über den Index darauf zugreifen."
+            },
+            "en": {
+              "title": "Lists and index",
+              "goal": "You can store values in a list and reach them by index."
+            }
+          }
+        },
+        {
+          "id": "m2-l2",
+          "title": "Funktionen",
+          "goal": "Du kannst eine Funktion mit Parametern und Rückgabewert schreiben und aufrufen.",
+          "blocks": [
+            {
+              "id": "m2-l2-b1",
+              "type": "text",
+              "markdown": "Eine **Funktion** ist ein benannter Baustein: Du schreibst ihn einmal und rufst ihn oft auf.\n\n```\ndef average(a, b):\n    return (a + b) / 2\n```\n\n- `def` beginnt die Definition, `average` ist der **Name**, `a` und `b` sind **Parameter**.\n- `return` gibt ein Ergebnis zurück und beendet die Funktion.\n- Aufruf: `average(4, 10)` ergibt `7.0`. Die Werte beim Aufruf heißen **Argumente**.\n- `print` zeigt etwas an, `return` gibt einen Wert **zurück**, den man weiterverwenden kann. Das ist ein großer Unterschied.",
+              "i18n": {
+                "de": {
+                  "normal": "Eine **Funktion** ist ein benannter Baustein: Du schreibst ihn einmal und rufst ihn oft auf.\n\n```\ndef average(a, b):\n    return (a + b) / 2\n```\n\n- `def` beginnt die Definition, `average` ist der **Name**, `a` und `b` sind **Parameter**.\n- `return` gibt ein Ergebnis zurück und beendet die Funktion.\n- Aufruf: `average(4, 10)` ergibt `7.0`. Die Werte beim Aufruf heißen **Argumente**.\n- `print` zeigt etwas an, `return` gibt einen Wert **zurück**, den man weiterverwenden kann. Das ist ein großer Unterschied."
+                },
+                "en": {
+                  "normal": "A **function** is a named building block: you write it once and call it often.\n\n```\ndef average(a, b):\n    return (a + b) / 2\n```\n\n- `def` starts the definition, `average` is the **name**, `a` and `b` are **parameters**.\n- `return` gives back a result and ends the function.\n- Call: `average(4, 10)` gives `7.0`. The values in the call are called **arguments**.\n- `print` shows something, `return` gives a value **back** that you can use further. That is a big difference."
+                }
+              }
+            },
+            {
+              "id": "m2-l2-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Was ist `a` in `def average(a, b):`?",
+                  "explanation": "In der Definition heißt es Parameter, beim Aufruf Argument.",
+                  "options": [
+                    "Ein Parameter",
+                    "Ein Argument",
+                    "Der Rückgabewert",
+                    "Eine Schleife"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l2-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was ist `a` in `def average(a, b):`?",
+                      "explanation": "In der Definition heißt es Parameter, beim Aufruf Argument.",
+                      "options": [
+                        "Ein Parameter",
+                        "Ein Argument",
+                        "Der Rückgabewert",
+                        "Eine Schleife"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "What is `a` in `def average(a, b):`?",
+                      "explanation": "In the definition it is a parameter, in the call an argument.",
+                      "options": [
+                        "A parameter",
+                        "An argument",
+                        "The return value",
+                        "A loop"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "code",
+                  "prompt": "Schreibe `average(xs)`: der Mittelwert einer Liste von Zahlen.",
+                  "explanation": "Summe geteilt durch Anzahl: `sum(xs) / len(xs)`.",
+                  "language": "python",
+                  "starter": "def average(xs):\n    ",
+                  "tests": [
+                    {
+                      "call": "average([2, 4, 6])",
+                      "expect": 4
+                    },
+                    {
+                      "call": "average([10])",
+                      "expect": 10
+                    },
+                    {
+                      "call": "average([1, 2])",
+                      "expect": 1.5
+                    }
+                  ],
+                  "answer": "def average(xs):\n    return sum(xs) / len(xs)",
+                  "id": "m2-l2-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Schreibe `average(xs)`: der Mittelwert einer Liste von Zahlen.",
+                      "explanation": "Summe geteilt durch Anzahl: `sum(xs) / len(xs)`."
+                    },
+                    "en": {
+                      "prompt": "Write `average(xs)`: the average of a list of numbers.",
+                      "explanation": "Sum divided by count: `sum(xs) / len(xs)`."
+                    }
+                  }
+                },
+                {
+                  "kind": "true-false",
+                  "prompt": "Eine Funktion mit `print` statt `return` gibt einen Wert zurück, den man weiterrechnen kann.",
+                  "explanation": "`print` zeigt nur an. Der Aufruf liefert dann `None`.",
+                  "answer": false,
+                  "id": "m2-l2-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Eine Funktion mit `print` statt `return` gibt einen Wert zurück, den man weiterrechnen kann.",
+                      "explanation": "`print` zeigt nur an. Der Aufruf liefert dann `None`."
+                    },
+                    "en": {
+                      "prompt": "A function with `print` instead of `return` gives back a value that you can calculate with.",
+                      "explanation": "`print` only shows. The call then gives `None`."
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Funktionen",
+              "goal": "Du kannst eine Funktion mit Parametern und Rückgabewert schreiben und aufrufen."
+            },
+            "en": {
+              "title": "Functions",
+              "goal": "You can write and call a function with parameters and a return value."
+            }
+          }
+        },
+        {
+          "id": "m2-l3",
+          "title": "Fehler finden",
+          "goal": "Du kannst typische Fehler erkennen: Off-by-one, falsche Bedingung, vergessene Initialisierung.",
+          "blocks": [
+            {
+              "id": "m2-l3-b1",
+              "type": "text",
+              "markdown": "Drei Fehler sieht man ständig:\n\n1. **Off-by-one**: um eins daneben. `range(1, n)` hört bei `n - 1` auf, nicht bei `n`.\n2. **Falsche Bedingung**: `>` statt `>=`, `and` statt `or`.\n3. **Vergessene Startwerte**: `s = s + i` ohne vorher `s = 0`.\n\nSo suchst du: **Trace-Tabelle** schreiben, Zeile für Zeile, mit einem **kleinen Beispiel** (zum Beispiel `n = 3`). Dort, wo die Tabelle vom erwarteten Wert abweicht, sitzt der Fehler.",
+              "i18n": {
+                "de": {
+                  "normal": "Drei Fehler sieht man ständig:\n\n1. **Off-by-one**: um eins daneben. `range(1, n)` hört bei `n - 1` auf, nicht bei `n`.\n2. **Falsche Bedingung**: `>` statt `>=`, `and` statt `or`.\n3. **Vergessene Startwerte**: `s = s + i` ohne vorher `s = 0`.\n\nSo suchst du: **Trace-Tabelle** schreiben, Zeile für Zeile, mit einem **kleinen Beispiel** (zum Beispiel `n = 3`). Dort, wo die Tabelle vom erwarteten Wert abweicht, sitzt der Fehler."
+                },
+                "en": {
+                  "normal": "You see three bugs all the time:\n\n1. **Off-by-one**: one too far or short. `range(1, n)` stops at `n - 1`, not at `n`.\n2. **Wrong condition**: `>` instead of `>=`, `and` instead of `or`.\n3. **Forgotten start values**: `s = s + i` without `s = 0` first.\n\nHow to search: write a **trace table**, line by line, with a **small example** (for example `n = 3`). The bug sits where the table differs from the expected value."
+                }
+              }
+            },
+            {
+              "id": "m2-l3-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Die Funktion soll die Summe von 1 bis `n` berechnen, gibt aber für `n = 4` die 6 zurück:\n\n```\ns = 0\nfor i in range(1, n):\n    s = s + i\n```\n\nWas ist der Fehler?",
+                  "explanation": "1 + 2 + 3 = 6: die 4 fehlt.",
+                  "options": [
+                    "Off-by-one: `range(1, n + 1)` wäre richtig",
+                    "Es fehlt `s = 0`",
+                    "Die Schleife läuft endlos",
+                    "Die Addition ist falsch"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l3-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Die Funktion soll die Summe von 1 bis `n` berechnen, gibt aber für `n = 4` die 6 zurück:\n\n```\ns = 0\nfor i in range(1, n):\n    s = s + i\n```\n\nWas ist der Fehler?",
+                      "explanation": "1 + 2 + 3 = 6: die 4 fehlt.",
+                      "options": [
+                        "Off-by-one: `range(1, n + 1)` wäre richtig",
+                        "Es fehlt `s = 0`",
+                        "Die Schleife läuft endlos",
+                        "Die Addition ist falsch"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "The function should calculate the sum from 1 to `n`, but returns 6 for `n = 4`:\n\n```\ns = 0\nfor i in range(1, n):\n    s = s + i\n```\n\nWhat is the bug?",
+                      "explanation": "1 + 2 + 3 = 6: the 4 is missing.",
+                      "options": [
+                        "Off-by-one: `range(1, n + 1)` would be right",
+                        "`s = 0` is missing",
+                        "The loop runs forever",
+                        "The addition is wrong"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Was ist falsch?\n\n```\nif x > 5 and x < 3:\n    print(\"ok\")\n```",
+                  "explanation": "Keine Zahl ist zugleich größer als 5 und kleiner als 3.",
+                  "options": [
+                    "Die Bedingung kann nie wahr sein",
+                    "Es fehlt ein Doppelpunkt",
+                    "`and` gibt es nicht",
+                    "Nichts"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l3-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was ist falsch?\n\n```\nif x > 5 and x < 3:\n    print(\"ok\")\n```",
+                      "explanation": "Keine Zahl ist zugleich größer als 5 und kleiner als 3.",
+                      "options": [
+                        "Die Bedingung kann nie wahr sein",
+                        "Es fehlt ein Doppelpunkt",
+                        "`and` gibt es nicht",
+                        "Nichts"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "What is wrong?\n\n```\nif x > 5 and x < 3:\n    print(\"ok\")\n```",
+                      "explanation": "No number is greater than 5 and smaller than 3 at once.",
+                      "options": [
+                        "The condition can never be true",
+                        "A colon is missing",
+                        "`and` does not exist",
+                        "Nothing"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "code",
+                  "prompt": "Dieser Code soll die Anzahl der Werte zählen, die größer als 10 sind. Schreibe `count_big(xs)` richtig.",
+                  "explanation": "Genau 10 zählt nicht: `>`, nicht `>=`.",
+                  "language": "python",
+                  "starter": "def count_big(xs):\n    count = 0\n    ",
+                  "tests": [
+                    {
+                      "call": "count_big([5, 11, 20, 10])",
+                      "expect": 2
+                    },
+                    {
+                      "call": "count_big([])",
+                      "expect": 0
+                    },
+                    {
+                      "call": "count_big([10])",
+                      "expect": 0
+                    }
+                  ],
+                  "answer": "def count_big(xs):\n    count = 0\n    for x in xs:\n        if x > 10:\n            count = count + 1\n    return count",
+                  "id": "m2-l3-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Dieser Code soll die Anzahl der Werte zählen, die größer als 10 sind. Schreibe `count_big(xs)` richtig.",
+                      "explanation": "Genau 10 zählt nicht: `>`, nicht `>=`."
+                    },
+                    "en": {
+                      "prompt": "This code should count the values greater than 10. Write `count_big(xs)` correctly.",
+                      "explanation": "Exactly 10 does not count: `>`, not `>=`."
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Fehler finden",
+              "goal": "Du kannst typische Fehler erkennen: Off-by-one, falsche Bedingung, vergessene Initialisierung."
+            },
+            "en": {
+              "title": "Finding bugs",
+              "goal": "You can spot typical bugs: off-by-one, wrong condition, forgotten initialisation."
+            }
+          }
+        }
+      ],
+      "test": {
+        "id": "m2-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "kind": "multiple-choice",
+            "prompt": "`z = [3, 6, 9]`. Was gibt `z[len(z) - 1]` zurück?",
+            "explanation": "Der letzte Index ist `len(z) - 1`.",
+            "options": [
+              "9",
+              "6",
+              "3",
+              "Fehler"
+            ],
+            "answer": 0,
+            "id": "m2-t1",
+            "skillId": "m2-l1",
+            "i18n": {
+              "de": {
+                "prompt": "`z = [3, 6, 9]`. Was gibt `z[len(z) - 1]` zurück?",
+                "explanation": "Der letzte Index ist `len(z) - 1`.",
+                "options": [
+                  "9",
+                  "6",
+                  "3",
+                  "Fehler"
+                ]
+              },
+              "en": {
+                "prompt": "`z = [3, 6, 9]`. What does `z[len(z) - 1]` return?",
+                "explanation": "The last index is `len(z) - 1`.",
+                "options": [
+                  "9",
+                  "6",
+                  "3",
+                  "Error"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "code",
+            "prompt": "Schreibe `smallest(xs)`: das kleinste Element einer nicht leeren Liste, ohne `min`.",
+            "explanation": "Merke dir den bisher kleinsten Wert.",
+            "language": "python",
+            "starter": "def smallest(xs):\n    best = xs[0]\n    ",
+            "tests": [
+              {
+                "call": "smallest([4, 2, 9])",
+                "expect": 2
+              },
+              {
+                "call": "smallest([7])",
+                "expect": 7
+              },
+              {
+                "call": "smallest([-1, -5, 0])",
+                "expect": -5
+              }
+            ],
+            "answer": "def smallest(xs):\n    best = xs[0]\n    for x in xs:\n        if x < best:\n            best = x\n    return best",
+            "id": "m2-t2",
+            "skillId": "m2-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Schreibe `smallest(xs)`: das kleinste Element einer nicht leeren Liste, ohne `min`.",
+                "explanation": "Merke dir den bisher kleinsten Wert."
+              },
+              "en": {
+                "prompt": "Write `smallest(xs)`: the smallest element of a non-empty list, without `min`.",
+                "explanation": "Remember the smallest value so far."
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Was gibt dieser Code aus?\n\n```\ndef f(x):\n    return x * 2\nprint(f(3) + f(4))\n```",
+            "explanation": "6 + 8 = 14.",
+            "options": [
+              "14",
+              "7",
+              "24",
+              "10"
+            ],
+            "answer": 0,
+            "id": "m2-t3",
+            "skillId": "m2-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Was gibt dieser Code aus?\n\n```\ndef f(x):\n    return x * 2\nprint(f(3) + f(4))\n```",
+                "explanation": "6 + 8 = 14.",
+                "options": [
+                  "14",
+                  "7",
+                  "24",
+                  "10"
+                ]
+              },
+              "en": {
+                "prompt": "What does this code print?\n\n```\ndef f(x):\n    return x * 2\nprint(f(3) + f(4))\n```",
+                "explanation": "6 + 8 = 14.",
+                "options": [
+                  "14",
+                  "7",
+                  "24",
+                  "10"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "code",
+            "prompt": "Schreibe `join_names(a, b)`: gib `a`, ein Leerzeichen und `b` als Text zurück.",
+            "explanation": "Texte verbindet man mit `+`.",
+            "language": "python",
+            "starter": "def join_names(a, b):\n    return ",
+            "tests": [
+              {
+                "call": "join_names(\"Ada\", \"Lovelace\")",
+                "expect": "Ada Lovelace"
+              }
+            ],
+            "answer": "def join_names(a, b):\n    return a + \" \" + b",
+            "id": "m2-t4",
+            "skillId": "m2-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Schreibe `join_names(a, b)`: gib `a`, ein Leerzeichen und `b` als Text zurück.",
+                "explanation": "Texte verbindet man mit `+`."
+              },
+              "en": {
+                "prompt": "Write `join_names(a, b)`: return `a`, a space and `b` as text.",
+                "explanation": "You join texts with `+`."
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "`s` startet nicht bei 0, sondern gar nicht. Was passiert bei `s = s + 1`?",
+            "explanation": "Ohne Startwert gibt es nichts, wozu man 1 addieren könnte.",
+            "options": [
+              "Fehler: `s` ist nicht definiert",
+              "Es wird 1",
+              "Es wird 0",
+              "Nichts"
+            ],
+            "answer": 0,
+            "id": "m2-t5",
+            "skillId": "m2-l3",
+            "i18n": {
+              "de": {
+                "prompt": "`s` startet nicht bei 0, sondern gar nicht. Was passiert bei `s = s + 1`?",
+                "explanation": "Ohne Startwert gibt es nichts, wozu man 1 addieren könnte.",
+                "options": [
+                  "Fehler: `s` ist nicht definiert",
+                  "Es wird 1",
+                  "Es wird 0",
+                  "Nichts"
+                ]
+              },
+              "en": {
+                "prompt": "`s` is never set to a start value. What happens with `s = s + 1`?",
+                "explanation": "Without a start value there is nothing to add 1 to.",
+                "options": [
+                  "Error: `s` is not defined",
+                  "It becomes 1",
+                  "It becomes 0",
+                  "Nothing"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "true-false",
+            "prompt": "`range(1, 5)` enthält die Zahl 5.",
+            "explanation": "Die obere Grenze gehört nicht dazu: 1, 2, 3, 4.",
+            "answer": false,
+            "id": "m2-t6",
+            "skillId": "m2-l3",
+            "i18n": {
+              "de": {
+                "prompt": "`range(1, 5)` enthält die Zahl 5.",
+                "explanation": "Die obere Grenze gehört nicht dazu: 1, 2, 3, 4."
+              },
+              "en": {
+                "prompt": "`range(1, 5)` contains the number 5.",
+                "explanation": "The upper limit is not included: 1, 2, 3, 4."
+              }
+            }
+          }
+        ]
+      },
+      "i18n": {
+        "de": {
+          "title": "Daten und Funktionen",
+          "summary": "Listen, Funktionen und Fehlersuche."
+        },
+        "en": {
+          "title": "Data and functions",
+          "summary": "Lists, functions and finding bugs."
+        }
+      }
+    },
+    {
+      "id": "m3",
+      "title": "Algorithmen",
+      "summary": "Maximum, Suche und die Übersetzung von Pseudocode.",
+      "lessons": [
+        {
+          "id": "m3-l1",
+          "title": "Algorithmen: Maximum und Suchen",
+          "goal": "Du kannst einfache Algorithmen in Pseudocode lesen und in Python schreiben.",
+          "blocks": [
+            {
+              "id": "m3-l1-b1",
+              "type": "text",
+              "markdown": "Ein **Algorithmus** ist eine eindeutige Schrittfolge, die ein Problem löst. Zwei Klassiker:\n\n**Maximum finden** (Pseudocode):\n\n```\nbest ← erstes Element\nFÜR JEDES x IN Liste\n  WENN x > best DANN\n    best ← x\nGIB best ZURÜCK\n```\n\n**Lineare Suche**: Prüfe der Reihe nach jedes Element. Wenn du es findest, gib den **Index** zurück, sonst `-1`.\n\nBeide gehen die Liste **einmal** durch. Bei 1000 Elementen sind das höchstens 1000 Schritte.",
+              "i18n": {
+                "de": {
+                  "normal": "Ein **Algorithmus** ist eine eindeutige Schrittfolge, die ein Problem löst. Zwei Klassiker:\n\n**Maximum finden** (Pseudocode):\n\n```\nbest ← erstes Element\nFÜR JEDES x IN Liste\n  WENN x > best DANN\n    best ← x\nGIB best ZURÜCK\n```\n\n**Lineare Suche**: Prüfe der Reihe nach jedes Element. Wenn du es findest, gib den **Index** zurück, sonst `-1`.\n\nBeide gehen die Liste **einmal** durch. Bei 1000 Elementen sind das höchstens 1000 Schritte."
+                },
+                "en": {
+                  "normal": "An **algorithm** is an unambiguous sequence of steps that solves a problem. Two classics:\n\n**Find the maximum** (pseudocode):\n\n```\nbest ← first element\nFOR EACH x IN list\n  IF x > best THEN\n    best ← x\nRETURN best\n```\n\n**Linear search**: check every element in turn. If you find it, return the **index**, otherwise `-1`.\n\nBoth go through the list **once**. With 1000 elements that is at most 1000 steps."
+                }
+              }
+            },
+            {
+              "id": "m3-l1-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "ordering",
+                  "prompt": "Bringe die Zeilen der Funktion in die richtige Reihenfolge (Maximum einer Liste).",
+                  "explanation": "Erst Startwert, dann Schleife, dann Vergleich, am Ende `return`.",
+                  "items": [
+                    "def biggest(xs):",
+                    "    best = xs[0]",
+                    "    for x in xs:",
+                    "        if x > best:",
+                    "            best = x",
+                    "    return best"
+                  ],
+                  "id": "m3-l1-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Bringe die Zeilen der Funktion in die richtige Reihenfolge (Maximum einer Liste).",
+                      "explanation": "Erst Startwert, dann Schleife, dann Vergleich, am Ende `return`.",
+                      "items": [
+                        "def biggest(xs):",
+                        "    best = xs[0]",
+                        "    for x in xs:",
+                        "        if x > best:",
+                        "            best = x",
+                        "    return best"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Put the lines of the function in the right order (maximum of a list).",
+                      "explanation": "First the start value, then the loop, then the comparison, `return` at the end.",
+                      "items": [
+                        "def biggest(xs):",
+                        "    best = xs[0]",
+                        "    for x in xs:",
+                        "        if x > best:",
+                        "            best = x",
+                        "    return best"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "code",
+                  "prompt": "Schreibe `index_of(xs, wanted)`: der Index des ersten Vorkommens von `wanted`, sonst `-1`.",
+                  "explanation": "Mit dem Index laufen: `range(len(xs))`.",
+                  "language": "python",
+                  "starter": "def index_of(xs, wanted):\n    ",
+                  "tests": [
+                    {
+                      "call": "index_of([5, 7, 9], 7)",
+                      "expect": 1
+                    },
+                    {
+                      "call": "index_of([5, 7, 9], 4)",
+                      "expect": -1
+                    },
+                    {
+                      "call": "index_of([2, 2], 2)",
+                      "expect": 0
+                    }
+                  ],
+                  "answer": "def index_of(xs, wanted):\n    for i in range(len(xs)):\n        if xs[i] == wanted:\n            return i\n    return -1",
+                  "id": "m3-l1-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Schreibe `index_of(xs, wanted)`: der Index des ersten Vorkommens von `wanted`, sonst `-1`.",
+                      "explanation": "Mit dem Index laufen: `range(len(xs))`."
+                    },
+                    "en": {
+                      "prompt": "Write `index_of(xs, wanted)`: the index of the first occurrence of `wanted`, otherwise `-1`.",
+                      "explanation": "Loop with the index: `range(len(xs))`."
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Wie viele Vergleiche braucht die lineare Suche höchstens in einer Liste mit 50 Elementen?",
+                  "explanation": "Im schlechtesten Fall ist das gesuchte Element ganz hinten oder gar nicht da.",
+                  "options": [
+                    "50",
+                    "1",
+                    "25",
+                    "100"
+                  ],
+                  "answer": 0,
+                  "id": "m3-l1-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Wie viele Vergleiche braucht die lineare Suche höchstens in einer Liste mit 50 Elementen?",
+                      "explanation": "Im schlechtesten Fall ist das gesuchte Element ganz hinten oder gar nicht da.",
+                      "options": [
+                        "50",
+                        "1",
+                        "25",
+                        "100"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "How many comparisons does a linear search need at most in a list of 50 elements?",
+                      "explanation": "In the worst case the wanted element is at the very end or not there at all.",
+                      "options": [
+                        "50",
+                        "1",
+                        "25",
+                        "100"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Algorithmen: Maximum und Suchen",
+              "goal": "Du kannst einfache Algorithmen in Pseudocode lesen und in Python schreiben."
+            },
+            "en": {
+              "title": "Algorithms: maximum and search",
+              "goal": "You can read simple algorithms in pseudocode and write them in Python."
+            }
+          }
+        },
+        {
+          "id": "m3-l2",
+          "title": "Pseudocode in Python übersetzen",
+          "goal": "Du kannst Pseudocode in Python übersetzen und umgekehrt.",
+          "blocks": [
+            {
+              "id": "m3-l2-b1",
+              "type": "text",
+              "markdown": "Pseudocode ist eine Sprache zum **Denken**, Python eine zum **Ausführen**. Übersetzen heißt: gleiche Struktur, andere Schreibweise.\n\n| Pseudocode | Python |\n|---|---|\n| `x ← 5` | `x = 5` |\n| `WENN ... DANN ... SONST` | `if ...: ... else: ...` |\n| `FÜR i VON 1 BIS n` | `for i in range(1, n + 1):` |\n| `SOLANGE ...` | `while ...:` |\n| `GIB x ZURÜCK` | `return x` |\n| `AUSGABE x` | `print(x)` |\n\nIn Prüfungen musst du Pseudocode oft **lesen und die Ausgabe bestimmen**. Dafür gilt: Ablauftabelle schreiben, nicht im Kopf raten.",
+              "i18n": {
+                "de": {
+                  "normal": "Pseudocode ist eine Sprache zum **Denken**, Python eine zum **Ausführen**. Übersetzen heißt: gleiche Struktur, andere Schreibweise.\n\n| Pseudocode | Python |\n|---|---|\n| `x ← 5` | `x = 5` |\n| `WENN ... DANN ... SONST` | `if ...: ... else: ...` |\n| `FÜR i VON 1 BIS n` | `for i in range(1, n + 1):` |\n| `SOLANGE ...` | `while ...:` |\n| `GIB x ZURÜCK` | `return x` |\n| `AUSGABE x` | `print(x)` |\n\nIn Prüfungen musst du Pseudocode oft **lesen und die Ausgabe bestimmen**. Dafür gilt: Ablauftabelle schreiben, nicht im Kopf raten."
+                },
+                "en": {
+                  "normal": "Pseudocode is a language for **thinking**, Python one for **running**. Translating means: same structure, different notation.\n\n| Pseudocode | Python |\n|---|---|\n| `x ← 5` | `x = 5` |\n| `IF ... THEN ... ELSE` | `if ...: ... else: ...` |\n| `FOR i FROM 1 TO n` | `for i in range(1, n + 1):` |\n| `WHILE ...` | `while ...:` |\n| `RETURN x` | `return x` |\n| `OUTPUT x` | `print(x)` |\n\nIn exams you often have to **read pseudocode and work out the output**. For that: write a trace table, do not guess in your head."
+                }
+              }
+            },
+            {
+              "id": "m3-l2-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "matching",
+                  "prompt": "Ordne jeder Pseudocode-Zeile die Python-Zeile zu.",
+                  "explanation": "Gleiche Struktur, andere Schreibweise.",
+                  "pairs": [
+                    {
+                      "left": "x ← x + 1",
+                      "right": "x = x + 1"
+                    },
+                    {
+                      "left": "SOLANGE n > 0",
+                      "right": "while n > 0:"
+                    },
+                    {
+                      "left": "GIB y ZURÜCK",
+                      "right": "return y"
+                    },
+                    {
+                      "left": "AUSGABE s",
+                      "right": "print(s)"
+                    }
+                  ],
+                  "id": "m3-l2-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Ordne jeder Pseudocode-Zeile die Python-Zeile zu.",
+                      "explanation": "Gleiche Struktur, andere Schreibweise.",
+                      "pairs": [
+                        {
+                          "left": "x ← x + 1",
+                          "right": "x = x + 1"
+                        },
+                        {
+                          "left": "SOLANGE n > 0",
+                          "right": "while n > 0:"
+                        },
+                        {
+                          "left": "GIB y ZURÜCK",
+                          "right": "return y"
+                        },
+                        {
+                          "left": "AUSGABE s",
+                          "right": "print(s)"
+                        }
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Match every pseudocode line with its Python line.",
+                      "explanation": "Same structure, different notation.",
+                      "pairs": [
+                        {
+                          "left": "x ← x + 1",
+                          "right": "x = x + 1"
+                        },
+                        {
+                          "left": "WHILE n > 0",
+                          "right": "while n > 0:"
+                        },
+                        {
+                          "left": "RETURN y",
+                          "right": "return y"
+                        },
+                        {
+                          "left": "OUTPUT s",
+                          "right": "print(s)"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "code",
+                  "prompt": "Übersetze in Python: `FÜR i VON 1 BIS n: WENN i ist gerade: zähle hoch`. Schreibe `count_even(n)`: wie viele gerade Zahlen gibt es von 1 bis `n`?",
+                  "explanation": "Schleife, `if i % 2 == 0`, Zähler erhöhen.",
+                  "language": "python",
+                  "starter": "def count_even(n):\n    count = 0\n    ",
+                  "tests": [
+                    {
+                      "call": "count_even(10)",
+                      "expect": 5
+                    },
+                    {
+                      "call": "count_even(1)",
+                      "expect": 0
+                    },
+                    {
+                      "call": "count_even(7)",
+                      "expect": 3
+                    }
+                  ],
+                  "answer": "def count_even(n):\n    count = 0\n    for i in range(1, n + 1):\n        if i % 2 == 0:\n            count = count + 1\n    return count",
+                  "id": "m3-l2-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Übersetze in Python: `FÜR i VON 1 BIS n: WENN i ist gerade: zähle hoch`. Schreibe `count_even(n)`: wie viele gerade Zahlen gibt es von 1 bis `n`?",
+                      "explanation": "Schleife, `if i % 2 == 0`, Zähler erhöhen."
+                    },
+                    "en": {
+                      "prompt": "Translate into Python: `FOR i FROM 1 TO n: IF i is even: count up`. Write `count_even(n)`: how many even numbers are there from 1 to `n`?",
+                      "explanation": "Loop, `if i % 2 == 0`, increase the counter."
+                    }
+                  }
+                },
+                {
+                  "kind": "trace",
+                  "prompt": "Welche Werte hat `r` nach jedem Durchlauf?\n\n```\nr = 1\nfor i in range(1, 5):\n    r = r * i\n```",
+                  "explanation": "Das ist die Fakultät: 1 · 2 · 3 · 4 = 24.",
+                  "columns": [
+                    "i",
+                    "r"
+                  ],
+                  "rows": [
+                    [
+                      "1",
+                      "1"
+                    ],
+                    [
+                      "2",
+                      "2"
+                    ],
+                    [
+                      "3",
+                      "6"
+                    ],
+                    [
+                      "4",
+                      "24"
+                    ]
+                  ],
+                  "blanks": [
+                    [
+                      1,
+                      1
+                    ],
+                    [
+                      2,
+                      1
+                    ],
+                    [
+                      3,
+                      1
+                    ]
+                  ],
+                  "id": "m3-l2-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Welche Werte hat `r` nach jedem Durchlauf?\n\n```\nr = 1\nfor i in range(1, 5):\n    r = r * i\n```",
+                      "explanation": "Das ist die Fakultät: 1 · 2 · 3 · 4 = 24.",
+                      "columns": [
+                        "i",
+                        "r"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Which values does `r` have after every pass?\n\n```\nr = 1\nfor i in range(1, 5):\n    r = r * i\n```",
+                      "explanation": "This is the factorial: 1 · 2 · 3 · 4 = 24.",
+                      "columns": [
+                        "i",
+                        "r"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Pseudocode in Python übersetzen",
+              "goal": "Du kannst Pseudocode in Python übersetzen und umgekehrt."
+            },
+            "en": {
+              "title": "Translate pseudocode into Python",
+              "goal": "You can translate pseudocode into Python and back."
+            }
+          }
+        }
+      ],
+      "test": {
+        "id": "m3-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "kind": "code",
+            "prompt": "Schreibe `contains(xs, x)`: `True`, wenn `x` in der Liste vorkommt, sonst `False`, ohne `in`.",
+            "explanation": "Lineare Suche, sofort zurückgeben.",
+            "language": "python",
+            "starter": "def contains(xs, x):\n    ",
+            "tests": [
+              {
+                "call": "contains([1, 2], 2)",
+                "expect": true
+              },
+              {
+                "call": "contains([1, 2], 3)",
+                "expect": false
+              },
+              {
+                "call": "contains([], 1)",
+                "expect": false
+              }
+            ],
+            "answer": "def contains(xs, x):\n    for y in xs:\n        if y == x:\n            return True\n    return False",
+            "id": "m3-t1",
+            "skillId": "m3-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Schreibe `contains(xs, x)`: `True`, wenn `x` in der Liste vorkommt, sonst `False`, ohne `in`.",
+                "explanation": "Lineare Suche, sofort zurückgeben."
+              },
+              "en": {
+                "prompt": "Write `contains(xs, x)`: `True` if `x` is in the list, otherwise `False`, without `in`.",
+                "explanation": "Linear search, return at once."
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Was gibt `AUSGABE x` in Python aus?",
+            "explanation": "`print` zeigt an.",
+            "options": [
+              "print(x)",
+              "return x",
+              "x = print",
+              "echo x"
+            ],
+            "answer": 0,
+            "id": "m3-t2",
+            "skillId": "m3-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Was gibt `AUSGABE x` in Python aus?",
+                "explanation": "`print` zeigt an.",
+                "options": [
+                  "print(x)",
+                  "return x",
+                  "x = print",
+                  "echo x"
+                ]
+              },
+              "en": {
+                "prompt": "What does `OUTPUT x` become in Python?",
+                "explanation": "`print` shows.",
+                "options": [
+                  "print(x)",
+                  "return x",
+                  "x = print",
+                  "echo x"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "trace",
+            "prompt": "Fülle die Tabelle aus:\n\n```\nn = 6\nsteps = 0\nwhile n > 0:\n    n = n - 2\n    steps = steps + 1\n```",
+            "explanation": "Bei `n = 0` ist `n > 0` falsch.",
+            "columns": [
+              "Durchlauf",
+              "n",
+              "steps"
+            ],
+            "rows": [
+              [
+                "0",
+                "6",
+                "0"
+              ],
+              [
+                "1",
+                "4",
+                "1"
+              ],
+              [
+                "2",
+                "2",
+                "2"
+              ],
+              [
+                "3",
+                "0",
+                "3"
+              ]
+            ],
+            "blanks": [
+              [
+                1,
+                1
+              ],
+              [
+                2,
+                2
+              ],
+              [
+                3,
+                1
+              ],
+              [
+                3,
+                2
+              ]
+            ],
+            "id": "m3-t3",
+            "skillId": "m3-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Fülle die Tabelle aus:\n\n```\nn = 6\nsteps = 0\nwhile n > 0:\n    n = n - 2\n    steps = steps + 1\n```",
+                "explanation": "Bei `n = 0` ist `n > 0` falsch.",
+                "columns": [
+                  "Durchlauf",
+                  "n",
+                  "steps"
+                ]
+              },
+              "en": {
+                "prompt": "Fill in the table:\n\n```\nn = 6\nsteps = 0\nwhile n > 0:\n    n = n - 2\n    steps = steps + 1\n```",
+                "explanation": "At `n = 0`, `n > 0` is false.",
+                "columns": [
+                  "Pass",
+                  "n",
+                  "steps"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "i18n": {
+        "de": {
+          "title": "Algorithmen",
+          "summary": "Maximum, Suche und die Übersetzung von Pseudocode."
+        },
+        "en": {
+          "title": "Algorithms",
+          "summary": "Maximum, search and translating pseudocode."
+        }
+      }
+    }
+  ],
+  "finalExam": {
+    "id": "final-exam",
+    "type": "final-exam",
+    "questions": [
+      {
+        "kind": "trace",
+        "prompt": "Fülle die Ablauftabelle aus:\n\n```\na = 5\nb = 2\na = a - b\nb = a * b\n```",
+        "explanation": "Jede Zeile ändert nur die Variable links vom `=`.",
+        "columns": [
+          "Zeile",
+          "a",
+          "b"
+        ],
+        "rows": [
+          [
+            "1",
+            "5",
+            "-"
+          ],
+          [
+            "2",
+            "5",
+            "2"
+          ],
+          [
+            "3",
+            "3",
+            "2"
+          ],
+          [
+            "4",
+            "3",
+            "6"
+          ]
+        ],
+        "blanks": [
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "id": "fex-q1",
+        "skillId": "m1-l1",
+        "i18n": {
+          "de": {
+            "prompt": "Fülle die Ablauftabelle aus:\n\n```\na = 5\nb = 2\na = a - b\nb = a * b\n```",
+            "explanation": "Jede Zeile ändert nur die Variable links vom `=`.",
+            "columns": [
+              "Zeile",
+              "a",
+              "b"
+            ]
+          },
+          "en": {
+            "prompt": "Fill in the trace table:\n\n```\na = 5\nb = 2\na = a - b\nb = a * b\n```",
+            "explanation": "Every line changes only the variable left of `=`.",
+            "columns": [
+              "Line",
+              "a",
+              "b"
+            ]
+          }
+        }
+      },
+      {
+        "kind": "code",
+        "prompt": "Schreibe `max_of(xs)`: das größte Element einer nicht leeren Liste, ohne `max`.",
+        "explanation": "Startwert: das erste Element.",
+        "language": "python",
+        "starter": "def max_of(xs):\n    best = xs[0]\n    ",
+        "tests": [
+          {
+            "call": "max_of([3, 9, 2])",
+            "expect": 9
+          },
+          {
+            "call": "max_of([-4, -1])",
+            "expect": -1
+          }
+        ],
+        "answer": "def max_of(xs):\n    best = xs[0]\n    for x in xs:\n        if x > best:\n            best = x\n    return best",
+        "id": "fex-q2",
+        "skillId": "m3-l1",
+        "i18n": {
+          "de": {
+            "prompt": "Schreibe `max_of(xs)`: das größte Element einer nicht leeren Liste, ohne `max`.",
+            "explanation": "Startwert: das erste Element."
+          },
+          "en": {
+            "prompt": "Write `max_of(xs)`: the largest element of a non-empty list, without `max`.",
+            "explanation": "Start value: the first element."
+          }
+        }
+      },
+      {
+        "kind": "code",
+        "prompt": "Schreibe `fizz(n)`: gib `\"Fizz\"` zurück, wenn `n` durch 3 teilbar ist, sonst `str(n)`.",
+        "explanation": "`n % 3 == 0` heißt teilbar durch 3.",
+        "language": "python",
+        "starter": "def fizz(n):\n    ",
+        "tests": [
+          {
+            "call": "fizz(9)",
+            "expect": "Fizz"
+          },
+          {
+            "call": "fizz(4)",
+            "expect": "4"
+          }
+        ],
+        "answer": "def fizz(n):\n    if n % 3 == 0:\n        return \"Fizz\"\n    return str(n)",
+        "id": "fex-q3",
+        "skillId": "m1-l2",
+        "i18n": {
+          "de": {
+            "prompt": "Schreibe `fizz(n)`: gib `\"Fizz\"` zurück, wenn `n` durch 3 teilbar ist, sonst `str(n)`.",
+            "explanation": "`n % 3 == 0` heißt teilbar durch 3."
+          },
+          "en": {
+            "prompt": "Write `fizz(n)`: return `\"Fizz\"` if `n` is divisible by 3, otherwise `str(n)`.",
+            "explanation": "`n % 3 == 0` means divisible by 3."
+          }
+        }
+      },
+      {
+        "kind": "multiple-choice",
+        "prompt": "Welche Funktion gibt für `[1, 2, 3]` die Zahl 6 zurück?",
+        "explanation": "1 + 2 + 3 = 6.",
+        "options": [
+          "sum(xs)",
+          "len(xs)",
+          "xs[-1] + 1",
+          "max(xs) - 1"
+        ],
+        "answer": 0,
+        "id": "fex-q4",
+        "skillId": "m2-l1",
+        "i18n": {
+          "de": {
+            "prompt": "Welche Funktion gibt für `[1, 2, 3]` die Zahl 6 zurück?",
+            "explanation": "1 + 2 + 3 = 6.",
+            "options": [
+              "sum(xs)",
+              "len(xs)",
+              "xs[-1] + 1",
+              "max(xs) - 1"
+            ]
+          },
+          "en": {
+            "prompt": "Which function returns 6 for `[1, 2, 3]`?",
+            "explanation": "1 + 2 + 3 = 6.",
+            "options": [
+              "sum(xs)",
+              "len(xs)",
+              "xs[-1] + 1",
+              "max(xs) - 1"
+            ]
+          }
+        }
+      },
+      {
+        "kind": "multiple-choice",
+        "prompt": "Was ist ein typischer Off-by-one-Fehler?",
+        "explanation": "Um eins zu kurz oder zu lang.",
+        "options": [
+          "`range(1, n)` statt `range(1, n + 1)`, wenn `n` mitzählen soll",
+          "Ein fehlender Doppelpunkt",
+          "Ein Tippfehler im Funktionsnamen",
+          "Eine zu lange Liste"
+        ],
+        "answer": 0,
+        "id": "fex-q5",
+        "skillId": "m2-l3",
+        "i18n": {
+          "de": {
+            "prompt": "Was ist ein typischer Off-by-one-Fehler?",
+            "explanation": "Um eins zu kurz oder zu lang.",
+            "options": [
+              "`range(1, n)` statt `range(1, n + 1)`, wenn `n` mitzählen soll",
+              "Ein fehlender Doppelpunkt",
+              "Ein Tippfehler im Funktionsnamen",
+              "Eine zu lange Liste"
+            ]
+          },
+          "en": {
+            "prompt": "What is a typical off-by-one bug?",
+            "explanation": "One too short or one too long.",
+            "options": [
+              "`range(1, n)` instead of `range(1, n + 1)` when `n` should count",
+              "A missing colon",
+              "A typo in the function name",
+              "A list that is too long"
+            ]
+          }
+        }
+      },
+      {
+        "kind": "code",
+        "prompt": "Schreibe `reverse_text(s)`: der Text rückwärts (zum Beispiel `\"abc\"` ergibt `\"cba\"`).",
+        "explanation": "`s[::-1]` oder eine Schleife.",
+        "language": "python",
+        "starter": "def reverse_text(s):\n    ",
+        "tests": [
+          {
+            "call": "reverse_text(\"abc\")",
+            "expect": "cba"
+          },
+          {
+            "call": "reverse_text(\"\")",
+            "expect": ""
+          }
+        ],
+        "answer": "def reverse_text(s):\n    return s[::-1]",
+        "id": "fex-q6",
+        "skillId": "m3-l2",
+        "i18n": {
+          "de": {
+            "prompt": "Schreibe `reverse_text(s)`: der Text rückwärts (zum Beispiel `\"abc\"` ergibt `\"cba\"`).",
+            "explanation": "`s[::-1]` oder eine Schleife."
+          },
+          "en": {
+            "prompt": "Write `reverse_text(s)`: the text backwards (for example `\"abc\"` gives `\"cba\"`).",
+            "explanation": "`s[::-1]` or a loop."
+          }
+        }
+      }
+    ]
+  },
+  "glossary": [
+    {
+      "term": "Variable",
+      "definition": "Ein Name für einen Speicherplatz mit einem Wert.",
+      "i18n": {
+        "de": {
+          "term": "Variable",
+          "definition": "Ein Name für einen Speicherplatz mit einem Wert."
+        },
+        "en": {
+          "term": "variable",
+          "definition": "A name for a place in memory that holds a value."
+        }
+      }
+    },
+    {
+      "term": "Zuweisung",
+      "definition": "Speichert das Ergebnis der rechten Seite in der Variablen links, in Python mit `=`.",
+      "i18n": {
+        "de": {
+          "term": "Zuweisung",
+          "definition": "Speichert das Ergebnis der rechten Seite in der Variablen links, in Python mit `=`."
+        },
+        "en": {
+          "term": "assignment",
+          "definition": "Stores the result of the right side in the variable on the left, in Python with `=`."
+        }
+      }
+    },
+    {
+      "term": "Schleife",
+      "definition": "Wiederholt Anweisungen, entweder eine feste Anzahl oder solange eine Bedingung gilt.",
+      "i18n": {
+        "de": {
+          "term": "Schleife",
+          "definition": "Wiederholt Anweisungen, entweder eine feste Anzahl oder solange eine Bedingung gilt."
+        },
+        "en": {
+          "term": "loop",
+          "definition": "Repeats statements, either a fixed number of times or as long as a condition holds."
+        }
+      }
+    },
+    {
+      "term": "Index",
+      "definition": "Die Nummer eines Platzes in einer Liste. Gezählt wird ab 0.",
+      "i18n": {
+        "de": {
+          "term": "Index",
+          "definition": "Die Nummer eines Platzes in einer Liste. Gezählt wird ab 0."
+        },
+        "en": {
+          "term": "index",
+          "definition": "The number of a place in a list. Counting starts at 0."
+        }
+      }
+    },
+    {
+      "term": "Ablauftabelle",
+      "definition": "Eine Tabelle, die nach jedem Schritt alle Variablen aufschreibt.",
+      "i18n": {
+        "de": {
+          "term": "Ablauftabelle",
+          "definition": "Eine Tabelle, die nach jedem Schritt alle Variablen aufschreibt."
+        },
+        "en": {
+          "term": "trace table",
+          "definition": "A table that writes down all variables after every step."
+        }
+      }
+    },
+    {
+      "term": "Algorithmus",
+      "definition": "Eine eindeutige Schrittfolge, die ein Problem löst.",
+      "i18n": {
+        "de": {
+          "term": "Algorithmus",
+          "definition": "Eine eindeutige Schrittfolge, die ein Problem löst."
+        },
+        "en": {
+          "term": "algorithm",
+          "definition": "An unambiguous sequence of steps that solves a problem."
+        }
+      }
+    }
+  ]
+}

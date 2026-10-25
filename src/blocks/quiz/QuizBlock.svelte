@@ -6,6 +6,9 @@
   import HotspotPicture from './HotspotPicture.svelte';
   import ReportQuestion from './ReportQuestion.svelte';
   import CodeExercise from '../../ui/code/CodeExercise.svelte';
+  import SqlExercise from '../../ui/sql/SqlExercise.svelte';
+  import TraceTable from './TraceTable.svelte';
+  import ShellExercise from '../../ui/shell/ShellExercise.svelte';
   import { renderMarkdown } from '../../core/markdown.ts';
   import { rationaleFor, resolveQuestions } from '../../core/localize.ts';
   import { TIER_ORDER, tierForPoints } from '../../core/mastery.ts';
@@ -227,6 +230,9 @@
     return seededOrder(q.id, q.pairs?.length ?? 0, ':right');
   }
 
+  /** Trace tables: what the learner typed into the empty cells, in the order of `blanks`. */
+  let traceVals = $state<Record<string, string[]>>({});
+
   /** The learner's selection as canonical right indexes, one per left (— 1 = not chosen yet). */
   function pairsGiven(q: Question): number[] {
     const chosen = matches[q.id] ?? {};
@@ -238,6 +244,7 @@
     if (q.kind === 'written') return { text: texts[q.id] ?? '', covered: ticks[q.id] ?? [] };
     if (q.kind === 'matching') return pairsGiven(q);
     if (q.kind === 'ordering') return orderOf(q);
+    if (q.kind === 'trace') return (q.blanks ?? []).map((_, i) => traceVals[q.id]?.[i] ?? '');
     return drafts[q.id];
   }
 
@@ -250,8 +257,9 @@
       return pairs > 0 && pairsGiven(q).every((right) => right >= 0);
     }
     if (q.kind === 'ordering') return (q.items?.length ?? 0) >= 2;
+    if (q.kind === 'trace') return Array.isArray(d) && d.length > 0 && d.every((v) => typeof v === 'string' && v.trim() !== '');
     // A puzzle checks itself when a move is played; code checks itself with its tests.
-    if (q.kind === 'chess' || q.kind === 'code') return false;
+    if (q.kind === 'chess' || q.kind === 'code' || q.kind === 'sql' || q.kind === 'shell') return false;
     if (q.kind === 'written') return (texts[q.id] ?? '').trim() !== '';
     return d !== undefined;
   }
@@ -316,7 +324,8 @@
       return order.map((i) => q.items?.[i] ?? '').join(' → ');
     }
     if (q.kind === 'chess') return Array.isArray(given) && q.fen ? formatLine(q.fen, given as string[]) : '';
-    if (q.kind === 'code') {
+    if (q.kind === 'trace') return Array.isArray(given) ? (given as string[]).join(', ') : '';
+    if (q.kind === 'code' || q.kind === 'sql' || q.kind === 'shell') {
       const code = typeof given === 'object' && given !== null ? String((given as { code?: unknown }).code ?? '') : '';
       return code.length > 300 ? code.slice(0, 300) + '…' : code;
     }
@@ -344,6 +353,9 @@
     if (q.kind === 'chess') return q.fen && q.solution ? formatLine(q.fen, q.solution) : '';
     if (q.kind === 'hotspot') return q.areas?.[q.answer as number]?.label ?? t('quiz.hotspotMarked');
     if (q.kind === 'code') return typeof q.answer === 'string' ? q.answer : t('code.allTests');
+    if (q.kind === 'sql') return typeof q.answer === 'string' ? q.answer : '';
+    if (q.kind === 'trace') return (q.blanks ?? []).map(([r, c]) => q.rows?.[r]?.[c] ?? '').join(', ');
+    if (q.kind === 'shell') return typeof q.answer === 'string' ? q.answer : '';
     if (Array.isArray(q.answer)) return String(q.answer[0] ?? '');
     return String(q.answer ?? '');
   }
@@ -631,6 +643,32 @@
           <CodeExercise question={current} done={answeredCorrect} showSolution={solutionShown} onresult={(code, passed) => codeResult(current, code, passed)} />
         {/key}
       {/if}
+      {#if current.kind === 'shell'}
+        {#key current.id + ':' + drillRound}
+          <ShellExercise question={current} done={answeredCorrect} showSolution={solutionShown} onresult={(code, passed) => codeResult(current, code, passed)} />
+        {/key}
+      {/if}
+      {#if current.kind === 'trace'}
+        {#key current.id + ':' + drillRound}
+          <TraceTable
+            question={current}
+            values={(current.blanks ?? []).map((_, i) => traceVals[current.id]?.[i] ?? '')}
+            disabled={answeredCorrect}
+            reveal={answeredCorrect || solutionShown}
+            wrong={showWrong}
+            onchange={(i, v) => {
+              const next = [...(traceVals[current.id] ?? [])];
+              next[i] = v;
+              traceVals[current.id] = next;
+            }}
+          />
+        {/key}
+      {/if}
+      {#if current.kind === 'sql'}
+        {#key current.id + ':' + drillRound}
+          <SqlExercise question={current} done={answeredCorrect} showSolution={solutionShown} onresult={(code, passed) => codeResult(current, code, passed)} />
+        {/key}
+      {/if}
       {#if current.kind === 'hotspot'}
         <HotspotPicture
           question={current}
@@ -669,7 +707,7 @@
             <textarea id={'r-' + current.id} rows="2" placeholder={t('quiz.recallPlaceholder')} bind:value={recalled[current.id]}></textarea>
             <button type="button" class="btn primary" onclick={() => (revealed[current.id] = true)}>{t('quiz.showOptions')}</button>
           </div>
-        {:else if current.kind === 'chess' || current.kind === 'hotspot' || current.kind === 'code'}
+        {:else if current.kind === 'chess' || current.kind === 'hotspot' || current.kind === 'code' || current.kind === 'sql' || current.kind === 'trace' || current.kind === 'shell'}
           <!-- The board, the picture or the code above is the answer. -->
         {:else if current.kind === 'written'}
           <label class="sr-only" for={'w-' + current.id}>{t('quiz.yourAnswer')}</label>
@@ -890,7 +928,7 @@
           <button type="button" class="btn primary" disabled={!canCheck(current)} onclick={() => startSelfCheck(current)}>
             {t('quiz.writtenCompare')}
           </button>
-        {:else if current.kind !== 'chess' && current.kind !== 'code'}
+        {:else if current.kind !== 'chess' && current.kind !== 'code' && current.kind !== 'sql' && current.kind !== 'shell'}
           <button type="button" class="btn primary" disabled={!canCheck(current)} onclick={() => check(current)}>
             {current.kind === 'written' ? t('quiz.writtenGrade') : t('quiz.check')}
           </button>

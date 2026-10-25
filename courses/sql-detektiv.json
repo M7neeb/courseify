@@ -1,0 +1,1738 @@
+{
+  "schemaVersion": 2,
+  "id": "sql-detektiv",
+  "title": "SQL-Detektiv: Der Fall des Blauen Kristalls",
+  "subject": "Datenbanken",
+  "level": "Grundlagen",
+  "language": "de",
+  "languages": [
+    "de",
+    "en"
+  ],
+  "version": "1.0",
+  "meta": {
+    "tags": [
+      "sql",
+      "select",
+      "join",
+      "datenbanken"
+    ],
+    "description": "Lerne SQL in einer Detektivgeschichte: SELECT, WHERE, ORDER BY, Zählen, GROUP BY und JOIN, direkt in der App, ohne Installation und ohne Internet."
+  },
+  "modules": [
+    {
+      "id": "m1",
+      "title": "Die Akte lesen",
+      "summary": "Mit SELECT, WHERE, ORDER BY und LIMIT die Fallakte durchsuchen.",
+      "lessons": [
+        {
+          "id": "m1-l1",
+          "title": "Die Akte öffnen: SELECT und FROM",
+          "goal": "Du kannst mit SELECT und FROM Spalten aus einer Tabelle anzeigen.",
+          "blocks": [
+            {
+              "id": "m1-l1-b1",
+              "type": "text",
+              "markdown": "**Der Fall:** Im Museum ist der **Blaue Kristall** verschwunden. Du bist die Detektivin oder der Detektiv. Die Polizei gibt dir die **Fallakte**: eine kleine Datenbank mit vier Tabellen.\n\n| Tabelle | Spalten |\n|---|---|\n| `suspects` | `id`, `name`, `job`, `city`, `age` |\n| `rooms` | `id`, `name`, `floor` |\n| `visits` | `id`, `suspect_id`, `room_id`, `hour` |\n| `alibis` | `suspect_id`, `hour`, `verified` |\n\nMit **SQL** stellst du der Datenbank Fragen. Die wichtigste Frage fängt immer so an:\n\n```\nSELECT spalte FROM tabelle;\n```\n\n`SELECT` heißt: *zeige mir*. `FROM` heißt: *aus dieser Tabelle*. Das Semikolon beendet die Frage. Mehrere Spalten trennst du mit Kommas, und `*` bedeutet **alle** Spalten.",
+              "i18n": {
+                "de": {
+                  "normal": "**Der Fall:** Im Museum ist der **Blaue Kristall** verschwunden. Du bist die Detektivin oder der Detektiv. Die Polizei gibt dir die **Fallakte**: eine kleine Datenbank mit vier Tabellen.\n\n| Tabelle | Spalten |\n|---|---|\n| `suspects` | `id`, `name`, `job`, `city`, `age` |\n| `rooms` | `id`, `name`, `floor` |\n| `visits` | `id`, `suspect_id`, `room_id`, `hour` |\n| `alibis` | `suspect_id`, `hour`, `verified` |\n\nMit **SQL** stellst du der Datenbank Fragen. Die wichtigste Frage fängt immer so an:\n\n```\nSELECT spalte FROM tabelle;\n```\n\n`SELECT` heißt: *zeige mir*. `FROM` heißt: *aus dieser Tabelle*. Das Semikolon beendet die Frage. Mehrere Spalten trennst du mit Kommas, und `*` bedeutet **alle** Spalten."
+                },
+                "en": {
+                  "normal": "**The case:** the **Blue Crystal** has vanished from the museum. You are the detective. The police give you the **case file**: a small database with four tables.\n\n| Tabelle | Spalten |\n|---|---|\n| `suspects` | `id`, `name`, `job`, `city`, `age` |\n| `rooms` | `id`, `name`, `floor` |\n| `visits` | `id`, `suspect_id`, `room_id`, `hour` |\n| `alibis` | `suspect_id`, `hour`, `verified` |\n\nWith **SQL** you ask the database questions. The most important question always starts like this:\n\n```\nSELECT column FROM table;\n```\n\n`SELECT` means: *show me*. `FROM` means: *from this table*. The semicolon ends the question. You separate several columns with commas, and `*` means **all** columns."
+                }
+              }
+            },
+            {
+              "id": "m1-l1-b2",
+              "type": "example",
+              "markdown": "**Aufgabe:** Zeige Name und Beruf aller Verdächtigen.\n\n1. Welche Tabelle? `suspects`.\n2. Welche Spalten? `name` und `job`.\n3. Schreibe: `SELECT name, job FROM suspects;`",
+              "i18n": {
+                "de": {
+                  "markdown": "**Aufgabe:** Zeige Name und Beruf aller Verdächtigen.\n\n1. Welche Tabelle? `suspects`.\n2. Welche Spalten? `name` und `job`.\n3. Schreibe: `SELECT name, job FROM suspects;`"
+                },
+                "en": {
+                  "markdown": "**Task:** show the name and job of all suspects.\n\n1. Which table? `suspects`.\n2. Which columns? `name` and `job`.\n3. Write: `SELECT name, job FROM suspects;`"
+                }
+              }
+            },
+            {
+              "id": "m1-l1-b3",
+              "type": "flashcards",
+              "cards": [
+                {
+                  "front": "SELECT",
+                  "back": "Zeige mir ... (welche Spalten)"
+                },
+                {
+                  "front": "FROM",
+                  "back": "Aus dieser Tabelle"
+                },
+                {
+                  "front": "*",
+                  "back": "Alle Spalten"
+                }
+              ],
+              "i18n": {
+                "de": {
+                  "cards": [
+                    {
+                      "front": "SELECT",
+                      "back": "Zeige mir ... (welche Spalten)"
+                    },
+                    {
+                      "front": "FROM",
+                      "back": "Aus dieser Tabelle"
+                    },
+                    {
+                      "front": "*",
+                      "back": "Alle Spalten"
+                    }
+                  ]
+                },
+                "en": {
+                  "cards": [
+                    {
+                      "front": "SELECT",
+                      "back": "Show me ... (which columns)"
+                    },
+                    {
+                      "front": "FROM",
+                      "back": "From this table"
+                    },
+                    {
+                      "front": "*",
+                      "back": "All columns"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "m1-l1-b4",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "sql",
+                  "prompt": "Zeige die ganze Tabelle `suspects`.",
+                  "explanation": "`*` steht für alle Spalten.",
+                  "hint": "Nach SELECT kommt ein Sternchen.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT * FROM suspects;",
+                  "starter": "SELECT ",
+                  "id": "m1-l1-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige die ganze Tabelle `suspects`.",
+                      "explanation": "`*` steht für alle Spalten.",
+                      "hint": "Nach SELECT kommt ein Sternchen."
+                    },
+                    "en": {
+                      "prompt": "Show the whole table `suspects`.",
+                      "explanation": "`*` stands for all columns.",
+                      "hint": "After SELECT comes an asterisk."
+                    }
+                  }
+                },
+                {
+                  "kind": "sql",
+                  "prompt": "Zeige nur Name und Beruf aller Verdächtigen.",
+                  "explanation": "Zwei Spalten, durch ein Komma getrennt.",
+                  "hint": "Spaltennamen stehen im Fenster oben.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT name, job FROM suspects;",
+                  "id": "m1-l1-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige nur Name und Beruf aller Verdächtigen.",
+                      "explanation": "Zwei Spalten, durch ein Komma getrennt.",
+                      "hint": "Spaltennamen stehen im Fenster oben."
+                    },
+                    "en": {
+                      "prompt": "Show only the name and job of all suspects.",
+                      "explanation": "Two columns, separated by a comma.",
+                      "hint": "The column names are in the panel above."
+                    }
+                  }
+                },
+                {
+                  "kind": "sql",
+                  "prompt": "Zeige die Namen aller Räume.",
+                  "explanation": "Die Tabelle heißt `rooms`.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT name FROM rooms;",
+                  "id": "m1-l1-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige die Namen aller Räume.",
+                      "explanation": "Die Tabelle heißt `rooms`."
+                    },
+                    "en": {
+                      "prompt": "Show the names of all rooms.",
+                      "explanation": "The table is called `rooms`."
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Was macht `SELECT * FROM rooms;`?",
+                  "explanation": "`*` bedeutet alle Spalten. SELECT zeigt nur an, es verändert nichts.",
+                  "options": [
+                    "Zeigt alle Spalten aller Räume",
+                    "Löscht alle Räume",
+                    "Zeigt nur die Spalte `*`",
+                    "Zählt die Räume"
+                  ],
+                  "answer": 0,
+                  "id": "m1-l1-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was macht `SELECT * FROM rooms;`?",
+                      "explanation": "`*` bedeutet alle Spalten. SELECT zeigt nur an, es verändert nichts.",
+                      "options": [
+                        "Zeigt alle Spalten aller Räume",
+                        "Löscht alle Räume",
+                        "Zeigt nur die Spalte `*`",
+                        "Zählt die Räume"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "What does `SELECT * FROM rooms;` do?",
+                      "explanation": "`*` means all columns. SELECT only shows, it changes nothing.",
+                      "options": [
+                        "Shows all columns of all rooms",
+                        "Deletes all rooms",
+                        "Shows only the column `*`",
+                        "Counts the rooms"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Die Akte öffnen: SELECT und FROM",
+              "goal": "Du kannst mit SELECT und FROM Spalten aus einer Tabelle anzeigen."
+            },
+            "en": {
+              "title": "Open the file: SELECT and FROM",
+              "goal": "You can show columns of a table with SELECT and FROM."
+            }
+          }
+        },
+        {
+          "id": "m1-l2",
+          "title": "Verdächtige filtern: WHERE",
+          "goal": "Du kannst Zeilen mit WHERE, AND, OR und IN filtern.",
+          "blocks": [
+            {
+              "id": "m1-l2-b1",
+              "type": "text",
+              "markdown": "Die Fallakte hat nur 8 Verdächtige, aber echte Datenbanken haben Millionen Zeilen. Mit **WHERE** behältst du nur die Zeilen, auf die eine Bedingung zutrifft:\n\n```\nSELECT name FROM suspects WHERE city = 'Berlin';\n```\n\n- Vergleiche: `=`, `<>` (ungleich), `<`, `>`, `<=`, `>=`.\n- **Text** steht in einfachen Anführungszeichen: `'Berlin'`. **Zahlen** stehen ohne: `age > 40`.\n- `AND`: beides muss stimmen. `OR`: eins von beiden reicht.\n- `IN ('a', 'b')`: der Wert ist einer der genannten.",
+              "i18n": {
+                "de": {
+                  "normal": "Die Fallakte hat nur 8 Verdächtige, aber echte Datenbanken haben Millionen Zeilen. Mit **WHERE** behältst du nur die Zeilen, auf die eine Bedingung zutrifft:\n\n```\nSELECT name FROM suspects WHERE city = 'Berlin';\n```\n\n- Vergleiche: `=`, `<>` (ungleich), `<`, `>`, `<=`, `>=`.\n- **Text** steht in einfachen Anführungszeichen: `'Berlin'`. **Zahlen** stehen ohne: `age > 40`.\n- `AND`: beides muss stimmen. `OR`: eins von beiden reicht.\n- `IN ('a', 'b')`: der Wert ist einer der genannten."
+                },
+                "en": {
+                  "normal": "The case file has only 8 suspects, but real databases have millions of rows. With **WHERE** you keep only the rows for which a condition is true:\n\n```\nSELECT name FROM suspects WHERE city = 'Berlin';\n```\n\n- Comparisons: `=`, `<>` (not equal), `<`, `>`, `<=`, `>=`.\n- **Text** goes in single quotes: `'Berlin'`. **Numbers** go without: `age > 40`.\n- `AND`: both must be true. `OR`: one of the two is enough.\n- `IN ('a', 'b')`: the value is one of those listed."
+                }
+              }
+            },
+            {
+              "id": "m1-l2-b2",
+              "type": "example",
+              "markdown": "**Aufgabe:** Welche Wachleute (`guard`) wohnen in Berlin?\n\n1. Tabelle: `suspects`, Spalte: `name`.\n2. Zwei Bedingungen, beide müssen stimmen: `AND`.\n3. Text in Anführungszeichen: `SELECT name FROM suspects WHERE job = 'guard' AND city = 'Berlin';`",
+              "i18n": {
+                "de": {
+                  "markdown": "**Aufgabe:** Welche Wachleute (`guard`) wohnen in Berlin?\n\n1. Tabelle: `suspects`, Spalte: `name`.\n2. Zwei Bedingungen, beide müssen stimmen: `AND`.\n3. Text in Anführungszeichen: `SELECT name FROM suspects WHERE job = 'guard' AND city = 'Berlin';`"
+                },
+                "en": {
+                  "markdown": "**Task:** which guards (`guard`) live in Berlin?\n\n1. Table: `suspects`, column: `name`.\n2. Two conditions, both must be true: `AND`.\n3. Text in quotes: `SELECT name FROM suspects WHERE job = 'guard' AND city = 'Berlin';`"
+                }
+              }
+            },
+            {
+              "id": "m1-l2-b3",
+              "type": "callout",
+              "style": "warning",
+              "markdown": "**Häufiger Fehler:** `WHERE city = Berlin` ohne Anführungszeichen. SQL hält `Berlin` dann für einen Spaltennamen und meldet einen Fehler.",
+              "i18n": {
+                "de": {
+                  "markdown": "**Häufiger Fehler:** `WHERE city = Berlin` ohne Anführungszeichen. SQL hält `Berlin` dann für einen Spaltennamen und meldet einen Fehler."
+                },
+                "en": {
+                  "markdown": "**Common mistake:** `WHERE city = Berlin` without quotes. SQL then takes `Berlin` for a column name and reports an error."
+                }
+              }
+            },
+            {
+              "id": "m1-l2-b4",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "sql",
+                  "prompt": "Zeige die Namen aller Verdächtigen aus Berlin.",
+                  "explanation": "Text steht in einfachen Anführungszeichen.",
+                  "hint": "WHERE city = ...",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT name FROM suspects WHERE city = 'Berlin';",
+                  "starter": "SELECT name FROM suspects\nWHERE ",
+                  "id": "m1-l2-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige die Namen aller Verdächtigen aus Berlin.",
+                      "explanation": "Text steht in einfachen Anführungszeichen.",
+                      "hint": "WHERE city = ..."
+                    },
+                    "en": {
+                      "prompt": "Show the names of all suspects from Berlin.",
+                      "explanation": "Text goes in single quotes.",
+                      "hint": "WHERE city = ..."
+                    }
+                  }
+                },
+                {
+                  "kind": "sql",
+                  "prompt": "Zeige Name und Alter aller Verdächtigen, die älter als 40 sind.",
+                  "explanation": "Zahlen brauchen keine Anführungszeichen.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT name, age FROM suspects WHERE age > 40;",
+                  "id": "m1-l2-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige Name und Alter aller Verdächtigen, die älter als 40 sind.",
+                      "explanation": "Zahlen brauchen keine Anführungszeichen."
+                    },
+                    "en": {
+                      "prompt": "Show the name and age of all suspects older than 40.",
+                      "explanation": "Numbers need no quotes."
+                    }
+                  }
+                },
+                {
+                  "kind": "sql",
+                  "prompt": "Zeige die Namen der Wachleute (`guard`) aus Berlin.",
+                  "explanation": "Zwei Bedingungen mit AND verbinden.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT name FROM suspects WHERE job = 'guard' AND city = 'Berlin';",
+                  "id": "m1-l2-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige die Namen der Wachleute (`guard`) aus Berlin.",
+                      "explanation": "Zwei Bedingungen mit AND verbinden."
+                    },
+                    "en": {
+                      "prompt": "Show the names of the guards (`guard`) from Berlin.",
+                      "explanation": "Join two conditions with AND."
+                    }
+                  }
+                },
+                {
+                  "kind": "sql",
+                  "prompt": "Zeige die Namen aller Piloten (`pilot`) und Köche (`chef`).",
+                  "explanation": "`IN` mit einer Liste in Klammern, oder zweimal `OR`.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT name FROM suspects WHERE job IN ('pilot', 'chef');",
+                  "id": "m1-l2-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige die Namen aller Piloten (`pilot`) und Köche (`chef`).",
+                      "explanation": "`IN` mit einer Liste in Klammern, oder zweimal `OR`."
+                    },
+                    "en": {
+                      "prompt": "Show the names of all pilots (`pilot`) and chefs (`chef`).",
+                      "explanation": "`IN` with a list in brackets, or `OR` twice."
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Welche Bedingung ist richtig geschrieben?",
+                  "explanation": "Ein einzelnes `=` und der Text in einfachen Anführungszeichen.",
+                  "options": [
+                    "city = 'Wien'",
+                    "city = Wien",
+                    "city == 'Wien'",
+                    "'city' = Wien"
+                  ],
+                  "answer": 0,
+                  "id": "m1-l2-q5",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Welche Bedingung ist richtig geschrieben?",
+                      "explanation": "Ein einzelnes `=` und der Text in einfachen Anführungszeichen.",
+                      "options": [
+                        "city = 'Wien'",
+                        "city = Wien",
+                        "city == 'Wien'",
+                        "'city' = Wien"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Which condition is written correctly?",
+                      "explanation": "A single `=` and the text in single quotes.",
+                      "options": [
+                        "city = 'Wien'",
+                        "city = Wien",
+                        "city == 'Wien'",
+                        "'city' = Wien"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Verdächtige filtern: WHERE",
+              "goal": "Du kannst Zeilen mit WHERE, AND, OR und IN filtern."
+            },
+            "en": {
+              "title": "Filter the suspects: WHERE",
+              "goal": "You can filter rows with WHERE, AND, OR and IN."
+            }
+          }
+        },
+        {
+          "id": "m1-l3",
+          "title": "Ordnung schaffen: ORDER BY und LIMIT",
+          "goal": "Du kannst Ergebnisse sortieren und auf die ersten Zeilen begrenzen.",
+          "blocks": [
+            {
+              "id": "m1-l3-b1",
+              "type": "text",
+              "markdown": "Ohne weitere Angabe kommen die Zeilen in irgendeiner Reihenfolge zurück. Mit **ORDER BY** bestimmst du sie:\n\n```\nSELECT name, age FROM suspects ORDER BY age DESC;\n```\n\n- `ASC` (aufsteigend, Standard): klein nach groß, A bis Z.\n- `DESC` (absteigend): groß nach klein, Z bis A.\n- `LIMIT 3` am Ende gibt nur die **ersten 3 Zeilen** zurück. So findest du \"die 3 Ältesten\".\n\nDie Reihenfolge der Wörter ist fest: `SELECT ... FROM ... WHERE ... ORDER BY ... LIMIT ...`.",
+              "i18n": {
+                "de": {
+                  "normal": "Ohne weitere Angabe kommen die Zeilen in irgendeiner Reihenfolge zurück. Mit **ORDER BY** bestimmst du sie:\n\n```\nSELECT name, age FROM suspects ORDER BY age DESC;\n```\n\n- `ASC` (aufsteigend, Standard): klein nach groß, A bis Z.\n- `DESC` (absteigend): groß nach klein, Z bis A.\n- `LIMIT 3` am Ende gibt nur die **ersten 3 Zeilen** zurück. So findest du \"die 3 Ältesten\".\n\nDie Reihenfolge der Wörter ist fest: `SELECT ... FROM ... WHERE ... ORDER BY ... LIMIT ...`."
+                },
+                "en": {
+                  "normal": "Without further instructions the rows come back in some order. With **ORDER BY** you decide it:\n\n```\nSELECT name, age FROM suspects ORDER BY age DESC;\n```\n\n- `ASC` (ascending, the default): small to large, A to Z.\n- `DESC` (descending): large to small, Z to A.\n- `LIMIT 3` at the end returns only the **first 3 rows**. That is how you find \"the 3 oldest\".\n\nThe order of the words is fixed: `SELECT ... FROM ... WHERE ... ORDER BY ... LIMIT ...`."
+                }
+              }
+            },
+            {
+              "id": "m1-l3-b2",
+              "type": "example",
+              "markdown": "**Aufgabe:** Wer sind die zwei jüngsten Verdächtigen?\n\n1. Nach Alter sortieren, jüngste zuerst: `ORDER BY age` (aufsteigend).\n2. Nur zwei Zeilen: `LIMIT 2`.\n3. `SELECT name, age FROM suspects ORDER BY age LIMIT 2;`",
+              "i18n": {
+                "de": {
+                  "markdown": "**Aufgabe:** Wer sind die zwei jüngsten Verdächtigen?\n\n1. Nach Alter sortieren, jüngste zuerst: `ORDER BY age` (aufsteigend).\n2. Nur zwei Zeilen: `LIMIT 2`.\n3. `SELECT name, age FROM suspects ORDER BY age LIMIT 2;`"
+                },
+                "en": {
+                  "markdown": "**Task:** who are the two youngest suspects?\n\n1. Sort by age, youngest first: `ORDER BY age` (ascending).\n2. Only two rows: `LIMIT 2`.\n3. `SELECT name, age FROM suspects ORDER BY age LIMIT 2;`"
+                }
+              }
+            },
+            {
+              "id": "m1-l3-b3",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "sql",
+                  "prompt": "Zeige Name und Alter aller Verdächtigen, die ältesten zuerst.",
+                  "explanation": "Die Ältesten zuerst = größte Zahl zuerst = DESC.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT name, age FROM suspects ORDER BY age DESC;",
+                  "ordered": true,
+                  "id": "m1-l3-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige Name und Alter aller Verdächtigen, die ältesten zuerst.",
+                      "explanation": "Die Ältesten zuerst = größte Zahl zuerst = DESC."
+                    },
+                    "en": {
+                      "prompt": "Show the name and age of all suspects, oldest first.",
+                      "explanation": "Oldest first = largest number first = DESC."
+                    }
+                  }
+                },
+                {
+                  "kind": "sql",
+                  "prompt": "Zeige Name und Alter der 3 ältesten Verdächtigen, die ältesten zuerst.",
+                  "explanation": "Erst sortieren, dann mit LIMIT abschneiden.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT name, age FROM suspects ORDER BY age DESC LIMIT 3;",
+                  "ordered": true,
+                  "id": "m1-l3-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige Name und Alter der 3 ältesten Verdächtigen, die ältesten zuerst.",
+                      "explanation": "Erst sortieren, dann mit LIMIT abschneiden."
+                    },
+                    "en": {
+                      "prompt": "Show the name and age of the 3 oldest suspects, oldest first.",
+                      "explanation": "First sort, then cut with LIMIT."
+                    }
+                  }
+                },
+                {
+                  "kind": "sql",
+                  "prompt": "Zeige alle Namen in alphabetischer Reihenfolge.",
+                  "explanation": "A bis Z ist aufsteigend, also der Standard.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT name FROM suspects ORDER BY name;",
+                  "ordered": true,
+                  "id": "m1-l3-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige alle Namen in alphabetischer Reihenfolge.",
+                      "explanation": "A bis Z ist aufsteigend, also der Standard."
+                    },
+                    "en": {
+                      "prompt": "Show all names in alphabetical order.",
+                      "explanation": "A to Z is ascending, so the default."
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Was bewirkt `LIMIT 5`?",
+                  "explanation": "LIMIT schneidet nach der angegebenen Zahl der ersten Zeilen ab.",
+                  "options": [
+                    "Es gibt höchstens 5 Zeilen zurück",
+                    "Es sortiert nach der Spalte 5",
+                    "Es löscht 5 Zeilen",
+                    "Es zeigt die letzten 5 Zeilen"
+                  ],
+                  "answer": 0,
+                  "id": "m1-l3-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was bewirkt `LIMIT 5`?",
+                      "explanation": "LIMIT schneidet nach der angegebenen Zahl der ersten Zeilen ab.",
+                      "options": [
+                        "Es gibt höchstens 5 Zeilen zurück",
+                        "Es sortiert nach der Spalte 5",
+                        "Es löscht 5 Zeilen",
+                        "Es zeigt die letzten 5 Zeilen"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "What does `LIMIT 5` do?",
+                      "explanation": "LIMIT cuts off after the given number of first rows.",
+                      "options": [
+                        "It returns at most 5 rows",
+                        "It sorts by column 5",
+                        "It deletes 5 rows",
+                        "It shows the last 5 rows"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Ordnung schaffen: ORDER BY und LIMIT",
+              "goal": "Du kannst Ergebnisse sortieren und auf die ersten Zeilen begrenzen."
+            },
+            "en": {
+              "title": "Bring order: ORDER BY and LIMIT",
+              "goal": "You can sort results and cut them to the first rows."
+            }
+          }
+        }
+      ],
+      "test": {
+        "id": "m1-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "kind": "multiple-choice",
+            "prompt": "Welche Frage ist in der richtigen Reihenfolge geschrieben?",
+            "explanation": "WHERE kommt vor ORDER BY.",
+            "options": [
+              "SELECT name FROM suspects WHERE age > 30 ORDER BY name;",
+              "SELECT name FROM suspects ORDER BY name WHERE age > 30;",
+              "FROM suspects SELECT name;",
+              "WHERE age > 30 SELECT name FROM suspects;"
+            ],
+            "answer": 0,
+            "id": "m1-t1",
+            "skillId": "m1-l3",
+            "i18n": {
+              "de": {
+                "prompt": "Welche Frage ist in der richtigen Reihenfolge geschrieben?",
+                "explanation": "WHERE kommt vor ORDER BY.",
+                "options": [
+                  "SELECT name FROM suspects WHERE age > 30 ORDER BY name;",
+                  "SELECT name FROM suspects ORDER BY name WHERE age > 30;",
+                  "FROM suspects SELECT name;",
+                  "WHERE age > 30 SELECT name FROM suspects;"
+                ]
+              },
+              "en": {
+                "prompt": "Which question is written in the right order?",
+                "explanation": "WHERE comes before ORDER BY.",
+                "options": [
+                  "SELECT name FROM suspects WHERE age > 30 ORDER BY name;",
+                  "SELECT name FROM suspects ORDER BY name WHERE age > 30;",
+                  "FROM suspects SELECT name;",
+                  "WHERE age > 30 SELECT name FROM suspects;"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "sql",
+            "prompt": "Zeige Name und Stadt der Verdächtigen, die nicht in Berlin wohnen.",
+            "explanation": "`<>` heißt ungleich.",
+            "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+            "answer": "SELECT name, city FROM suspects WHERE city <> 'Berlin';",
+            "id": "m1-t2",
+            "skillId": "m1-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Zeige Name und Stadt der Verdächtigen, die nicht in Berlin wohnen.",
+                "explanation": "`<>` heißt ungleich."
+              },
+              "en": {
+                "prompt": "Show the name and city of the suspects who do not live in Berlin.",
+                "explanation": "`<>` means not equal."
+              }
+            }
+          },
+          {
+            "kind": "sql",
+            "prompt": "Zeige die Namen der Verdächtigen zwischen 30 und 40 Jahren (30 und 40 eingeschlossen).",
+            "explanation": "Zwei Vergleiche mit AND. `BETWEEN 30 AND 40` geht auch.",
+            "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+            "answer": "SELECT name FROM suspects WHERE age >= 30 AND age <= 40;",
+            "id": "m1-t3",
+            "skillId": "m1-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Zeige die Namen der Verdächtigen zwischen 30 und 40 Jahren (30 und 40 eingeschlossen).",
+                "explanation": "Zwei Vergleiche mit AND. `BETWEEN 30 AND 40` geht auch."
+              },
+              "en": {
+                "prompt": "Show the names of the suspects between 30 and 40 years old (30 and 40 included).",
+                "explanation": "Two comparisons with AND. `BETWEEN 30 AND 40` works too."
+              }
+            }
+          },
+          {
+            "kind": "sql",
+            "prompt": "Zeige den Namen des jüngsten Verdächtigen.",
+            "explanation": "Aufsteigend sortieren und eine Zeile nehmen.",
+            "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+            "answer": "SELECT name FROM suspects ORDER BY age LIMIT 1;",
+            "id": "m1-t4",
+            "skillId": "m1-l3",
+            "i18n": {
+              "de": {
+                "prompt": "Zeige den Namen des jüngsten Verdächtigen.",
+                "explanation": "Aufsteigend sortieren und eine Zeile nehmen."
+              },
+              "en": {
+                "prompt": "Show the name of the youngest suspect.",
+                "explanation": "Sort ascending and take one row."
+              }
+            }
+          },
+          {
+            "kind": "true-false",
+            "prompt": "`SELECT` verändert die Daten in der Tabelle.",
+            "explanation": "SELECT zeigt nur an und verändert nichts.",
+            "answer": false,
+            "id": "m1-t5",
+            "skillId": "m1-l1",
+            "i18n": {
+              "de": {
+                "prompt": "`SELECT` verändert die Daten in der Tabelle.",
+                "explanation": "SELECT zeigt nur an und verändert nichts."
+              },
+              "en": {
+                "prompt": "`SELECT` changes the data in the table.",
+                "explanation": "SELECT only shows and changes nothing."
+              }
+            }
+          },
+          {
+            "kind": "sql",
+            "prompt": "Zeige alle Spalten der Räume im Stockwerk 1.",
+            "explanation": "`floor` ist eine Zahl.",
+            "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+            "answer": "SELECT * FROM rooms WHERE floor = 1;",
+            "id": "m1-t6",
+            "skillId": "m1-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Zeige alle Spalten der Räume im Stockwerk 1.",
+                "explanation": "`floor` ist eine Zahl."
+              },
+              "en": {
+                "prompt": "Show all columns of the rooms on floor 1.",
+                "explanation": "`floor` is a number."
+              }
+            }
+          }
+        ]
+      },
+      "i18n": {
+        "de": {
+          "title": "Die Akte lesen",
+          "summary": "Mit SELECT, WHERE, ORDER BY und LIMIT die Fallakte durchsuchen."
+        },
+        "en": {
+          "title": "Read the file",
+          "summary": "Search the case file with SELECT, WHERE, ORDER BY and LIMIT."
+        }
+      }
+    },
+    {
+      "id": "m2",
+      "title": "Spuren zählen und verbinden",
+      "summary": "Zählen, gruppieren und mehrere Tabellen verbinden.",
+      "lessons": [
+        {
+          "id": "m2-l1",
+          "title": "Spuren zählen: COUNT, MIN, MAX, AVG",
+          "goal": "Du kannst Zeilen zählen und Summen, Mittelwerte, Minimum und Maximum berechnen.",
+          "blocks": [
+            {
+              "id": "m2-l1-b1",
+              "type": "text",
+              "markdown": "Manchmal willst du keine Liste, sondern **eine Zahl**. Dafür gibt es Aggregatfunktionen:\n\n| Funktion | Ergebnis |\n|---|---|\n| `COUNT(*)` | Anzahl der Zeilen |\n| `MIN(age)` | kleinster Wert |\n| `MAX(age)` | größter Wert |\n| `AVG(age)` | Mittelwert |\n| `SUM(age)` | Summe |\n\n```\nSELECT COUNT(*) FROM suspects WHERE city = 'Paris';\n```\n\nErst filtert `WHERE`, dann wird gezählt. Das Ergebnis ist eine Tabelle mit **einer Zeile und einer Spalte**.",
+              "i18n": {
+                "de": {
+                  "normal": "Manchmal willst du keine Liste, sondern **eine Zahl**. Dafür gibt es Aggregatfunktionen:\n\n| Funktion | Ergebnis |\n|---|---|\n| `COUNT(*)` | Anzahl der Zeilen |\n| `MIN(age)` | kleinster Wert |\n| `MAX(age)` | größter Wert |\n| `AVG(age)` | Mittelwert |\n| `SUM(age)` | Summe |\n\n```\nSELECT COUNT(*) FROM suspects WHERE city = 'Paris';\n```\n\nErst filtert `WHERE`, dann wird gezählt. Das Ergebnis ist eine Tabelle mit **einer Zeile und einer Spalte**."
+                },
+                "en": {
+                  "normal": "Sometimes you do not want a list but **one number**. Aggregate functions do that:\n\n| Function | Result |\n|---|---|\n| `COUNT(*)` | number of rows |\n| `MIN(age)` | smallest value |\n| `MAX(age)` | largest value |\n| `AVG(age)` | average |\n| `SUM(age)` | sum |\n\n```\nSELECT COUNT(*) FROM suspects WHERE city = 'Paris';\n```\n\nFirst `WHERE` filters, then the rows are counted. The result is a table with **one row and one column**."
+                }
+              }
+            },
+            {
+              "id": "m2-l1-b2",
+              "type": "example",
+              "markdown": "**Aufgabe:** Wie viele Besuche gab es im Raum `R2`?\n\n1. Die Besuche stehen in `visits`.\n2. Filter: `room_id = 'R2'`.\n3. Zählen: `SELECT COUNT(*) FROM visits WHERE room_id = 'R2';`",
+              "i18n": {
+                "de": {
+                  "markdown": "**Aufgabe:** Wie viele Besuche gab es im Raum `R2`?\n\n1. Die Besuche stehen in `visits`.\n2. Filter: `room_id = 'R2'`.\n3. Zählen: `SELECT COUNT(*) FROM visits WHERE room_id = 'R2';`"
+                },
+                "en": {
+                  "markdown": "**Task:** how many visits were there in room `R2`?\n\n1. The visits are in `visits`.\n2. Filter: `room_id = 'R2'`.\n3. Count: `SELECT COUNT(*) FROM visits WHERE room_id = 'R2';`"
+                }
+              }
+            },
+            {
+              "id": "m2-l1-b3",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "sql",
+                  "prompt": "Wie viele Verdächtige gibt es?",
+                  "explanation": "`COUNT(*)` zählt Zeilen.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT COUNT(*) FROM suspects;",
+                  "id": "m2-l1-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Wie viele Verdächtige gibt es?",
+                      "explanation": "`COUNT(*)` zählt Zeilen."
+                    },
+                    "en": {
+                      "prompt": "How many suspects are there?",
+                      "explanation": "`COUNT(*)` counts rows."
+                    }
+                  }
+                },
+                {
+                  "kind": "sql",
+                  "prompt": "Wie alt ist die oder der Jüngste?",
+                  "explanation": "Das kleinste Alter: MIN.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT MIN(age) FROM suspects;",
+                  "id": "m2-l1-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Wie alt ist die oder der Jüngste?",
+                      "explanation": "Das kleinste Alter: MIN."
+                    },
+                    "en": {
+                      "prompt": "How old is the youngest?",
+                      "explanation": "The smallest age: MIN."
+                    }
+                  }
+                },
+                {
+                  "kind": "sql",
+                  "prompt": "Wie hoch ist das Durchschnittsalter aller Verdächtigen?",
+                  "explanation": "`AVG` rechnet den Mittelwert.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT AVG(age) FROM suspects;",
+                  "id": "m2-l1-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Wie hoch ist das Durchschnittsalter aller Verdächtigen?",
+                      "explanation": "`AVG` rechnet den Mittelwert."
+                    },
+                    "en": {
+                      "prompt": "What is the average age of all suspects?",
+                      "explanation": "`AVG` calculates the average."
+                    }
+                  }
+                },
+                {
+                  "kind": "sql",
+                  "prompt": "Wie viele Besuche gab es im Tresor (`R4`)?",
+                  "explanation": "Erst filtern, dann zählen.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT COUNT(*) FROM visits WHERE room_id = 'R4';",
+                  "id": "m2-l1-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Wie viele Besuche gab es im Tresor (`R4`)?",
+                      "explanation": "Erst filtern, dann zählen."
+                    },
+                    "en": {
+                      "prompt": "How many visits were there in the vault (`R4`)?",
+                      "explanation": "First filter, then count."
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Wie viele Zeilen hat das Ergebnis von `SELECT MAX(age) FROM suspects;`?",
+                  "explanation": "Eine Aggregatfunktion fasst alle Zeilen zu einer zusammen.",
+                  "options": [
+                    "Eine",
+                    "Acht",
+                    "Keine",
+                    "So viele wie Spalten"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l1-q5",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Wie viele Zeilen hat das Ergebnis von `SELECT MAX(age) FROM suspects;`?",
+                      "explanation": "Eine Aggregatfunktion fasst alle Zeilen zu einer zusammen.",
+                      "options": [
+                        "Eine",
+                        "Acht",
+                        "Keine",
+                        "So viele wie Spalten"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "How many rows does the result of `SELECT MAX(age) FROM suspects;` have?",
+                      "explanation": "An aggregate function folds all rows into one.",
+                      "options": [
+                        "One",
+                        "Eight",
+                        "None",
+                        "As many as columns"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Spuren zählen: COUNT, MIN, MAX, AVG",
+              "goal": "Du kannst Zeilen zählen und Summen, Mittelwerte, Minimum und Maximum berechnen."
+            },
+            "en": {
+              "title": "Count the clues: COUNT, MIN, MAX, AVG",
+              "goal": "You can count rows and calculate sums, averages, minimum and maximum."
+            }
+          }
+        },
+        {
+          "id": "m2-l2",
+          "title": "Gruppen bilden: GROUP BY",
+          "goal": "Du kannst Zeilen gruppieren und pro Gruppe zählen oder rechnen.",
+          "blocks": [
+            {
+              "id": "m2-l2-b1",
+              "type": "text",
+              "markdown": "Wie viele Verdächtige gibt es **pro Stadt**? Das ist eine Frage an Gruppen. **GROUP BY** bildet für jeden Wert einer Spalte eine Gruppe und die Aggregatfunktion rechnet **pro Gruppe**:\n\n```\nSELECT city, COUNT(*) FROM suspects GROUP BY city;\n```\n\nRegel: Jede Spalte hinter `SELECT`, die keine Funktion ist, muss auch hinter `GROUP BY` stehen.\n\nWillst du Gruppen nach dem Rechnen filtern, nimmst du **HAVING** (nicht WHERE, das filtert vorher einzelne Zeilen):\n\n```\nSELECT city FROM suspects GROUP BY city HAVING COUNT(*) >= 2;\n```",
+              "i18n": {
+                "de": {
+                  "normal": "Wie viele Verdächtige gibt es **pro Stadt**? Das ist eine Frage an Gruppen. **GROUP BY** bildet für jeden Wert einer Spalte eine Gruppe und die Aggregatfunktion rechnet **pro Gruppe**:\n\n```\nSELECT city, COUNT(*) FROM suspects GROUP BY city;\n```\n\nRegel: Jede Spalte hinter `SELECT`, die keine Funktion ist, muss auch hinter `GROUP BY` stehen.\n\nWillst du Gruppen nach dem Rechnen filtern, nimmst du **HAVING** (nicht WHERE, das filtert vorher einzelne Zeilen):\n\n```\nSELECT city FROM suspects GROUP BY city HAVING COUNT(*) >= 2;\n```"
+                },
+                "en": {
+                  "normal": "How many suspects are there **per city**? That is a question about groups. **GROUP BY** makes a group for every value of a column and the aggregate function calculates **per group**:\n\n```\nSELECT city, COUNT(*) FROM suspects GROUP BY city;\n```\n\nRule: every column after `SELECT` that is not a function must also appear after `GROUP BY`.\n\nIf you want to filter groups after calculating, use **HAVING** (not WHERE, which filters single rows earlier):\n\n```\nSELECT city FROM suspects GROUP BY city HAVING COUNT(*) >= 2;\n```"
+                }
+              }
+            },
+            {
+              "id": "m2-l2-b2",
+              "type": "example",
+              "markdown": "**Aufgabe:** Das Durchschnittsalter pro Beruf.\n\n1. Gruppiert wird nach `job`.\n2. Pro Gruppe: `AVG(age)`.\n3. `SELECT job, AVG(age) FROM suspects GROUP BY job;`",
+              "i18n": {
+                "de": {
+                  "markdown": "**Aufgabe:** Das Durchschnittsalter pro Beruf.\n\n1. Gruppiert wird nach `job`.\n2. Pro Gruppe: `AVG(age)`.\n3. `SELECT job, AVG(age) FROM suspects GROUP BY job;`"
+                },
+                "en": {
+                  "markdown": "**Task:** the average age per job.\n\n1. Group by `job`.\n2. Per group: `AVG(age)`.\n3. `SELECT job, AVG(age) FROM suspects GROUP BY job;`"
+                }
+              }
+            },
+            {
+              "id": "m2-l2-b3",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "sql",
+                  "prompt": "Zeige für jede Stadt, wie viele Verdächtige dort wohnen (Stadt und Anzahl).",
+                  "explanation": "Die Spalte `city` steht hinter SELECT und GROUP BY.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT city, COUNT(*) FROM suspects GROUP BY city;",
+                  "id": "m2-l2-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige für jede Stadt, wie viele Verdächtige dort wohnen (Stadt und Anzahl).",
+                      "explanation": "Die Spalte `city` steht hinter SELECT und GROUP BY."
+                    },
+                    "en": {
+                      "prompt": "Show for every city how many suspects live there (city and number).",
+                      "explanation": "The column `city` appears after SELECT and GROUP BY."
+                    }
+                  }
+                },
+                {
+                  "kind": "sql",
+                  "prompt": "Zeige für jeden Raum (`room_id`), wie viele Besuche es gab.",
+                  "explanation": "Gruppiere die Tabelle `visits`.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT room_id, COUNT(*) FROM visits GROUP BY room_id;",
+                  "id": "m2-l2-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige für jeden Raum (`room_id`), wie viele Besuche es gab.",
+                      "explanation": "Gruppiere die Tabelle `visits`."
+                    },
+                    "en": {
+                      "prompt": "Show for every room (`room_id`), how many visits there were.",
+                      "explanation": "Group the table `visits`."
+                    }
+                  }
+                },
+                {
+                  "kind": "sql",
+                  "prompt": "Zeige die Städte, in denen mindestens 2 Verdächtige wohnen.",
+                  "explanation": "Gruppen filtert man mit HAVING.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT city FROM suspects GROUP BY city HAVING COUNT(*) >= 2;",
+                  "id": "m2-l2-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige die Städte, in denen mindestens 2 Verdächtige wohnen.",
+                      "explanation": "Gruppen filtert man mit HAVING."
+                    },
+                    "en": {
+                      "prompt": "Show the cities where at least 2 suspects live.",
+                      "explanation": "You filter groups with HAVING."
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Was passt: Wann benutzt man HAVING statt WHERE?",
+                  "explanation": "WHERE filtert einzelne Zeilen vor dem Gruppieren, HAVING die Gruppen danach.",
+                  "options": [
+                    "Wenn man Gruppen nach der Berechnung filtert",
+                    "Wenn man Text vergleicht",
+                    "Wenn man sortiert",
+                    "Nie, es ist dasselbe"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l2-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was passt: Wann benutzt man HAVING statt WHERE?",
+                      "explanation": "WHERE filtert einzelne Zeilen vor dem Gruppieren, HAVING die Gruppen danach.",
+                      "options": [
+                        "Wenn man Gruppen nach der Berechnung filtert",
+                        "Wenn man Text vergleicht",
+                        "Wenn man sortiert",
+                        "Nie, es ist dasselbe"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Which fits: when do you use HAVING instead of WHERE?",
+                      "explanation": "WHERE filters single rows before grouping, HAVING filters the groups afterwards.",
+                      "options": [
+                        "When filtering groups after the calculation",
+                        "When comparing text",
+                        "When sorting",
+                        "Never, it is the same"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Gruppen bilden: GROUP BY",
+              "goal": "Du kannst Zeilen gruppieren und pro Gruppe zählen oder rechnen."
+            },
+            "en": {
+              "title": "Make groups: GROUP BY",
+              "goal": "You can group rows and count or calculate per group."
+            }
+          }
+        },
+        {
+          "id": "m2-l3",
+          "title": "Tabellen verbinden: JOIN",
+          "goal": "Du kannst mit JOIN und ON Daten aus zwei oder drei Tabellen zusammenführen.",
+          "blocks": [
+            {
+              "id": "m2-l3-b1",
+              "type": "text",
+              "markdown": "In `visits` steht nur `suspect_id = 5`, nicht der Name. Der Name steht in `suspects`. Die Spalte `suspect_id` ist ein **Fremdschlüssel**: sie zeigt auf `suspects.id`. Mit **JOIN** setzt du beide Tabellen zusammen:\n\n```\nSELECT s.name, v.room_id\nFROM suspects s\nJOIN visits v ON v.suspect_id = s.id;\n```\n\n- `suspects s` gibt der Tabelle den Kurznamen `s` (ein **Alias**).\n- `ON v.suspect_id = s.id` sagt, welche Zeilen zusammengehören.\n- Du kannst weitere Tabellen anhängen: `JOIN rooms r ON r.id = v.room_id`.\n\nWer in `ON` die falschen Spalten vergleicht, bekommt Unsinn oder eine riesige Tabelle.",
+              "i18n": {
+                "de": {
+                  "normal": "In `visits` steht nur `suspect_id = 5`, nicht der Name. Der Name steht in `suspects`. Die Spalte `suspect_id` ist ein **Fremdschlüssel**: sie zeigt auf `suspects.id`. Mit **JOIN** setzt du beide Tabellen zusammen:\n\n```\nSELECT s.name, v.room_id\nFROM suspects s\nJOIN visits v ON v.suspect_id = s.id;\n```\n\n- `suspects s` gibt der Tabelle den Kurznamen `s` (ein **Alias**).\n- `ON v.suspect_id = s.id` sagt, welche Zeilen zusammengehören.\n- Du kannst weitere Tabellen anhängen: `JOIN rooms r ON r.id = v.room_id`.\n\nWer in `ON` die falschen Spalten vergleicht, bekommt Unsinn oder eine riesige Tabelle."
+                },
+                "en": {
+                  "normal": "`visits` only holds `suspect_id = 5`, not the name. The name is in `suspects`. The column `suspect_id` is a **foreign key**: it points to `suspects.id`. With **JOIN** you put both tables together:\n\n```\nSELECT s.name, v.room_id\nFROM suspects s\nJOIN visits v ON v.suspect_id = s.id;\n```\n\n- `suspects s` gives the table the short name `s` (an **alias**).\n- `ON v.suspect_id = s.id` says which rows belong together.\n- You can attach more tables: `JOIN rooms r ON r.id = v.room_id`.\n\nIf you compare the wrong columns in `ON` you get nonsense or a huge table."
+                }
+              }
+            },
+            {
+              "id": "m2-l3-b2",
+              "type": "callout",
+              "style": "tip",
+              "markdown": "Mehr zu Schlüsseln und Tabellenentwurf findest du im Kurs **Datenbanken: ER-Modell, Schlüssel und Tabellen**.",
+              "i18n": {
+                "de": {
+                  "markdown": "Mehr zu Schlüsseln und Tabellenentwurf findest du im Kurs **Datenbanken: ER-Modell, Schlüssel und Tabellen**."
+                },
+                "en": {
+                  "markdown": "You can find more about keys and table design in the course **Datenbanken: ER-Modell, Schlüssel und Tabellen** (databases: ER model, keys and tables)."
+                }
+              }
+            },
+            {
+              "id": "m2-l3-b3",
+              "type": "example",
+              "markdown": "**Aufgabe:** Wer war im Tresor?\n\n1. Namen stehen in `suspects`, Besuche in `visits`: verbinden mit `ON v.suspect_id = s.id`.\n2. Nur der Tresor: `WHERE v.room_id = 'R4'`.\n3. `SELECT s.name FROM suspects s JOIN visits v ON v.suspect_id = s.id WHERE v.room_id = 'R4';`",
+              "i18n": {
+                "de": {
+                  "markdown": "**Aufgabe:** Wer war im Tresor?\n\n1. Namen stehen in `suspects`, Besuche in `visits`: verbinden mit `ON v.suspect_id = s.id`.\n2. Nur der Tresor: `WHERE v.room_id = 'R4'`.\n3. `SELECT s.name FROM suspects s JOIN visits v ON v.suspect_id = s.id WHERE v.room_id = 'R4';`"
+                },
+                "en": {
+                  "markdown": "**Task:** who was in the vault?\n\n1. Names are in `suspects`, visits in `visits`: connect with `ON v.suspect_id = s.id`.\n2. Only the vault: `WHERE v.room_id = 'R4'`.\n3. `SELECT s.name FROM suspects s JOIN visits v ON v.suspect_id = s.id WHERE v.room_id = 'R4';`"
+                }
+              }
+            },
+            {
+              "id": "m2-l3-b4",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "sql",
+                  "prompt": "Zeige für jeden Besuch den Namen der Person und den Raum (`room_id`).",
+                  "explanation": "Verbinde über `v.suspect_id = s.id`.",
+                  "hint": "S",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT s.name, v.room_id FROM suspects s JOIN visits v ON v.suspect_id = s.id;",
+                  "id": "m2-l3-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige für jeden Besuch den Namen der Person und den Raum (`room_id`).",
+                      "explanation": "Verbinde über `v.suspect_id = s.id`.",
+                      "hint": "S"
+                    },
+                    "en": {
+                      "prompt": "Show for every visit the name of the person and the room (`room_id`).",
+                      "explanation": "Connect through `v.suspect_id = s.id`.",
+                      "hint": "E"
+                    }
+                  }
+                },
+                {
+                  "kind": "sql",
+                  "prompt": "Zeige die Namen aller, die im Tresor (`R4`) waren.",
+                  "explanation": "JOIN, dann WHERE.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT s.name FROM suspects s JOIN visits v ON v.suspect_id = s.id WHERE v.room_id = 'R4';",
+                  "id": "m2-l3-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige die Namen aller, die im Tresor (`R4`) waren.",
+                      "explanation": "JOIN, dann WHERE."
+                    },
+                    "en": {
+                      "prompt": "Show the names of everyone who was in the vault (`R4`).",
+                      "explanation": "JOIN, then WHERE."
+                    }
+                  }
+                },
+                {
+                  "kind": "sql",
+                  "prompt": "Zeige Name und Raumname für alle Besuche nach 20 Uhr (`hour > 20`).",
+                  "explanation": "Drei Tabellen: `visits`, `suspects`, `rooms`.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT s.name, r.name FROM visits v JOIN suspects s ON s.id = v.suspect_id JOIN rooms r ON r.id = v.room_id WHERE v.hour > 20;",
+                  "id": "m2-l3-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige Name und Raumname für alle Besuche nach 20 Uhr (`hour > 20`).",
+                      "explanation": "Drei Tabellen: `visits`, `suspects`, `rooms`."
+                    },
+                    "en": {
+                      "prompt": "Show name and room name for all visits after 20:00 (`hour > 20`).",
+                      "explanation": "Three tables: `visits`, `suspects`, `rooms`."
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Wozu dient `ON v.suspect_id = s.id`?",
+                  "explanation": "Fremdschlüssel gleich Primärschlüssel: das ist die Verbindung.",
+                  "options": [
+                    "Es sagt, welche Zeilen der beiden Tabellen zusammengehören",
+                    "Es sortiert die Tabellen",
+                    "Es löscht doppelte Zeilen",
+                    "Es benennt die Spalten um"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l3-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Wozu dient `ON v.suspect_id = s.id`?",
+                      "explanation": "Fremdschlüssel gleich Primärschlüssel: das ist die Verbindung.",
+                      "options": [
+                        "Es sagt, welche Zeilen der beiden Tabellen zusammengehören",
+                        "Es sortiert die Tabellen",
+                        "Es löscht doppelte Zeilen",
+                        "Es benennt die Spalten um"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "What is `ON v.suspect_id = s.id` for?",
+                      "explanation": "Foreign key equals primary key: that is the connection.",
+                      "options": [
+                        "It says which rows of the two tables belong together",
+                        "It sorts the tables",
+                        "It removes duplicate rows",
+                        "It renames the columns"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Tabellen verbinden: JOIN",
+              "goal": "Du kannst mit JOIN und ON Daten aus zwei oder drei Tabellen zusammenführen."
+            },
+            "en": {
+              "title": "Connect tables: JOIN",
+              "goal": "You can bring data from two or three tables together with JOIN and ON."
+            }
+          }
+        }
+      ],
+      "test": {
+        "id": "m2-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "kind": "sql",
+            "prompt": "Wie viele Besuche hatte `Elena Fuchs` (Person 5)? Zähle in `visits`.",
+            "explanation": "Filtere auf `suspect_id = 5`.",
+            "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+            "answer": "SELECT COUNT(*) FROM visits WHERE suspect_id = 5;",
+            "id": "m2-t1",
+            "skillId": "m2-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Wie viele Besuche hatte `Elena Fuchs` (Person 5)? Zähle in `visits`.",
+                "explanation": "Filtere auf `suspect_id = 5`."
+              },
+              "en": {
+                "prompt": "How many visits did `Elena Fuchs` (person 5) have? Count in `visits`.",
+                "explanation": "Filter on `suspect_id = 5`."
+              }
+            }
+          },
+          {
+            "kind": "sql",
+            "prompt": "Zeige für jeden Beruf die Anzahl der Verdächtigen.",
+            "explanation": "GROUP BY job.",
+            "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+            "answer": "SELECT job, COUNT(*) FROM suspects GROUP BY job;",
+            "id": "m2-t2",
+            "skillId": "m2-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Zeige für jeden Beruf die Anzahl der Verdächtigen.",
+                "explanation": "GROUP BY job."
+              },
+              "en": {
+                "prompt": "Show for every job the number of suspects.",
+                "explanation": "GROUP BY job."
+              }
+            }
+          },
+          {
+            "kind": "sql",
+            "prompt": "Zeige die Namen und Berufe aller, die in der Galerie (`rooms.name = 'Gallery'`) waren.",
+            "explanation": "Drei Tabellen verbinden.",
+            "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+            "answer": "SELECT s.name, s.job FROM suspects s JOIN visits v ON v.suspect_id = s.id JOIN rooms r ON r.id = v.room_id WHERE r.name = 'Gallery';",
+            "id": "m2-t3",
+            "skillId": "m2-l3",
+            "i18n": {
+              "de": {
+                "prompt": "Zeige die Namen und Berufe aller, die in der Galerie (`rooms.name = 'Gallery'`) waren.",
+                "explanation": "Drei Tabellen verbinden."
+              },
+              "en": {
+                "prompt": "Show the names and jobs of everyone who was in the gallery (`rooms.name = 'Gallery'`).",
+                "explanation": "Join three tables."
+              }
+            }
+          },
+          {
+            "kind": "sql",
+            "prompt": "Zeige die größte Stunde (`hour`), zu der jemand im Haus war.",
+            "explanation": "MAX.",
+            "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+            "answer": "SELECT MAX(hour) FROM visits;",
+            "id": "m2-t4",
+            "skillId": "m2-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Zeige die größte Stunde (`hour`), zu der jemand im Haus war.",
+                "explanation": "MAX."
+              },
+              "en": {
+                "prompt": "Show the latest hour (`hour`) at which anyone was in the building.",
+                "explanation": "MAX."
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Welche Spalte in `visits` ist ein Fremdschlüssel auf `suspects`?",
+            "explanation": "`suspect_id` verweist auf `suspects.id`.",
+            "options": [
+              "suspect_id",
+              "id",
+              "hour",
+              "room_id"
+            ],
+            "answer": 0,
+            "id": "m2-t5",
+            "skillId": "m2-l3",
+            "i18n": {
+              "de": {
+                "prompt": "Welche Spalte in `visits` ist ein Fremdschlüssel auf `suspects`?",
+                "explanation": "`suspect_id` verweist auf `suspects.id`.",
+                "options": [
+                  "suspect_id",
+                  "id",
+                  "hour",
+                  "room_id"
+                ]
+              },
+              "en": {
+                "prompt": "Which column in `visits` is a foreign key to `suspects`?",
+                "explanation": "`suspect_id` points to `suspects.id`.",
+                "options": [
+                  "suspect_id",
+                  "id",
+                  "hour",
+                  "room_id"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "true-false",
+            "prompt": "HAVING filtert einzelne Zeilen vor dem Gruppieren.",
+            "explanation": "Das macht WHERE. HAVING filtert Gruppen nach der Berechnung.",
+            "answer": false,
+            "id": "m2-t6",
+            "skillId": "m2-l2",
+            "i18n": {
+              "de": {
+                "prompt": "HAVING filtert einzelne Zeilen vor dem Gruppieren.",
+                "explanation": "Das macht WHERE. HAVING filtert Gruppen nach der Berechnung."
+              },
+              "en": {
+                "prompt": "HAVING filters single rows before grouping.",
+                "explanation": "That is WHERE. HAVING filters groups after the calculation."
+              }
+            }
+          }
+        ]
+      },
+      "i18n": {
+        "de": {
+          "title": "Spuren zählen und verbinden",
+          "summary": "Zählen, gruppieren und mehrere Tabellen verbinden."
+        },
+        "en": {
+          "title": "Count and connect the clues",
+          "summary": "Count, group and connect several tables."
+        }
+      }
+    },
+    {
+      "id": "m3",
+      "title": "Der Fall",
+      "summary": "Alles zusammen: den Täter finden.",
+      "lessons": [
+        {
+          "id": "m3-l1",
+          "title": "Der Fall: Wer hat den Kristall gestohlen?",
+          "goal": "Du kannst eine Reihe von Abfragen zu einer Spur zusammensetzen und den Fall lösen.",
+          "blocks": [
+            {
+              "id": "m3-l1-b1",
+              "type": "text",
+              "markdown": "**Die Lage:** Der Blaue Kristall lag im **Tresor** (`R4`). Er verschwand **um 22 Uhr**. Der Tresor ist nur nach einem Besuch betretbar, jeder Besuch steht in `visits`. Wer in der Tabelle `alibis` ein **bestätigtes** Alibi für die Stunde hat (`verified = 1`), war nachweislich woanders.\n\nDeine Spur in drei Schritten:\n\n1. Wer war um 22 Uhr im Tresor?\n2. Wer von ihnen hat für diese Stunde ein Alibi, und ist es bestätigt?\n3. Wer bleibt übrig?\n\nBaue die Abfrage Stück für Stück auf. Jedes Stück kennst du schon: `JOIN`, `WHERE`, `AND`.",
+              "i18n": {
+                "de": {
+                  "normal": "**Die Lage:** Der Blaue Kristall lag im **Tresor** (`R4`). Er verschwand **um 22 Uhr**. Der Tresor ist nur nach einem Besuch betretbar, jeder Besuch steht in `visits`. Wer in der Tabelle `alibis` ein **bestätigtes** Alibi für die Stunde hat (`verified = 1`), war nachweislich woanders.\n\nDeine Spur in drei Schritten:\n\n1. Wer war um 22 Uhr im Tresor?\n2. Wer von ihnen hat für diese Stunde ein Alibi, und ist es bestätigt?\n3. Wer bleibt übrig?\n\nBaue die Abfrage Stück für Stück auf. Jedes Stück kennst du schon: `JOIN`, `WHERE`, `AND`."
+                },
+                "en": {
+                  "normal": "**The situation:** the Blue Crystal was in the **vault** (`R4`). It vanished **at 22:00**. Every visit is in `visits`. Anyone with a **confirmed** alibi for the hour in the table `alibis` (`verified = 1`) was provably somewhere else.\n\nYour lead in three steps:\n\n1. Who was in the vault at 22:00?\n2. Which of them has an alibi for that hour, and is it confirmed?\n3. Who is left?\n\nBuild the query piece by piece. You already know every piece: `JOIN`, `WHERE`, `AND`."
+                }
+              }
+            },
+            {
+              "id": "m3-l1-b2",
+              "type": "example",
+              "markdown": "**Schritt für Schritt:**\n\n1. Besuche im Tresor um 22 Uhr: `WHERE v.room_id = 'R4' AND v.hour = 22`.\n2. Dazu die Namen: `JOIN suspects s ON s.id = v.suspect_id`.\n3. Dazu das Alibi derselben Person zur selben Stunde: `JOIN alibis a ON a.suspect_id = s.id AND a.hour = v.hour`.\n4. Nur unbestätigte: `AND a.verified = 0`.",
+              "i18n": {
+                "de": {
+                  "markdown": "**Schritt für Schritt:**\n\n1. Besuche im Tresor um 22 Uhr: `WHERE v.room_id = 'R4' AND v.hour = 22`.\n2. Dazu die Namen: `JOIN suspects s ON s.id = v.suspect_id`.\n3. Dazu das Alibi derselben Person zur selben Stunde: `JOIN alibis a ON a.suspect_id = s.id AND a.hour = v.hour`.\n4. Nur unbestätigte: `AND a.verified = 0`."
+                },
+                "en": {
+                  "markdown": "**Step by step:**\n\n1. Visits to the vault at 22:00: `WHERE v.room_id = 'R4' AND v.hour = 22`.\n2. Add the names: `JOIN suspects s ON s.id = v.suspect_id`.\n3. Add the alibi of the same person for the same hour: `JOIN alibis a ON a.suspect_id = s.id AND a.hour = v.hour`.\n4. Only unconfirmed ones: `AND a.verified = 0`."
+                }
+              }
+            },
+            {
+              "id": "m3-l1-b3",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "sql",
+                  "prompt": "Zeige die Namen aller, die um 22 Uhr im Tresor (`R4`) waren.",
+                  "explanation": "JOIN `visits`, dann zwei Bedingungen.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT s.name FROM suspects s JOIN visits v ON v.suspect_id = s.id WHERE v.room_id = 'R4' AND v.hour = 22;",
+                  "id": "m3-l1-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige die Namen aller, die um 22 Uhr im Tresor (`R4`) waren.",
+                      "explanation": "JOIN `visits`, dann zwei Bedingungen."
+                    },
+                    "en": {
+                      "prompt": "Show the names of everyone who was in the vault (`R4`) at 22:00.",
+                      "explanation": "JOIN `visits`, then two conditions."
+                    }
+                  }
+                },
+                {
+                  "kind": "sql",
+                  "prompt": "Zeige, wer von ihnen für diese Stunde ein Alibi hat, mit Name und `verified`.",
+                  "explanation": "Ein dritter JOIN auf `alibis`.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT s.name, a.verified FROM suspects s JOIN visits v ON v.suspect_id = s.id JOIN alibis a ON a.suspect_id = s.id AND a.hour = v.hour WHERE v.room_id = 'R4' AND v.hour = 22;",
+                  "id": "m3-l1-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige, wer von ihnen für diese Stunde ein Alibi hat, mit Name und `verified`.",
+                      "explanation": "Ein dritter JOIN auf `alibis`."
+                    },
+                    "en": {
+                      "prompt": "Show which of them has an alibi for that hour, with name and `verified`.",
+                      "explanation": "A third JOIN onto `alibis`."
+                    }
+                  }
+                },
+                {
+                  "kind": "sql",
+                  "prompt": "Löse den Fall: Zeige Name, Beruf und Stadt der Person, die um 22 Uhr im Tresor war und kein bestätigtes Alibi hat (`verified = 0`).",
+                  "explanation": "Die Abfrage aus dem Beispiel, mit drei Spalten.",
+                  "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+                  "answer": "SELECT s.name, s.job, s.city FROM suspects s JOIN visits v ON v.suspect_id = s.id JOIN alibis a ON a.suspect_id = s.id AND a.hour = v.hour WHERE v.room_id = 'R4' AND v.hour = 22 AND a.verified = 0;",
+                  "id": "m3-l1-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Löse den Fall: Zeige Name, Beruf und Stadt der Person, die um 22 Uhr im Tresor war und kein bestätigtes Alibi hat (`verified = 0`).",
+                      "explanation": "Die Abfrage aus dem Beispiel, mit drei Spalten."
+                    },
+                    "en": {
+                      "prompt": "Solve the case: show the name, job and city of the person who was in the vault at 22:00 and has no confirmed alibi (`verified = 0`).",
+                      "explanation": "The query from the example, with three columns."
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Wer hat den Kristall gestohlen?",
+                  "explanation": "Boris war auch im Tresor, hat aber ein bestätigtes Alibi. David war erst um 23 Uhr dort. Elena war um 22 Uhr dort, ihr Alibi ist nicht bestätigt.",
+                  "options": [
+                    "Elena Fuchs",
+                    "Boris Vogel",
+                    "David Roth",
+                    "Anna Berg"
+                  ],
+                  "answer": 0,
+                  "id": "m3-l1-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Wer hat den Kristall gestohlen?",
+                      "explanation": "Boris war auch im Tresor, hat aber ein bestätigtes Alibi. David war erst um 23 Uhr dort. Elena war um 22 Uhr dort, ihr Alibi ist nicht bestätigt.",
+                      "options": [
+                        "Elena Fuchs",
+                        "Boris Vogel",
+                        "David Roth",
+                        "Anna Berg"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Who stole the crystal?",
+                      "explanation": "Boris was in the vault too, but has a confirmed alibi. David was there only at 23:00. Elena was there at 22:00 and her alibi is not confirmed.",
+                      "options": [
+                        "Elena Fuchs",
+                        "Boris Vogel",
+                        "David Roth",
+                        "Anna Berg"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Der Fall: Wer hat den Kristall gestohlen?",
+              "goal": "Du kannst eine Reihe von Abfragen zu einer Spur zusammensetzen und den Fall lösen."
+            },
+            "en": {
+              "title": "The case: who stole the crystal?",
+              "goal": "You can chain queries into a lead and solve the case."
+            }
+          }
+        }
+      ],
+      "test": {
+        "id": "m3-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "kind": "sql",
+            "prompt": "Zeige alle Besuche im Tresor als Name und Stunde, früheste zuerst.",
+            "explanation": "JOIN, WHERE, ORDER BY.",
+            "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+            "answer": "SELECT s.name, v.hour FROM suspects s JOIN visits v ON v.suspect_id = s.id WHERE v.room_id = 'R4' ORDER BY v.hour;",
+            "ordered": true,
+            "id": "m3-t1",
+            "skillId": "m3-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Zeige alle Besuche im Tresor als Name und Stunde, früheste zuerst.",
+                "explanation": "JOIN, WHERE, ORDER BY."
+              },
+              "en": {
+                "prompt": "Show all visits to the vault as name and hour, earliest first.",
+                "explanation": "JOIN, WHERE, ORDER BY."
+              }
+            }
+          },
+          {
+            "kind": "sql",
+            "prompt": "Wie viele Alibis sind nicht bestätigt (`verified = 0`)?",
+            "explanation": "Zählen mit WHERE.",
+            "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+            "answer": "SELECT COUNT(*) FROM alibis WHERE verified = 0;",
+            "id": "m3-t2",
+            "skillId": "m3-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Wie viele Alibis sind nicht bestätigt (`verified = 0`)?",
+                "explanation": "Zählen mit WHERE."
+              },
+              "en": {
+                "prompt": "How many alibis are not confirmed (`verified = 0`)?",
+                "explanation": "Count with WHERE."
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Warum reicht es nicht, nur zu prüfen, wer im Tresor war?",
+            "explanation": "Der Alibi-Abgleich grenzt die Verdächtigen weiter ein.",
+            "options": [
+              "Weil jemand ein bestätigtes Alibi für die Stunde haben kann",
+              "Weil der Tresor leer war",
+              "Weil SQL das nicht kann",
+              "Weil nur Wachleute hineindürfen"
+            ],
+            "answer": 0,
+            "id": "m3-t3",
+            "skillId": "m3-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Warum reicht es nicht, nur zu prüfen, wer im Tresor war?",
+                "explanation": "Der Alibi-Abgleich grenzt die Verdächtigen weiter ein.",
+                "options": [
+                  "Weil jemand ein bestätigtes Alibi für die Stunde haben kann",
+                  "Weil der Tresor leer war",
+                  "Weil SQL das nicht kann",
+                  "Weil nur Wachleute hineindürfen"
+                ]
+              },
+              "en": {
+                "prompt": "Why is it not enough to check only who was in the vault?",
+                "explanation": "Checking the alibis narrows down the suspects further.",
+                "options": [
+                  "Because someone can have a confirmed alibi for the hour",
+                  "Because the vault was empty",
+                  "Because SQL cannot do it",
+                  "Because only guards may enter"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "i18n": {
+        "de": {
+          "title": "Der Fall",
+          "summary": "Alles zusammen: den Täter finden."
+        },
+        "en": {
+          "title": "The case",
+          "summary": "Everything together: find the culprit."
+        }
+      }
+    }
+  ],
+  "finalExam": {
+    "id": "final-exam",
+    "type": "final-exam",
+    "questions": [
+      {
+        "kind": "sql",
+        "prompt": "Zeige die Namen aller Verdächtigen, die jünger als 35 sind, nach Namen sortiert.",
+        "explanation": "WHERE, dann ORDER BY.",
+        "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+        "answer": "SELECT name FROM suspects WHERE age < 35 ORDER BY name;",
+        "ordered": true,
+        "id": "fex-q1",
+        "skillId": "m1-l2",
+        "i18n": {
+          "de": {
+            "prompt": "Zeige die Namen aller Verdächtigen, die jünger als 35 sind, nach Namen sortiert.",
+            "explanation": "WHERE, dann ORDER BY."
+          },
+          "en": {
+            "prompt": "Show the names of all suspects younger than 35, sorted by name.",
+            "explanation": "WHERE, then ORDER BY."
+          }
+        }
+      },
+      {
+        "kind": "sql",
+        "prompt": "Zeige die Städte, in denen mindestens 3 Verdächtige wohnen.",
+        "explanation": "GROUP BY mit HAVING.",
+        "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+        "answer": "SELECT city FROM suspects GROUP BY city HAVING COUNT(*) >= 3;",
+        "id": "fex-q2",
+        "skillId": "m2-l2",
+        "i18n": {
+          "de": {
+            "prompt": "Zeige die Städte, in denen mindestens 3 Verdächtige wohnen.",
+            "explanation": "GROUP BY mit HAVING."
+          },
+          "en": {
+            "prompt": "Show the cities where at least 3 suspects live.",
+            "explanation": "GROUP BY with HAVING."
+          }
+        }
+      },
+      {
+        "kind": "sql",
+        "prompt": "Zeige für jede Person aus Hamburg den Namen und die Zahl ihrer Besuche.",
+        "explanation": "JOIN, WHERE, GROUP BY.",
+        "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+        "answer": "SELECT s.name, COUNT(*) FROM suspects s JOIN visits v ON v.suspect_id = s.id WHERE s.city = 'Hamburg' GROUP BY s.name;",
+        "id": "fex-q3",
+        "skillId": "m2-l3",
+        "i18n": {
+          "de": {
+            "prompt": "Zeige für jede Person aus Hamburg den Namen und die Zahl ihrer Besuche.",
+            "explanation": "JOIN, WHERE, GROUP BY."
+          },
+          "en": {
+            "prompt": "Show for every person from Hamburg the name and the number of their visits.",
+            "explanation": "JOIN, WHERE, GROUP BY."
+          }
+        }
+      },
+      {
+        "kind": "sql",
+        "prompt": "Zeige die Namen aller, die im Tresor waren, aber kein Wachmann (`guard`) sind.",
+        "explanation": "Tresor-Besuche und `job <> 'guard'`.",
+        "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+        "answer": "SELECT s.name FROM suspects s JOIN visits v ON v.suspect_id = s.id WHERE v.room_id = 'R4' AND s.job <> 'guard';",
+        "id": "fex-q4",
+        "skillId": "m3-l1",
+        "i18n": {
+          "de": {
+            "prompt": "Zeige die Namen aller, die im Tresor waren, aber kein Wachmann (`guard`) sind.",
+            "explanation": "Tresor-Besuche und `job <> 'guard'`."
+          },
+          "en": {
+            "prompt": "Show the names of everyone who was in the vault but is not a guard (`guard`).",
+            "explanation": "Vault visits and `job <> 'guard'`."
+          }
+        }
+      },
+      {
+        "kind": "sql",
+        "prompt": "Zeige die Namen und das Alter der zwei Ältesten, die schon einmal im Tresor waren.",
+        "explanation": "JOIN, WHERE, ORDER BY, LIMIT.",
+        "setup": "CREATE TABLE suspects (id INTEGER PRIMARY KEY, name TEXT, job TEXT, city TEXT, age INTEGER);\nINSERT INTO suspects VALUES (1,'Anna Berg','curator','Berlin',45),(2,'Boris Vogel','guard','Hamburg',38),(3,'Clara Stein','chef','Berlin',29),(4,'David Roth','pilot','Paris',52),(5,'Elena Fuchs','guard','Berlin',41),(6,'Felix Mann','curator','Wien',33),(7,'Greta Lang','chef','Paris',47),(8,'Hans Kurz','pilot','Hamburg',36);\nCREATE TABLE rooms (id TEXT PRIMARY KEY, name TEXT, floor INTEGER);\nINSERT INTO rooms VALUES ('R1','Entrance',0),('R2','Gallery',1),('R3','Library',1),('R4','Vault',-1);\nCREATE TABLE visits (id INTEGER PRIMARY KEY, suspect_id INTEGER, room_id TEXT, hour INTEGER);\nINSERT INTO visits VALUES (1,1,'R1',9),(2,1,'R2',10),(3,2,'R1',9),(4,2,'R4',22),(5,3,'R1',12),(6,3,'R3',13),(7,4,'R2',11),(8,4,'R4',23),(9,5,'R1',8),(10,5,'R2',14),(11,5,'R4',22),(12,6,'R3',15),(13,7,'R2',16),(14,7,'R3',17),(15,8,'R1',10),(16,8,'R2',10);\nCREATE TABLE alibis (suspect_id INTEGER, hour INTEGER, verified INTEGER);\nINSERT INTO alibis VALUES (2,22,1),(5,22,0),(4,23,0),(1,22,1);",
+        "answer": "SELECT s.name, s.age FROM suspects s JOIN visits v ON v.suspect_id = s.id WHERE v.room_id = 'R4' ORDER BY s.age DESC LIMIT 2;",
+        "ordered": true,
+        "id": "fex-q5",
+        "skillId": "m3-l1",
+        "i18n": {
+          "de": {
+            "prompt": "Zeige die Namen und das Alter der zwei Ältesten, die schon einmal im Tresor waren.",
+            "explanation": "JOIN, WHERE, ORDER BY, LIMIT."
+          },
+          "en": {
+            "prompt": "Show the names and ages of the two oldest people who have ever been in the vault.",
+            "explanation": "JOIN, WHERE, ORDER BY, LIMIT."
+          }
+        }
+      },
+      {
+        "kind": "multiple-choice",
+        "prompt": "Welche Reihenfolge der Klauseln ist richtig?",
+        "explanation": "So schreibt man sie immer: SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY, LIMIT.",
+        "options": [
+          "SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY, LIMIT",
+          "SELECT, WHERE, FROM, GROUP BY, ORDER BY",
+          "FROM, SELECT, WHERE, ORDER BY",
+          "SELECT, FROM, ORDER BY, WHERE, LIMIT"
+        ],
+        "answer": 0,
+        "id": "fex-q6",
+        "skillId": "m2-l2",
+        "i18n": {
+          "de": {
+            "prompt": "Welche Reihenfolge der Klauseln ist richtig?",
+            "explanation": "So schreibt man sie immer: SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY, LIMIT.",
+            "options": [
+              "SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY, LIMIT",
+              "SELECT, WHERE, FROM, GROUP BY, ORDER BY",
+              "FROM, SELECT, WHERE, ORDER BY",
+              "SELECT, FROM, ORDER BY, WHERE, LIMIT"
+            ]
+          },
+          "en": {
+            "prompt": "Which order of clauses is right?",
+            "explanation": "This is the fixed order: SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY, LIMIT.",
+            "options": [
+              "SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY, LIMIT",
+              "SELECT, WHERE, FROM, GROUP BY, ORDER BY",
+              "FROM, SELECT, WHERE, ORDER BY",
+              "SELECT, FROM, ORDER BY, WHERE, LIMIT"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "glossary": [
+    {
+      "term": "SELECT",
+      "definition": "Der Befehl, mit dem man Daten aus einer Tabelle anzeigt.",
+      "i18n": {
+        "de": {
+          "term": "SELECT",
+          "definition": "Der Befehl, mit dem man Daten aus einer Tabelle anzeigt."
+        },
+        "en": {
+          "term": "SELECT",
+          "definition": "The command that shows data from a table."
+        }
+      }
+    },
+    {
+      "term": "WHERE",
+      "definition": "Behält nur die Zeilen, auf die eine Bedingung zutrifft.",
+      "i18n": {
+        "de": {
+          "term": "WHERE",
+          "definition": "Behält nur die Zeilen, auf die eine Bedingung zutrifft."
+        },
+        "en": {
+          "term": "WHERE",
+          "definition": "Keeps only the rows for which a condition is true."
+        }
+      }
+    },
+    {
+      "term": "JOIN",
+      "definition": "Verbindet die Zeilen zweier Tabellen über zusammengehörende Spalten.",
+      "i18n": {
+        "de": {
+          "term": "JOIN",
+          "definition": "Verbindet die Zeilen zweier Tabellen über zusammengehörende Spalten."
+        },
+        "en": {
+          "term": "JOIN",
+          "definition": "Connects the rows of two tables through matching columns."
+        }
+      }
+    },
+    {
+      "term": "GROUP BY",
+      "definition": "Bildet Gruppen gleicher Werte, damit man pro Gruppe rechnen kann.",
+      "i18n": {
+        "de": {
+          "term": "GROUP BY",
+          "definition": "Bildet Gruppen gleicher Werte, damit man pro Gruppe rechnen kann."
+        },
+        "en": {
+          "term": "GROUP BY",
+          "definition": "Makes groups of equal values so you can calculate per group."
+        }
+      }
+    },
+    {
+      "term": "Fremdschlüssel",
+      "definition": "Eine Spalte, die auf den Primärschlüssel einer anderen Tabelle zeigt.",
+      "i18n": {
+        "de": {
+          "term": "Fremdschlüssel",
+          "definition": "Eine Spalte, die auf den Primärschlüssel einer anderen Tabelle zeigt."
+        },
+        "en": {
+          "term": "foreign key",
+          "definition": "A column that points to the primary key of another table."
+        }
+      }
+    }
+  ]
+}

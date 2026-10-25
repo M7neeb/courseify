@@ -10,6 +10,9 @@
   import PacketWalk from '../../ui/lab/PacketWalk.svelte';
   import FakeTerminal from '../../ui/lab/FakeTerminal.svelte';
   import CaptureReader from '../../ui/lab/CaptureReader.svelte';
+  import HashPlayground from '../../ui/security/HashPlayground.svelte';
+  import PasswordMeter from '../../ui/security/PasswordMeter.svelte';
+  import NetzplanBuilder from '../../ui/planning/NetzplanBuilder.svelte';
   import GraphPlotter from './GraphPlotter.svelte';
   import { t } from '../../i18n/i18n.ts';
 
@@ -18,7 +21,7 @@
   onMount(() => void loadDrillStats());
 
   /** Hand-built drills (several boxes, tiles, a terminal): not in the one-answer list of DRILLS. */
-  const CUSTOM = ['subnet', 'bits', 'walk', 'terminal', 'capture'];
+  const CUSTOM = ['subnet', 'bits', 'walk', 'terminal', 'capture', 'hash', 'password', 'netzplan'];
   const groups: { group: DrillGroup; key: string }[] = [
     { group: 'it', key: 'drills.group.it' },
     { group: 'maths', key: 'drills.group.maths' }
@@ -29,7 +32,7 @@
   /** The subnet drill has several boxes per task, so it is not in the one-answer list. */
   const drillId = $derived(id && CUSTOM.includes(id) ? id : def?.id);
   /** No level choice: these have their own fixed content. */
-  const levelless = $derived(drillId === 'walk' || drillId === 'terminal' || drillId === 'capture');
+  const levelless = $derived(['walk', 'terminal', 'capture', 'hash', 'password', 'netzplan'].includes(drillId ?? ''));
   const stat = $derived(drillId ? statFor(drillId) : null);
   let streak = $state(0);
   const level = $derived<Level>(stat?.level ?? 1);
@@ -81,6 +84,12 @@
       <SubnetDrill {level} lang={app.settings.uiLanguage} sounds={app.settings.sounds} {onResult} />
     {:else if drillStats.loaded && drillId === 'walk'}
       <PacketWalk lang={app.settings.uiLanguage} sounds={app.settings.sounds} {onResult} />
+    {:else if drillStats.loaded && drillId === 'hash'}
+      <HashPlayground lang={app.settings.uiLanguage} />
+    {:else if drillStats.loaded && drillId === 'netzplan'}
+      <NetzplanBuilder lang={app.settings.uiLanguage} />
+    {:else if drillStats.loaded && drillId === 'password'}
+      <PasswordMeter lang={app.settings.uiLanguage} />
     {:else if drillStats.loaded && drillId === 'terminal'}
       <FakeTerminal lang={app.settings.uiLanguage} sounds={app.settings.sounds} {onResult} />
     {:else if drillStats.loaded && drillId === 'capture'}

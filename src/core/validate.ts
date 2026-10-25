@@ -22,7 +22,10 @@ const QUESTION_KINDS: QuestionKind[] = [
   'chess',
   'written',
   'hotspot',
-  'code'
+  'code',
+  'sql',
+  'trace',
+  'shell'
 ];
 const CODE_LANGUAGES = ['python', 'javascript'];
 const QUIZ_TYPES = ['quiz', 'module-test', 'final-exam'];
@@ -248,6 +251,24 @@ export function validateCourse(input: unknown): ValidationResult {
       if (!Array.isArray(items) || items.length < 2 || !items.every(isNonEmptyString)) {
         errors.push(`${path}.items: need at least 2 pieces of text.`);
       }
+    } else if (kind === 'shell') {
+      if (!isObject(q.fs)) errors.push(`${path}.fs: the starting file tree, nested objects with file contents as text.`);
+      const g = q.goal;
+      const okGoal = isObject(g) && (isNonEmptyString(g.cmd) || isNonEmptyString(g.exists) || isNonEmptyString(g.missing) || isNonEmptyString(g.cwd) || isNonEmptyString(g.file));
+      if (!okGoal) errors.push(`${path}.goal: one of { "cmd": "regex" }, { "exists": "/path" }, { "missing": "/path" }, { "cwd": "/path" }, { "file": "/path", "equals": "text" }.`);
+      if (q.cwd !== undefined && typeof q.cwd !== 'string') errors.push(`${path}.cwd: a folder path as text.`);
+    } else if (kind === 'trace') {
+      const cols = q.columns;
+      const rows = q.rows;
+      const blanks = q.blanks;
+      if (!Array.isArray(cols) || cols.length === 0 || !cols.every(isNonEmptyString)) errors.push(`${path}.columns: the column headings, as text.`);
+      if (!Array.isArray(rows) || rows.length === 0 || !rows.every((r) => Array.isArray(r) && r.length === (cols as unknown[] | undefined)?.length && r.every((c) => typeof c === 'string'))) errors.push(`${path}.rows: the complete correct table, one list of text per row, as many cells as columns.`);
+      else if (!Array.isArray(blanks) || blanks.length === 0 || !blanks.every((b) => Array.isArray(b) && b.length === 2 && Number.isInteger(b[0]) && Number.isInteger(b[1]) && (rows as unknown[][])[b[0] as number] !== undefined && (rows as unknown[][])[b[0] as number][b[1] as number] !== undefined)) errors.push(`${path}.blanks: the cells to fill in, as [row, column] pairs that exist in the table.`);
+    } else if (kind === 'sql') {
+      if (!isNonEmptyString(q.setup)) errors.push(`${path}.setup: the SQL script that builds the practice database (CREATE TABLE and INSERT).`);
+      if (!isNonEmptyString(q.answer)) errors.push(`${path}.answer: the model query (a SELECT) whose result table the learner's must match.`);
+      if (q.starter !== undefined && typeof q.starter !== 'string') errors.push(`${path}.starter: must be SQL as text.`);
+      if (q.ordered !== undefined && typeof q.ordered !== 'boolean') errors.push(`${path}.ordered: true or false.`);
     } else if (kind === 'code') {
       if (typeof q.language !== 'string' || !CODE_LANGUAGES.includes(q.language)) errors.push(`${path}.language: one of ${CODE_LANGUAGES.join(', ')}.`);
       if (q.starter !== undefined && typeof q.starter !== 'string') errors.push(`${path}.starter: must be code as text.`);

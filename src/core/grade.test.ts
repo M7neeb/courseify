@@ -186,3 +186,17 @@ test('matching and ordering with repeated texts are graded by text, not by posit
   assert.equal(gradeAnswer(o, [0, 2, 1, 3]), true);
   assert.equal(gradeAnswer(o, [0, 3, 1, 2]), false);
 });
+
+test('a trace table is right when every empty cell has its value', () => {
+  const tr = q({
+    kind: 'trace',
+    columns: ['i', 's'],
+    rows: [['1', '1'], ['2', '3'], ['3', '6']],
+    blanks: [[1, 1], [2, 0], [2, 1]]
+  });
+  assert.equal(gradeAnswer(tr, ['3', '3', '6']), true);
+  assert.equal(gradeAnswer(tr, [' 3 ', '3', '6']), true);
+  assert.equal(gradeAnswer(tr, ['3', '3', '7']), false);
+  assert.equal(gradeAnswer(tr, ['3', '3']), false);
+  assert.equal(gradeAnswer({ ...tr, blanks: [] }, []), false);
+});

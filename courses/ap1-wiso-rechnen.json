@@ -1,0 +1,1901 @@
+{
+  "schemaVersion": 2,
+  "id": "ap1-wiso-rechnen",
+  "title": "Wirtschaft und Rechnen: Prozent, Netzplan, Kosten und Ausbildungsrecht",
+  "subject": "Wirtschaft",
+  "level": "Grundlagen",
+  "language": "de",
+  "languages": [
+    "de",
+    "en"
+  ],
+  "version": "1.0",
+  "meta": {
+    "tags": [
+      "wiso",
+      "prozentrechnung",
+      "netzplan",
+      "kostenvergleich",
+      "sozialversicherung"
+    ],
+    "description": "Prozent und Mehrwertsteuer, Dreisatz, Rabatt und Skonto, Zinsen, Netzplan mit kritischem Weg, Amortisation, Gewinnschwelle, Ausbildungsvertrag und Sozialversicherung. Mit einem Netzplan-Rechner."
+  },
+  "modules": [
+    {
+      "id": "m1",
+      "title": "Kaufmännisches Rechnen",
+      "summary": "Prozent, Dreisatz, Rabatt, Skonto und Zinsen.",
+      "lessons": [
+        {
+          "id": "m1-l1",
+          "title": "Prozentrechnung und Mehrwertsteuer",
+          "goal": "Du kannst Prozentwert, Grundwert und Prozentsatz berechnen und zwischen Netto und Brutto wechseln.",
+          "blocks": [
+            {
+              "id": "m1-l1-b1",
+              "type": "text",
+              "markdown": "Drei Größen gehören zusammen:\n\n| Name | Bedeutung | Formel |\n|---|---|---|\n| **Grundwert** G | das Ganze (100 %) | G = W · 100 / p |\n| **Prozentsatz** p | der Anteil in % | p = W · 100 / G |\n| **Prozentwert** W | der Anteil als Zahl | W = G · p / 100 |\n\n**Mehrwertsteuer** (Umsatzsteuer): Der Nettopreis ist 100 %, die Steuer kommt dazu. Bei **19 %** ist der Bruttopreis **119 %** des Nettopreises:\n\n- Brutto = Netto · 1,19\n- Netto = Brutto / 1,19\n\nFür **7 %** (zum Beispiel Lebensmittel, Bücher) nimmst du 1,07. Prüfungsfalle: Von Brutto **nicht** einfach 19 % abziehen, sondern durch 1,19 teilen.",
+              "i18n": {
+                "de": {
+                  "normal": "Drei Größen gehören zusammen:\n\n| Name | Bedeutung | Formel |\n|---|---|---|\n| **Grundwert** G | das Ganze (100 %) | G = W · 100 / p |\n| **Prozentsatz** p | der Anteil in % | p = W · 100 / G |\n| **Prozentwert** W | der Anteil als Zahl | W = G · p / 100 |\n\n**Mehrwertsteuer** (Umsatzsteuer): Der Nettopreis ist 100 %, die Steuer kommt dazu. Bei **19 %** ist der Bruttopreis **119 %** des Nettopreises:\n\n- Brutto = Netto · 1,19\n- Netto = Brutto / 1,19\n\nFür **7 %** (zum Beispiel Lebensmittel, Bücher) nimmst du 1,07. Prüfungsfalle: Von Brutto **nicht** einfach 19 % abziehen, sondern durch 1,19 teilen."
+                },
+                "en": {
+                  "normal": "Three quantities belong together:\n\n| Name | Meaning | Formula |\n|---|---|---|\n| **base value** G | the whole (100 %) | G = W · 100 / p |\n| **rate** p | the share in % | p = W · 100 / G |\n| **percentage value** W | the share as a number | W = G · p / 100 |\n\n**VAT** (value added tax): the net price is 100 %, the tax is added. At **19 %** the gross price is **119 %** of the net price:\n\n- Gross = net · 1.19\n- Net = gross / 1.19\n\nFor **7 %** (for example food, books) you use 1.07. Exam trap: do **not** simply subtract 19 % from the gross price, but divide by 1.19."
+                }
+              }
+            },
+            {
+              "id": "m1-l1-b2",
+              "type": "example",
+              "markdown": "**Aufgabe:** Ein Laptop kostet brutto 1.190 €. Wie hoch ist der Nettopreis (19 % MwSt.)?\n\n1. Brutto sind 119 % vom Netto.\n2. Netto = 1.190 € / 1,19.\n3. Netto = 1.000 €. Die Steuer beträgt 190 €.",
+              "i18n": {
+                "de": {
+                  "markdown": "**Aufgabe:** Ein Laptop kostet brutto 1.190 €. Wie hoch ist der Nettopreis (19 % MwSt.)?\n\n1. Brutto sind 119 % vom Netto.\n2. Netto = 1.190 € / 1,19.\n3. Netto = 1.000 €. Die Steuer beträgt 190 €."
+                },
+                "en": {
+                  "markdown": "**Task:** a laptop costs 1,190 € gross. What is the net price (19 % VAT)?\n\n1. Gross is 119 % of net.\n2. Net = 1,190 € / 1.19.\n3. Net = 1,000 €. The tax is 190 €."
+                }
+              }
+            },
+            {
+              "id": "m1-l1-b3",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "numeric",
+                  "prompt": "Wie viel sind 20 % von 350 €? (in €)",
+                  "explanation": "W = 350 · 20 / 100 = 70.",
+                  "hint": "Grundwert mal Prozentsatz durch 100.",
+                  "answer": 70,
+                  "id": "m1-l1-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Wie viel sind 20 % von 350 €? (in €)",
+                      "explanation": "W = 350 · 20 / 100 = 70.",
+                      "hint": "Grundwert mal Prozentsatz durch 100."
+                    },
+                    "en": {
+                      "prompt": "How much is 20 % of 350 €? (in €)",
+                      "explanation": "W = 350 · 20 / 100 = 70.",
+                      "hint": "Base value times rate divided by 100."
+                    }
+                  }
+                },
+                {
+                  "kind": "numeric",
+                  "prompt": "Ein Server kostet netto 840 €. Wie hoch ist der Bruttopreis bei 19 % MwSt.? (in €)",
+                  "explanation": "840 · 1,19 = 999,60.",
+                  "hint": "Mal 1,19.",
+                  "answer": 999.6,
+                  "tolerance": 0.01,
+                  "id": "m1-l1-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Ein Server kostet netto 840 €. Wie hoch ist der Bruttopreis bei 19 % MwSt.? (in €)",
+                      "explanation": "840 · 1,19 = 999,60.",
+                      "hint": "Mal 1,19."
+                    },
+                    "en": {
+                      "prompt": "A server costs 840 € net. What is the gross price at 19 % VAT? (in €)",
+                      "explanation": "840 · 1.19 = 999.60.",
+                      "hint": "Times 1.19."
+                    }
+                  }
+                },
+                {
+                  "kind": "numeric",
+                  "prompt": "Ein Switch kostet brutto 595 €. Wie hoch ist der Nettopreis bei 19 %? (in €)",
+                  "explanation": "595 / 1,19 = 500.",
+                  "hint": "Durch 1,19 teilen.",
+                  "answer": 500,
+                  "tolerance": 0.01,
+                  "id": "m1-l1-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Ein Switch kostet brutto 595 €. Wie hoch ist der Nettopreis bei 19 %? (in €)",
+                      "explanation": "595 / 1,19 = 500.",
+                      "hint": "Durch 1,19 teilen."
+                    },
+                    "en": {
+                      "prompt": "A switch costs 595 € gross. What is the net price at 19 %? (in €)",
+                      "explanation": "595 / 1.19 = 500.",
+                      "hint": "Divide by 1.19."
+                    }
+                  }
+                },
+                {
+                  "kind": "numeric",
+                  "prompt": "Die Speicherkosten stiegen von 80 € auf 92 €. Um wie viel Prozent?",
+                  "explanation": "Zuwachs 12 €, bezogen auf den alten Wert 80 €: 12 / 80 = 15 %.",
+                  "hint": "Der alte Wert ist der Grundwert.",
+                  "answer": 15,
+                  "tolerance": 0.01,
+                  "id": "m1-l1-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Die Speicherkosten stiegen von 80 € auf 92 €. Um wie viel Prozent?",
+                      "explanation": "Zuwachs 12 €, bezogen auf den alten Wert 80 €: 12 / 80 = 15 %.",
+                      "hint": "Der alte Wert ist der Grundwert."
+                    },
+                    "en": {
+                      "prompt": "The storage costs rose from 80 € to 92 €. By what percent?",
+                      "explanation": "Increase 12 €, relative to the old value 80 €: 12 / 80 = 15 %.",
+                      "hint": "The old value is the base value."
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Warum ist \"Brutto minus 19 %\" falsch, um den Nettopreis zu finden?",
+                  "explanation": "Brutto ist 119 % vom Netto. Darum durch 1,19 teilen.",
+                  "options": [
+                    "Die 19 % beziehen sich auf den Nettopreis, nicht auf den Bruttopreis",
+                    "Weil 19 % zu wenig sind",
+                    "Weil man 7 % nehmen muss",
+                    "Es ist richtig"
+                  ],
+                  "answer": 0,
+                  "id": "m1-l1-q5",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Warum ist \"Brutto minus 19 %\" falsch, um den Nettopreis zu finden?",
+                      "explanation": "Brutto ist 119 % vom Netto. Darum durch 1,19 teilen.",
+                      "options": [
+                        "Die 19 % beziehen sich auf den Nettopreis, nicht auf den Bruttopreis",
+                        "Weil 19 % zu wenig sind",
+                        "Weil man 7 % nehmen muss",
+                        "Es ist richtig"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Why is \"gross minus 19 %\" wrong for finding the net price?",
+                      "explanation": "Gross is 119 % of net. So divide by 1.19.",
+                      "options": [
+                        "The 19 % refer to the net price, not the gross price",
+                        "Because 19 % is too little",
+                        "Because you must use 7 %",
+                        "It is right"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Prozentrechnung und Mehrwertsteuer",
+              "goal": "Du kannst Prozentwert, Grundwert und Prozentsatz berechnen und zwischen Netto und Brutto wechseln."
+            },
+            "en": {
+              "title": "Percentages and VAT",
+              "goal": "You can calculate percentage value, base value and rate, and switch between net and gross."
+            }
+          }
+        },
+        {
+          "id": "m1-l2",
+          "title": "Dreisatz",
+          "goal": "Du kannst proportionale und umgekehrt proportionale Aufgaben mit dem Dreisatz lösen.",
+          "blocks": [
+            {
+              "id": "m1-l2-b1",
+              "type": "text",
+              "markdown": "Der **Dreisatz** rechnet über die **Einheit 1**:\n\n**Direkt proportional** (mehr gibt mehr): *8 Lizenzen kosten 340 €. Was kosten 13?*\n\n1. 8 Lizenzen = 340 €\n2. 1 Lizenz = 340 € / 8 = 42,50 €\n3. 13 Lizenzen = 42,50 € · 13 = **552,50 €**\n\n**Umgekehrt proportional** (mehr gibt weniger): *5 Techniker brauchen 12 Tage. Wie lange brauchen 3?*\n\n1. 5 Techniker = 12 Tage\n2. 1 Techniker = 12 · 5 = 60 Tage\n3. 3 Techniker = 60 / 3 = **20 Tage**\n\nFrage dich zuerst: *Wird das Ergebnis größer oder kleiner?* Das verrät dir, ob du mal oder durch nehmen musst.",
+              "i18n": {
+                "de": {
+                  "normal": "Der **Dreisatz** rechnet über die **Einheit 1**:\n\n**Direkt proportional** (mehr gibt mehr): *8 Lizenzen kosten 340 €. Was kosten 13?*\n\n1. 8 Lizenzen = 340 €\n2. 1 Lizenz = 340 € / 8 = 42,50 €\n3. 13 Lizenzen = 42,50 € · 13 = **552,50 €**\n\n**Umgekehrt proportional** (mehr gibt weniger): *5 Techniker brauchen 12 Tage. Wie lange brauchen 3?*\n\n1. 5 Techniker = 12 Tage\n2. 1 Techniker = 12 · 5 = 60 Tage\n3. 3 Techniker = 60 / 3 = **20 Tage**\n\nFrage dich zuerst: *Wird das Ergebnis größer oder kleiner?* Das verrät dir, ob du mal oder durch nehmen musst."
+                },
+                "en": {
+                  "normal": "The **rule of three** calculates through **unit 1**:\n\n**Directly proportional** (more gives more): *8 licences cost 340 €. What do 13 cost?*\n\n1. 8 licences = 340 €\n2. 1 licence = 340 € / 8 = 42.50 €\n3. 13 licences = 42.50 € · 13 = **552.50 €**\n\n**Inversely proportional** (more gives less): *5 technicians need 12 days. How long do 3 need?*\n\n1. 5 technicians = 12 days\n2. 1 technician = 12 · 5 = 60 days\n3. 3 technicians = 60 / 3 = **20 days**\n\nFirst ask yourself: *will the result be bigger or smaller?* That tells you whether to multiply or divide."
+                }
+              }
+            },
+            {
+              "id": "m1-l2-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "numeric",
+                  "prompt": "8 Lizenzen kosten 340 €. Was kosten 13 Lizenzen? (in €)",
+                  "explanation": "340 / 8 = 42,50; mal 13 = 552,50.",
+                  "answer": 552.5,
+                  "tolerance": 0.01,
+                  "id": "m1-l2-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "8 Lizenzen kosten 340 €. Was kosten 13 Lizenzen? (in €)",
+                      "explanation": "340 / 8 = 42,50; mal 13 = 552,50."
+                    },
+                    "en": {
+                      "prompt": "8 licences cost 340 €. What do 13 licences cost? (in €)",
+                      "explanation": "340 / 8 = 42.50; times 13 = 552.50."
+                    }
+                  }
+                },
+                {
+                  "kind": "numeric",
+                  "prompt": "5 Techniker brauchen 12 Tage für einen Umzug. Wie viele Tage brauchen 3 Techniker?",
+                  "explanation": "Mehr Leute, weniger Zeit: umgekehrt. 12 · 5 / 3 = 20.",
+                  "answer": 20,
+                  "id": "m1-l2-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "5 Techniker brauchen 12 Tage für einen Umzug. Wie viele Tage brauchen 3 Techniker?",
+                      "explanation": "Mehr Leute, weniger Zeit: umgekehrt. 12 · 5 / 3 = 20."
+                    },
+                    "en": {
+                      "prompt": "5 technicians need 12 days for a move. How many days do 3 technicians need?",
+                      "explanation": "More people, less time: inverse. 12 · 5 / 3 = 20."
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Welche Aufgabe ist umgekehrt proportional?",
+                  "explanation": "Mehr von dem einen, weniger von dem anderen.",
+                  "options": [
+                    "Je mehr Drucker, desto weniger Zeit für 600 Seiten",
+                    "Je mehr Seiten, desto mehr Papier",
+                    "Je mehr Lizenzen, desto höher der Preis",
+                    "Je mehr Strom, desto mehr Kosten"
+                  ],
+                  "answer": 0,
+                  "id": "m1-l2-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Welche Aufgabe ist umgekehrt proportional?",
+                      "explanation": "Mehr von dem einen, weniger von dem anderen.",
+                      "options": [
+                        "Je mehr Drucker, desto weniger Zeit für 600 Seiten",
+                        "Je mehr Seiten, desto mehr Papier",
+                        "Je mehr Lizenzen, desto höher der Preis",
+                        "Je mehr Strom, desto mehr Kosten"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Which task is inversely proportional?",
+                      "explanation": "More of one, less of the other.",
+                      "options": [
+                        "The more printers, the less time for 600 pages",
+                        "The more pages, the more paper",
+                        "The more licences, the higher the price",
+                        "The more power, the higher the cost"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Dreisatz",
+              "goal": "Du kannst proportionale und umgekehrt proportionale Aufgaben mit dem Dreisatz lösen."
+            },
+            "en": {
+              "title": "The rule of three",
+              "goal": "You can solve proportional and inversely proportional tasks with the rule of three."
+            }
+          }
+        },
+        {
+          "id": "m1-l3",
+          "title": "Rabatt und Skonto",
+          "goal": "Du kannst Rabatt und Skonto nacheinander richtig abziehen.",
+          "blocks": [
+            {
+              "id": "m1-l3-b1",
+              "type": "text",
+              "markdown": "- **Rabatt**: Preisnachlass auf den **Listenpreis**, zum Beispiel für große Mengen. Sofort auf der Rechnung.\n- **Skonto**: Nachlass für **schnelles Zahlen** (zum Beispiel *2 % bei Zahlung in 10 Tagen*). Er wird **vom Rechnungsbetrag nach Rabatt** gerechnet.\n\nReihenfolge: **Listenpreis → Rabatt abziehen → Rechnungsbetrag → Skonto abziehen → Überweisung.**\n\nBeispiel: Liste 2.000 €, Rabatt 15 %, Skonto 2 %.\n\n1. Rabatt: 2.000 · 0,15 = 300 €. Rechnungsbetrag: 1.700 €.\n2. Skonto: 1.700 · 0,02 = 34 €.\n3. Überweisung: 1.700 − 34 = **1.666 €**.\n\nDie Prozente dürfen **nicht addiert** werden (17 % von 2.000 wären 1.660 €).",
+              "i18n": {
+                "de": {
+                  "normal": "- **Rabatt**: Preisnachlass auf den **Listenpreis**, zum Beispiel für große Mengen. Sofort auf der Rechnung.\n- **Skonto**: Nachlass für **schnelles Zahlen** (zum Beispiel *2 % bei Zahlung in 10 Tagen*). Er wird **vom Rechnungsbetrag nach Rabatt** gerechnet.\n\nReihenfolge: **Listenpreis → Rabatt abziehen → Rechnungsbetrag → Skonto abziehen → Überweisung.**\n\nBeispiel: Liste 2.000 €, Rabatt 15 %, Skonto 2 %.\n\n1. Rabatt: 2.000 · 0,15 = 300 €. Rechnungsbetrag: 1.700 €.\n2. Skonto: 1.700 · 0,02 = 34 €.\n3. Überweisung: 1.700 − 34 = **1.666 €**.\n\nDie Prozente dürfen **nicht addiert** werden (17 % von 2.000 wären 1.660 €)."
+                },
+                "en": {
+                  "normal": "- **Discount**: price reduction on the **list price**, for example for large quantities. Immediately on the invoice.\n- **Cash discount** (*Skonto*): reduction for **paying quickly** (for example *2 % when paid within 10 days*). It is calculated from the **invoice amount after discount**.\n\nOrder: **list price → subtract discount → invoice amount → subtract cash discount → payment.**\n\nExample: list 2,000 €, discount 15 %, cash discount 2 %.\n\n1. Discount: 2,000 · 0.15 = 300 €. Invoice amount: 1,700 €.\n2. Cash discount: 1,700 · 0.02 = 34 €.\n3. Payment: 1,700 − 34 = **1,666 €**.\n\nThe percentages must **not be added** (17 % of 2,000 would be 1,660 €)."
+                }
+              }
+            },
+            {
+              "id": "m1-l3-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "numeric",
+                  "prompt": "Listenpreis 2.000 €, Rabatt 15 %. Wie hoch ist der Rechnungsbetrag? (in €)",
+                  "explanation": "2.000 · 0,85 = 1.700.",
+                  "answer": 1700,
+                  "tolerance": 0.01,
+                  "id": "m1-l3-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Listenpreis 2.000 €, Rabatt 15 %. Wie hoch ist der Rechnungsbetrag? (in €)",
+                      "explanation": "2.000 · 0,85 = 1.700."
+                    },
+                    "en": {
+                      "prompt": "List price 2,000 €, discount 15 %. What is the invoice amount? (in €)",
+                      "explanation": "2,000 · 0.85 = 1,700."
+                    }
+                  }
+                },
+                {
+                  "kind": "numeric",
+                  "prompt": "Rechnungsbetrag 1.700 €, Skonto 2 %. Wie viel überweist du? (in €)",
+                  "explanation": "1.700 · 0,98 = 1.666.",
+                  "answer": 1666,
+                  "tolerance": 0.01,
+                  "id": "m1-l3-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Rechnungsbetrag 1.700 €, Skonto 2 %. Wie viel überweist du? (in €)",
+                      "explanation": "1.700 · 0,98 = 1.666."
+                    },
+                    "en": {
+                      "prompt": "Invoice amount 1,700 €, cash discount 2 %. How much do you transfer? (in €)",
+                      "explanation": "1,700 · 0.98 = 1,666."
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Wovon wird Skonto berechnet?",
+                  "explanation": "Erst Rabatt, dann Skonto.",
+                  "options": [
+                    "Vom Rechnungsbetrag nach Rabatt",
+                    "Vom Listenpreis",
+                    "Vom Gewinn",
+                    "Von der Mehrwertsteuer"
+                  ],
+                  "answer": 0,
+                  "id": "m1-l3-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Wovon wird Skonto berechnet?",
+                      "explanation": "Erst Rabatt, dann Skonto.",
+                      "options": [
+                        "Vom Rechnungsbetrag nach Rabatt",
+                        "Vom Listenpreis",
+                        "Vom Gewinn",
+                        "Von der Mehrwertsteuer"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "What is cash discount calculated from?",
+                      "explanation": "First discount, then cash discount.",
+                      "options": [
+                        "From the invoice amount after discount",
+                        "From the list price",
+                        "From the profit",
+                        "From the VAT"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Rabatt und Skonto",
+              "goal": "Du kannst Rabatt und Skonto nacheinander richtig abziehen."
+            },
+            "en": {
+              "title": "Discount and cash discount",
+              "goal": "You can subtract discount and cash discount one after the other correctly."
+            }
+          }
+        },
+        {
+          "id": "m1-l4",
+          "title": "Zinsrechnung",
+          "goal": "Du kannst einfache Zinsen für Jahre und Monate berechnen.",
+          "blocks": [
+            {
+              "id": "m1-l4-b1",
+              "type": "text",
+              "markdown": "Zinsen sind der Preis für geliehenes Geld. Die Formel für **einfache Zinsen**:\n\nZ = K · p · t / 100\n\n- **K** Kapital, **p** Zinssatz in % pro Jahr, **t** Zeit **in Jahren**.\n- Bei Monaten: t = Monate / 12. Bei Tagen: t = Tage / 360 (kaufmännisch, ein Jahr hat 360 Tage, jeder Monat 30).\n\nBeispiel: 4.000 € zu 3 % für 9 Monate.\n\n1. t = 9 / 12 = 0,75 Jahre.\n2. Z = 4.000 · 3 · 0,75 / 100 = **90 €**.\n\nNach **einem ganzen Jahr** wächst das Kapital auf K · (1 + p/100): 4.000 · 1,03 = 4.120 €.",
+              "i18n": {
+                "de": {
+                  "normal": "Zinsen sind der Preis für geliehenes Geld. Die Formel für **einfache Zinsen**:\n\nZ = K · p · t / 100\n\n- **K** Kapital, **p** Zinssatz in % pro Jahr, **t** Zeit **in Jahren**.\n- Bei Monaten: t = Monate / 12. Bei Tagen: t = Tage / 360 (kaufmännisch, ein Jahr hat 360 Tage, jeder Monat 30).\n\nBeispiel: 4.000 € zu 3 % für 9 Monate.\n\n1. t = 9 / 12 = 0,75 Jahre.\n2. Z = 4.000 · 3 · 0,75 / 100 = **90 €**.\n\nNach **einem ganzen Jahr** wächst das Kapital auf K · (1 + p/100): 4.000 · 1,03 = 4.120 €."
+                },
+                "en": {
+                  "normal": "Interest is the price of borrowed money. The formula for **simple interest**:\n\nI = K · p · t / 100\n\n- **K** capital, **p** rate in % per year, **t** time **in years**.\n- For months: t = months / 12. For days: t = days / 360 (commercial: a year has 360 days, every month 30).\n\nExample: 4,000 € at 3 % for 9 months.\n\n1. t = 9 / 12 = 0.75 years.\n2. I = 4,000 · 3 · 0.75 / 100 = **90 €**.\n\nAfter **one full year** the capital grows to K · (1 + p/100): 4,000 · 1.03 = 4,120 €."
+                }
+              }
+            },
+            {
+              "id": "m1-l4-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "numeric",
+                  "prompt": "Wie hoch sind die Zinsen für 4.000 € bei 3 % in 9 Monaten? (in €)",
+                  "explanation": "Z = 4.000 · 0,03 · 9 / 12 = 90.",
+                  "answer": 90,
+                  "tolerance": 0.01,
+                  "id": "m1-l4-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Wie hoch sind die Zinsen für 4.000 € bei 3 % in 9 Monaten? (in €)",
+                      "explanation": "Z = 4.000 · 0,03 · 9 / 12 = 90."
+                    },
+                    "en": {
+                      "prompt": "How much interest do 4,000 € earn at 3 % in 9 months? (in €)",
+                      "explanation": "I = 4,000 · 0.03 · 9 / 12 = 90."
+                    }
+                  }
+                },
+                {
+                  "kind": "numeric",
+                  "prompt": "Auf welchen Betrag wachsen 4.000 € bei 3 % nach einem Jahr? (in €)",
+                  "explanation": "4.000 · 1,03 = 4.120.",
+                  "answer": 4120,
+                  "tolerance": 0.01,
+                  "id": "m1-l4-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Auf welchen Betrag wachsen 4.000 € bei 3 % nach einem Jahr? (in €)",
+                      "explanation": "4.000 · 1,03 = 4.120."
+                    },
+                    "en": {
+                      "prompt": "To what amount do 4,000 € grow at 3 % after one year? (in €)",
+                      "explanation": "4,000 · 1.03 = 4,120."
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Wie rechnet man 45 Tage in Jahre (kaufmännisch)?",
+                  "explanation": "Das kaufmännische Jahr hat 360 Tage.",
+                  "options": [
+                    "45 / 360",
+                    "45 / 365",
+                    "45 / 12",
+                    "45 · 360"
+                  ],
+                  "answer": 0,
+                  "id": "m1-l4-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Wie rechnet man 45 Tage in Jahre (kaufmännisch)?",
+                      "explanation": "Das kaufmännische Jahr hat 360 Tage.",
+                      "options": [
+                        "45 / 360",
+                        "45 / 365",
+                        "45 / 12",
+                        "45 · 360"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "How do you convert 45 days into years (commercial)?",
+                      "explanation": "The commercial year has 360 days.",
+                      "options": [
+                        "45 / 360",
+                        "45 / 365",
+                        "45 / 12",
+                        "45 · 360"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Zinsrechnung",
+              "goal": "Du kannst einfache Zinsen für Jahre und Monate berechnen."
+            },
+            "en": {
+              "title": "Interest",
+              "goal": "You can calculate simple interest for years and months."
+            }
+          }
+        }
+      ],
+      "test": {
+        "id": "m1-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "kind": "numeric",
+            "prompt": "Eine Lizenz kostet netto 250 €. Wie viel kostet sie brutto bei 19 %? (in €)",
+            "explanation": "250 · 1,19 = 297,50.",
+            "answer": 297.5,
+            "tolerance": 0.01,
+            "id": "m1-t1",
+            "skillId": "m1-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Eine Lizenz kostet netto 250 €. Wie viel kostet sie brutto bei 19 %? (in €)",
+                "explanation": "250 · 1,19 = 297,50."
+              },
+              "en": {
+                "prompt": "A licence costs 250 € net. What does it cost gross at 19 %? (in €)",
+                "explanation": "250 · 1.19 = 297.50."
+              }
+            }
+          },
+          {
+            "kind": "numeric",
+            "prompt": "3 Server verbrauchen zusammen 450 kWh. Wie viel verbrauchen 7 Server? (in kWh)",
+            "explanation": "450 / 3 = 150; mal 7 = 1.050.",
+            "answer": 1050,
+            "id": "m1-t2",
+            "skillId": "m1-l2",
+            "i18n": {
+              "de": {
+                "prompt": "3 Server verbrauchen zusammen 450 kWh. Wie viel verbrauchen 7 Server? (in kWh)",
+                "explanation": "450 / 3 = 150; mal 7 = 1.050."
+              },
+              "en": {
+                "prompt": "3 servers use 450 kWh together. How much do 7 servers use? (in kWh)",
+                "explanation": "450 / 3 = 150; times 7 = 1,050."
+              }
+            }
+          },
+          {
+            "kind": "numeric",
+            "prompt": "Listenpreis 800 €, 10 % Rabatt, 3 % Skonto. Wie viel überweist du? (in €)",
+            "explanation": "800 · 0,9 = 720; 720 · 0,97 = 698,40.",
+            "answer": 698.4,
+            "tolerance": 0.01,
+            "id": "m1-t3",
+            "skillId": "m1-l3",
+            "i18n": {
+              "de": {
+                "prompt": "Listenpreis 800 €, 10 % Rabatt, 3 % Skonto. Wie viel überweist du? (in €)",
+                "explanation": "800 · 0,9 = 720; 720 · 0,97 = 698,40."
+              },
+              "en": {
+                "prompt": "List price 800 €, 10 % discount, 3 % cash discount. How much do you transfer? (in €)",
+                "explanation": "800 · 0.9 = 720; 720 · 0.97 = 698.40."
+              }
+            }
+          },
+          {
+            "kind": "numeric",
+            "prompt": "Wie hoch sind die Zinsen für 6.000 € bei 2,5 % in 6 Monaten? (in €)",
+            "explanation": "6.000 · 0,025 · 0,5 = 75.",
+            "answer": 75,
+            "tolerance": 0.01,
+            "id": "m1-t4",
+            "skillId": "m1-l4",
+            "i18n": {
+              "de": {
+                "prompt": "Wie hoch sind die Zinsen für 6.000 € bei 2,5 % in 6 Monaten? (in €)",
+                "explanation": "6.000 · 0,025 · 0,5 = 75."
+              },
+              "en": {
+                "prompt": "How much interest do 6,000 € earn at 2.5 % in 6 months? (in €)",
+                "explanation": "6,000 · 0.025 · 0.5 = 75."
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Der Preis stieg von 200 € auf 250 €. Wie viel Prozent sind das?",
+            "explanation": "50 / 200 = 25 %.",
+            "options": [
+              "25 %",
+              "20 %",
+              "50 %",
+              "5 %"
+            ],
+            "answer": 0,
+            "id": "m1-t5",
+            "skillId": "m1-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Der Preis stieg von 200 € auf 250 €. Wie viel Prozent sind das?",
+                "explanation": "50 / 200 = 25 %.",
+                "options": [
+                  "25 %",
+                  "20 %",
+                  "50 %",
+                  "5 %"
+                ]
+              },
+              "en": {
+                "prompt": "The price rose from 200 € to 250 €. How many percent is that?",
+                "explanation": "50 / 200 = 25 %.",
+                "options": [
+                  "25 %",
+                  "20 %",
+                  "50 %",
+                  "5 %"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Welche Aufgabe löst man mit dem umgekehrten Dreisatz?",
+            "explanation": "Das eine steigt, das andere sinkt.",
+            "options": [
+              "Mehr Arbeiter, weniger Tage",
+              "Mehr Stück, mehr Preis",
+              "Mehr Liter, mehr Kosten",
+              "Mehr Kilometer, mehr Zeit"
+            ],
+            "answer": 0,
+            "id": "m1-t6",
+            "skillId": "m1-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Welche Aufgabe löst man mit dem umgekehrten Dreisatz?",
+                "explanation": "Das eine steigt, das andere sinkt.",
+                "options": [
+                  "Mehr Arbeiter, weniger Tage",
+                  "Mehr Stück, mehr Preis",
+                  "Mehr Liter, mehr Kosten",
+                  "Mehr Kilometer, mehr Zeit"
+                ]
+              },
+              "en": {
+                "prompt": "Which task do you solve with the inverse rule of three?",
+                "explanation": "One rises, the other falls.",
+                "options": [
+                  "More workers, fewer days",
+                  "More pieces, higher price",
+                  "More litres, more cost",
+                  "More kilometres, more time"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "i18n": {
+        "de": {
+          "title": "Kaufmännisches Rechnen",
+          "summary": "Prozent, Dreisatz, Rabatt, Skonto und Zinsen."
+        },
+        "en": {
+          "title": "Commercial calculation",
+          "summary": "Percent, rule of three, discount, cash discount and interest."
+        }
+      }
+    },
+    {
+      "id": "m2",
+      "title": "Projekte und Kosten",
+      "summary": "Netzplan, Amortisation und Kostenvergleich.",
+      "lessons": [
+        {
+          "id": "m2-l1",
+          "title": "Netzplan und kritischer Weg",
+          "goal": "Du kannst einen Netzplan vorwärts und rückwärts berechnen und den kritischen Weg finden.",
+          "blocks": [
+            {
+              "id": "m2-l1-b1",
+              "type": "text",
+              "markdown": "Ein **Netzplan** zeigt, welche **Vorgänge** (Aufgaben) in welcher Reihenfolge laufen und wie lange das Projekt mindestens dauert. Jeder Vorgang hat:\n\n- **D**: Dauer\n- **FAZ / FEZ**: frühester Anfang / frühestes Ende (**Vorwärtsrechnung**)\n- **SAZ / SEZ**: spätester Anfang / spätestes Ende (**Rückwärtsrechnung**)\n- **GP**: Gesamtpuffer = SAZ − FAZ\n- **FP**: freier Puffer = frühester Anfang der Nachfolger − FEZ\n\nRegeln: FAZ = **größtes** FEZ der Vorgänger. FEZ = FAZ + D. SEZ = **kleinstes** SAZ der Nachfolger. SAZ = SEZ − D.\n\nVorgänge mit **GP = 0** bilden den **kritischen Weg**: Jede Verspätung dort verschiebt das Projektende.\n\nProjekt: A 3 (ohne Vorgänger), B 2 (nach A), C 4 (nach A), D 3 (nach B), E 2 (nach B und C), F 1 (nach D und E). Rechne es im [Netzplan-Rechner](#/drills/netzplan) nach.",
+              "i18n": {
+                "de": {
+                  "normal": "Ein **Netzplan** zeigt, welche **Vorgänge** (Aufgaben) in welcher Reihenfolge laufen und wie lange das Projekt mindestens dauert. Jeder Vorgang hat:\n\n- **D**: Dauer\n- **FAZ / FEZ**: frühester Anfang / frühestes Ende (**Vorwärtsrechnung**)\n- **SAZ / SEZ**: spätester Anfang / spätestes Ende (**Rückwärtsrechnung**)\n- **GP**: Gesamtpuffer = SAZ − FAZ\n- **FP**: freier Puffer = frühester Anfang der Nachfolger − FEZ\n\nRegeln: FAZ = **größtes** FEZ der Vorgänger. FEZ = FAZ + D. SEZ = **kleinstes** SAZ der Nachfolger. SAZ = SEZ − D.\n\nVorgänge mit **GP = 0** bilden den **kritischen Weg**: Jede Verspätung dort verschiebt das Projektende.\n\nProjekt: A 3 (ohne Vorgänger), B 2 (nach A), C 4 (nach A), D 3 (nach B), E 2 (nach B und C), F 1 (nach D und E). Rechne es im [Netzplan-Rechner](#/drills/netzplan) nach."
+                },
+                "en": {
+                  "normal": "A **network plan** shows which **tasks** run in which order and how long the project takes at least. Every task has:\n\n- **D**: duration\n- **FAZ / FEZ**: earliest start / earliest end (**forward pass**)\n- **SAZ / SEZ**: latest start / latest end (**backward pass**)\n- **GP**: total float = SAZ − FAZ\n- **FP**: free float = earliest start of the successors − FEZ\n\nRules: FAZ = the **largest** FEZ of the predecessors. FEZ = FAZ + D. SEZ = the **smallest** SAZ of the successors. SAZ = SEZ − D.\n\nTasks with **GP = 0** form the **critical path**: any delay there moves the project end.\n\nProject: A 3 (no predecessor), B 2 (after A), C 4 (after A), D 3 (after B), E 2 (after B and C), F 1 (after D and E). Check it in the [network plan builder](#/drills/netzplan)."
+                }
+              }
+            },
+            {
+              "id": "m2-l1-b2",
+              "type": "example",
+              "markdown": "**Vorwärtsrechnung des Beispiels:**\n\n1. A: FAZ 0, FEZ 3.\n2. B: FAZ 3, FEZ 5. C: FAZ 3, FEZ 7.\n3. D: FAZ 5, FEZ 8.\n4. E hat zwei Vorgänger (B: 5, C: 7): FAZ = **7**, FEZ 9.\n5. F: Vorgänger D (8) und E (9): FAZ **9**, FEZ **10**. Projektdauer: 10.",
+              "i18n": {
+                "de": {
+                  "markdown": "**Vorwärtsrechnung des Beispiels:**\n\n1. A: FAZ 0, FEZ 3.\n2. B: FAZ 3, FEZ 5. C: FAZ 3, FEZ 7.\n3. D: FAZ 5, FEZ 8.\n4. E hat zwei Vorgänger (B: 5, C: 7): FAZ = **7**, FEZ 9.\n5. F: Vorgänger D (8) und E (9): FAZ **9**, FEZ **10**. Projektdauer: 10."
+                },
+                "en": {
+                  "markdown": "**Forward pass of the example:**\n\n1. A: FAZ 0, FEZ 3.\n2. B: FAZ 3, FEZ 5. C: FAZ 3, FEZ 7.\n3. D: FAZ 5, FEZ 8.\n4. E has two predecessors (B: 5, C: 7): FAZ = **7**, FEZ 9.\n5. F: predecessors D (8) and E (9): FAZ **9**, FEZ **10**. Project duration: 10."
+                }
+              }
+            },
+            {
+              "id": "m2-l1-b3",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "numeric",
+                  "prompt": "Wie lange dauert das Beispielprojekt insgesamt?",
+                  "explanation": "Das größte FEZ ist das von F: 10.",
+                  "answer": 10,
+                  "id": "m2-l1-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Wie lange dauert das Beispielprojekt insgesamt?",
+                      "explanation": "Das größte FEZ ist das von F: 10."
+                    },
+                    "en": {
+                      "prompt": "How long does the example project take in total?",
+                      "explanation": "The largest FEZ is that of F: 10."
+                    }
+                  }
+                },
+                {
+                  "kind": "numeric",
+                  "prompt": "Welches FEZ hat Vorgang E im Beispiel?",
+                  "explanation": "FAZ 7 (nach C) plus Dauer 2.",
+                  "answer": 9,
+                  "id": "m2-l1-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Welches FEZ hat Vorgang E im Beispiel?",
+                      "explanation": "FAZ 7 (nach C) plus Dauer 2."
+                    },
+                    "en": {
+                      "prompt": "What is the FEZ of task E in the example?",
+                      "explanation": "FAZ 7 (after C) plus duration 2."
+                    }
+                  }
+                },
+                {
+                  "kind": "numeric",
+                  "prompt": "Welches SAZ hat Vorgang D im Beispiel?",
+                  "explanation": "SEZ von D = SAZ von F = 9; SAZ = 9 − 3 = 6.",
+                  "answer": 6,
+                  "id": "m2-l1-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Welches SAZ hat Vorgang D im Beispiel?",
+                      "explanation": "SEZ von D = SAZ von F = 9; SAZ = 9 − 3 = 6."
+                    },
+                    "en": {
+                      "prompt": "What is the SAZ of task D in the example?",
+                      "explanation": "SEZ of D = SAZ of F = 9; SAZ = 9 − 3 = 6."
+                    }
+                  }
+                },
+                {
+                  "kind": "numeric",
+                  "prompt": "Wie groß ist der Gesamtpuffer (GP) von Vorgang B?",
+                  "explanation": "SAZ 4 − FAZ 3 = 1.",
+                  "answer": 1,
+                  "id": "m2-l1-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Wie groß ist der Gesamtpuffer (GP) von Vorgang B?",
+                      "explanation": "SAZ 4 − FAZ 3 = 1."
+                    },
+                    "en": {
+                      "prompt": "What is the total float (GP) of task B?",
+                      "explanation": "SAZ 4 − FAZ 3 = 1."
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Welche Vorgänge liegen auf dem kritischen Weg?",
+                  "explanation": "Dort ist der GP gleich 0: 3 + 4 + 2 + 1 = 10.",
+                  "options": [
+                    "A, C, E, F",
+                    "A, B, D, F",
+                    "A, B, E, F",
+                    "B, C, D"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l1-q5",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Welche Vorgänge liegen auf dem kritischen Weg?",
+                      "explanation": "Dort ist der GP gleich 0: 3 + 4 + 2 + 1 = 10.",
+                      "options": [
+                        "A, C, E, F",
+                        "A, B, D, F",
+                        "A, B, E, F",
+                        "B, C, D"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Which tasks are on the critical path?",
+                      "explanation": "There the GP is 0: 3 + 4 + 2 + 1 = 10.",
+                      "options": [
+                        "A, C, E, F",
+                        "A, B, D, F",
+                        "A, B, E, F",
+                        "B, C, D"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Vorgang D verzögert sich um 1. Was passiert mit dem Projektende?",
+                  "explanation": "GP von D ist 1.",
+                  "options": [
+                    "Nichts: D hat 1 Puffer",
+                    "Es verschiebt sich um 1",
+                    "Es verschiebt sich um 2",
+                    "Das Projekt scheitert"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l1-q6",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Vorgang D verzögert sich um 1. Was passiert mit dem Projektende?",
+                      "explanation": "GP von D ist 1.",
+                      "options": [
+                        "Nichts: D hat 1 Puffer",
+                        "Es verschiebt sich um 1",
+                        "Es verschiebt sich um 2",
+                        "Das Projekt scheitert"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Task D is delayed by 1. What happens to the project end?",
+                      "explanation": "The GP of D is 1.",
+                      "options": [
+                        "Nothing: D has 1 float",
+                        "It moves by 1",
+                        "It moves by 2",
+                        "The project fails"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Netzplan und kritischer Weg",
+              "goal": "Du kannst einen Netzplan vorwärts und rückwärts berechnen und den kritischen Weg finden."
+            },
+            "en": {
+              "title": "Network plan and critical path",
+              "goal": "You can calculate a network plan forwards and backwards and find the critical path."
+            }
+          }
+        },
+        {
+          "id": "m2-l2",
+          "title": "Wirtschaftlichkeit: Amortisation und Kostenvergleich",
+          "goal": "Du kannst Amortisationszeit, Gewinnschwelle und einen Kostenvergleich rechnen.",
+          "blocks": [
+            {
+              "id": "m2-l2-b1",
+              "type": "text",
+              "markdown": "**Amortisationszeit**: Wann hat sich eine Anschaffung bezahlt gemacht?\n\nAmortisationszeit = Anschaffungskosten / jährliche Ersparnis\n\nBeispiel: Neue Server kosten 12.000 € und sparen jährlich 3.000 € Stromkosten und Wartung: 12.000 / 3.000 = **4 Jahre**.\n\n**Gewinnschwelle** (Break-even): ab welcher Menge deckt der Erlös alle Kosten?\n\nMenge = Fixkosten / (Preis − variable Stückkosten)\n\nBeispiel: Fixkosten 6.000 €, Preis 50 €, variable Kosten 20 € je Stück: 6.000 / 30 = **200 Stück**.\n\n**Kostenvergleich**: Rechne beide Angebote über **denselben Zeitraum** durch (Anschaffung + laufende Kosten · Jahre) und vergleiche. Gerät A: 900 € + 120 €/Jahr, Gerät B: 600 € + 200 €/Jahr. Über 4 Jahre: A = 1.380 €, B = 1.400 €. A ist 20 € günstiger.",
+              "i18n": {
+                "de": {
+                  "normal": "**Amortisationszeit**: Wann hat sich eine Anschaffung bezahlt gemacht?\n\nAmortisationszeit = Anschaffungskosten / jährliche Ersparnis\n\nBeispiel: Neue Server kosten 12.000 € und sparen jährlich 3.000 € Stromkosten und Wartung: 12.000 / 3.000 = **4 Jahre**.\n\n**Gewinnschwelle** (Break-even): ab welcher Menge deckt der Erlös alle Kosten?\n\nMenge = Fixkosten / (Preis − variable Stückkosten)\n\nBeispiel: Fixkosten 6.000 €, Preis 50 €, variable Kosten 20 € je Stück: 6.000 / 30 = **200 Stück**.\n\n**Kostenvergleich**: Rechne beide Angebote über **denselben Zeitraum** durch (Anschaffung + laufende Kosten · Jahre) und vergleiche. Gerät A: 900 € + 120 €/Jahr, Gerät B: 600 € + 200 €/Jahr. Über 4 Jahre: A = 1.380 €, B = 1.400 €. A ist 20 € günstiger."
+                },
+                "en": {
+                  "normal": "**Payback time**: when has a purchase paid for itself?\n\nPayback time = purchase cost / yearly saving\n\nExample: new servers cost 12,000 € and save 3,000 € a year in power and maintenance: 12,000 / 3,000 = **4 years**.\n\n**Break-even**: from which quantity does revenue cover all costs?\n\nQuantity = fixed costs / (price − variable cost per unit)\n\nExample: fixed costs 6,000 €, price 50 €, variable costs 20 € per unit: 6,000 / 30 = **200 units**.\n\n**Cost comparison**: calculate both offers over the **same period** (purchase + running costs · years) and compare. Device A: 900 € + 120 €/year, device B: 600 € + 200 €/year. Over 4 years: A = 1,380 €, B = 1,400 €. A is 20 € cheaper."
+                }
+              }
+            },
+            {
+              "id": "m2-l2-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "numeric",
+                  "prompt": "Neue Drucker kosten 5.400 € und sparen im Jahr 1.800 €. Wie viele Jahre dauert die Amortisation?",
+                  "explanation": "5.400 / 1.800 = 3.",
+                  "answer": 3,
+                  "id": "m2-l2-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Neue Drucker kosten 5.400 € und sparen im Jahr 1.800 €. Wie viele Jahre dauert die Amortisation?",
+                      "explanation": "5.400 / 1.800 = 3."
+                    },
+                    "en": {
+                      "prompt": "New printers cost 5,400 € and save 1,800 € a year. How many years is the payback time?",
+                      "explanation": "5,400 / 1,800 = 3."
+                    }
+                  }
+                },
+                {
+                  "kind": "numeric",
+                  "prompt": "Fixkosten 6.000 €, Preis 50 €, variable Kosten 20 € je Stück. Ab wie vielen Stück gibt es Gewinn (Gewinnschwelle)?",
+                  "explanation": "Deckungsbeitrag 30 € je Stück: 6.000 / 30 = 200.",
+                  "answer": 200,
+                  "id": "m2-l2-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Fixkosten 6.000 €, Preis 50 €, variable Kosten 20 € je Stück. Ab wie vielen Stück gibt es Gewinn (Gewinnschwelle)?",
+                      "explanation": "Deckungsbeitrag 30 € je Stück: 6.000 / 30 = 200."
+                    },
+                    "en": {
+                      "prompt": "Fixed costs 6,000 €, price 50 €, variable costs 20 € per unit. From how many units is there profit (break-even)?",
+                      "explanation": "Contribution 30 € per unit: 6,000 / 30 = 200."
+                    }
+                  }
+                },
+                {
+                  "kind": "numeric",
+                  "prompt": "Gerät A: 900 € + 120 € pro Jahr. Wie viel kostet es insgesamt in 4 Jahren? (in €)",
+                  "explanation": "900 + 4 · 120 = 1.380.",
+                  "answer": 1380,
+                  "id": "m2-l2-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Gerät A: 900 € + 120 € pro Jahr. Wie viel kostet es insgesamt in 4 Jahren? (in €)",
+                      "explanation": "900 + 4 · 120 = 1.380."
+                    },
+                    "en": {
+                      "prompt": "Device A: 900 € + 120 € a year. What does it cost in total over 4 years? (in €)",
+                      "explanation": "900 + 4 · 120 = 1,380."
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Warum muss ein Kostenvergleich denselben Zeitraum nutzen?",
+                  "explanation": "Äpfel mit Äpfeln vergleichen.",
+                  "options": [
+                    "Sonst sind die laufenden Kosten nicht vergleichbar",
+                    "Weil es Vorschrift ist",
+                    "Weil Preise gleich bleiben",
+                    "Es muss nicht"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l2-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Warum muss ein Kostenvergleich denselben Zeitraum nutzen?",
+                      "explanation": "Äpfel mit Äpfeln vergleichen.",
+                      "options": [
+                        "Sonst sind die laufenden Kosten nicht vergleichbar",
+                        "Weil es Vorschrift ist",
+                        "Weil Preise gleich bleiben",
+                        "Es muss nicht"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Why must a cost comparison use the same period?",
+                      "explanation": "Compare like with like.",
+                      "options": [
+                        "Otherwise the running costs are not comparable",
+                        "Because it is a rule",
+                        "Because prices stay the same",
+                        "It does not have to"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Wirtschaftlichkeit: Amortisation und Kostenvergleich",
+              "goal": "Du kannst Amortisationszeit, Gewinnschwelle und einen Kostenvergleich rechnen."
+            },
+            "en": {
+              "title": "Profitability: payback and cost comparison",
+              "goal": "You can calculate payback time, break-even and a cost comparison."
+            }
+          }
+        }
+      ],
+      "test": {
+        "id": "m2-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "kind": "numeric",
+            "prompt": "Netzplan: Vorgang X dauert 4 und hat die Vorgänger Y (FEZ 6) und Z (FEZ 9). Welches FEZ hat X?",
+            "explanation": "FAZ ist das größte FEZ der Vorgänger: 9. FEZ = 9 + 4 = 13.",
+            "answer": 13,
+            "id": "m2-t1",
+            "skillId": "m2-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Netzplan: Vorgang X dauert 4 und hat die Vorgänger Y (FEZ 6) und Z (FEZ 9). Welches FEZ hat X?",
+                "explanation": "FAZ ist das größte FEZ der Vorgänger: 9. FEZ = 9 + 4 = 13."
+              },
+              "en": {
+                "prompt": "Network plan: task X lasts 4 and has the predecessors Y (FEZ 6) and Z (FEZ 9). What is the FEZ of X?",
+                "explanation": "FAZ is the largest FEZ of the predecessors: 9. FEZ = 9 + 4 = 13."
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Was bedeutet GP = 0?",
+            "explanation": "Keine Verzögerung möglich, ohne das Ende zu verschieben.",
+            "options": [
+              "Der Vorgang ist kritisch",
+              "Der Vorgang dauert 0",
+              "Der Vorgang ist fertig",
+              "Der Vorgang hat keine Vorgänger"
+            ],
+            "answer": 0,
+            "id": "m2-t2",
+            "skillId": "m2-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Was bedeutet GP = 0?",
+                "explanation": "Keine Verzögerung möglich, ohne das Ende zu verschieben.",
+                "options": [
+                  "Der Vorgang ist kritisch",
+                  "Der Vorgang dauert 0",
+                  "Der Vorgang ist fertig",
+                  "Der Vorgang hat keine Vorgänger"
+                ]
+              },
+              "en": {
+                "prompt": "What does GP = 0 mean?",
+                "explanation": "No delay is possible without moving the end.",
+                "options": [
+                  "The task is critical",
+                  "The task lasts 0",
+                  "The task is finished",
+                  "The task has no predecessors"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "numeric",
+            "prompt": "Fixkosten 9.000 €, Preis 80 €, variable Kosten 30 € je Stück. Wie viele Stück bis zur Gewinnschwelle?",
+            "explanation": "9.000 / 50 = 180.",
+            "answer": 180,
+            "id": "m2-t3",
+            "skillId": "m2-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Fixkosten 9.000 €, Preis 80 €, variable Kosten 30 € je Stück. Wie viele Stück bis zur Gewinnschwelle?",
+                "explanation": "9.000 / 50 = 180."
+              },
+              "en": {
+                "prompt": "Fixed costs 9,000 €, price 80 €, variable costs 30 € per unit. How many units until break-even?",
+                "explanation": "9,000 / 50 = 180."
+              }
+            }
+          },
+          {
+            "kind": "numeric",
+            "prompt": "Eine Investition von 24.000 € spart 4.000 € im Jahr. Amortisationszeit in Jahren?",
+            "explanation": "24.000 / 4.000 = 6.",
+            "answer": 6,
+            "id": "m2-t4",
+            "skillId": "m2-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Eine Investition von 24.000 € spart 4.000 € im Jahr. Amortisationszeit in Jahren?",
+                "explanation": "24.000 / 4.000 = 6."
+              },
+              "en": {
+                "prompt": "An investment of 24,000 € saves 4,000 € a year. Payback time in years?",
+                "explanation": "24,000 / 4,000 = 6."
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Wie berechnet man das SAZ?",
+            "explanation": "Rückwärtsrechnung.",
+            "options": [
+              "SEZ minus Dauer",
+              "FAZ plus Dauer",
+              "FEZ minus FAZ",
+              "SEZ plus Dauer"
+            ],
+            "answer": 0,
+            "id": "m2-t5",
+            "skillId": "m2-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Wie berechnet man das SAZ?",
+                "explanation": "Rückwärtsrechnung.",
+                "options": [
+                  "SEZ minus Dauer",
+                  "FAZ plus Dauer",
+                  "FEZ minus FAZ",
+                  "SEZ plus Dauer"
+                ]
+              },
+              "en": {
+                "prompt": "How do you calculate the SAZ?",
+                "explanation": "Backward pass.",
+                "options": [
+                  "SEZ minus duration",
+                  "FAZ plus duration",
+                  "FEZ minus FAZ",
+                  "SEZ plus duration"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Gerät A: 500 € + 100 €/Jahr, Gerät B: 300 € + 150 €/Jahr. Welches ist über 5 Jahre günstiger?",
+            "explanation": "A: 500 + 500 = 1.000. B: 300 + 750 = 1.050.",
+            "options": [
+              "A (1.000 € gegen 1.050 €)",
+              "B (1.000 € gegen 1.050 €)",
+              "Beide gleich",
+              "Das lässt sich nicht sagen"
+            ],
+            "answer": 0,
+            "id": "m2-t6",
+            "skillId": "m2-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Gerät A: 500 € + 100 €/Jahr, Gerät B: 300 € + 150 €/Jahr. Welches ist über 5 Jahre günstiger?",
+                "explanation": "A: 500 + 500 = 1.000. B: 300 + 750 = 1.050.",
+                "options": [
+                  "A (1.000 € gegen 1.050 €)",
+                  "B (1.000 € gegen 1.050 €)",
+                  "Beide gleich",
+                  "Das lässt sich nicht sagen"
+                ]
+              },
+              "en": {
+                "prompt": "Device A: 500 € + 100 €/year, device B: 300 € + 150 €/year. Which is cheaper over 5 years?",
+                "explanation": "A: 500 + 500 = 1,000. B: 300 + 750 = 1,050.",
+                "options": [
+                  "A (1,000 € versus 1,050 €)",
+                  "B (1,000 € versus 1,050 €)",
+                  "Both the same",
+                  "Cannot be said"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "i18n": {
+        "de": {
+          "title": "Projekte und Kosten",
+          "summary": "Netzplan, Amortisation und Kostenvergleich."
+        },
+        "en": {
+          "title": "Projects and costs",
+          "summary": "Network plan, payback and cost comparison."
+        }
+      }
+    },
+    {
+      "id": "m3",
+      "title": "Ausbildung und Soziales",
+      "summary": "Ausbildungsvertrag, Kündigung und Sozialversicherung.",
+      "lessons": [
+        {
+          "id": "m3-l1",
+          "title": "Ausbildungsvertrag, Probezeit und Kündigung",
+          "goal": "Du kannst Rechte und Pflichten im Ausbildungsverhältnis und die Regeln zur Kündigung nennen.",
+          "blocks": [
+            {
+              "id": "m3-l1-b1",
+              "type": "text",
+              "markdown": "Grundlage ist das **Berufsbildungsgesetz (BBiG)**. Der **Ausbildungsvertrag** wird vor Beginn **schriftlich** geschlossen und enthält unter anderem Beruf, Dauer, Vergütung, Urlaub, Probezeit und Arbeitszeit.\n\n**Pflichten des Ausbildenden**: den Ausbildungsplan einhalten, Wissen vermitteln, **kostenlos** Ausbildungsmittel stellen, den Azubi zum **Berichtsheft** anhalten und freistellen für Berufsschule und Prüfungen, **angemessene Vergütung** zahlen.\n\n**Pflichten des Azubis**: lernen, Aufgaben sorgfältig erledigen, Weisungen folgen, Berufsschule besuchen, Berichtsheft führen, Betriebsgeheimnisse wahren.\n\n**Probezeit**: mindestens **1**, höchstens **4 Monate**. In dieser Zeit kann **jeder ohne Frist und ohne Grund** kündigen.\n\n**Nach der Probezeit**:\n- Der **Ausbildende** darf nur aus **wichtigem Grund** fristlos kündigen.\n- Der **Azubi** kann mit **4 Wochen Frist** kündigen, wenn er die Ausbildung **aufgibt** oder in einem **anderen Beruf** ausgebildet werden will.\n\nDie Kündigung muss **schriftlich** erfolgen und bei Kündigung nach der Probezeit die **Gründe** nennen.",
+              "i18n": {
+                "de": {
+                  "normal": "Grundlage ist das **Berufsbildungsgesetz (BBiG)**. Der **Ausbildungsvertrag** wird vor Beginn **schriftlich** geschlossen und enthält unter anderem Beruf, Dauer, Vergütung, Urlaub, Probezeit und Arbeitszeit.\n\n**Pflichten des Ausbildenden**: den Ausbildungsplan einhalten, Wissen vermitteln, **kostenlos** Ausbildungsmittel stellen, den Azubi zum **Berichtsheft** anhalten und freistellen für Berufsschule und Prüfungen, **angemessene Vergütung** zahlen.\n\n**Pflichten des Azubis**: lernen, Aufgaben sorgfältig erledigen, Weisungen folgen, Berufsschule besuchen, Berichtsheft führen, Betriebsgeheimnisse wahren.\n\n**Probezeit**: mindestens **1**, höchstens **4 Monate**. In dieser Zeit kann **jeder ohne Frist und ohne Grund** kündigen.\n\n**Nach der Probezeit**:\n- Der **Ausbildende** darf nur aus **wichtigem Grund** fristlos kündigen.\n- Der **Azubi** kann mit **4 Wochen Frist** kündigen, wenn er die Ausbildung **aufgibt** oder in einem **anderen Beruf** ausgebildet werden will.\n\nDie Kündigung muss **schriftlich** erfolgen und bei Kündigung nach der Probezeit die **Gründe** nennen."
+                },
+                "en": {
+                  "normal": "The basis is the **Vocational Training Act (BBiG)**. The **training contract** is made **in writing** before the start and contains, among other things, the occupation, duration, pay, leave, probation and working hours.\n\n**Duties of the trainer**: follow the training plan, teach knowledge, provide training materials **free of charge**, make sure the trainee keeps a **record book**, release them for vocational school and exams, pay an **appropriate allowance**.\n\n**Duties of the trainee**: learn, do tasks carefully, follow instructions, attend vocational school, keep the record book, keep business secrets.\n\n**Probation**: at least **1**, at most **4 months**. During it **either side can end the contract without notice and without a reason**.\n\n**After probation**:\n- The **trainer** may only end it **for an important reason**, without notice.\n- The **trainee** can give **4 weeks' notice** if they **give up** training or want to be trained in **another occupation**.\n\nNotice must be **in writing** and, after probation, state the **reasons**."
+                }
+              }
+            },
+            {
+              "id": "m3-l1-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Wie lang darf die Probezeit sein?",
+                  "explanation": "Mindestens 1, höchstens 4 Monate.",
+                  "options": [
+                    "1 bis 4 Monate",
+                    "1 bis 6 Monate",
+                    "2 bis 3 Wochen",
+                    "Genau 3 Monate"
+                  ],
+                  "answer": 0,
+                  "id": "m3-l1-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Wie lang darf die Probezeit sein?",
+                      "explanation": "Mindestens 1, höchstens 4 Monate.",
+                      "options": [
+                        "1 bis 4 Monate",
+                        "1 bis 6 Monate",
+                        "2 bis 3 Wochen",
+                        "Genau 3 Monate"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "How long may probation be?",
+                      "explanation": "At least 1, at most 4 months.",
+                      "options": [
+                        "1 to 4 months",
+                        "1 to 6 months",
+                        "2 to 3 weeks",
+                        "Exactly 3 months"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Du willst in der Probezeit kündigen. Was gilt?",
+                  "explanation": "In der Probezeit ist das für beide Seiten möglich.",
+                  "options": [
+                    "Jederzeit ohne Frist und ohne Grund, schriftlich",
+                    "Nur mit 4 Wochen Frist",
+                    "Nur aus wichtigem Grund",
+                    "Gar nicht"
+                  ],
+                  "answer": 0,
+                  "id": "m3-l1-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Du willst in der Probezeit kündigen. Was gilt?",
+                      "explanation": "In der Probezeit ist das für beide Seiten möglich.",
+                      "options": [
+                        "Jederzeit ohne Frist und ohne Grund, schriftlich",
+                        "Nur mit 4 Wochen Frist",
+                        "Nur aus wichtigem Grund",
+                        "Gar nicht"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "You want to give notice during probation. What applies?",
+                      "explanation": "During probation this is possible for both sides.",
+                      "options": [
+                        "Any time without notice and without a reason, in writing",
+                        "Only with 4 weeks' notice",
+                        "Only for an important reason",
+                        "Not at all"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Nach der Probezeit willst du den Beruf wechseln. Welche Frist hast du?",
+                  "explanation": "Das gilt, wenn man die Ausbildung aufgibt oder den Beruf wechselt.",
+                  "options": [
+                    "4 Wochen",
+                    "3 Monate",
+                    "Keine",
+                    "1 Woche"
+                  ],
+                  "answer": 0,
+                  "id": "m3-l1-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Nach der Probezeit willst du den Beruf wechseln. Welche Frist hast du?",
+                      "explanation": "Das gilt, wenn man die Ausbildung aufgibt oder den Beruf wechselt.",
+                      "options": [
+                        "4 Wochen",
+                        "3 Monate",
+                        "Keine",
+                        "1 Woche"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "After probation you want to change occupation. What notice period do you have?",
+                      "explanation": "This applies if you give up training or change occupation.",
+                      "options": [
+                        "4 weeks",
+                        "3 months",
+                        "None",
+                        "1 week"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multi-select",
+                  "prompt": "Welche Pflichten hat der Ausbildende?",
+                  "explanation": "Die letzte Pflicht gibt es nicht.",
+                  "options": [
+                    "Ausbildungsmittel kostenlos stellen",
+                    "Freistellung für die Berufsschule",
+                    "Angemessene Vergütung zahlen",
+                    "Den Azubi für Überstunden ohne Ausgleich einplanen"
+                  ],
+                  "answer": [
+                    0,
+                    1,
+                    2
+                  ],
+                  "id": "m3-l1-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Welche Pflichten hat der Ausbildende?",
+                      "explanation": "Die letzte Pflicht gibt es nicht.",
+                      "options": [
+                        "Ausbildungsmittel kostenlos stellen",
+                        "Freistellung für die Berufsschule",
+                        "Angemessene Vergütung zahlen",
+                        "Den Azubi für Überstunden ohne Ausgleich einplanen"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Which duties does the trainer have?",
+                      "explanation": "The last one is no duty.",
+                      "options": [
+                        "Provide training materials free of charge",
+                        "Release for vocational school",
+                        "Pay an appropriate allowance",
+                        "Plan the trainee for overtime without compensation"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Ausbildungsvertrag, Probezeit und Kündigung",
+              "goal": "Du kannst Rechte und Pflichten im Ausbildungsverhältnis und die Regeln zur Kündigung nennen."
+            },
+            "en": {
+              "title": "Training contract, probation and notice",
+              "goal": "You can name rights and duties in a training relationship and the rules on notice."
+            }
+          }
+        },
+        {
+          "id": "m3-l2",
+          "title": "Sozialversicherung",
+          "goal": "Du kannst die fünf Zweige der Sozialversicherung nennen und wer sie bezahlt.",
+          "blocks": [
+            {
+              "id": "m3-l2-b1",
+              "type": "text",
+              "markdown": "Die gesetzliche **Sozialversicherung** schützt vor großen Lebensrisiken. Sie hat **fünf Zweige**:\n\n| Zweig | Schützt bei | Beitrag |\n|---|---|---|\n| **Krankenversicherung** | Krankheit | Arbeitgeber und Arbeitnehmer je zur Hälfte (plus ein Zusatzbeitrag, auch geteilt) |\n| **Pflegeversicherung** | Pflegebedürftigkeit | je zur Hälfte (mit Besonderheiten) |\n| **Rentenversicherung** | Alter, Erwerbsminderung | je zur Hälfte |\n| **Arbeitslosenversicherung** | Arbeitslosigkeit | je zur Hälfte |\n| **Unfallversicherung** | Arbeits- und Wegeunfälle, Berufskrankheiten | **nur der Arbeitgeber** |\n\nDie Beiträge sind ein **Prozentsatz vom Bruttolohn**. Der Arbeitgeber führt sie zusammen mit der **Lohnsteuer** ab. Was dir bleibt, ist der **Nettolohn**:\n\nBrutto − Lohnsteuer − Arbeitnehmeranteile der Sozialversicherung = Netto.\n\nDie genauen Prozentsätze ändern sich. Merke dir die **Struktur** und den Grundsatz **Solidarprinzip** (viele zahlen ein, wer es braucht, bekommt Leistungen).",
+              "i18n": {
+                "de": {
+                  "normal": "Die gesetzliche **Sozialversicherung** schützt vor großen Lebensrisiken. Sie hat **fünf Zweige**:\n\n| Zweig | Schützt bei | Beitrag |\n|---|---|---|\n| **Krankenversicherung** | Krankheit | Arbeitgeber und Arbeitnehmer je zur Hälfte (plus ein Zusatzbeitrag, auch geteilt) |\n| **Pflegeversicherung** | Pflegebedürftigkeit | je zur Hälfte (mit Besonderheiten) |\n| **Rentenversicherung** | Alter, Erwerbsminderung | je zur Hälfte |\n| **Arbeitslosenversicherung** | Arbeitslosigkeit | je zur Hälfte |\n| **Unfallversicherung** | Arbeits- und Wegeunfälle, Berufskrankheiten | **nur der Arbeitgeber** |\n\nDie Beiträge sind ein **Prozentsatz vom Bruttolohn**. Der Arbeitgeber führt sie zusammen mit der **Lohnsteuer** ab. Was dir bleibt, ist der **Nettolohn**:\n\nBrutto − Lohnsteuer − Arbeitnehmeranteile der Sozialversicherung = Netto.\n\nDie genauen Prozentsätze ändern sich. Merke dir die **Struktur** und den Grundsatz **Solidarprinzip** (viele zahlen ein, wer es braucht, bekommt Leistungen)."
+                },
+                "en": {
+                  "normal": "The statutory **social insurance** protects against major life risks. It has **five branches**:\n\n| Branch | Protects in case of | Contribution |\n|---|---|---|\n| **Health insurance** | illness | employer and employee half each (plus an additional contribution, also shared) |\n| **Long-term care insurance** | need of care | half each (with special rules) |\n| **Pension insurance** | old age, reduced earning capacity | half each |\n| **Unemployment insurance** | unemployment | half each |\n| **Accident insurance** | accidents at work and on the way, occupational diseases | **employer only** |\n\nContributions are a **percentage of gross pay**. The employer pays them over together with the **wage tax**. What is left for you is **net pay**:\n\nGross − wage tax − employee shares of social insurance = net.\n\nThe exact percentages change. Remember the **structure** and the **principle of solidarity** (many pay in, whoever needs it gets benefits)."
+                }
+              }
+            },
+            {
+              "id": "m3-l2-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Welche Versicherung bezahlt allein der Arbeitgeber?",
+                  "explanation": "Nur sie wird allein vom Arbeitgeber getragen.",
+                  "options": [
+                    "Unfallversicherung",
+                    "Krankenversicherung",
+                    "Rentenversicherung",
+                    "Arbeitslosenversicherung"
+                  ],
+                  "answer": 0,
+                  "id": "m3-l2-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Welche Versicherung bezahlt allein der Arbeitgeber?",
+                      "explanation": "Nur sie wird allein vom Arbeitgeber getragen.",
+                      "options": [
+                        "Unfallversicherung",
+                        "Krankenversicherung",
+                        "Rentenversicherung",
+                        "Arbeitslosenversicherung"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Which insurance does the employer pay alone?",
+                      "explanation": "Only it is carried by the employer alone.",
+                      "options": [
+                        "Accident insurance",
+                        "Health insurance",
+                        "Pension insurance",
+                        "Unemployment insurance"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "matching",
+                  "prompt": "Ordne dem Risiko die Versicherung zu.",
+                  "explanation": "Jeder Zweig hat sein Risiko.",
+                  "pairs": [
+                    {
+                      "left": "Arbeitslos werden",
+                      "right": "Arbeitslosenversicherung"
+                    },
+                    {
+                      "left": "Im Alter versorgt sein",
+                      "right": "Rentenversicherung"
+                    },
+                    {
+                      "left": "Unfall auf dem Weg zur Arbeit",
+                      "right": "Unfallversicherung"
+                    },
+                    {
+                      "left": "Pflegebedürftig werden",
+                      "right": "Pflegeversicherung"
+                    }
+                  ],
+                  "id": "m3-l2-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Ordne dem Risiko die Versicherung zu.",
+                      "explanation": "Jeder Zweig hat sein Risiko.",
+                      "pairs": [
+                        {
+                          "left": "Arbeitslos werden",
+                          "right": "Arbeitslosenversicherung"
+                        },
+                        {
+                          "left": "Im Alter versorgt sein",
+                          "right": "Rentenversicherung"
+                        },
+                        {
+                          "left": "Unfall auf dem Weg zur Arbeit",
+                          "right": "Unfallversicherung"
+                        },
+                        {
+                          "left": "Pflegebedürftig werden",
+                          "right": "Pflegeversicherung"
+                        }
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Match the risk with the insurance.",
+                      "explanation": "Every branch has its risk.",
+                      "pairs": [
+                        {
+                          "left": "Becoming unemployed",
+                          "right": "Unemployment insurance"
+                        },
+                        {
+                          "left": "Being provided for in old age",
+                          "right": "Pension insurance"
+                        },
+                        {
+                          "left": "Accident on the way to work",
+                          "right": "Accident insurance"
+                        },
+                        {
+                          "left": "Needing care",
+                          "right": "Long-term care insurance"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Wie kommt man vom Brutto- zum Nettolohn?",
+                  "explanation": "Steuer und Beiträge werden abgezogen.",
+                  "options": [
+                    "Lohnsteuer und Arbeitnehmeranteile der Sozialversicherung abziehen",
+                    "Nur die Lohnsteuer addieren",
+                    "Nur die Sozialversicherung abziehen",
+                    "Durch 1,19 teilen"
+                  ],
+                  "answer": 0,
+                  "id": "m3-l2-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Wie kommt man vom Brutto- zum Nettolohn?",
+                      "explanation": "Steuer und Beiträge werden abgezogen.",
+                      "options": [
+                        "Lohnsteuer und Arbeitnehmeranteile der Sozialversicherung abziehen",
+                        "Nur die Lohnsteuer addieren",
+                        "Nur die Sozialversicherung abziehen",
+                        "Durch 1,19 teilen"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "How do you get from gross to net pay?",
+                      "explanation": "Tax and contributions are deducted.",
+                      "options": [
+                        "Subtract wage tax and employee shares of social insurance",
+                        "Only add the wage tax",
+                        "Only subtract social insurance",
+                        "Divide by 1.19"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Sozialversicherung",
+              "goal": "Du kannst die fünf Zweige der Sozialversicherung nennen und wer sie bezahlt."
+            },
+            "en": {
+              "title": "Social insurance",
+              "goal": "You can name the five branches of social insurance and who pays them."
+            }
+          }
+        }
+      ],
+      "test": {
+        "id": "m3-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "kind": "multiple-choice",
+            "prompt": "Wie lange darf eine Probezeit in der Ausbildung höchstens dauern?",
+            "explanation": "BBiG: 1 bis 4 Monate.",
+            "options": [
+              "4 Monate",
+              "3 Monate",
+              "6 Monate",
+              "1 Jahr"
+            ],
+            "answer": 0,
+            "id": "m3-t1",
+            "skillId": "m3-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Wie lange darf eine Probezeit in der Ausbildung höchstens dauern?",
+                "explanation": "BBiG: 1 bis 4 Monate.",
+                "options": [
+                  "4 Monate",
+                  "3 Monate",
+                  "6 Monate",
+                  "1 Jahr"
+                ]
+              },
+              "en": {
+                "prompt": "How long may probation in training last at most?",
+                "explanation": "BBiG: 1 to 4 months.",
+                "options": [
+                  "4 months",
+                  "3 months",
+                  "6 months",
+                  "1 year"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Welche Versicherung wird nur vom Arbeitgeber bezahlt?",
+            "explanation": "Gesetzliche Unfallversicherung.",
+            "options": [
+              "Unfallversicherung",
+              "Rentenversicherung",
+              "Pflegeversicherung",
+              "Krankenversicherung"
+            ],
+            "answer": 0,
+            "id": "m3-t2",
+            "skillId": "m3-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Welche Versicherung wird nur vom Arbeitgeber bezahlt?",
+                "explanation": "Gesetzliche Unfallversicherung.",
+                "options": [
+                  "Unfallversicherung",
+                  "Rentenversicherung",
+                  "Pflegeversicherung",
+                  "Krankenversicherung"
+                ]
+              },
+              "en": {
+                "prompt": "Which insurance is paid only by the employer?",
+                "explanation": "Statutory accident insurance.",
+                "options": [
+                  "Accident insurance",
+                  "Pension insurance",
+                  "Long-term care insurance",
+                  "Health insurance"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "true-false",
+            "prompt": "Ein Ausbildungsvertrag muss schriftlich geschlossen werden.",
+            "explanation": "Das verlangt das BBiG.",
+            "answer": true,
+            "id": "m3-t3",
+            "skillId": "m3-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Ein Ausbildungsvertrag muss schriftlich geschlossen werden.",
+                "explanation": "Das verlangt das BBiG."
+              },
+              "en": {
+                "prompt": "A training contract must be made in writing.",
+                "explanation": "The BBiG requires it."
+              }
+            }
+          }
+        ]
+      },
+      "i18n": {
+        "de": {
+          "title": "Ausbildung und Soziales",
+          "summary": "Ausbildungsvertrag, Kündigung und Sozialversicherung."
+        },
+        "en": {
+          "title": "Training and social matters",
+          "summary": "Training contract, notice and social insurance."
+        }
+      }
+    }
+  ],
+  "finalExam": {
+    "id": "final-exam",
+    "type": "final-exam",
+    "questions": [
+      {
+        "kind": "numeric",
+        "prompt": "Ein Notebook kostet brutto 1.428 €. Wie viel ist das netto (19 %)? (in €)",
+        "explanation": "1.428 / 1,19 = 1.200.",
+        "answer": 1200,
+        "tolerance": 0.01,
+        "id": "fex-q1",
+        "skillId": "m1-l1",
+        "i18n": {
+          "de": {
+            "prompt": "Ein Notebook kostet brutto 1.428 €. Wie viel ist das netto (19 %)? (in €)",
+            "explanation": "1.428 / 1,19 = 1.200."
+          },
+          "en": {
+            "prompt": "A notebook costs 1,428 € gross. How much is that net (19 %)? (in €)",
+            "explanation": "1,428 / 1.19 = 1,200."
+          }
+        }
+      },
+      {
+        "kind": "numeric",
+        "prompt": "4 Mitarbeiter schaffen eine Migration in 15 Tagen. Wie viele Tage brauchen 6?",
+        "explanation": "15 · 4 / 6 = 10.",
+        "answer": 10,
+        "id": "fex-q2",
+        "skillId": "m1-l2",
+        "i18n": {
+          "de": {
+            "prompt": "4 Mitarbeiter schaffen eine Migration in 15 Tagen. Wie viele Tage brauchen 6?",
+            "explanation": "15 · 4 / 6 = 10."
+          },
+          "en": {
+            "prompt": "4 employees complete a migration in 15 days. How many days do 6 need?",
+            "explanation": "15 · 4 / 6 = 10."
+          }
+        }
+      },
+      {
+        "kind": "numeric",
+        "prompt": "Listenpreis 3.000 €, Rabatt 20 %, Skonto 2 %. Überweisungsbetrag? (in €)",
+        "explanation": "3.000 · 0,8 = 2.400; · 0,98 = 2.352.",
+        "answer": 2352,
+        "tolerance": 0.01,
+        "id": "fex-q3",
+        "skillId": "m1-l3",
+        "i18n": {
+          "de": {
+            "prompt": "Listenpreis 3.000 €, Rabatt 20 %, Skonto 2 %. Überweisungsbetrag? (in €)",
+            "explanation": "3.000 · 0,8 = 2.400; · 0,98 = 2.352."
+          },
+          "en": {
+            "prompt": "List price 3,000 €, discount 20 %, cash discount 2 %. Amount to transfer? (in €)",
+            "explanation": "3,000 · 0.8 = 2,400; · 0.98 = 2,352."
+          }
+        }
+      },
+      {
+        "kind": "numeric",
+        "prompt": "Wie lang dauert das Beispielprojekt (A 3, B 2, C 4, D 3, E 2, F 1 mit den bekannten Vorgängern)?",
+        "explanation": "Kritischer Weg A, C, E, F: 3 + 4 + 2 + 1.",
+        "answer": 10,
+        "id": "fex-q4",
+        "skillId": "m2-l1",
+        "i18n": {
+          "de": {
+            "prompt": "Wie lang dauert das Beispielprojekt (A 3, B 2, C 4, D 3, E 2, F 1 mit den bekannten Vorgängern)?",
+            "explanation": "Kritischer Weg A, C, E, F: 3 + 4 + 2 + 1."
+          },
+          "en": {
+            "prompt": "How long does the example project take (A 3, B 2, C 4, D 3, E 2, F 1 with the known predecessors)?",
+            "explanation": "Critical path A, C, E, F: 3 + 4 + 2 + 1."
+          }
+        }
+      },
+      {
+        "kind": "numeric",
+        "prompt": "Fixkosten 6.000 €, Preis 50 €, variable Kosten 20 €. Gewinnschwelle in Stück?",
+        "explanation": "6.000 / 30 = 200.",
+        "answer": 200,
+        "id": "fex-q5",
+        "skillId": "m2-l2",
+        "i18n": {
+          "de": {
+            "prompt": "Fixkosten 6.000 €, Preis 50 €, variable Kosten 20 €. Gewinnschwelle in Stück?",
+            "explanation": "6.000 / 30 = 200."
+          },
+          "en": {
+            "prompt": "Fixed costs 6,000 €, price 50 €, variable costs 20 €. Break-even in units?",
+            "explanation": "6,000 / 30 = 200."
+          }
+        }
+      },
+      {
+        "kind": "multiple-choice",
+        "prompt": "Nach der Probezeit gibt ein Azubi die Ausbildung auf. Welche Kündigungsfrist gilt?",
+        "explanation": "BBiG: 4 Wochen bei Aufgabe oder Berufswechsel.",
+        "options": [
+          "4 Wochen",
+          "Keine",
+          "3 Monate",
+          "1 Woche"
+        ],
+        "answer": 0,
+        "id": "fex-q6",
+        "skillId": "m3-l1",
+        "i18n": {
+          "de": {
+            "prompt": "Nach der Probezeit gibt ein Azubi die Ausbildung auf. Welche Kündigungsfrist gilt?",
+            "explanation": "BBiG: 4 Wochen bei Aufgabe oder Berufswechsel.",
+            "options": [
+              "4 Wochen",
+              "Keine",
+              "3 Monate",
+              "1 Woche"
+            ]
+          },
+          "en": {
+            "prompt": "After probation a trainee gives up training. Which notice period applies?",
+            "explanation": "BBiG: 4 weeks when giving up or changing occupation.",
+            "options": [
+              "4 weeks",
+              "None",
+              "3 months",
+              "1 week"
+            ]
+          }
+        }
+      },
+      {
+        "kind": "multiple-choice",
+        "prompt": "Welcher Zweig der Sozialversicherung schützt bei Arbeitsunfällen?",
+        "explanation": "Und sie zahlt nur der Arbeitgeber.",
+        "options": [
+          "Unfallversicherung",
+          "Pflegeversicherung",
+          "Rentenversicherung",
+          "Arbeitslosenversicherung"
+        ],
+        "answer": 0,
+        "id": "fex-q7",
+        "skillId": "m3-l2",
+        "i18n": {
+          "de": {
+            "prompt": "Welcher Zweig der Sozialversicherung schützt bei Arbeitsunfällen?",
+            "explanation": "Und sie zahlt nur der Arbeitgeber.",
+            "options": [
+              "Unfallversicherung",
+              "Pflegeversicherung",
+              "Rentenversicherung",
+              "Arbeitslosenversicherung"
+            ]
+          },
+          "en": {
+            "prompt": "Which branch of social insurance protects in case of accidents at work?",
+            "explanation": "And only the employer pays it.",
+            "options": [
+              "Accident insurance",
+              "Long-term care insurance",
+              "Pension insurance",
+              "Unemployment insurance"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "glossary": [
+    {
+      "term": "Grundwert",
+      "definition": "Das Ganze, auf das sich ein Prozentsatz bezieht (100 %).",
+      "i18n": {
+        "de": {
+          "term": "Grundwert",
+          "definition": "Das Ganze, auf das sich ein Prozentsatz bezieht (100 %)."
+        },
+        "en": {
+          "term": "base value",
+          "definition": "The whole to which a rate refers (100 %)."
+        }
+      }
+    },
+    {
+      "term": "Skonto",
+      "definition": "Preisnachlass für schnelles Bezahlen.",
+      "i18n": {
+        "de": {
+          "term": "Skonto",
+          "definition": "Preisnachlass für schnelles Bezahlen."
+        },
+        "en": {
+          "term": "cash discount",
+          "definition": "Price reduction for paying quickly."
+        }
+      }
+    },
+    {
+      "term": "Kritischer Weg",
+      "definition": "Die Kette von Vorgängen ohne Puffer, die die Projektdauer bestimmt.",
+      "i18n": {
+        "de": {
+          "term": "Kritischer Weg",
+          "definition": "Die Kette von Vorgängen ohne Puffer, die die Projektdauer bestimmt."
+        },
+        "en": {
+          "term": "critical path",
+          "definition": "The chain of tasks without float that decides the project duration."
+        }
+      }
+    },
+    {
+      "term": "Gesamtpuffer",
+      "definition": "Die Zeit, um die ein Vorgang sich verzögern darf, ohne das Projektende zu verschieben (GP).",
+      "i18n": {
+        "de": {
+          "term": "Gesamtpuffer",
+          "definition": "Die Zeit, um die ein Vorgang sich verzögern darf, ohne das Projektende zu verschieben (GP)."
+        },
+        "en": {
+          "term": "total float",
+          "definition": "The time a task may slip without moving the project end (GP)."
+        }
+      }
+    },
+    {
+      "term": "Gewinnschwelle",
+      "definition": "Die Menge, ab der der Erlös alle Kosten deckt (Break-even).",
+      "i18n": {
+        "de": {
+          "term": "Gewinnschwelle",
+          "definition": "Die Menge, ab der der Erlös alle Kosten deckt (Break-even)."
+        },
+        "en": {
+          "term": "break-even",
+          "definition": "The quantity from which revenue covers all costs."
+        }
+      }
+    },
+    {
+      "term": "Probezeit",
+      "definition": "Die ersten 1 bis 4 Monate der Ausbildung, in der beide Seiten ohne Frist kündigen können.",
+      "i18n": {
+        "de": {
+          "term": "Probezeit",
+          "definition": "Die ersten 1 bis 4 Monate der Ausbildung, in der beide Seiten ohne Frist kündigen können."
+        },
+        "en": {
+          "term": "probation",
+          "definition": "The first 1 to 4 months of training in which both sides can end the contract without notice."
+        }
+      }
+    }
+  ]
+}

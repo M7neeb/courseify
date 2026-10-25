@@ -1,0 +1,2534 @@
+{
+  "schemaVersion": 2,
+  "id": "linux-kommandozeile",
+  "title": "Linux: Die Kommandozeile von Grund auf",
+  "subject": "Betriebssysteme",
+  "level": "Grundlagen",
+  "language": "de",
+  "languages": [
+    "de",
+    "en"
+  ],
+  "version": "1.0",
+  "meta": {
+    "tags": [
+      "linux",
+      "bash",
+      "terminal",
+      "kommandozeile"
+    ],
+    "description": "pwd, ls, cd, cat, mkdir, cp, mv, rm, echo und Rechte: in einem kleinen Übungs-Terminal mit eigenem Dateibaum, in dem nichts kaputtgehen kann."
+  },
+  "modules": [
+    {
+      "id": "m1",
+      "title": "Orientierung",
+      "summary": "Das Terminal, Ordner und Pfade.",
+      "lessons": [
+        {
+          "id": "m1-l1",
+          "title": "Das Terminal: wo bin ich, was ist hier?",
+          "goal": "Du kannst mit pwd und ls herausfinden, wo du bist und was dort liegt.",
+          "blocks": [
+            {
+              "id": "m1-l1-b1",
+              "type": "text",
+              "markdown": "Das **Terminal** ist ein Fenster, in dem du dem Computer **Befehle als Text** gibst. Die **Shell** (meist `bash`) liest sie und führt sie aus. Das ist schneller als Klicken, wenn man es kann, und auf Servern oft der einzige Weg.\n\nDie Zeile vor deinem Cursor ist der **Prompt**:\n\n```\nanna@pc:~$\n```\n\n`anna` ist der Benutzer, `pc` der Rechner, `~` der Ordner, in dem du bist (`~` heißt: dein **Home-Ordner**), `$` heißt: *ich warte auf einen Befehl*.\n\n| Befehl | Bedeutung |\n|---|---|\n| `pwd` | print working directory: in welchem Ordner bin ich? |\n| `ls` | list: was liegt hier? |\n| `ls -l` | ausführlich, mit Rechten und Größe |\n| `ls -a` | auch **versteckte** Dateien (Name beginnt mit Punkt) |\n\nHinter dem Befehl stehen **Optionen** (`-l`) und **Argumente** (ein Ordner oder eine Datei).",
+              "i18n": {
+                "de": {
+                  "normal": "Das **Terminal** ist ein Fenster, in dem du dem Computer **Befehle als Text** gibst. Die **Shell** (meist `bash`) liest sie und führt sie aus. Das ist schneller als Klicken, wenn man es kann, und auf Servern oft der einzige Weg.\n\nDie Zeile vor deinem Cursor ist der **Prompt**:\n\n```\nanna@pc:~$\n```\n\n`anna` ist der Benutzer, `pc` der Rechner, `~` der Ordner, in dem du bist (`~` heißt: dein **Home-Ordner**), `$` heißt: *ich warte auf einen Befehl*.\n\n| Befehl | Bedeutung |\n|---|---|\n| `pwd` | print working directory: in welchem Ordner bin ich? |\n| `ls` | list: was liegt hier? |\n| `ls -l` | ausführlich, mit Rechten und Größe |\n| `ls -a` | auch **versteckte** Dateien (Name beginnt mit Punkt) |\n\nHinter dem Befehl stehen **Optionen** (`-l`) und **Argumente** (ein Ordner oder eine Datei)."
+                },
+                "en": {
+                  "normal": "The **terminal** is a window where you give the computer **commands as text**. The **shell** (usually `bash`) reads and runs them. That is faster than clicking once you know it, and on servers often the only way.\n\nThe line before your cursor is the **prompt**:\n\n```\nanna@pc:~$\n```\n\n`anna` is the user, `pc` the computer, `~` the folder you are in (`~` means: your **home folder**), `$` means: *I am waiting for a command*.\n\n| Command | Meaning |\n|---|---|\n| `pwd` | print working directory: which folder am I in? |\n| `ls` | list: what is here? |\n| `ls -l` | long, with permissions and size |\n| `ls -a` | also **hidden** files (name starts with a dot) |\n\nAfter the command come **options** (`-l`) and **arguments** (a folder or a file)."
+                }
+              }
+            },
+            {
+              "id": "m1-l1-b2",
+              "type": "callout",
+              "style": "tip",
+              "markdown": "Groß- und Kleinschreibung zählt: `Documents` und `documents` sind verschiedene Namen.",
+              "i18n": {
+                "de": {
+                  "markdown": "Groß- und Kleinschreibung zählt: `Documents` und `documents` sind verschiedene Namen."
+                },
+                "en": {
+                  "markdown": "Upper and lower case matter: `Documents` and `documents` are different names."
+                }
+              }
+            },
+            {
+              "id": "m1-l1-b3",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "shell",
+                  "prompt": "Finde heraus, in welchem Ordner du bist.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "`pwd` heißt print working directory.",
+                  "hint": "Drei Buchstaben.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "cmd": "pwd"
+                  },
+                  "answer": "pwd",
+                  "id": "m1-l1-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Finde heraus, in welchem Ordner du bist.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "`pwd` heißt print working directory.",
+                      "hint": "Drei Buchstaben."
+                    },
+                    "en": {
+                      "prompt": "Find out which folder you are in.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "`pwd` stands for print working directory.",
+                      "hint": "Three letters."
+                    }
+                  }
+                },
+                {
+                  "kind": "shell",
+                  "prompt": "Zeige, was in deinem Ordner liegt.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "`ls` listet den Inhalt.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "cmd": "ls( -l)?"
+                  },
+                  "answer": "ls",
+                  "id": "m1-l1-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige, was in deinem Ordner liegt.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "`ls` listet den Inhalt."
+                    },
+                    "en": {
+                      "prompt": "Show what is in your folder.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "`ls` lists the contents."
+                    }
+                  }
+                },
+                {
+                  "kind": "shell",
+                  "prompt": "Zeige auch die versteckten Dateien.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "Versteckte Dateien beginnen mit einem Punkt. Die Option dafür ist `-a` (all).",
+                  "hint": "`ls` mit einer Option.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "cmd": "ls -a|ls -la|ls -al"
+                  },
+                  "answer": "ls -a",
+                  "id": "m1-l1-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige auch die versteckten Dateien.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "Versteckte Dateien beginnen mit einem Punkt. Die Option dafür ist `-a` (all).",
+                      "hint": "`ls` mit einer Option."
+                    },
+                    "en": {
+                      "prompt": "Show the hidden files too.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "Hidden files start with a dot. The option for that is `-a` (all).",
+                      "hint": "`ls` with an option."
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Was bedeutet das `~` im Prompt `anna@pc:~$`?",
+                  "explanation": "`~` ist die Abkürzung für den Home-Ordner.",
+                  "options": [
+                    "Du bist im Home-Ordner",
+                    "Der Befehl ist fehlerhaft",
+                    "Du bist Administrator",
+                    "Der Rechner ist offline"
+                  ],
+                  "answer": 0,
+                  "id": "m1-l1-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was bedeutet das `~` im Prompt `anna@pc:~$`?",
+                      "explanation": "`~` ist die Abkürzung für den Home-Ordner.",
+                      "options": [
+                        "Du bist im Home-Ordner",
+                        "Der Befehl ist fehlerhaft",
+                        "Du bist Administrator",
+                        "Der Rechner ist offline"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "What does the `~` mean in the prompt `anna@pc:~$`?",
+                      "explanation": "`~` is the short form for the home folder.",
+                      "options": [
+                        "You are in the home folder",
+                        "The command is faulty",
+                        "You are the administrator",
+                        "The computer is offline"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Das Terminal: wo bin ich, was ist hier?",
+              "goal": "Du kannst mit pwd und ls herausfinden, wo du bist und was dort liegt."
+            },
+            "en": {
+              "title": "The terminal: where am I, what is here?",
+              "goal": "You can find out with pwd and ls where you are and what is there."
+            }
+          }
+        },
+        {
+          "id": "m1-l2",
+          "title": "Durch Ordner gehen: cd und Pfade",
+          "goal": "Du kannst mit cd in andere Ordner wechseln und absolute und relative Pfade unterscheiden.",
+          "blocks": [
+            {
+              "id": "m1-l2-b1",
+              "type": "text",
+              "markdown": "Dateien liegen in einem **Baum** von Ordnern. Die Wurzel heißt `/`. Der **Pfad** beschreibt den Weg:\n\n- **Absoluter Pfad**: beginnt mit `/`, gilt von überall. `/home/anna/Documents`\n- **Relativer Pfad**: beginnt nicht mit `/`, gilt von **dort, wo du bist**. `Documents`\n\n`cd` (change directory) wechselt den Ordner:\n\n| Befehl | Ziel |\n|---|---|\n| `cd Documents` | in den Unterordner |\n| `cd ..` | **eine Ebene hoch** |\n| `cd /etc` | absolut nach `/etc` |\n| `cd ~` oder nur `cd` | zurück nach Hause |\n| `cd Documents/Archive` | zwei Ebenen runter |\n\nTipp: Mit der **Tab-Taste** vervollständigt die Shell Namen, mit den **Pfeiltasten** holst du frühere Befehle zurück.",
+              "i18n": {
+                "de": {
+                  "normal": "Dateien liegen in einem **Baum** von Ordnern. Die Wurzel heißt `/`. Der **Pfad** beschreibt den Weg:\n\n- **Absoluter Pfad**: beginnt mit `/`, gilt von überall. `/home/anna/Documents`\n- **Relativer Pfad**: beginnt nicht mit `/`, gilt von **dort, wo du bist**. `Documents`\n\n`cd` (change directory) wechselt den Ordner:\n\n| Befehl | Ziel |\n|---|---|\n| `cd Documents` | in den Unterordner |\n| `cd ..` | **eine Ebene hoch** |\n| `cd /etc` | absolut nach `/etc` |\n| `cd ~` oder nur `cd` | zurück nach Hause |\n| `cd Documents/Archive` | zwei Ebenen runter |\n\nTipp: Mit der **Tab-Taste** vervollständigt die Shell Namen, mit den **Pfeiltasten** holst du frühere Befehle zurück."
+                },
+                "en": {
+                  "normal": "Files live in a **tree** of folders. The root is called `/`. The **path** describes the way:\n\n- **Absolute path**: starts with `/`, works from anywhere. `/home/anna/Documents`\n- **Relative path**: does not start with `/`, works from **where you are**. `Documents`\n\n`cd` (change directory) changes the folder:\n\n| Command | Target |\n|---|---|\n| `cd Documents` | into the subfolder |\n| `cd ..` | **one level up** |\n| `cd /etc` | absolute to `/etc` |\n| `cd ~` or just `cd` | back home |\n| `cd Documents/Archive` | two levels down |\n\nTip: with the **Tab key** the shell completes names, with the **arrow keys** you bring back earlier commands."
+                }
+              }
+            },
+            {
+              "id": "m1-l2-b2",
+              "type": "example",
+              "markdown": "**Aufgabe:** Du bist in `/home/anna`. Wie kommst du nach `/home/anna/Documents/Archive` und wieder zurück?\n\n1. Hinunter: `cd Documents/Archive`.\n2. Kontrolle: `pwd` zeigt `/home/anna/Documents/Archive`.\n3. Zurück nach Hause: `cd ~` (oder `cd ../..`).",
+              "i18n": {
+                "de": {
+                  "markdown": "**Aufgabe:** Du bist in `/home/anna`. Wie kommst du nach `/home/anna/Documents/Archive` und wieder zurück?\n\n1. Hinunter: `cd Documents/Archive`.\n2. Kontrolle: `pwd` zeigt `/home/anna/Documents/Archive`.\n3. Zurück nach Hause: `cd ~` (oder `cd ../..`)."
+                },
+                "en": {
+                  "markdown": "**Task:** you are in `/home/anna`. How do you get to `/home/anna/Documents/Archive` and back?\n\n1. Down: `cd Documents/Archive`.\n2. Check: `pwd` shows `/home/anna/Documents/Archive`.\n3. Back home: `cd ~` (or `cd ../..`)."
+                }
+              }
+            },
+            {
+              "id": "m1-l2-b3",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "shell",
+                  "prompt": "Gehe in den Ordner `Documents`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "Relativer Pfad vom Home-Ordner aus.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "cwd": "/home/anna/Documents"
+                  },
+                  "answer": "cd Documents",
+                  "id": "m1-l2-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Gehe in den Ordner `Documents`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "Relativer Pfad vom Home-Ordner aus."
+                    },
+                    "en": {
+                      "prompt": "Go into the folder `Documents`.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "A relative path from the home folder."
+                    }
+                  }
+                },
+                {
+                  "kind": "shell",
+                  "prompt": "Gehe nach `/etc`, egal wo du bist.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "Absoluter Pfad beginnt mit `/`.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "cwd": "/etc"
+                  },
+                  "answer": "cd /etc",
+                  "id": "m1-l2-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Gehe nach `/etc`, egal wo du bist.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "Absoluter Pfad beginnt mit `/`."
+                    },
+                    "en": {
+                      "prompt": "Go to `/etc`, wherever you are.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "An absolute path starts with `/`."
+                    }
+                  }
+                },
+                {
+                  "kind": "shell",
+                  "prompt": "Du bist in `/home/anna/Documents/Archive`. Gehe zwei Ebenen hoch nach `/home/anna`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "`..` ist der Ordner darüber.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "cwd": "/home/anna"
+                  },
+                  "answer": "cd ../..",
+                  "cwd": "/home/anna/Documents/Archive",
+                  "id": "m1-l2-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Du bist in `/home/anna/Documents/Archive`. Gehe zwei Ebenen hoch nach `/home/anna`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "`..` ist der Ordner darüber."
+                    },
+                    "en": {
+                      "prompt": "You are in `/home/anna/Documents/Archive`. Go up two levels to `/home/anna`.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "`..` is the folder above."
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Welcher Pfad ist absolut?",
+                  "explanation": "Ein absoluter Pfad beginnt mit `/`.",
+                  "options": [
+                    "/home/anna/notes.txt",
+                    "Documents/report.txt",
+                    "../anna",
+                    "~notes"
+                  ],
+                  "answer": 0,
+                  "id": "m1-l2-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Welcher Pfad ist absolut?",
+                      "explanation": "Ein absoluter Pfad beginnt mit `/`.",
+                      "options": [
+                        "/home/anna/notes.txt",
+                        "Documents/report.txt",
+                        "../anna",
+                        "~notes"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Which path is absolute?",
+                      "explanation": "An absolute path starts with `/`.",
+                      "options": [
+                        "/home/anna/notes.txt",
+                        "Documents/report.txt",
+                        "../anna",
+                        "~notes"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Durch Ordner gehen: cd und Pfade",
+              "goal": "Du kannst mit cd in andere Ordner wechseln und absolute und relative Pfade unterscheiden."
+            },
+            "en": {
+              "title": "Moving through folders: cd and paths",
+              "goal": "You can change folders with cd and tell absolute and relative paths apart."
+            }
+          }
+        }
+      ],
+      "test": {
+        "id": "m1-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "kind": "multiple-choice",
+            "prompt": "Welcher Befehl zeigt, in welchem Ordner du bist?",
+            "explanation": "print working directory.",
+            "options": [
+              "pwd",
+              "ls",
+              "cd",
+              "where"
+            ],
+            "answer": 0,
+            "id": "m1-t1",
+            "skillId": "m1-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Welcher Befehl zeigt, in welchem Ordner du bist?",
+                "explanation": "print working directory.",
+                "options": [
+                  "pwd",
+                  "ls",
+                  "cd",
+                  "where"
+                ]
+              },
+              "en": {
+                "prompt": "Which command shows which folder you are in?",
+                "explanation": "print working directory.",
+                "options": [
+                  "pwd",
+                  "ls",
+                  "cd",
+                  "where"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "shell",
+            "prompt": "Gehe nach `/home/anna/Documents/Archive` (relativ vom Home-Ordner).\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+            "explanation": "Zwei Ebenen in einem Pfad.",
+            "fs": {
+              "home": {
+                "anna": {
+                  "notes.txt": "milk\nbread\neggs\n",
+                  "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                  ".config": "theme=dark\n",
+                  "Documents": {
+                    "report.txt": "Q1 results\nQ2 results\n",
+                    "letter.txt": "Dear Bob\n",
+                    "Archive": {}
+                  },
+                  "Downloads": {
+                    "photo.jpg": "IMG",
+                    "setup.zip": "ZIP"
+                  },
+                  "Music": {}
+                }
+              },
+              "etc": {
+                "hosts": "127.0.0.1 localhost\n"
+              },
+              "tmp": {}
+            },
+            "goal": {
+              "cwd": "/home/anna/Documents/Archive"
+            },
+            "answer": "cd Documents/Archive",
+            "id": "m1-t2",
+            "skillId": "m1-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Gehe nach `/home/anna/Documents/Archive` (relativ vom Home-Ordner).\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                "explanation": "Zwei Ebenen in einem Pfad."
+              },
+              "en": {
+                "prompt": "Go to `/home/anna/Documents/Archive` (relative from the home folder).\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                "explanation": "Two levels in one path."
+              }
+            }
+          },
+          {
+            "kind": "shell",
+            "prompt": "Zeige ausführlich (mit Rechten) den Inhalt von `Downloads`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+            "explanation": "`ls -l` mit einem Ordner als Argument.",
+            "fs": {
+              "home": {
+                "anna": {
+                  "notes.txt": "milk\nbread\neggs\n",
+                  "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                  ".config": "theme=dark\n",
+                  "Documents": {
+                    "report.txt": "Q1 results\nQ2 results\n",
+                    "letter.txt": "Dear Bob\n",
+                    "Archive": {}
+                  },
+                  "Downloads": {
+                    "photo.jpg": "IMG",
+                    "setup.zip": "ZIP"
+                  },
+                  "Music": {}
+                }
+              },
+              "etc": {
+                "hosts": "127.0.0.1 localhost\n"
+              },
+              "tmp": {}
+            },
+            "goal": {
+              "cmd": "ls -l Downloads"
+            },
+            "answer": "ls -l Downloads",
+            "id": "m1-t3",
+            "skillId": "m1-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Zeige ausführlich (mit Rechten) den Inhalt von `Downloads`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                "explanation": "`ls -l` mit einem Ordner als Argument."
+              },
+              "en": {
+                "prompt": "Show the contents of `Downloads` in detail (with permissions).\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                "explanation": "`ls -l` with a folder as argument."
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Du bist in `/home/anna/Documents`. Was bringt dich nach `/home/anna`?",
+            "explanation": "`..` ist eine Ebene höher.",
+            "options": [
+              "cd ..",
+              "cd .",
+              "cd /",
+              "cd Documents"
+            ],
+            "answer": 0,
+            "id": "m1-t4",
+            "skillId": "m1-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Du bist in `/home/anna/Documents`. Was bringt dich nach `/home/anna`?",
+                "explanation": "`..` ist eine Ebene höher.",
+                "options": [
+                  "cd ..",
+                  "cd .",
+                  "cd /",
+                  "cd Documents"
+                ]
+              },
+              "en": {
+                "prompt": "You are in `/home/anna/Documents`. What takes you to `/home/anna`?",
+                "explanation": "`..` is one level up.",
+                "options": [
+                  "cd ..",
+                  "cd .",
+                  "cd /",
+                  "cd Documents"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "true-false",
+            "prompt": "`Documents` und `documents` sind für die Shell derselbe Ordner.",
+            "explanation": "Groß- und Kleinschreibung zählt.",
+            "answer": false,
+            "id": "m1-t5",
+            "skillId": "m1-l2",
+            "i18n": {
+              "de": {
+                "prompt": "`Documents` und `documents` sind für die Shell derselbe Ordner.",
+                "explanation": "Groß- und Kleinschreibung zählt."
+              },
+              "en": {
+                "prompt": "`Documents` and `documents` are the same folder for the shell.",
+                "explanation": "Upper and lower case matter."
+              }
+            }
+          },
+          {
+            "kind": "shell",
+            "prompt": "Zeige alle Dateien im Home-Ordner, auch die versteckten.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+            "explanation": "Option `-a`.",
+            "fs": {
+              "home": {
+                "anna": {
+                  "notes.txt": "milk\nbread\neggs\n",
+                  "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                  ".config": "theme=dark\n",
+                  "Documents": {
+                    "report.txt": "Q1 results\nQ2 results\n",
+                    "letter.txt": "Dear Bob\n",
+                    "Archive": {}
+                  },
+                  "Downloads": {
+                    "photo.jpg": "IMG",
+                    "setup.zip": "ZIP"
+                  },
+                  "Music": {}
+                }
+              },
+              "etc": {
+                "hosts": "127.0.0.1 localhost\n"
+              },
+              "tmp": {}
+            },
+            "goal": {
+              "cmd": "ls -a|ls -la|ls -al"
+            },
+            "answer": "ls -a",
+            "id": "m1-t6",
+            "skillId": "m1-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Zeige alle Dateien im Home-Ordner, auch die versteckten.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                "explanation": "Option `-a`."
+              },
+              "en": {
+                "prompt": "Show all files in the home folder, including hidden ones.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                "explanation": "Option `-a`."
+              }
+            }
+          }
+        ]
+      },
+      "i18n": {
+        "de": {
+          "title": "Orientierung",
+          "summary": "Das Terminal, Ordner und Pfade."
+        },
+        "en": {
+          "title": "Orientation",
+          "summary": "The terminal, folders and paths."
+        }
+      }
+    },
+    {
+      "id": "m2",
+      "title": "Mit Dateien arbeiten",
+      "summary": "Ansehen, anlegen, kopieren, verschieben, löschen und schreiben.",
+      "lessons": [
+        {
+          "id": "m2-l1",
+          "title": "Dateien ansehen: cat, head, wc, grep",
+          "goal": "Du kannst Dateiinhalte anzeigen, zählen und durchsuchen.",
+          "blocks": [
+            {
+              "id": "m2-l1-b1",
+              "type": "text",
+              "markdown": "| Befehl | Was er tut |\n|---|---|\n| `cat datei` | zeigt die ganze Datei |\n| `head -n 2 datei` | nur die ersten 2 Zeilen |\n| `wc -l datei` | zählt die Zeilen |\n| `grep wort datei` | zeigt nur Zeilen, die `wort` enthalten |\n\nBeispiel: `grep milk todo.txt` zeigt `buy milk`. Mit `grep -i` ist Groß- und Kleinschreibung egal.\n\nEin Befehl, der nichts zu melden hat, schweigt. **Keine Ausgabe heißt meist: erfolgreich.** Ein Fehler wird dagegen ausgegeben, zum Beispiel `No such file or directory`.",
+              "i18n": {
+                "de": {
+                  "normal": "| Befehl | Was er tut |\n|---|---|\n| `cat datei` | zeigt die ganze Datei |\n| `head -n 2 datei` | nur die ersten 2 Zeilen |\n| `wc -l datei` | zählt die Zeilen |\n| `grep wort datei` | zeigt nur Zeilen, die `wort` enthalten |\n\nBeispiel: `grep milk todo.txt` zeigt `buy milk`. Mit `grep -i` ist Groß- und Kleinschreibung egal.\n\nEin Befehl, der nichts zu melden hat, schweigt. **Keine Ausgabe heißt meist: erfolgreich.** Ein Fehler wird dagegen ausgegeben, zum Beispiel `No such file or directory`."
+                },
+                "en": {
+                  "normal": "| Command | What it does |\n|---|---|\n| `cat file` | shows the whole file |\n| `head -n 2 file` | only the first 2 lines |\n| `wc -l file` | counts the lines |\n| `grep word file` | shows only lines that contain `word` |\n\nExample: `grep milk todo.txt` shows `buy milk`. With `grep -i` upper and lower case do not matter.\n\nA command with nothing to report stays silent. **No output usually means: it worked.** An error, on the other hand, is printed, for example `No such file or directory`."
+                }
+              }
+            },
+            {
+              "id": "m2-l1-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "shell",
+                  "prompt": "Zeige den Inhalt von `notes.txt`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "`cat` und der Dateiname.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "cmd": "cat notes.txt"
+                  },
+                  "answer": "cat notes.txt",
+                  "id": "m2-l1-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige den Inhalt von `notes.txt`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "`cat` und der Dateiname."
+                    },
+                    "en": {
+                      "prompt": "Show the contents of `notes.txt`.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "`cat` and the file name."
+                    }
+                  }
+                },
+                {
+                  "kind": "shell",
+                  "prompt": "Zeige nur die erste Zeile von `todo.txt`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "`head` mit der Option `-n 1`.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "cmd": "head -n 1 todo.txt|head -1 todo.txt"
+                  },
+                  "answer": "head -n 1 todo.txt",
+                  "id": "m2-l1-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige nur die erste Zeile von `todo.txt`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "`head` mit der Option `-n 1`."
+                    },
+                    "en": {
+                      "prompt": "Show only the first line of `todo.txt`.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "`head` with the option `-n 1`."
+                    }
+                  }
+                },
+                {
+                  "kind": "shell",
+                  "prompt": "Zähle die Zeilen von `notes.txt`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "`wc -l` zählt Zeilen (lines).",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "cmd": "wc -l notes.txt"
+                  },
+                  "answer": "wc -l notes.txt",
+                  "id": "m2-l1-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zähle die Zeilen von `notes.txt`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "`wc -l` zählt Zeilen (lines)."
+                    },
+                    "en": {
+                      "prompt": "Count the lines of `notes.txt`.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "`wc -l` counts lines."
+                    }
+                  }
+                },
+                {
+                  "kind": "shell",
+                  "prompt": "Zeige die Zeilen von `todo.txt`, die das Wort `milk` enthalten.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "`grep` erst das Wort, dann die Datei.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "cmd": "grep milk todo.txt"
+                  },
+                  "answer": "grep milk todo.txt",
+                  "id": "m2-l1-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Zeige die Zeilen von `todo.txt`, die das Wort `milk` enthalten.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "`grep` erst das Wort, dann die Datei."
+                    },
+                    "en": {
+                      "prompt": "Show the lines of `todo.txt` that contain the word `milk`.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "`grep` first the word, then the file."
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "`ls` zeigt nichts an. Was heißt das?",
+                  "explanation": "Keine Ausgabe heißt: nichts zu melden. Hier: nichts im Ordner.",
+                  "options": [
+                    "Der Ordner ist leer",
+                    "Der Befehl ist abgestürzt",
+                    "Du bist nicht angemeldet",
+                    "Die Datei ist gelöscht"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l1-q5",
+                  "i18n": {
+                    "de": {
+                      "prompt": "`ls` zeigt nichts an. Was heißt das?",
+                      "explanation": "Keine Ausgabe heißt: nichts zu melden. Hier: nichts im Ordner.",
+                      "options": [
+                        "Der Ordner ist leer",
+                        "Der Befehl ist abgestürzt",
+                        "Du bist nicht angemeldet",
+                        "Die Datei ist gelöscht"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "`ls` shows nothing. What does that mean?",
+                      "explanation": "No output means: nothing to report. Here: nothing in the folder.",
+                      "options": [
+                        "The folder is empty",
+                        "The command crashed",
+                        "You are not logged in",
+                        "The file is deleted"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Dateien ansehen: cat, head, wc, grep",
+              "goal": "Du kannst Dateiinhalte anzeigen, zählen und durchsuchen."
+            },
+            "en": {
+              "title": "Looking at files: cat, head, wc, grep",
+              "goal": "You can show, count and search file contents."
+            }
+          }
+        },
+        {
+          "id": "m2-l2",
+          "title": "Anlegen, kopieren, verschieben, löschen",
+          "goal": "Du kannst mit mkdir, touch, cp, mv und rm Dateien und Ordner verwalten.",
+          "blocks": [
+            {
+              "id": "m2-l2-b1",
+              "type": "text",
+              "markdown": "| Befehl | Was er tut |\n|---|---|\n| `mkdir name` | legt einen **Ordner** an |\n| `touch datei` | legt eine **leere Datei** an |\n| `cp quelle ziel` | **kopiert** |\n| `mv quelle ziel` | **verschiebt** oder **benennt um** |\n| `rm datei` | **löscht** eine Datei |\n| `rm -r ordner` | löscht einen Ordner mit allem darin |\n\n**Wichtig:** Die Shell hat **keinen Papierkorb**. `rm` ist endgültig. Frage dich vor jedem `rm`: *Ist das die richtige Datei?* Prüfe mit `ls` und `pwd`.\n\n`mv alt neu` im selben Ordner **benennt um**. `mv datei Ordner` verschiebt in den Ordner. Zeigt das Ziel auf einen vorhandenen Ordner, kommt die Datei hinein.",
+              "i18n": {
+                "de": {
+                  "normal": "| Befehl | Was er tut |\n|---|---|\n| `mkdir name` | legt einen **Ordner** an |\n| `touch datei` | legt eine **leere Datei** an |\n| `cp quelle ziel` | **kopiert** |\n| `mv quelle ziel` | **verschiebt** oder **benennt um** |\n| `rm datei` | **löscht** eine Datei |\n| `rm -r ordner` | löscht einen Ordner mit allem darin |\n\n**Wichtig:** Die Shell hat **keinen Papierkorb**. `rm` ist endgültig. Frage dich vor jedem `rm`: *Ist das die richtige Datei?* Prüfe mit `ls` und `pwd`.\n\n`mv alt neu` im selben Ordner **benennt um**. `mv datei Ordner` verschiebt in den Ordner. Zeigt das Ziel auf einen vorhandenen Ordner, kommt die Datei hinein."
+                },
+                "en": {
+                  "normal": "| Command | What it does |\n|---|---|\n| `mkdir name` | creates a **folder** |\n| `touch file` | creates an **empty file** |\n| `cp source target` | **copies** |\n| `mv source target` | **moves** or **renames** |\n| `rm file` | **deletes** a file |\n| `rm -r folder` | deletes a folder with everything in it |\n\n**Important:** the shell has **no recycle bin**. `rm` is final. Before every `rm` ask yourself: *is this the right file?* Check with `ls` and `pwd`.\n\n`mv old new` in the same folder **renames**. `mv file Folder` moves into the folder. If the target is an existing folder, the file goes inside."
+                }
+              }
+            },
+            {
+              "id": "m2-l2-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "shell",
+                  "prompt": "Lege im Home-Ordner einen Ordner `Projects` an.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "`mkdir` und der Name.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "exists": "/home/anna/Projects"
+                  },
+                  "answer": "mkdir Projects",
+                  "id": "m2-l2-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Lege im Home-Ordner einen Ordner `Projects` an.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "`mkdir` und der Name."
+                    },
+                    "en": {
+                      "prompt": "Create a folder `Projects` in the home folder.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "`mkdir` and the name."
+                    }
+                  }
+                },
+                {
+                  "kind": "shell",
+                  "prompt": "Lege eine leere Datei `ideas.txt` an.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "`touch` legt leere Dateien an.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "exists": "/home/anna/ideas.txt"
+                  },
+                  "answer": "touch ideas.txt",
+                  "id": "m2-l2-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Lege eine leere Datei `ideas.txt` an.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "`touch` legt leere Dateien an."
+                    },
+                    "en": {
+                      "prompt": "Create an empty file `ideas.txt`.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "`touch` creates empty files."
+                    }
+                  }
+                },
+                {
+                  "kind": "shell",
+                  "prompt": "Kopiere `notes.txt` nach `Documents`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "`cp` Quelle Ziel. Das Ziel ist ein Ordner.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "exists": "/home/anna/Documents/notes.txt"
+                  },
+                  "answer": "cp notes.txt Documents",
+                  "id": "m2-l2-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Kopiere `notes.txt` nach `Documents`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "`cp` Quelle Ziel. Das Ziel ist ein Ordner."
+                    },
+                    "en": {
+                      "prompt": "Copy `notes.txt` into `Documents`.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "`cp` source target. The target is a folder."
+                    }
+                  }
+                },
+                {
+                  "kind": "shell",
+                  "prompt": "Benenne `todo.txt` in `tasks.txt` um.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "Umbenennen ist verschieben im selben Ordner.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "exists": "/home/anna/tasks.txt"
+                  },
+                  "answer": "mv todo.txt tasks.txt",
+                  "id": "m2-l2-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Benenne `todo.txt` in `tasks.txt` um.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "Umbenennen ist verschieben im selben Ordner."
+                    },
+                    "en": {
+                      "prompt": "Rename `todo.txt` to `tasks.txt`.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "Renaming is moving within the same folder."
+                    }
+                  }
+                },
+                {
+                  "kind": "shell",
+                  "prompt": "Verschiebe `photo.jpg` aus `Downloads` nach `Music`. Du bist im Home-Ordner.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "Der Quellpfad geht über `Downloads/`.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "exists": "/home/anna/Music/photo.jpg"
+                  },
+                  "answer": "mv Downloads/photo.jpg Music",
+                  "id": "m2-l2-q5",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Verschiebe `photo.jpg` aus `Downloads` nach `Music`. Du bist im Home-Ordner.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "Der Quellpfad geht über `Downloads/`."
+                    },
+                    "en": {
+                      "prompt": "Move `photo.jpg` from `Downloads` into `Music`. You are in the home folder.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "The source path goes through `Downloads/`."
+                    }
+                  }
+                },
+                {
+                  "kind": "shell",
+                  "prompt": "Lösche die Datei `setup.zip` aus `Downloads`, ohne den Ordner zu wechseln.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "`rm` mit relativem Pfad.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "missing": "/home/anna/Downloads/setup.zip"
+                  },
+                  "answer": "rm Downloads/setup.zip",
+                  "id": "m2-l2-q6",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Lösche die Datei `setup.zip` aus `Downloads`, ohne den Ordner zu wechseln.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "`rm` mit relativem Pfad."
+                    },
+                    "en": {
+                      "prompt": "Delete the file `setup.zip` from `Downloads` without changing folder.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "`rm` with a relative path."
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Du hast mit `rm report.txt` eine Datei gelöscht. Wo findest du sie im Papierkorb?",
+                  "explanation": "Die Shell hat keinen Papierkorb.",
+                  "options": [
+                    "Nirgends, `rm` ist endgültig",
+                    "Im Ordner `.trash`",
+                    "Mit `ls -a`",
+                    "Mit `cat`"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l2-q7",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Du hast mit `rm report.txt` eine Datei gelöscht. Wo findest du sie im Papierkorb?",
+                      "explanation": "Die Shell hat keinen Papierkorb.",
+                      "options": [
+                        "Nirgends, `rm` ist endgültig",
+                        "Im Ordner `.trash`",
+                        "Mit `ls -a`",
+                        "Mit `cat`"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "You deleted a file with `rm report.txt`. Where do you find it in the recycle bin?",
+                      "explanation": "The shell has no recycle bin.",
+                      "options": [
+                        "Nowhere, `rm` is final",
+                        "In the folder `.trash`",
+                        "With `ls -a`",
+                        "With `cat`"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Anlegen, kopieren, verschieben, löschen",
+              "goal": "Du kannst mit mkdir, touch, cp, mv und rm Dateien und Ordner verwalten."
+            },
+            "en": {
+              "title": "Create, copy, move, delete",
+              "goal": "You can manage files and folders with mkdir, touch, cp, mv and rm."
+            }
+          }
+        },
+        {
+          "id": "m2-l3",
+          "title": "Text in Dateien schreiben: echo, > und >>",
+          "goal": "Du kannst Text mit echo und Umleitung in Dateien schreiben.",
+          "blocks": [
+            {
+              "id": "m2-l3-b1",
+              "type": "text",
+              "markdown": "`echo text` gibt Text aus. Mit einer **Umleitung** wird die Ausgabe nicht angezeigt, sondern in eine Datei geschrieben:\n\n| Schreibweise | Wirkung |\n|---|---|\n| `echo hallo > datei` | schreibt in die Datei und **überschreibt** den alten Inhalt |\n| `echo mehr >> datei` | **hängt hinten an** |\n\nMerke: **ein Pfeil überschreibt, zwei Pfeile hängen an.** Wer `>` statt `>>` tippt, verliert den bisherigen Inhalt.",
+              "i18n": {
+                "de": {
+                  "normal": "`echo text` gibt Text aus. Mit einer **Umleitung** wird die Ausgabe nicht angezeigt, sondern in eine Datei geschrieben:\n\n| Schreibweise | Wirkung |\n|---|---|\n| `echo hallo > datei` | schreibt in die Datei und **überschreibt** den alten Inhalt |\n| `echo mehr >> datei` | **hängt hinten an** |\n\nMerke: **ein Pfeil überschreibt, zwei Pfeile hängen an.** Wer `>` statt `>>` tippt, verliert den bisherigen Inhalt."
+                },
+                "en": {
+                  "normal": "`echo text` prints text. With a **redirection** the output is not shown but written into a file:\n\n| Notation | Effect |\n|---|---|\n| `echo hello > file` | writes into the file and **overwrites** the old content |\n| `echo more >> file` | **appends at the end** |\n\nRemember: **one arrow overwrites, two arrows append.** If you type `>` instead of `>>` you lose the earlier content."
+                }
+              }
+            },
+            {
+              "id": "m2-l3-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "shell",
+                  "prompt": "Schreibe das Wort `hello` in eine neue Datei `greeting.txt`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "`echo`, dann `>` und der Dateiname.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "file": "/home/anna/greeting.txt",
+                    "equals": "hello"
+                  },
+                  "answer": "echo hello > greeting.txt",
+                  "id": "m2-l3-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Schreibe das Wort `hello` in eine neue Datei `greeting.txt`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "`echo`, dann `>` und der Dateiname."
+                    },
+                    "en": {
+                      "prompt": "Write the word `hello` into a new file `greeting.txt`.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "`echo`, then `>` and the file name."
+                    }
+                  }
+                },
+                {
+                  "kind": "shell",
+                  "prompt": "Hänge die Zeile `jam` an `notes.txt` an, ohne den Inhalt zu verlieren.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "Zwei Pfeile hängen an.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "file": "/home/anna/notes.txt",
+                    "equals": "milk bread eggs jam"
+                  },
+                  "answer": "echo jam >> notes.txt",
+                  "id": "m2-l3-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Hänge die Zeile `jam` an `notes.txt` an, ohne den Inhalt zu verlieren.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "Zwei Pfeile hängen an."
+                    },
+                    "en": {
+                      "prompt": "Append the line `jam` to `notes.txt` without losing the content.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "Two arrows append."
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Was macht `echo neu > notes.txt` mit dem alten Inhalt von `notes.txt`?",
+                  "explanation": "Ein einzelner Pfeil ersetzt den Inhalt.",
+                  "options": [
+                    "Er wird überschrieben",
+                    "Er bleibt davor stehen",
+                    "Er wird gelöscht und gesichert",
+                    "Nichts"
+                  ],
+                  "answer": 0,
+                  "id": "m2-l3-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was macht `echo neu > notes.txt` mit dem alten Inhalt von `notes.txt`?",
+                      "explanation": "Ein einzelner Pfeil ersetzt den Inhalt.",
+                      "options": [
+                        "Er wird überschrieben",
+                        "Er bleibt davor stehen",
+                        "Er wird gelöscht und gesichert",
+                        "Nichts"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "What does `echo new > notes.txt` do with the old content of `notes.txt`?",
+                      "explanation": "A single arrow replaces the content.",
+                      "options": [
+                        "It is overwritten",
+                        "It stays in front",
+                        "It is deleted and saved",
+                        "Nothing"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Text in Dateien schreiben: echo, > und >>",
+              "goal": "Du kannst Text mit echo und Umleitung in Dateien schreiben."
+            },
+            "en": {
+              "title": "Writing text into files: echo, > and >>",
+              "goal": "You can write text into files with echo and redirection."
+            }
+          }
+        }
+      ],
+      "test": {
+        "id": "m2-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "kind": "shell",
+            "prompt": "Zeige die ersten zwei Zeilen von `notes.txt`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+            "explanation": "`head -n 2`.",
+            "fs": {
+              "home": {
+                "anna": {
+                  "notes.txt": "milk\nbread\neggs\n",
+                  "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                  ".config": "theme=dark\n",
+                  "Documents": {
+                    "report.txt": "Q1 results\nQ2 results\n",
+                    "letter.txt": "Dear Bob\n",
+                    "Archive": {}
+                  },
+                  "Downloads": {
+                    "photo.jpg": "IMG",
+                    "setup.zip": "ZIP"
+                  },
+                  "Music": {}
+                }
+              },
+              "etc": {
+                "hosts": "127.0.0.1 localhost\n"
+              },
+              "tmp": {}
+            },
+            "goal": {
+              "cmd": "head -n 2 notes.txt|head -2 notes.txt"
+            },
+            "answer": "head -n 2 notes.txt",
+            "id": "m2-t1",
+            "skillId": "m2-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Zeige die ersten zwei Zeilen von `notes.txt`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                "explanation": "`head -n 2`."
+              },
+              "en": {
+                "prompt": "Show the first two lines of `notes.txt`.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                "explanation": "`head -n 2`."
+              }
+            }
+          },
+          {
+            "kind": "shell",
+            "prompt": "Lege `Backup` an und kopiere `todo.txt` hinein.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+            "explanation": "Erst `mkdir`, dann `cp`.",
+            "fs": {
+              "home": {
+                "anna": {
+                  "notes.txt": "milk\nbread\neggs\n",
+                  "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                  ".config": "theme=dark\n",
+                  "Documents": {
+                    "report.txt": "Q1 results\nQ2 results\n",
+                    "letter.txt": "Dear Bob\n",
+                    "Archive": {}
+                  },
+                  "Downloads": {
+                    "photo.jpg": "IMG",
+                    "setup.zip": "ZIP"
+                  },
+                  "Music": {}
+                }
+              },
+              "etc": {
+                "hosts": "127.0.0.1 localhost\n"
+              },
+              "tmp": {}
+            },
+            "goal": {
+              "exists": "/home/anna/Backup/todo.txt"
+            },
+            "answer": "mkdir Backup; cp todo.txt Backup",
+            "id": "m2-t2",
+            "skillId": "m2-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Lege `Backup` an und kopiere `todo.txt` hinein.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                "explanation": "Erst `mkdir`, dann `cp`."
+              },
+              "en": {
+                "prompt": "Create `Backup` and copy `todo.txt` into it.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                "explanation": "First `mkdir`, then `cp`."
+              }
+            }
+          },
+          {
+            "kind": "shell",
+            "prompt": "Lösche `letter.txt` aus `Documents`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+            "explanation": "`rm` und der Pfad.",
+            "fs": {
+              "home": {
+                "anna": {
+                  "notes.txt": "milk\nbread\neggs\n",
+                  "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                  ".config": "theme=dark\n",
+                  "Documents": {
+                    "report.txt": "Q1 results\nQ2 results\n",
+                    "letter.txt": "Dear Bob\n",
+                    "Archive": {}
+                  },
+                  "Downloads": {
+                    "photo.jpg": "IMG",
+                    "setup.zip": "ZIP"
+                  },
+                  "Music": {}
+                }
+              },
+              "etc": {
+                "hosts": "127.0.0.1 localhost\n"
+              },
+              "tmp": {}
+            },
+            "goal": {
+              "missing": "/home/anna/Documents/letter.txt"
+            },
+            "answer": "rm Documents/letter.txt",
+            "id": "m2-t3",
+            "skillId": "m2-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Lösche `letter.txt` aus `Documents`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                "explanation": "`rm` und der Pfad."
+              },
+              "en": {
+                "prompt": "Delete `letter.txt` from `Documents`.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                "explanation": "`rm` and the path."
+              }
+            }
+          },
+          {
+            "kind": "shell",
+            "prompt": "Schreibe `done` in eine neue Datei `status.txt`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+            "explanation": "`echo ... > datei`.",
+            "fs": {
+              "home": {
+                "anna": {
+                  "notes.txt": "milk\nbread\neggs\n",
+                  "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                  ".config": "theme=dark\n",
+                  "Documents": {
+                    "report.txt": "Q1 results\nQ2 results\n",
+                    "letter.txt": "Dear Bob\n",
+                    "Archive": {}
+                  },
+                  "Downloads": {
+                    "photo.jpg": "IMG",
+                    "setup.zip": "ZIP"
+                  },
+                  "Music": {}
+                }
+              },
+              "etc": {
+                "hosts": "127.0.0.1 localhost\n"
+              },
+              "tmp": {}
+            },
+            "goal": {
+              "file": "/home/anna/status.txt",
+              "equals": "done"
+            },
+            "answer": "echo done > status.txt",
+            "id": "m2-t4",
+            "skillId": "m2-l3",
+            "i18n": {
+              "de": {
+                "prompt": "Schreibe `done` in eine neue Datei `status.txt`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                "explanation": "`echo ... > datei`."
+              },
+              "en": {
+                "prompt": "Write `done` into a new file `status.txt`.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                "explanation": "`echo ... > file`."
+              }
+            }
+          },
+          {
+            "kind": "multiple-choice",
+            "prompt": "Welcher Befehl hängt Text an eine Datei an?",
+            "explanation": "Zwei Pfeile hängen an.",
+            "options": [
+              "echo x >> datei",
+              "echo x > datei",
+              "cat x datei",
+              "append x datei"
+            ],
+            "answer": 0,
+            "id": "m2-t5",
+            "skillId": "m2-l3",
+            "i18n": {
+              "de": {
+                "prompt": "Welcher Befehl hängt Text an eine Datei an?",
+                "explanation": "Zwei Pfeile hängen an.",
+                "options": [
+                  "echo x >> datei",
+                  "echo x > datei",
+                  "cat x datei",
+                  "append x datei"
+                ]
+              },
+              "en": {
+                "prompt": "Which command appends text to a file?",
+                "explanation": "Two arrows append.",
+                "options": [
+                  "echo x >> file",
+                  "echo x > file",
+                  "cat x file",
+                  "append x file"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "shell",
+            "prompt": "Zähle die Zeilen von `todo.txt`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+            "explanation": "`wc -l`.",
+            "fs": {
+              "home": {
+                "anna": {
+                  "notes.txt": "milk\nbread\neggs\n",
+                  "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                  ".config": "theme=dark\n",
+                  "Documents": {
+                    "report.txt": "Q1 results\nQ2 results\n",
+                    "letter.txt": "Dear Bob\n",
+                    "Archive": {}
+                  },
+                  "Downloads": {
+                    "photo.jpg": "IMG",
+                    "setup.zip": "ZIP"
+                  },
+                  "Music": {}
+                }
+              },
+              "etc": {
+                "hosts": "127.0.0.1 localhost\n"
+              },
+              "tmp": {}
+            },
+            "goal": {
+              "cmd": "wc -l todo.txt"
+            },
+            "answer": "wc -l todo.txt",
+            "id": "m2-t6",
+            "skillId": "m2-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Zähle die Zeilen von `todo.txt`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                "explanation": "`wc -l`."
+              },
+              "en": {
+                "prompt": "Count the lines of `todo.txt`.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                "explanation": "`wc -l`."
+              }
+            }
+          }
+        ]
+      },
+      "i18n": {
+        "de": {
+          "title": "Mit Dateien arbeiten",
+          "summary": "Ansehen, anlegen, kopieren, verschieben, löschen und schreiben."
+        },
+        "en": {
+          "title": "Working with files",
+          "summary": "Look, create, copy, move, delete and write."
+        }
+      }
+    },
+    {
+      "id": "m3",
+      "title": "Rechte, Hilfe und Praxis",
+      "summary": "Rechte lesen, Hilfe finden und Aufgaben lösen.",
+      "lessons": [
+        {
+          "id": "m3-l1",
+          "title": "Rechte lesen und Hilfe finden",
+          "goal": "Du kannst die Ausgabe von ls -l lesen und weißt, wie du Hilfe bekommst.",
+          "blocks": [
+            {
+              "id": "m3-l1-b1",
+              "type": "text",
+              "markdown": "`ls -l` zeigt pro Datei eine Zeile:\n\n```\n-rw-r--r-- 1 anna anna 17 notes.txt\ndrwxr-xr-x 1 anna anna 4096 Music\n```\n\nDie ersten zehn Zeichen sind der **Typ** und die **Rechte**:\n\n- Zeichen 1: `-` Datei, `d` Ordner (directory).\n- Dann **drei Dreiergruppen**: Besitzer (`rw-`), Gruppe (`r--`), alle anderen (`r--`).\n- `r` lesen, `w` schreiben, `x` ausführen (bei Ordnern: hineinwechseln), `-` nicht erlaubt.\n\n`-rw-r--r--` heißt also: Datei, der Besitzer darf lesen und schreiben, alle anderen nur lesen.\n\n**Hilfe bekommst du so:** `befehl --help` zeigt eine Kurzhilfe, `man befehl` das Handbuch. Und: `sudo` führt einen Befehl als Administrator aus. Das ist mächtig und gefährlich. Nimm es nur, wenn du genau weißt, was du tust.",
+              "i18n": {
+                "de": {
+                  "normal": "`ls -l` zeigt pro Datei eine Zeile:\n\n```\n-rw-r--r-- 1 anna anna 17 notes.txt\ndrwxr-xr-x 1 anna anna 4096 Music\n```\n\nDie ersten zehn Zeichen sind der **Typ** und die **Rechte**:\n\n- Zeichen 1: `-` Datei, `d` Ordner (directory).\n- Dann **drei Dreiergruppen**: Besitzer (`rw-`), Gruppe (`r--`), alle anderen (`r--`).\n- `r` lesen, `w` schreiben, `x` ausführen (bei Ordnern: hineinwechseln), `-` nicht erlaubt.\n\n`-rw-r--r--` heißt also: Datei, der Besitzer darf lesen und schreiben, alle anderen nur lesen.\n\n**Hilfe bekommst du so:** `befehl --help` zeigt eine Kurzhilfe, `man befehl` das Handbuch. Und: `sudo` führt einen Befehl als Administrator aus. Das ist mächtig und gefährlich. Nimm es nur, wenn du genau weißt, was du tust."
+                },
+                "en": {
+                  "normal": "`ls -l` shows one line per file:\n\n```\n-rw-r--r-- 1 anna anna 17 notes.txt\ndrwxr-xr-x 1 anna anna 4096 Music\n```\n\nThe first ten characters are the **type** and the **permissions**:\n\n- Character 1: `-` file, `d` folder (directory).\n- Then **three groups of three**: owner (`rw-`), group (`r--`), everyone else (`r--`).\n- `r` read, `w` write, `x` execute (for folders: enter), `-` not allowed.\n\nSo `-rw-r--r--` means: a file, the owner may read and write, everyone else may only read.\n\n**You get help like this:** `command --help` shows a short help, `man command` the manual. And: `sudo` runs a command as administrator. That is powerful and dangerous. Use it only if you know exactly what you are doing."
+                }
+              }
+            },
+            {
+              "id": "m3-l1-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Was bedeutet `-rw-r--r--`?",
+                  "explanation": "`-` Datei, `rw-` Besitzer, `r--` Gruppe, `r--` alle anderen.",
+                  "options": [
+                    "Datei; Besitzer liest und schreibt, alle anderen lesen nur",
+                    "Ordner; alle dürfen alles",
+                    "Datei; nur der Besitzer darf lesen",
+                    "Ordner; nur lesen"
+                  ],
+                  "answer": 0,
+                  "id": "m3-l1-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Was bedeutet `-rw-r--r--`?",
+                      "explanation": "`-` Datei, `rw-` Besitzer, `r--` Gruppe, `r--` alle anderen.",
+                      "options": [
+                        "Datei; Besitzer liest und schreibt, alle anderen lesen nur",
+                        "Ordner; alle dürfen alles",
+                        "Datei; nur der Besitzer darf lesen",
+                        "Ordner; nur lesen"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "What does `-rw-r--r--` mean?",
+                      "explanation": "`-` file, `rw-` owner, `r--` group, `r--` everyone else.",
+                      "options": [
+                        "File; the owner reads and writes, everyone else only reads",
+                        "Folder; everyone may do everything",
+                        "File; only the owner may read",
+                        "Folder; read only"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "multiple-choice",
+                  "prompt": "Womit beginnt die Rechte-Spalte eines Ordners in `ls -l`?",
+                  "explanation": "`d` steht für directory.",
+                  "options": [
+                    "d",
+                    "-",
+                    "f",
+                    "x"
+                  ],
+                  "answer": 0,
+                  "id": "m3-l1-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Womit beginnt die Rechte-Spalte eines Ordners in `ls -l`?",
+                      "explanation": "`d` steht für directory.",
+                      "options": [
+                        "d",
+                        "-",
+                        "f",
+                        "x"
+                      ]
+                    },
+                    "en": {
+                      "prompt": "What does the permissions column of a folder start with in `ls -l`?",
+                      "explanation": "`d` stands for directory.",
+                      "options": [
+                        "d",
+                        "-",
+                        "f",
+                        "x"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "matching",
+                  "prompt": "Ordne jedem Weg zur Hilfe seine Wirkung zu.",
+                  "explanation": "So kommst du ohne Suchmaschine weiter.",
+                  "pairs": [
+                    {
+                      "left": "ls --help",
+                      "right": "Kurzhilfe zu `ls`"
+                    },
+                    {
+                      "left": "man ls",
+                      "right": "Handbuch zu `ls`"
+                    },
+                    {
+                      "left": "sudo ls",
+                      "right": "Führt `ls` als Administrator aus"
+                    },
+                    {
+                      "left": "Tab-Taste",
+                      "right": "Vervollständigt Namen"
+                    }
+                  ],
+                  "id": "m3-l1-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Ordne jedem Weg zur Hilfe seine Wirkung zu.",
+                      "explanation": "So kommst du ohne Suchmaschine weiter.",
+                      "pairs": [
+                        {
+                          "left": "ls --help",
+                          "right": "Kurzhilfe zu `ls`"
+                        },
+                        {
+                          "left": "man ls",
+                          "right": "Handbuch zu `ls`"
+                        },
+                        {
+                          "left": "sudo ls",
+                          "right": "Führt `ls` als Administrator aus"
+                        },
+                        {
+                          "left": "Tab-Taste",
+                          "right": "Vervollständigt Namen"
+                        }
+                      ]
+                    },
+                    "en": {
+                      "prompt": "Match every way to get help with its effect.",
+                      "explanation": "This gets you further without a search engine.",
+                      "pairs": [
+                        {
+                          "left": "ls --help",
+                          "right": "Short help for `ls`"
+                        },
+                        {
+                          "left": "man ls",
+                          "right": "Manual for `ls`"
+                        },
+                        {
+                          "left": "sudo ls",
+                          "right": "Runs `ls` as administrator"
+                        },
+                        {
+                          "left": "Tab key",
+                          "right": "Completes names"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "kind": "true-false",
+                  "prompt": "`sudo` sollte man bei jedem Befehl vorsichtshalber davorsetzen.",
+                  "explanation": "Nein. `sudo` hebelt Schutzmechanismen aus. Nur verwenden, wenn nötig.",
+                  "answer": false,
+                  "id": "m3-l1-q4",
+                  "i18n": {
+                    "de": {
+                      "prompt": "`sudo` sollte man bei jedem Befehl vorsichtshalber davorsetzen.",
+                      "explanation": "Nein. `sudo` hebelt Schutzmechanismen aus. Nur verwenden, wenn nötig."
+                    },
+                    "en": {
+                      "prompt": "You should put `sudo` in front of every command to be safe.",
+                      "explanation": "No. `sudo` bypasses protections. Use it only when needed."
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Rechte lesen und Hilfe finden",
+              "goal": "Du kannst die Ausgabe von ls -l lesen und weißt, wie du Hilfe bekommst."
+            },
+            "en": {
+              "title": "Reading permissions and finding help",
+              "goal": "You can read the output of ls -l and know how to get help."
+            }
+          }
+        },
+        {
+          "id": "m3-l2",
+          "title": "Alles zusammen: kleine Aufgaben",
+          "goal": "Du kannst mehrere Befehle zu einer Aufgabe kombinieren.",
+          "blocks": [
+            {
+              "id": "m3-l2-b1",
+              "type": "text",
+              "markdown": "Echte Aufgaben brauchen **mehrere Befehle nacheinander**. Gehe so vor:\n\n1. **Orientieren**: `pwd`, `ls`.\n2. **Planen**: Welche Schritte? Welche Pfade?\n3. **Ausführen**, Schritt für Schritt.\n4. **Prüfen**: `ls` oder `cat`, ob es stimmt.\n\nDu darfst so viele Befehle tippen, wie du brauchst. Die Aufgabe ist erledigt, sobald der Zustand stimmt.",
+              "i18n": {
+                "de": {
+                  "normal": "Echte Aufgaben brauchen **mehrere Befehle nacheinander**. Gehe so vor:\n\n1. **Orientieren**: `pwd`, `ls`.\n2. **Planen**: Welche Schritte? Welche Pfade?\n3. **Ausführen**, Schritt für Schritt.\n4. **Prüfen**: `ls` oder `cat`, ob es stimmt.\n\nDu darfst so viele Befehle tippen, wie du brauchst. Die Aufgabe ist erledigt, sobald der Zustand stimmt."
+                },
+                "en": {
+                  "normal": "Real tasks need **several commands one after another**. Work like this:\n\n1. **Look around**: `pwd`, `ls`.\n2. **Plan**: which steps? which paths?\n3. **Run** step by step.\n4. **Check**: `ls` or `cat`, whether it fits.\n\nYou may type as many commands as you need. The task is done as soon as the state is right."
+                }
+              }
+            },
+            {
+              "id": "m3-l2-b2",
+              "type": "quiz",
+              "questions": [
+                {
+                  "kind": "shell",
+                  "prompt": "Lege in `Documents` einen Ordner `2026` an und verschiebe `report.txt` dort hinein.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "Erst in den Ordner wechseln oder Pfade ausschreiben.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "exists": "/home/anna/Documents/2026/report.txt"
+                  },
+                  "answer": "cd Documents; mkdir 2026; mv report.txt 2026",
+                  "id": "m3-l2-q1",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Lege in `Documents` einen Ordner `2026` an und verschiebe `report.txt` dort hinein.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "Erst in den Ordner wechseln oder Pfade ausschreiben."
+                    },
+                    "en": {
+                      "prompt": "Create a folder `2026` in `Documents` and move `report.txt` into it.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "First change into the folder or write the full paths."
+                    }
+                  }
+                },
+                {
+                  "kind": "shell",
+                  "prompt": "Mache eine Sicherung: kopiere `notes.txt` als `notes.bak` im selben Ordner.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "`cp` mit einem neuen Namen als Ziel.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "exists": "/home/anna/notes.bak"
+                  },
+                  "answer": "cp notes.txt notes.bak",
+                  "id": "m3-l2-q2",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Mache eine Sicherung: kopiere `notes.txt` als `notes.bak` im selben Ordner.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "`cp` mit einem neuen Namen als Ziel."
+                    },
+                    "en": {
+                      "prompt": "Make a backup: copy `notes.txt` as `notes.bak` in the same folder.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "`cp` with a new name as the target."
+                    }
+                  }
+                },
+                {
+                  "kind": "shell",
+                  "prompt": "Schreibe die Zeile `buy jam` ans Ende von `todo.txt` und zähle dann die Zeilen der Datei.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                  "explanation": "Erst anhängen, dann zählen.",
+                  "fs": {
+                    "home": {
+                      "anna": {
+                        "notes.txt": "milk\nbread\neggs\n",
+                        "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                        ".config": "theme=dark\n",
+                        "Documents": {
+                          "report.txt": "Q1 results\nQ2 results\n",
+                          "letter.txt": "Dear Bob\n",
+                          "Archive": {}
+                        },
+                        "Downloads": {
+                          "photo.jpg": "IMG",
+                          "setup.zip": "ZIP"
+                        },
+                        "Music": {}
+                      }
+                    },
+                    "etc": {
+                      "hosts": "127.0.0.1 localhost\n"
+                    },
+                    "tmp": {}
+                  },
+                  "goal": {
+                    "cmd": "wc -l todo.txt"
+                  },
+                  "answer": "echo buy jam >> todo.txt; wc -l todo.txt",
+                  "id": "m3-l2-q3",
+                  "i18n": {
+                    "de": {
+                      "prompt": "Schreibe die Zeile `buy jam` ans Ende von `todo.txt` und zähle dann die Zeilen der Datei.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                      "explanation": "Erst anhängen, dann zählen."
+                    },
+                    "en": {
+                      "prompt": "Write the line `buy jam` at the end of `todo.txt`, then count the lines of the file.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                      "explanation": "First append, then count."
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "i18n": {
+            "de": {
+              "title": "Alles zusammen: kleine Aufgaben",
+              "goal": "Du kannst mehrere Befehle zu einer Aufgabe kombinieren."
+            },
+            "en": {
+              "title": "Everything together: small tasks",
+              "goal": "You can combine several commands into one task."
+            }
+          }
+        }
+      ],
+      "test": {
+        "id": "m3-test",
+        "type": "module-test",
+        "questions": [
+          {
+            "kind": "multiple-choice",
+            "prompt": "Wie bekommst du eine Kurzhilfe zu `cp`?",
+            "explanation": "`--help` oder `man cp`.",
+            "options": [
+              "cp --help",
+              "cp ?",
+              "help cp!",
+              "cp -h -h"
+            ],
+            "answer": 0,
+            "id": "m3-t1",
+            "skillId": "m3-l1",
+            "i18n": {
+              "de": {
+                "prompt": "Wie bekommst du eine Kurzhilfe zu `cp`?",
+                "explanation": "`--help` oder `man cp`.",
+                "options": [
+                  "cp --help",
+                  "cp ?",
+                  "help cp!",
+                  "cp -h -h"
+                ]
+              },
+              "en": {
+                "prompt": "How do you get a short help for `cp`?",
+                "explanation": "`--help` or `man cp`.",
+                "options": [
+                  "cp --help",
+                  "cp ?",
+                  "help cp!",
+                  "cp -h -h"
+                ]
+              }
+            }
+          },
+          {
+            "kind": "shell",
+            "prompt": "Erstelle `Work`, wechsle hinein und lege dort die Datei `a.txt` an.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+            "explanation": "Drei Befehle nacheinander.",
+            "fs": {
+              "home": {
+                "anna": {
+                  "notes.txt": "milk\nbread\neggs\n",
+                  "todo.txt": "call Bob\nbuy milk\npay rent\n",
+                  ".config": "theme=dark\n",
+                  "Documents": {
+                    "report.txt": "Q1 results\nQ2 results\n",
+                    "letter.txt": "Dear Bob\n",
+                    "Archive": {}
+                  },
+                  "Downloads": {
+                    "photo.jpg": "IMG",
+                    "setup.zip": "ZIP"
+                  },
+                  "Music": {}
+                }
+              },
+              "etc": {
+                "hosts": "127.0.0.1 localhost\n"
+              },
+              "tmp": {}
+            },
+            "goal": {
+              "exists": "/home/anna/Work/a.txt"
+            },
+            "answer": "mkdir Work; cd Work; touch a.txt",
+            "id": "m3-t2",
+            "skillId": "m3-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Erstelle `Work`, wechsle hinein und lege dort die Datei `a.txt` an.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+                "explanation": "Drei Befehle nacheinander."
+              },
+              "en": {
+                "prompt": "Create `Work`, change into it and create the file `a.txt` there.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+                "explanation": "Three commands in a row."
+              }
+            }
+          },
+          {
+            "kind": "true-false",
+            "prompt": "Ein Befehl ohne Ausgabe ist fast immer fehlgeschlagen.",
+            "explanation": "Meist ist er gelungen und hatte nichts zu melden.",
+            "answer": false,
+            "id": "m3-t3",
+            "skillId": "m3-l2",
+            "i18n": {
+              "de": {
+                "prompt": "Ein Befehl ohne Ausgabe ist fast immer fehlgeschlagen.",
+                "explanation": "Meist ist er gelungen und hatte nichts zu melden."
+              },
+              "en": {
+                "prompt": "A command without output has almost always failed.",
+                "explanation": "Usually it worked and had nothing to report."
+              }
+            }
+          }
+        ]
+      },
+      "i18n": {
+        "de": {
+          "title": "Rechte, Hilfe und Praxis",
+          "summary": "Rechte lesen, Hilfe finden und Aufgaben lösen."
+        },
+        "en": {
+          "title": "Permissions, help and practice",
+          "summary": "Read permissions, find help and solve tasks."
+        }
+      }
+    }
+  ],
+  "finalExam": {
+    "id": "final-exam",
+    "type": "final-exam",
+    "questions": [
+      {
+        "kind": "shell",
+        "prompt": "Wechsle nach `Documents`, lege dort `Archive/old` an (beide Ebenen mit einem Befehl) und bleibe in `Documents`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+        "explanation": "`mkdir -p` legt alle Ebenen an.",
+        "fs": {
+          "home": {
+            "anna": {
+              "notes.txt": "milk\nbread\neggs\n",
+              "todo.txt": "call Bob\nbuy milk\npay rent\n",
+              ".config": "theme=dark\n",
+              "Documents": {
+                "report.txt": "Q1 results\nQ2 results\n",
+                "letter.txt": "Dear Bob\n",
+                "Archive": {}
+              },
+              "Downloads": {
+                "photo.jpg": "IMG",
+                "setup.zip": "ZIP"
+              },
+              "Music": {}
+            }
+          },
+          "etc": {
+            "hosts": "127.0.0.1 localhost\n"
+          },
+          "tmp": {}
+        },
+        "goal": {
+          "exists": "/home/anna/Documents/Archive/old"
+        },
+        "answer": "cd Documents; mkdir -p Archive/old",
+        "id": "fex-q1",
+        "skillId": "m2-l2",
+        "i18n": {
+          "de": {
+            "prompt": "Wechsle nach `Documents`, lege dort `Archive/old` an (beide Ebenen mit einem Befehl) und bleibe in `Documents`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+            "explanation": "`mkdir -p` legt alle Ebenen an."
+          },
+          "en": {
+            "prompt": "Change into `Documents`, create `Archive/old` there (both levels in one command) and stay in `Documents`.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+            "explanation": "`mkdir -p` creates all levels."
+          }
+        }
+      },
+      {
+        "kind": "shell",
+        "prompt": "Verschiebe `setup.zip` aus `Downloads` nach `/tmp`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+        "explanation": "Ziel mit absolutem Pfad.",
+        "fs": {
+          "home": {
+            "anna": {
+              "notes.txt": "milk\nbread\neggs\n",
+              "todo.txt": "call Bob\nbuy milk\npay rent\n",
+              ".config": "theme=dark\n",
+              "Documents": {
+                "report.txt": "Q1 results\nQ2 results\n",
+                "letter.txt": "Dear Bob\n",
+                "Archive": {}
+              },
+              "Downloads": {
+                "photo.jpg": "IMG",
+                "setup.zip": "ZIP"
+              },
+              "Music": {}
+            }
+          },
+          "etc": {
+            "hosts": "127.0.0.1 localhost\n"
+          },
+          "tmp": {}
+        },
+        "goal": {
+          "exists": "/tmp/setup.zip"
+        },
+        "answer": "mv Downloads/setup.zip /tmp",
+        "id": "fex-q2",
+        "skillId": "m2-l2",
+        "i18n": {
+          "de": {
+            "prompt": "Verschiebe `setup.zip` aus `Downloads` nach `/tmp`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+            "explanation": "Ziel mit absolutem Pfad."
+          },
+          "en": {
+            "prompt": "Move `setup.zip` from `Downloads` into `/tmp`.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+            "explanation": "The target as an absolute path."
+          }
+        }
+      },
+      {
+        "kind": "shell",
+        "prompt": "Finde heraus, welche Zeile in `todo.txt` das Wort `rent` enthält.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+        "explanation": "`grep`.",
+        "fs": {
+          "home": {
+            "anna": {
+              "notes.txt": "milk\nbread\neggs\n",
+              "todo.txt": "call Bob\nbuy milk\npay rent\n",
+              ".config": "theme=dark\n",
+              "Documents": {
+                "report.txt": "Q1 results\nQ2 results\n",
+                "letter.txt": "Dear Bob\n",
+                "Archive": {}
+              },
+              "Downloads": {
+                "photo.jpg": "IMG",
+                "setup.zip": "ZIP"
+              },
+              "Music": {}
+            }
+          },
+          "etc": {
+            "hosts": "127.0.0.1 localhost\n"
+          },
+          "tmp": {}
+        },
+        "goal": {
+          "cmd": "grep rent todo.txt"
+        },
+        "answer": "grep rent todo.txt",
+        "id": "fex-q3",
+        "skillId": "m2-l1",
+        "i18n": {
+          "de": {
+            "prompt": "Finde heraus, welche Zeile in `todo.txt` das Wort `rent` enthält.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+            "explanation": "`grep`."
+          },
+          "en": {
+            "prompt": "Find out which line of `todo.txt` contains the word `rent`.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+            "explanation": "`grep`."
+          }
+        }
+      },
+      {
+        "kind": "shell",
+        "prompt": "Du bist in `/etc`. Gehe mit **einem** Befehl nach Hause und prüfe mit `pwd`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+        "explanation": "`cd ~` oder `cd`.",
+        "fs": {
+          "home": {
+            "anna": {
+              "notes.txt": "milk\nbread\neggs\n",
+              "todo.txt": "call Bob\nbuy milk\npay rent\n",
+              ".config": "theme=dark\n",
+              "Documents": {
+                "report.txt": "Q1 results\nQ2 results\n",
+                "letter.txt": "Dear Bob\n",
+                "Archive": {}
+              },
+              "Downloads": {
+                "photo.jpg": "IMG",
+                "setup.zip": "ZIP"
+              },
+              "Music": {}
+            }
+          },
+          "etc": {
+            "hosts": "127.0.0.1 localhost\n"
+          },
+          "tmp": {}
+        },
+        "goal": {
+          "cmd": "pwd"
+        },
+        "answer": "cd ~; pwd",
+        "cwd": "/etc",
+        "id": "fex-q4",
+        "skillId": "m1-l2",
+        "i18n": {
+          "de": {
+            "prompt": "Du bist in `/etc`. Gehe mit **einem** Befehl nach Hause und prüfe mit `pwd`.\n\n*Gib die Befehle in das Terminal ein. Es ist nur eine Übung, nichts geht kaputt.*",
+            "explanation": "`cd ~` oder `cd`."
+          },
+          "en": {
+            "prompt": "You are in `/etc`. Go home with **one** command and check with `pwd`.\n\n*Type the commands into the terminal. It is only practice, nothing can break.*",
+            "explanation": "`cd ~` or `cd`."
+          }
+        }
+      },
+      {
+        "kind": "multiple-choice",
+        "prompt": "Welcher Befehl löscht einen Ordner samt Inhalt?",
+        "explanation": "`-r` steht für rekursiv.",
+        "options": [
+          "rm -r ordner",
+          "rm ordner",
+          "mkdir -d ordner",
+          "cd ordner"
+        ],
+        "answer": 0,
+        "id": "fex-q5",
+        "skillId": "m2-l2",
+        "i18n": {
+          "de": {
+            "prompt": "Welcher Befehl löscht einen Ordner samt Inhalt?",
+            "explanation": "`-r` steht für rekursiv.",
+            "options": [
+              "rm -r ordner",
+              "rm ordner",
+              "mkdir -d ordner",
+              "cd ordner"
+            ]
+          },
+          "en": {
+            "prompt": "Which command deletes a folder with its contents?",
+            "explanation": "`-r` stands for recursive.",
+            "options": [
+              "rm -r folder",
+              "rm folder",
+              "mkdir -d folder",
+              "cd folder"
+            ]
+          }
+        }
+      },
+      {
+        "kind": "multiple-choice",
+        "prompt": "Was bedeutet `drwxr-xr-x`?",
+        "explanation": "`d` Ordner, `rwx` Besitzer, `r-x` Gruppe, `r-x` andere.",
+        "options": [
+          "Ordner; Besitzer darf alles, andere lesen und betreten",
+          "Datei; alle dürfen alles",
+          "Ordner; nur der Besitzer darf lesen",
+          "Datei; nur ausführen"
+        ],
+        "answer": 0,
+        "id": "fex-q6",
+        "skillId": "m3-l1",
+        "i18n": {
+          "de": {
+            "prompt": "Was bedeutet `drwxr-xr-x`?",
+            "explanation": "`d` Ordner, `rwx` Besitzer, `r-x` Gruppe, `r-x` andere.",
+            "options": [
+              "Ordner; Besitzer darf alles, andere lesen und betreten",
+              "Datei; alle dürfen alles",
+              "Ordner; nur der Besitzer darf lesen",
+              "Datei; nur ausführen"
+            ]
+          },
+          "en": {
+            "prompt": "What does `drwxr-xr-x` mean?",
+            "explanation": "`d` folder, `rwx` owner, `r-x` group, `r-x` others.",
+            "options": [
+              "Folder; the owner may do everything, others read and enter",
+              "File; everyone may do everything",
+              "Folder; only the owner may read",
+              "File; execute only"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "glossary": [
+    {
+      "term": "Shell",
+      "definition": "Das Programm, das deine Textbefehle liest und ausführt (zum Beispiel bash).",
+      "i18n": {
+        "de": {
+          "term": "Shell",
+          "definition": "Das Programm, das deine Textbefehle liest und ausführt (zum Beispiel bash)."
+        },
+        "en": {
+          "term": "shell",
+          "definition": "The program that reads and runs your text commands (for example bash)."
+        }
+      }
+    },
+    {
+      "term": "Pfad",
+      "definition": "Die Beschreibung des Wegs zu einer Datei oder einem Ordner.",
+      "i18n": {
+        "de": {
+          "term": "Pfad",
+          "definition": "Die Beschreibung des Wegs zu einer Datei oder einem Ordner."
+        },
+        "en": {
+          "term": "path",
+          "definition": "The description of the way to a file or folder."
+        }
+      }
+    },
+    {
+      "term": "absoluter Pfad",
+      "definition": "Ein Pfad, der mit / beginnt und von überall gilt.",
+      "i18n": {
+        "de": {
+          "term": "absoluter Pfad",
+          "definition": "Ein Pfad, der mit / beginnt und von überall gilt."
+        },
+        "en": {
+          "term": "absolute path",
+          "definition": "A path that starts with / and works from anywhere."
+        }
+      }
+    },
+    {
+      "term": "relativer Pfad",
+      "definition": "Ein Pfad, der vom aktuellen Ordner aus gilt.",
+      "i18n": {
+        "de": {
+          "term": "relativer Pfad",
+          "definition": "Ein Pfad, der vom aktuellen Ordner aus gilt."
+        },
+        "en": {
+          "term": "relative path",
+          "definition": "A path that works from the current folder."
+        }
+      }
+    },
+    {
+      "term": "Home-Ordner",
+      "definition": "Dein eigener Ordner, kurz ~.",
+      "i18n": {
+        "de": {
+          "term": "Home-Ordner",
+          "definition": "Dein eigener Ordner, kurz ~."
+        },
+        "en": {
+          "term": "home folder",
+          "definition": "Your own folder, short ~."
+        }
+      }
+    },
+    {
+      "term": "Umleitung",
+      "definition": "Schreibt die Ausgabe eines Befehls in eine Datei (> überschreibt, >> hängt an).",
+      "i18n": {
+        "de": {
+          "term": "Umleitung",
+          "definition": "Schreibt die Ausgabe eines Befehls in eine Datei (> überschreibt, >> hängt an)."
+        },
+        "en": {
+          "term": "redirection",
+          "definition": "Writes the output of a command into a file (> overwrites, >> appends)."
+        }
+      }
+    }
+  ]
+}
