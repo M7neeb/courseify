@@ -15,7 +15,8 @@
   --shadow-card: none;
   --shadow-float: 0 8px 24px rgb(33 36 44 / 0.16);
   --cf-navy: #0b2149;
-  --cf-band: #f7f8fa;
+  /* A faint band one step off the page colour; follows the theme and light/dark. */
+  --cf-band: color-mix(in srgb, var(--ink) 3%, var(--bg));
   --cf-blue-soft: var(--accent-soft);
   --cf-container: 1140px;
   --cf-header-h: 60px;
@@ -179,6 +180,7 @@ fieldset, .notice, .banner { border-radius: 4px; box-shadow: none; }
 
 .cf-profile-band { background: var(--cf-band); border-bottom: 1px solid var(--line); }
 :root[data-theme='dark'] .cf-profile-band { background: var(--surface); }
+@media (prefers-color-scheme: dark) { :root[data-theme='system'] .cf-profile-band { background: var(--surface); } }
 .cf-profile-inner { display: flex; align-items: center; gap: 16px; padding-top: 28px; padding-bottom: 28px; }
 .cf-avatar { display: inline-grid; place-items: center; flex: none; width: 64px; height: 64px; border-radius: 50%; color: #fff; font-size: 1.5rem; font-weight: 700; }
 .cf-identity { min-width: 0; flex: 1 1 auto; }
@@ -230,6 +232,7 @@ fieldset, .notice, .banner { border-radius: 4px; box-shadow: none; }
 /* ---------- unit page ---------- */
 .cf-unit-layout { display: grid; grid-template-columns: 340px minmax(0, 1fr); flex: 1 0 auto; background: var(--cf-band); }
 :root[data-theme='dark'] .cf-unit-layout { background: var(--bg); }
+@media (prefers-color-scheme: dark) { :root[data-theme='system'] .cf-unit-layout { background: var(--bg); } }
 .cf-unit-side {
   position: sticky; top: var(--cf-header-h); align-self: start; height: calc(100vh - var(--cf-header-h)); overflow-y: auto;
   background: var(--surface); border-right: 1px solid var(--line); padding: 24px 0 48px;
