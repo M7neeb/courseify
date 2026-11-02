@@ -1149,7 +1149,7 @@ p.code-error { color: var(--bad); font-weight: 700; }
 /* Page titles get one yellow marker stroke under the lower half of each line, the way you mark the
    heading of a page in a notebook. Only titles, so it keeps meaning something. Drawn as a thick
    underline so it follows every line of a title that wraps. */
-.page-title-group h1, .cf-section-head h1, .cf-unit-title, .lesson-heading h1 {
+.page-title-group h1, .cf-section-head h1, .cf-unit-title, .lesson-heading h1, .cf-lesson-head h1 {
   text-decoration-line: underline; text-decoration-color: var(--marker);
   text-decoration-thickness: 0.42em; text-underline-offset: -0.3em; text-decoration-skip-ink: none;
 }

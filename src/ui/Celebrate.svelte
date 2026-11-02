@@ -3,7 +3,7 @@
   // Pure CSS, pointer-events off, gone after two seconds, and skipped entirely with reduced motion.
   let { message }: { message: string } = $props();
 
-  const COLORS = ['#594094', '#948ebe', '#d77d0f', '#1865f2', '#1fab54'];
+  const COLORS = ['#2346b5', '#7d98e0', '#ffe36e', '#1f7a4d', '#b8322f'];
   const pieces = Array.from({ length: 28 }, (_, i) => ({
     left: (i * 37) % 100,
     delay: (i % 7) * 0.06,
@@ -35,9 +35,9 @@
     overflow: hidden;
     margin: 0 0 1rem;
     padding: 0.9rem 1rem;
-    border-radius: 8px;
+    border-radius: 12px;
     background: var(--accent-soft);
-    border-left: 4px solid #594094;
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
     color: var(--ink);
   }
   .celebrate-confetti {
