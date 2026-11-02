@@ -1,7 +1,7 @@
 // The single source of truth for the app version and the "What's new" list.
 // Bump VERSION and add one CHANGELOG entry at the top when you ship user-visible changes.
 
-export const VERSION = '1.12.0';
+export const VERSION = '1.13.0';
 
 export interface ChangelogEntry {
   version: string;
@@ -11,6 +11,17 @@ export interface ChangelogEntry {
 
 /** Newest first. */
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.13.0',
+    date: '2026-11-02',
+    changes: [
+      'Chess game review, rebuilt: it opens on a summary with the coach\'s verdict, the game graph with its key moments, accuracy, a game rating and a grade for the opening, middlegame and endgame.',
+      'Move by move, the coach explains every move, good or bad: forks, pieces left hanging, mates, development, castling and more. "Best" shows the better move and "Show follow-up" plays out what happens next.',
+      'Accuracy now counts sharp positions more than calm ones, so blunders weigh as they should. Jump between key moments with the dotted arrows.',
+      'On phones the coach sits above the board and the step buttons stay in reach.',
+      'Dark mode: the profile band, the unit page and tip boxes no longer stay light grey.'
+    ]
+  },
   {
     version: '1.12.0',
     date: '2026-10-25',

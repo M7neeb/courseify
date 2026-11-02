@@ -8,6 +8,7 @@
 
 import { Chess, type Square } from 'chess.js';
 import { openingOf, type Opening } from './openings.ts';
+import { coachNotes } from './coach.ts';
 import type { PositionEval } from './types.ts';
 
 export type MoveKind =
@@ -89,8 +90,17 @@ export interface ReviewedMove {
   best?: { uci: string; san: string };
   /** The best line from the position before the move, in SAN. */
   bestLine: string[];
+  /** The coach's first note (kept for older callers) and all notes for this move. */
   note?: MoveNote;
+  notes: MoveNote[];
+  phase: Phase;
 }
+
+export type Phase = 'opening' | 'middlegame' | 'endgame';
+export const PHASES: readonly Phase[] = ['opening', 'middlegame', 'endgame'];
+
+/** How well a side played a phase, from the accuracy of its moves there. */
+export type PhaseGrade = 'great' | 'good' | 'ok' | 'poor';
 
 export interface GameReview {
   moves: ReviewedMove[];
@@ -99,6 +109,12 @@ export interface GameReview {
   opening: Opening | null;
   /** White's win chance after each position (index 0 = start). */
   graph: number[];
+  /** A rough playing strength for each side in this game, from its accuracy. */
+  rating: { w: number; b: number };
+  /** Grade per phase and side; null when the side made no move in that phase. */
+  phases: Record<Phase, { w: PhaseGrade | null; b: PhaseGrade | null }>;
+  /** Half-moves worth stopping at: brilliant, great, and every slip. */
+  keyMoments: number[];
 }
 
 /** SAN moves for a line of UCI moves from a position; stops at the first move that does not fit. */
@@ -147,31 +163,6 @@ function isSacrifice(fenBefore: string, uci: string, pvAfter: readonly string[],
   }
   // The material must not come straight back: compare with the end of the short line as well.
   return start - low >= 2 && start - balance(game, side) >= 1;
-}
-
-const PIECE_KEY: Record<string, string> = { p: 'pawn', n: 'knight', b: 'bishop', r: 'rook', q: 'queen', k: 'king' };
-
-/**
- * The piece (knight or more) the first move of a line captures, when the line really wins
- * material for the side making it: two pawns' worth or more after three half-moves, so a fair
- * trade does not count.
- */
-function pieceWonBy(fen: string, line: readonly string[] | undefined): string | null {
-  const first = line?.[0];
-  if (!first) return null;
-  const game = new Chess(fen);
-  const side = game.turn();
-  const piece = game.get(first.slice(2, 4) as Square);
-  if (!piece || piece.color === side || (VALUE[piece.type] ?? 0) < 3) return null;
-  const start = balance(game, side);
-  for (const m of line.slice(0, 3)) {
-    try {
-      game.move({ from: m.slice(0, 2) as Square, to: m.slice(2, 4) as Square, promotion: m[4] });
-    } catch {
-      break;
-    }
-  }
-  return balance(game, side) - start >= 2 ? (PIECE_KEY[piece.type] ?? null) : null;
 }
 
 function emptyCounts(): Record<MoveKind, number> {
@@ -227,14 +218,81 @@ export function terminalEval(fen: string): PositionEval | null {
   return null;
 }
 
+/**
+ * The phase of a position: the endgame once six or fewer pieces (not pawns or kings) are left,
+ * the opening for the first ten moves while most pieces are still on, the middlegame between.
+ */
+export function phaseOf(fen: string, plyIndex: number): Phase {
+  let pieces = 0;
+  for (const ch of fen.split(' ')[0] ?? '') if ('nbrqNBRQ'.includes(ch)) pieces += 1;
+  if (pieces <= 6) return 'endgame';
+  if (plyIndex < 20 && pieces > 10) return 'opening';
+  return 'middlegame';
+}
+
+export function phaseGrade(accuracy: number): PhaseGrade {
+  if (accuracy >= 90) return 'great';
+  if (accuracy >= 75) return 'good';
+  if (accuracy >= 55) return 'ok';
+  return 'poor';
+}
+
+function stdev(xs: readonly number[]): number {
+  const mean = xs.reduce((a, b) => a + b, 0) / xs.length;
+  return Math.sqrt(xs.reduce((a, b) => a + (b - mean) ** 2, 0) / xs.length);
+}
+
+/**
+ * A side's accuracy over a game, the way Lichess publishes it: the mean of the move accuracies
+ * weighted by how sharp the position was (calm moves count less), averaged with their harmonic
+ * mean (so a few blunders pull the score down as they should).
+ * `graph` is White's win chance per position; `moves` are all moves of the game.
+ */
+export function gameAccuracy(moves: readonly { color: 'w' | 'b'; accuracy: number; ply: number }[], graph: readonly number[], side: 'w' | 'b'): number {
+  const mine = moves.filter((m) => m.color === side);
+  if (mine.length === 0) return 0;
+  const size = Math.max(2, Math.min(8, Math.floor(graph.length / 10)));
+  const weightAt = (ply: number) => {
+    const start = Math.max(0, Math.min(ply - 1, graph.length - size));
+    return Math.max(0.5, Math.min(12, stdev(graph.slice(start, start + size))));
+  };
+  let sum = 0;
+  let weights = 0;
+  let inverse = 0;
+  for (const m of mine) {
+    const w = weightAt(m.ply);
+    sum += m.accuracy * w;
+    weights += w;
+    inverse += 1 / Math.max(1, m.accuracy);
+  }
+  const weighted = sum / weights;
+  const harmonic = mine.length / inverse;
+  return Math.round(((weighted + harmonic) / 2) * 10) / 10;
+}
+
+const RATING_STEPS: readonly [number, number][] = [
+  [0, 100], [30, 250], [50, 450], [60, 650], [70, 900], [80, 1250], [85, 1500], [90, 1850], [95, 2300], [98, 2700], [100, 3000]
+];
+
+/** A rough rating for one game from its accuracy, rounded to 50. An estimate, never exact. */
+export function estimateRating(accuracy: number): number {
+  const a = Math.max(0, Math.min(100, accuracy));
+  for (let i = 1; i < RATING_STEPS.length; i += 1) {
+    const [x1, y1] = RATING_STEPS[i]!;
+    const [x0, y0] = RATING_STEPS[i - 1]!;
+    if (a <= x1) return Math.round((y0 + ((a - x0) / (x1 - x0)) * (y1 - y0)) / 50) * 50;
+  }
+  return 3000;
+}
+
+const KEY_KINDS: readonly MoveKind[] = ['brilliant', 'great', 'miss', 'mistake', 'blunder'];
+
 /** Reviews a whole game. `evals[i]` is the verdict for the position after i moves. */
 export function reviewGame(startFen: string, movesUci: readonly string[], evals: readonly (PositionEval | null | undefined)[], fromStart: boolean): GameReview {
   const game = new Chess(startFen);
   const { bookPlies, opening } = openingOf(movesUci, fromStart);
   const moves: ReviewedMove[] = [];
   const counts = { w: emptyCounts(), b: emptyCounts() };
-  const accSum = { w: 0, b: 0 };
-  const accN = { w: 0, b: 0 };
   const graph = [whiteWinChance(evals[0])];
   let previousLoss = 0;
   let previousTo = '';
@@ -258,7 +316,7 @@ export function reviewGame(startFen: string, movesUci: readonly string[], evals:
     const bestLine = before?.pv?.length ? sanLine(fenBefore, before.pv) : before?.best ? sanLine(fenBefore, [before.best]) : [];
 
     if (!before || !after) {
-      moves.push({ ply: i + 1, color: side, number, uci, san: move.san, fenBefore, fenAfter, kind: i < bookPlies ? 'book' : 'good', loss: 0, accuracy: 100, bestLine });
+      moves.push({ ply: i + 1, color: side, number, uci, san: move.san, fenBefore, fenAfter, kind: i < bookPlies ? 'book' : 'good', loss: 0, accuracy: 100, bestLine, notes: [], phase: phaseOf(fenBefore, i) });
       return;
     }
 
@@ -277,15 +335,14 @@ export function reviewGame(startFen: string, movesUci: readonly string[], evals:
     });
     const accuracy = kind === 'book' ? 100 : moveAccuracy(loss);
     counts[side][kind] += 1;
-    accSum[side] += accuracy;
-    accN[side] += 1;
 
-    const reviewed: ReviewedMove = { ply: i + 1, color: side, number, uci, san: move.san, fenBefore, fenAfter, kind, loss, accuracy, bestLine };
+    const reviewed: ReviewedMove = { ply: i + 1, color: side, number, uci, san: move.san, fenBefore, fenAfter, kind, loss, accuracy, bestLine, notes: [], phase: phaseOf(fenBefore, i) };
     if (before.best && before.best !== uci && loss >= 2) {
       const best = sanLine(fenBefore, [before.best])[0];
       if (best) reviewed.best = { uci: before.best, san: best };
     }
-    reviewed.note = noteFor(reviewed, before, after, side, game, opening);
+    reviewed.notes = coachNotes({ kind, side, uci, fenBefore, before, after, plyIndex: i, recapture, opening });
+    reviewed.note = reviewed.notes[0];
     moves.push(reviewed);
 
     previousLoss = kind === 'book' ? 0 : loss;
@@ -293,29 +350,26 @@ export function reviewGame(startFen: string, movesUci: readonly string[], evals:
     previousCapture = move.captured !== undefined;
   });
 
-  const avg = (s: 'w' | 'b') => (accN[s] ? Math.round((accSum[s] / accN[s]) * 10) / 10 : 0);
-  return { moves, accuracy: { w: avg('w'), b: avg('b') }, counts, opening, graph };
-}
-
-/** One short reason for a move, in the order a coach would mention it. */
-function noteFor(m: ReviewedMove, before: PositionEval, after: PositionEval, side: 'w' | 'b', gameAfter: Chess, opening: Opening | null): MoveNote | undefined {
-  if (gameAfter.isCheckmate()) return { key: 'checkmate' };
-  if (m.kind === 'book') return opening ? { key: 'book', params: { name: opening.en, nameDe: opening.de } } : { key: 'bookPlain' };
-  const sign = side === 'w' ? 1 : -1;
-  const mateFor = (e: PositionEval) => (e.mate !== undefined ? e.mate * sign : undefined);
-  const hadMate = mateFor(before);
-  const nowMate = mateFor(after);
-  if (nowMate !== undefined && nowMate < 0 && !(hadMate !== undefined && hadMate < 0)) return { key: 'allowsMate', params: { n: Math.abs(nowMate) } };
-  if (hadMate !== undefined && hadMate > 0 && (nowMate === undefined || nowMate <= 0) && m.kind !== 'best') return { key: 'missedMate', params: { n: hadMate } };
-  if (m.kind === 'brilliant') return { key: 'sacrifice' };
-  if (m.kind === 'great') return { key: 'onlyMove' };
-  if (BAD_KINDS.includes(m.kind)) {
-    const lost = pieceWonBy(m.fenAfter, after.pv ?? (after.best ? [after.best] : []));
-    if (lost) return { key: 'hangs', params: { piece: lost } };
-    const won = m.best ? pieceWonBy(m.fenBefore, before.pv ?? [m.best.uci]) : null;
-    if (won) return { key: 'couldWin', params: { piece: won } };
-    if (m.kind === 'miss') return { key: 'missed' };
-    return { key: 'worse' };
-  }
-  return undefined;
+  const accuracy = { w: gameAccuracy(moves, graph, 'w'), b: gameAccuracy(moves, graph, 'b') };
+  const phases = Object.fromEntries(
+    PHASES.map((phase) => {
+      const grade = (side: 'w' | 'b') => {
+        const ms = moves.filter((m) => m.phase === phase && m.color === side && m.kind !== 'book');
+        if (ms.length === 0) return moves.some((m) => m.phase === phase && m.color === side) ? 'great' : null;
+        return phaseGrade(ms.reduce((a, m) => a + m.accuracy, 0) / ms.length);
+      };
+      return [phase, { w: grade('w'), b: grade('b') }];
+    })
+  ) as GameReview['phases'];
+  const keyMoments = moves.filter((m) => KEY_KINDS.includes(m.kind)).map((m) => m.ply);
+  return {
+    moves,
+    accuracy,
+    counts,
+    opening,
+    graph,
+    rating: { w: estimateRating(accuracy.w), b: estimateRating(accuracy.b) },
+    phases,
+    keyMoments
+  };
 }

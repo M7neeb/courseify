@@ -144,10 +144,14 @@ test('play a bot, resign, and review the game move by move', async ({ page }) =>
   await expect(page.getByText('You resigned.')).toBeVisible();
 
   await page.getByRole('link', { name: 'Game review' }).click();
+  // The review opens on a summary: accuracy, a game rating, move classes and phases.
   await expect(page.locator('.cf-acc-label')).toHaveText('Accuracy', { timeout: 90_000 });
-  await expect(page.locator('.cf-rmove')).toHaveCount(2);
+  await expect(page.getByRole('rowheader', { name: 'Game rating' })).toBeVisible();
+  await expect(page.getByRole('rowheader', { name: 'Opening' })).toBeVisible();
   await page.getByRole('button', { name: 'Start review' }).click();
+  await expect(page.locator('.cf-rmove')).toHaveCount(2);
   await expect(page.locator('.cf-coach-title')).toContainText('e4');
+  await expect(page.locator('.cf-coach-bubble')).toContainText('opening move');
   // The badge on the board marks the move's class.
   await expect(page.locator('.cf-sq-badge')).toHaveCount(1);
   // Stepping through the moves keeps the page where it is.

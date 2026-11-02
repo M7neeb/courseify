@@ -13,3 +13,11 @@ export const KIND_STYLE: Record<MoveKind, { text: string; color: string }> = {
   miss: { text: '✕', color: '#ee6b55' },
   blunder: { text: '??', color: '#ca3431' }
 };
+
+/** How a phase grade looks in the review summary: the same marks and colours as the move classes. */
+export const GRADE_STYLE: Record<'great' | 'good' | 'ok' | 'poor', { text: string; color: string }> = {
+  great: KIND_STYLE.best,
+  good: KIND_STYLE.good,
+  ok: KIND_STYLE.inaccuracy,
+  poor: KIND_STYLE.mistake
+};
