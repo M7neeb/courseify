@@ -154,12 +154,15 @@ test('play a bot, resign, and review the game move by move', async ({ page }) =>
   await expect(page.locator('.cf-coach-bubble')).toContainText('opening move');
   // The badge on the board marks the move's class.
   await expect(page.locator('.cf-sq-badge')).toHaveCount(1);
-  // Stepping through the moves keeps the page where it is.
-  await page.getByRole('button', { name: 'Back one move' }).click();
+  // Stepping through the moves keeps the page where it is. The step buttons are pinned above the tab
+  // bar on phones; a normal click would first scroll the pinned button into view, which a finger tap
+  // never does, so tap them without that scroll.
+  const tap = (name: string) => page.getByRole('button', { name }).dispatchEvent('click');
+  await tap('Back one move');
   const y = await page.evaluate(() => window.scrollY);
-  await page.getByRole('button', { name: 'Next move' }).click();
-  await page.getByRole('button', { name: 'Back one move' }).click();
-  await page.getByRole('button', { name: 'Next move' }).click();
+  await tap('Next move');
+  await tap('Back one move');
+  await tap('Next move');
   expect(await page.evaluate(() => window.scrollY)).toBe(y);
 
   await page.goto('./#/play/games');

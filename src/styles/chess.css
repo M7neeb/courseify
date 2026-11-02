@@ -378,6 +378,8 @@
   }
   .cf-review-nav .btn { min-width: 0; flex: 1 1 0; padding-inline: 4px; }
   .cf-review-nav .cf-review-next { flex: 1.6 1 0; }
+  /* Room for a title and two short lines, so the board does not jump up and down between moves. */
+  .cf-review[data-stage='review'] .cf-coach { min-height: 96px; }
   /* The summary is a page of its own on a phone: no board, the button right under the coach. */
   .cf-review[data-stage='summary'] .cf-review-board > :not(.cf-review-nav) { display: none; }
   .cf-review[data-stage='summary'] .cf-review-nav { position: static; border-top: 0; margin: 0; padding: 0; background: none; backdrop-filter: none; }
