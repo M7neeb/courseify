@@ -15,7 +15,6 @@ import {
   outlinePrompt,
   singlePrompt,
   toolTipKeys,
-  tutorPrompt,
   unitPrompt,
   unitStatus,
   type PromptSettings
@@ -202,16 +201,6 @@ test('the check prompt carries the unit in its import shape and the reply round-
   assert.equal(payload.module.id, 'm1');
   assert.equal(analyzeImport('```json\n' + json + '\n```').kind, 'module');
   assert.equal(checkPrompt(sample, 'nope'), '');
-});
-
-test('the tutor prompt never contains the answer', () => {
-  const question = { prompt: 'Which layer routes packets?', options: ['Physical', 'Network', 'Session'] };
-  const prompt = tutorPrompt('Networks', question, 'de', 'Physical');
-  assert.ok(prompt.includes('Do NOT tell me the answer'));
-  assert.ok(prompt.includes('B) Network'));
-  assert.ok(prompt.includes('German'));
-  assert.ok(prompt.includes('"Physical"'));
-  assert.ok(!/correct answer is/i.test(prompt));
 });
 
 test('the chess preset asks for boards and puzzles, and other courses never get them', () => {

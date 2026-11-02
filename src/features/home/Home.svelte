@@ -217,7 +217,7 @@
     <div class="cf-section-head">
       <h1>{t('home.myCourses')}</h1>
       {#if courses.length > 0}
-        <button type="button" class="cf-btn cf-btn-primary" onclick={() => navigate({ name: 'library' })}>{t('home.editCourses')}</button>
+        <button type="button" class="cf-btn cf-btn-secondary" onclick={() => navigate({ name: 'library' })}>{t('home.editCourses')}</button>
       {/if}
     </div>
 
@@ -341,7 +341,7 @@
         {#each courses as course (course.id)}
           {@const entryId = entryModuleId(course, app.progress[course.id])}
           {@const accent = courseAccent(course.id)}
-          <section class="cf-course-group">
+          <section class="cf-course-group" style:--course-accent={accent}>
             <header>
               <h2>{displayTitle(course)}</h2>
               {#if course.modules.length > MODULE_LIMIT && !shows(layout, 'allUnits')}
@@ -370,7 +370,7 @@
                       {/if}
                     </div>
                     {#if module.id === entryId}
-                      <button type="button" class="cf-btn cf-btn-primary cf-btn-small" onclick={() => openModule(course, module)}>
+                      <button type="button" class="cf-btn cf-btn-secondary cf-btn-small" onclick={() => openModule(course, module)}>
                         {app.progress[course.id] ? t('home.resume') : t('home.start')}
                       </button>
                     {/if}

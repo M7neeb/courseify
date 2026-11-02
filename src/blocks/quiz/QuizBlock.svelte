@@ -14,8 +14,6 @@
   import { TIER_ORDER, tierForPoints } from '../../core/mastery.ts';
   import { playCelebrate, playCorrect, playWrong } from '../../ui/sound.ts';
   import Celebrate from '../../ui/Celebrate.svelte';
-  import { tutorPrompt } from '../../core/promptBuilder.ts';
-  import { copyText } from '../../ui/clipboard.ts';
   import { formatLine } from '../../core/chess.ts';
   import ChessPuzzle from '../../ui/chess/ChessPuzzle.svelte';
   import { t } from '../../i18n/i18n.ts';
@@ -43,9 +41,8 @@
   let whyText = $state<Record<string, string>>({});
   let whyDone = $state<Record<string, boolean>>({});
   const askWhy = (q: Question): boolean => ctx.askWhy !== false && !pretest && !exam && WHY_KINDS.has(q.kind) && !!q.explanation && whyDone[q.id] !== true;
-  // "How sure are you?" per question, and which tutor prompt was just copied.
+  // "How sure are you?" per question.
   let confidence = $state<Record<string, Confidence>>({});
-  let tutorCopied = $state<string | null>(null);
   const CONFIDENCE: Confidence[] = ['sure', 'unsure', 'guess'];
   // Recall first: multiple-choice options stay hidden until the learner has thought of an answer.
   let revealed = $state<Record<string, boolean>>({});
@@ -454,14 +451,6 @@
     check(q);
   }
 
-  async function askTutor(q: Question) {
-    const record = answerOf(q.id);
-    const given = record && record.correct === false ? givenText(q, record.given) : undefined;
-    const prompt = q.kind === 'chess' && q.fen ? `${q.prompt}\n\nPosition (FEN): ${q.fen}` : q.prompt;
-    const text = tutorPrompt(ctx.courseTitle ?? '', { prompt, options: q.options }, ctx.questionLanguage, given);
-    if (await copyText(text)) tutorCopied = q.id;
-  }
-
   function nextHint(q: Question) {
     hinted[q.id] = true;
     hintShown[q.id] = (hintShown[q.id] ?? 0) + 1;
@@ -862,9 +851,6 @@
             <div class="help-row">
               <button type="button" class="btn quiet-btn hint-btn" onclick={() => nextHint(current)}>
                 {hintStep < hintSteps.length ? t('quiz.getHint') : t('quiz.fullSolution')}
-              </button>
-              <button type="button" class="btn quiet-btn tutor-btn" title={t('quiz.tutorHint')} onclick={() => askTutor(current)}>
-                {tutorCopied === current.id ? t('quiz.tutorCopied') : t('quiz.tutor')}
               </button>
             </div>
           {/if}

@@ -54,7 +54,7 @@ const LIGHT_NEUTRALS: Record<ColorTheme, Neutrals> = {
   // `default` carries the Courseify look: a white surface, a light grey page, dark navy ink and
   // grey borders. The other nine themes keep their own neutrals (a theme must recolour its page,
   // not just its accent).
-  default: { bg: '#ffffff', surface: '#ffffff', ink: '#21242c', muted: '#5f6167', line: '#dbdcdd' },
+  default: { bg: '#f7f8fa', surface: '#ffffff', ink: '#1d2433', muted: '#586174', line: '#dde2ea' },
   ocean: { bg: '#edf3f8', surface: '#ffffff', ink: '#12202b', muted: '#4e6070', line: '#d3e1ea' },
   forest: { bg: '#eff5ee', surface: '#ffffff', ink: '#16231a', muted: '#55665a', line: '#d8e5d5' },
   sunset: { bg: '#fbf3ec', surface: '#fffdfb', ink: '#2a1c12', muted: '#6b5849', line: '#efdfd0' },
@@ -67,7 +67,7 @@ const LIGHT_NEUTRALS: Record<ColorTheme, Neutrals> = {
 };
 
 const DARK_NEUTRALS: Record<ColorTheme, Neutrals> = {
-  default: { bg: '#121722', surface: '#1a2030', ink: '#e8eaee', muted: '#a3a7b0', line: '#2f3646' },
+  default: { bg: '#11141b', surface: '#191e28', ink: '#e6e9f0', muted: '#9ba4b6', line: '#2b3242' },
   ocean: { bg: '#0b1418', surface: '#0f1f2a', ink: '#e2ecf2', muted: '#8fa4b2', line: '#1d3341' },
   forest: { bg: '#0d150f', surface: '#142019', ink: '#e4efe6', muted: '#93a89a', line: '#223428' },
   sunset: { bg: '#17110c', surface: '#231a13', ink: '#f2e8e0', muted: '#b09a8b', line: '#392a1e' },
@@ -81,8 +81,8 @@ const DARK_NEUTRALS: Record<ColorTheme, Neutrals> = {
 
 export const PALETTES: Record<ColorTheme, { light: Palette; dark: Palette }> = {
   default: {
-    light: { ...LIGHT_NEUTRALS.default, ...SEMANTIC_LIGHT, accent: '#1865f2', accentInk: '#ffffff', accentSoft: '#edf3fe' },
-    dark: { ...DARK_NEUTRALS.default, ...SEMANTIC_DARK, accent: '#6ea8ff', accentInk: '#0a1c3a', accentSoft: '#16253f' }
+    light: { ...LIGHT_NEUTRALS.default, ...SEMANTIC_LIGHT, accent: '#2346b5', accentInk: '#ffffff', accentSoft: '#e9eefc' },
+    dark: { ...DARK_NEUTRALS.default, ...SEMANTIC_DARK, accent: '#8fa8ff', accentInk: '#0b1638', accentSoft: '#1f2a4b' }
   },
   ocean: {
     light: { ...LIGHT_NEUTRALS.ocean, ...SEMANTIC_LIGHT, accent: '#0b6fa4', accentInk: '#ffffff', accentSoft: '#dcecf5' },
@@ -150,10 +150,10 @@ function declarations(p: Palette): string {
 }
 
 /**
- * The mastery colours: Mastered #594094 (with a crown),
- * Proficient #948ebe, Familiar #d77d0f (half filled), Attempted #c66024 (outline), Not started
- * #909296 (outline), and the grey quiz / unit-test tile. Shared by every theme (like the semantic
- * colours) because a tier's colour means the same thing everywhere, so the ramp is emitted once.
+ * The mastery colours: ballpoint blue filling in. Attempted is a grey outline, Familiar half
+ * filled in light blue, Proficient solid blue, Mastered deep ink blue (with a crown), plus the pale
+ * quiz / unit-test tile. Shared by every theme (like the semantic colours) because a tier's colour
+ * means the same thing everywhere, so the ramp is emitted once.
  */
 export interface MasteryRamp {
   mastered: string;
@@ -168,23 +168,23 @@ export interface MasteryRamp {
 }
 
 export const MASTERY_RAMP_LIGHT: MasteryRamp = {
-  mastered: '#594094',
-  proficient: '#948ebe',
-  familiar: '#d77d0f',
-  attempted: '#c66024',
-  notStarted: '#909296',
-  quiz: '#ededee',
-  test: '#5f6167'
+  mastered: '#1b2d7a',
+  proficient: '#3d63d6',
+  familiar: '#7d98e0',
+  attempted: '#8e98ab',
+  notStarted: '#c2c8d3',
+  quiz: '#eef1f6',
+  test: '#586174'
 };
 
 export const MASTERY_RAMP_DARK: MasteryRamp = {
-  mastered: '#8a6fd1',
-  proficient: '#a9a3d6',
-  familiar: '#e8963a',
-  attempted: '#e0794a',
-  notStarted: '#8c8f96',
-  quiz: '#2b3242',
-  test: '#c3c6cd'
+  mastered: '#b4c4ff',
+  proficient: '#7192f2',
+  familiar: '#4b64b3',
+  attempted: '#7d879b',
+  notStarted: '#3b4354',
+  quiz: '#232a38',
+  test: '#b6bfd0'
 };
 
 function rampDeclarations(r: MasteryRamp): string {

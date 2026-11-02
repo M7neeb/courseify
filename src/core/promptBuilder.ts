@@ -850,39 +850,6 @@ export function checkPrompt(course: Course, target: string): string {
   ]);
 }
 
-/**
- * The "Stuck?" tutor prompt for one question. It gives the chat assistant the question but not the
- * answer, and tells it to coach instead of solving: a tutor that just hands over answers makes
- * learners do worse once it is gone, a tutor that makes them think does not.
- */
-export function tutorPrompt(
-  courseTitle: string,
-  question: { prompt: string; options?: string[] },
-  replyLanguage: string = 'en',
-  given?: string
-): string {
-  const options =
-    Array.isArray(question.options) && question.options.length > 0
-      ? '\n\nThe options are:\n' + question.options.map((o, i) => `${String.fromCharCode(65 + i)}) ${o}`).join('\n')
-      : '';
-  return join([
-    `I am studying "${courseTitle}" and I am stuck on this practice question:`,
-    `"${question.prompt}"${options}`,
-    given ? `My last answer was: "${given}". It was marked wrong.` : '',
-    section(
-      'How to help me',
-      list([
-        'Be my tutor, not an answer key. Do NOT tell me the answer or which option is correct, even if I ask.',
-        'First ask me one short question to find out what I already understand.',
-        'Then give me one small hint or one guiding question at a time and wait for my reply.',
-        'If I make a mistake, point to the step that went wrong and let me fix it myself.',
-        'When I have solved it, ask me to explain in one or two sentences WHY it is right.',
-        `Keep every message short. Reply in ${languageName(replyLanguage)}.`
-      ])
-    )
-  ]);
-}
-
 /** Tips shown next to the prompt for the chosen chat tool. Keys into the i18n file. */
 export function toolTipKeys(tool: ChatTool): string[] {
   const common = ['create.tip.newChat', 'create.tip.cutOff'];

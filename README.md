@@ -9,18 +9,13 @@
 <br />
 
 [![Deploy](https://github.com/M7neeb/courseify/actions/workflows/deploy.yml/badge.svg)](https://github.com/M7neeb/courseify/actions/workflows/deploy.yml)
-![Version](https://img.shields.io/badge/version-1.9.0-0b2149)
-![Svelte 5](https://img.shields.io/badge/Svelte-5-ff3e00?logo=svelte&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)
-![Offline](https://img.shields.io/badge/PWA-works%20offline-5a0fc8)
-![Tests](https://img.shields.io/badge/tests-386%20unit%20%C2%B7%20124%20end--to--end-1fab54)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 </div>
 
 <br />
 
-Courseify is a free study app that turns any topic, or your own handouts and notes, into a real
+Courseify is a free study app that turns any topic, or your own handouts and notes, into a
 course: short lessons, plenty of practice, skills that level up from *Attempted* to *Mastered*, and a
 review that brings back exactly what you got wrong. Everything runs in your browser, works offline
 and stays on your device. No account, no subscription, no tracking.
@@ -36,20 +31,20 @@ and stays on your device. No account, no subscription, no tracking.
     <td width="50%" valign="top">
       <h3>Learn</h3>
       <ul>
-        <li><b>Lessons in three depths:</b> normal, simple (for when you're lost) and detailed, with worked examples, key points and common mistakes.</li>
-        <li><b>Formulas, diagrams and graphs.</b> Graphs come with sliders you drag to see what each value does.</li>
-        <li><b>Tap a term</b> for its meaning, in German and English.</li>
-        <li><b>German and English</b> in one course, switchable in every lesson.</li>
-        <li><b>Code that runs</b> right in the lesson, in Python or JavaScript.</li>
+        <li>Lessons in three depths: normal, simple (for when you're lost) and detailed, with worked examples, key points and common mistakes.</li>
+        <li>Formulas, diagrams and graphs. Graphs come with sliders you drag to see what each value does.</li>
+        <li>Tap a term for its meaning, in German and English.</li>
+        <li>German and English in one course, switchable in every lesson.</li>
+        <li>Code that runs right in the lesson, in Python or JavaScript.</li>
       </ul>
     </td>
     <td width="50%" valign="top">
       <h3>Practise</h3>
       <ul>
-        <li><b>Fifteen question types</b>, from multiple choice to written answers, tap-the-picture questions, trace tables, and programming, SQL and command-line tasks checked by the app.</li>
-        <li><b>Drills:</b> endless new problems with a worked solution you open step by step, for IT (binary, hex, units, subnets, IPv6, packets and captures) and maths, plus a hash lab, a password check and a network plan builder.</li>
-        <li><b>Mock exams:</b> a timed test over a whole course, graded at the end.</li>
-        <li><b>Mistake review</b> brings back what you missed, spaced out so it sticks.</li>
+        <li>Fifteen question types, from multiple choice to written answers, tap-the-picture questions, trace tables, and programming, SQL and command-line tasks checked by the app.</li>
+        <li>Drills: endless new problems with a worked solution you open step by step, for IT (binary, hex, units, subnets, IPv6, packets and captures) and maths, plus a hash lab, a password check and a network plan builder.</li>
+        <li>Mock exams: a timed test over a whole course, graded at the end.</li>
+        <li>Mistake review brings back what you missed, spaced out so it sticks.</li>
       </ul>
     </td>
   </tr>
@@ -57,19 +52,19 @@ and stays on your device. No account, no subscription, no tracking.
     <td width="50%" valign="top">
       <h3>Play chess</h3>
       <ul>
-        <li><b>29 bots</b> from 100 to 3200 Elo, each with a style and favourite openings, or a custom bot at any strength.</li>
-        <li><b>Clocks</b> from bullet to rapid, or no timer, with premoves.</li>
-        <li><b>Draw on the board:</b> right-click for coloured squares and arrows.</li>
-        <li><b>Game review</b> move by move: brilliant moves to blunders, the best move on the board, accuracy and the opening.</li>
-        <li><b>Endgame drills</b>, a free board, board colours and sounds, and a bot rating.</li>
+        <li>29 bots from 100 to 3200 Elo, each with a style and favourite openings, or a custom bot at any strength.</li>
+        <li>Clocks from bullet to rapid, or no timer, with premoves.</li>
+        <li>Draw on the board: right-click for coloured squares and arrows.</li>
+        <li>Game review move by move: brilliant moves to blunders, the best move on the board, accuracy and the opening.</li>
+        <li>Endgame drills, a free board, board colours and sounds, and a bot rating.</li>
       </ul>
     </td>
     <td width="50%" valign="top">
       <h3>Track</h3>
       <ul>
-        <li><b>Mastery for every skill</b> on a 0-100 scale, rolled up into units, courses and subjects.</li>
-        <li><b>Exam date planner:</b> set a date and get a plan for learning and review time up to it.</li>
-        <li><b>Weekly report and milestones</b>, streaks and a daily goal.</li>
+        <li>Mastery for every skill on a 0-100 scale, rolled up into units, courses and subjects.</li>
+        <li>Exam date planner: set a date and get a plan for learning and review time up to it.</li>
+        <li>Weekly report and milestones, streaks and a daily goal.</li>
       </ul>
     </td>
   </tr>
@@ -77,18 +72,18 @@ and stays on your device. No account, no subscription, no tracking.
     <td width="50%" valign="top">
       <h3>Make your own</h3>
       <ul>
-        <li><b>Course builder:</b> six short steps turn a topic and your own notes into a ready-to-paste brief. Paste the reply into <i>Import</i> and it becomes a course.</li>
-        <li><b>Starting points</b> for exam prep, programming, IT and networks, maths, chess and more.</li>
-        <li><b>Forgiving import</b> that lists anything broken with a fix-it prompt; report a wrong question and fix it the same way.</li>
+        <li>Course builder: six short steps turn a topic and your own notes into a ready-to-paste brief. Paste the reply into <i>Import</i> and it becomes a course.</li>
+        <li>Starting points for exam prep, programming, IT and networks, maths, chess and more.</li>
+        <li>Forgiving import that lists anything broken with a fix-it prompt; report a wrong question and fix it the same way.</li>
       </ul>
     </td>
     <td width="50%" valign="top">
       <h3>Yours</h3>
       <ul>
-        <li><b>Works offline</b> and installs on your phone's home screen.</li>
-        <li><b>Private by design:</b> no server, no analytics. Backups are one click.</li>
-        <li><b>Share a course</b> as a single file.</li>
-        <li><b>Ten colour themes</b> with light and dark modes.</li>
+        <li>Works offline and installs on your phone's home screen.</li>
+        <li>Private: no server, no analytics. Backups are one click.</li>
+        <li>Share a course as a single file.</li>
+        <li>Ten colour themes with light and dark modes.</li>
       </ul>
     </td>
   </tr>
@@ -98,20 +93,20 @@ and stays on your device. No account, no subscription, no tracking.
 
 <table>
   <tr>
-    <td width="50%" valign="top"><img src="docs/screenshots/desktop-chess-review.png" alt="Chess game review with move classes, accuracy and the evaluation graph" /><br /><sub><b>Game review.</b> Every move classified, the best move on the board, accuracy for both sides.</sub></td>
-    <td width="50%" valign="top"><img src="docs/screenshots/desktop-chess-bots.png" alt="Choosing a chess bot" /><br /><sub><b>29 bots.</b> From a first game to 3200, each with its own style, plus clocks from bullet to rapid.</sub></td>
+    <td width="50%" valign="top"><img src="docs/screenshots/desktop-chess-review.png" alt="Chess game review with move classes, accuracy and the evaluation graph" /><br /><sub>Game review. Every move classified, the best move on the board, accuracy for both sides.</sub></td>
+    <td width="50%" valign="top"><img src="docs/screenshots/desktop-chess-bots.png" alt="Choosing a chess bot" /><br /><sub>29 bots. From a first game to 3200, each with its own style, plus clocks from bullet to rapid.</sub></td>
   </tr>
   <tr>
-    <td width="50%" valign="top"><img src="docs/screenshots/desktop-drill.png" alt="A subnetting drill with the worked solution opened step by step" /><br /><sub><b>Drills.</b> A new problem every time; open the solution one step at a time.</sub></td>
-    <td width="50%" valign="top"><img src="docs/screenshots/desktop-lesson.png" alt="A bilingual lesson on Ohm's law" /><br /><sub><b>Lessons.</b> Three depths, two languages, and terms you can tap.</sub></td>
+    <td width="50%" valign="top"><img src="docs/screenshots/desktop-drill.png" alt="A subnetting drill with the worked solution opened step by step" /><br /><sub>Drills. A new problem every time; open the solution one step at a time.</sub></td>
+    <td width="50%" valign="top"><img src="docs/screenshots/desktop-lesson.png" alt="A bilingual lesson on Ohm's law" /><br /><sub>Lessons. Three depths, two languages, and terms you can tap.</sub></td>
   </tr>
   <tr>
-    <td width="50%" valign="top"><img src="docs/screenshots/feature-graph.png" alt="A graph with a slider for the resistance" /><br /><sub><b>Graphs with sliders.</b> Drag across the graph to read off values.</sub></td>
-    <td width="50%" valign="top"><img src="docs/screenshots/feature-code.png" alt="A programming exercise checked by tests" /><br /><sub><b>Code exercises.</b> Write the function; tests check it on the spot.</sub></td>
+    <td width="50%" valign="top"><img src="docs/screenshots/feature-graph.png" alt="A graph with a slider for the resistance" /><br /><sub>Graphs with sliders. Drag across the graph to read off values.</sub></td>
+    <td width="50%" valign="top"><img src="docs/screenshots/feature-code.png" alt="A programming exercise checked by tests" /><br /><sub>Code exercises. Write the function; tests check it on the spot.</sub></td>
   </tr>
   <tr>
-    <td width="50%" valign="top"><img src="docs/screenshots/desktop-progress.png" alt="Progress page with the weekly chart and mastery" /><br /><sub><b>Progress.</b> This week at a glance, then mastery by subject, course and unit.</sub></td>
-    <td width="50%" valign="top"><img src="docs/screenshots/desktop-exam.png" alt="A timed mock exam" /><br /><sub><b>Mock exam.</b> Questions from every lesson, timed, graded at the end.</sub></td>
+    <td width="50%" valign="top"><img src="docs/screenshots/desktop-progress.png" alt="Progress page with the weekly chart and mastery" /><br /><sub>Progress. This week at a glance, then mastery by subject, course and unit.</sub></td>
+    <td width="50%" valign="top"><img src="docs/screenshots/desktop-exam.png" alt="A timed mock exam" /><br /><sub>Mock exam. Questions from every lesson, timed, graded at the end.</sub></td>
   </tr>
 </table>
 
@@ -150,11 +145,11 @@ version is out (your progress stays). Delete one and it stays deleted; add it ba
 
 ## How a course is made
 
-1. **Describe it.** Open *Create a course*, pick a starting point and add your notes or handouts.
-2. **Get the brief.** Courseify writes a complete brief: an outline first, then one unit at a time, so
+1. Describe it. Open *Create a course*, pick a starting point and add your notes or handouts.
+2. Get the brief. Courseify writes a complete brief: an outline first, then one unit at a time, so
    a big course never gets cut off.
-3. **Import the reply.** Paste each reply into *Import*. Units land in the right course on their own.
-4. **Study.** Read, practise, review. Mastery and progress save as you go.
+3. Import the reply. Paste each reply into *Import*. Units land in the right course on their own.
+4. Study. Read, practise, review. Mastery and progress save as you go.
 
 Prefer to write a course by hand? A course is one JSON file. See
 [`examples/sample-course.json`](examples/sample-course.json) and the [course format](#course-format).
@@ -224,7 +219,7 @@ The full reference is in [`src/prompts/schema.md`](src/prompts/schema.md).
 - [Pyodide](https://pyodide.org) to run Python in the browser, downloaded only the first time you run Python code
 - [vite-plugin-pwa](https://vite-pwa-org.netlify.app) for offline use and installation
 - [Playwright](https://playwright.dev) for end-to-end tests
-- [Lato](https://fonts.google.com/specimen/Lato), bundled so it works offline
+- [Barlow](https://github.com/jpt/barlow) and [JetBrains Mono](https://www.jetbrains.com/lp/mono/), bundled so they work offline
 - Chess pieces from [Noto Sans Symbols 2](https://github.com/notofonts/symbols) (SIL Open Font License); puzzles from the [Lichess puzzle database](https://database.lichess.org/#puzzles) (CC0)
 
 No backend, no UI framework, no trackers.

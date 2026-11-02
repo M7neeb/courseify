@@ -106,7 +106,8 @@ export function courseIconRow(courses: Course[], max: number = MAX_COURSE_ICONS)
 }
 
 /** Subject colours (teal, green, blue, cyan, orange, red): the course circles pick from these. */
-export const COURSE_ACCENTS = ['#11accd', '#1fab54', '#1865f2', '#0c7f99', '#e35c20', '#d92916'] as const;
+// One pen colour per course, so a course looks the same everywhere.
+export const COURSE_ACCENTS = ['#2346b5', '#1f7a4d', '#b8322f', '#0f7480', '#6a46a8', '#a8551d'] as const;
 
 /** A stable accent colour for a course, derived from its id so one course always looks the same. */
 export function courseAccent(courseId: string): string {

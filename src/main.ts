@@ -1,13 +1,16 @@
 // Must run before anything reads the address: it takes the Google sign-in out of it.
 import './ui/sync/redirect.ts';
 import { mount } from 'svelte';
-// Lato, bundled so the app works offline (Latin + Latin Extended covers German).
-import '@fontsource/lato/latin-400.css';
-import '@fontsource/lato/latin-400-italic.css';
-import '@fontsource/lato/latin-700.css';
-import '@fontsource/lato/latin-900.css';
-import '@fontsource/lato/latin-ext-400.css';
-import '@fontsource/lato/latin-ext-700.css';
+// Source Sans 3 for all text, JetBrains Mono for code. Both bundled so the app works offline
+// (Latin + Latin Extended covers German).
+import '@fontsource/source-sans-3/latin-400.css';
+import '@fontsource/source-sans-3/latin-400-italic.css';
+import '@fontsource/source-sans-3/latin-600.css';
+import '@fontsource/source-sans-3/latin-700.css';
+import '@fontsource/source-sans-3/latin-ext-400.css';
+import '@fontsource/source-sans-3/latin-ext-600.css';
+import '@fontsource/source-sans-3/latin-ext-700.css';
+import '@fontsource/jetbrains-mono/latin-400.css';
 // Optional reading font (Settings > Reading). Browsers only download it when it is switched on.
 import '@fontsource/atkinson-hyperlegible/latin-400.css';
 import '@fontsource/atkinson-hyperlegible/latin-700.css';

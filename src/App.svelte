@@ -145,7 +145,7 @@
 
 <div class="cf-app" class:focus-mode={app.focusMode} class:cf-has-tabs={!courseRoute && !app.focusMode}>
   {#if !app.focusMode}
-    <header class="cf-header" class:cf-header-dark={courseRoute}>
+    <header class="cf-header">
       <div class="cf-header-inner">
         <div class="cf-header-left">
           <button
@@ -162,7 +162,7 @@
         </div>
 
         <a class="cf-brand" href="#/home">
-          <span class="cf-brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span class="cf-brand-mark" aria-hidden="true"></span>
           <span>{t('app.name')}</span>
         </a>
 

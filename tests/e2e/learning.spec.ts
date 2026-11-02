@@ -30,7 +30,6 @@ async function practiseWithConfidentMiss(page: Page) {
       await page.getByRole('radio', { name: 'IP-Adresse', exact: true }).click();
       await page.getByRole('button', { name: 'Check', exact: true }).click();
       await expect(page.getByText('You were sure about this one.')).toBeVisible();
-      await expect(page.getByRole('button', { name: 'Stuck? Ask an AI tutor' })).toBeVisible();
       missed = true;
     }
     await page.getByRole('radio', { name: mac ? 'MAC-Adresse' : 'True', exact: true }).click();

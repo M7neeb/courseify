@@ -447,7 +447,7 @@ export interface Settings {
   sounds: boolean;
   /** Underline glossary terms in lesson text; tapping one shows its meaning. */
   glossaryTerms: boolean;
-  /** Daily goal in energy points (XP); 0 turns it off. */
+  /** Daily goal in points (XP); 0 turns it off. */
   dailyGoal: number;
   /** The if-then plan in the learner's words: "After breakfast". Empty when not set. */
   habitCue: string;

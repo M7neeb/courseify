@@ -1,7 +1,7 @@
 // The single source of truth for the app version and the "What's new" list.
 // Bump VERSION and add one CHANGELOG entry at the top when you ship user-visible changes.
 
-export const VERSION = '1.13.0';
+export const VERSION = '1.14.0';
 
 export interface ChangelogEntry {
   version: string;
@@ -11,6 +11,15 @@ export interface ChangelogEntry {
 
 /** Newest first. */
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.14.0',
+    date: '2026-11-02',
+    changes: [
+      'A new look: calmer colours, softer shapes, a new font and a new app icon. Page titles get a yellow highlighter mark.',
+      'Clearer wording on the start page, and the daily goal now counts plain points.',
+      'The "Stuck?" tutor button in practice sets is gone. Hints and the full solution are still there.'
+    ]
+  },
   {
     version: '1.13.0',
     date: '2026-11-02',
@@ -191,7 +200,6 @@ export const CHANGELOG: ChangelogEntry[] = [
       'How sure are you? Mark Sure, Not sure or Guessing before you check. Mistakes you were sure about come back sooner.',
       'Course challenge: mixed questions from the whole course, the way to reach Mastered.',
       'Mastered skills fade back to Proficient if you do not review them, and a "Review soon" mark shows which ones.',
-      'Stuck? Ask an AI tutor copies a prompt that coaches you without giving the answer away.',
       'Warm-up questions: guess before a lesson starts, which helps it stick.',
       'Course builder: a Check prompt for a second opinion on every unit, plus better questions (more variants, find-the-mistake, solved-then-your-turn examples) and "Read more" sources.'
     ]
