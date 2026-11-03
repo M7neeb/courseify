@@ -46,6 +46,14 @@ export const CATALOG_INFO: CatalogInfo[] = [
     lessons: 23
   },
   {
+    id: 'et-kompakt-praefixe-arbstaettv-sinus',
+    title: 'Elektrotechnik kompakt: SI-Präfixe, Arbeitsstättenverordnung und Sinus',
+    subject: 'Elektrotechnik',
+    summary: 'Kurz und gezielt für die Arbeit: SI-Präfixe sicher umrechnen, Arbeitsstättenverordnung mit Pflichten, Richtwerten und Sicherheitszeichen, Sinusfunktion mit Augenblickswerten, Arkussinus, Phase und Effektivwert. Mit Spickzettel zum Schluss.',
+    version: '1.0',
+    lessons: 11
+  },
+  {
     id: 'pflichtenheft',
     title: 'Das Pflichtenheft verstehen',
     subject: 'Softwareentwicklung',
