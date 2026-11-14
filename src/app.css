@@ -687,7 +687,19 @@ body { background: var(--bg); }
 }
 .kh-results button:hover { background: var(--accent-soft); }
 .kh-result-title { font-weight: 650; }
+.kh-result-snippet { color: var(--muted); line-height: 1.35; overflow-wrap: anywhere; }
+.kh-results-head {
+  margin-top: 0.3rem; padding: 0.45rem 0.6rem 0.2rem; border-top: 1px solid var(--line);
+  color: var(--muted); font-size: 0.78rem; font-weight: 650;
+}
+.kh-results-head:first-child { margin-top: 0; border-top: 0; }
 .kh-no-results { padding: 0.5rem 0.6rem; }
+.cf-search .kh-results { right: auto; width: min(26rem, 80vw); max-height: 70vh; overflow-y: auto; }
+/* In the phone menu the results push the links down instead of floating over them. */
+.cf-drawer-search { padding: 12px 12px 0; }
+.cf-drawer-search .kh-search-form { flex-wrap: wrap; }
+.cf-drawer-search .kh-search-icon { top: 0.75rem; }
+.cf-drawer-search .kh-results { position: static; flex: 0 0 100%; margin-top: 0.4rem; box-shadow: none; }
 
 /* ---------- exercise: sticky bottom action bar ---------- */
 .quiz-bar {

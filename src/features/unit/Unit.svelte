@@ -14,6 +14,7 @@
   import ReflectCard from '../../ui/ReflectCard.svelte';
   import type { Lesson, MasteryTier } from '../../core/types.ts';
   import MasteryIcon from '../../ui/MasteryIcon.svelte';
+  import { courseDeck } from '../../core/cards.ts';
   import MasteryLegend from '../../ui/MasteryLegend.svelte';
   import NavIcon from '../../ui/NavIcon.svelte';
   import { t } from '../../i18n/i18n.ts';
@@ -25,6 +26,7 @@
 
   const course = $derived(getCourse(courseId));
   const cs = $derived(courseSettings(courseId));
+  const deckSize = $derived(course ? courseDeck(course, cs.explanationLanguage).length : 0);
   const layout = $derived(app.settings.layout);
   const extra = $derived(shows(layout, 'extraStats'));
   const simple = $derived(layout === 'simple');
@@ -317,6 +319,17 @@
             onSave={(patch) => saveReflection(courseId, 'unit:' + mod.id, patch)}
           />
         {/key}
+      {/if}
+
+      {#if deckSize > 0}
+        <section class="cf-card cf-test-card cf-challenge-card">
+          <MasteryIcon kind="quiz" size={32} />
+          <div class="cf-test-text">
+            <h2>{t('cards.title')}</h2>
+            <p class="cf-muted">{t('cards.cardText', { n: deckSize })}</p>
+          </div>
+          <button type="button" class="cf-btn cf-btn-secondary" onclick={() => navigate({ name: 'cards', courseId })}>{t('cards.cta')}</button>
+        </section>
       {/if}
 
       <section class="cf-card cf-test-card cf-challenge-card">

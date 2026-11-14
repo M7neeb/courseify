@@ -663,4 +663,5 @@ export type Route =
   | { name: 'trash' }
   | { name: 'exercise'; courseId: string; skillId: string }
   | { name: 'challenge'; courseId: string }
+  | { name: 'cards'; courseId: string }
   | { name: 'exam'; courseId: string };

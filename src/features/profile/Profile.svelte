@@ -22,7 +22,7 @@
         <input type="text" maxlength="48" value={app.settings.profileName} placeholder={t('profile.nameHint')} oninput={(event) => updateSettings({ profileName: event.currentTarget.value })} />
       </label>
       <label class="profile-color-label">{t('profile.avatarColor')}
-        <span class="profile-color-control"><input type="color" value={app.settings.profileColor} aria-label={t('profile.avatarColor')} onchange={(event) => updateSettings({ profileColor: event.currentTarget.value })} /><span class="muted small">{app.settings.profileColor}</span></span>
+        <span class="profile-color-control"><input type="color" value={app.settings.profileColor} aria-label={t('profile.avatarColor')} onchange={(event) => updateSettings({ profileColor: event.currentTarget.value })} /></span>
       </label>
       <label>{t('profile.username')}
         <input type="text" maxlength="32" value={app.settings.username ?? ''} placeholder={t('profile.usernameHint')} oninput={(event) => updateSettings({ username: event.currentTarget.value })} />

@@ -95,7 +95,7 @@ fieldset, .notice, .banner { border-radius: 8px; box-shadow: none; }
 .cf-menu-btn { display: none; }
 .cf-caret { display: inline-block; width: 0; height: 0; margin-left: 8px; border: 5px solid transparent; border-top-color: currentColor; border-bottom: 0; vertical-align: middle; }
 
-.cf-search { width: 200px; }
+.cf-search { width: 250px; }
 .cf-search .kh-search-form input[type='search'] {
   height: 38px; width: 100%; padding: 0 12px 0 36px; border-radius: 8px;
   border: 1px solid color-mix(in srgb, var(--ink) 30%, transparent); background: var(--surface); color: var(--ink); font: inherit;
@@ -458,6 +458,15 @@ fieldset, .notice, .banner { border-radius: 8px; box-shadow: none; }
   border: 2px solid rgb(33 36 44 / 0.5); box-sizing: border-box; background: var(--surface);
 }
 .option:hover { border-color: var(--accent); background: var(--accent-soft); }
+/* With a keyboard at hand, each option shows the number key that picks it. */
+@media (hover: hover) and (pointer: fine) {
+  .quiz .options { counter-reset: option; }
+  .quiz .options .option { counter-increment: option; }
+  .quiz .options .option::after {
+    content: counter(option); margin-left: auto; padding-left: 12px;
+    color: var(--muted); font: 600 0.75rem var(--mono); opacity: 0.7;
+  }
+}
 .option.selected { border: 2px solid var(--accent); padding: 9px 15px; background: var(--accent-soft); }
 .option.selected[role='radio']::before { border: 5px solid var(--accent); }
 .option .check-box { border-radius: 8px; border: 2px solid rgb(33 36 44 / 0.5); margin-right: 0; }
@@ -519,6 +528,7 @@ fieldset, .notice, .banner { border-radius: 8px; box-shadow: none; }
 
 /* ---------- progress page: mastery by subject ---------- */
 .cf-stat-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 12px; }
+.cf-progress-page > .cf-week { margin-bottom: 12px; }
 .cf-stat-tile { display: flex; flex-direction: column; gap: 6px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
 
 .cf-stat-label { margin: 0; font-size: 0.85rem; color: var(--muted); font-weight: 700; }
@@ -1155,3 +1165,21 @@ p.code-error { color: var(--bad); font-weight: 700; }
 }
 :root[data-theme='dark'] { --marker: #7a6612; }
 @media (prefers-color-scheme: dark) { :root[data-theme='system'] { --marker: #7a6612; } }
+
+/* ---------- flashcards page ---------- */
+.cf-cards-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin: 8px 0 16px; }
+.cf-cards-head h1 { margin: 0; }
+.cf-cards-unit select { margin: 0; max-width: 16rem; }
+.cf-cards-progress { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; margin-bottom: 14px; }
+.cf-cards-card {
+  position: relative; width: 100%; min-height: min(22rem, 52vh); padding: 28px 24px 40px;
+  font: inherit; color: inherit; text-align: left; cursor: pointer; background: var(--surface);
+}
+.cf-cards-card .flashcard-face-label, .cf-cards-card .flashcard-copy { display: block; }
+.cf-cards-card .flashcard-copy { font-size: 1.35rem !important; }
+.cf-cards-from { position: absolute; left: 24px; right: 24px; bottom: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cf-cards-keys { margin-top: 14px; }
+@media (hover: none), (pointer: coarse) { .cf-cards-keys { display: none; } }
+.cf-cards-done h2 { margin-top: 0; }
+
+.profile-preview { border-radius: 14px; }

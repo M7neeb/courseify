@@ -471,6 +471,51 @@
     void toQuestion();
   }
 
+  /** An option's text cut at its backticks, so `code` in an answer is set as code. */
+  function codeParts(text: string): { text: string; code: boolean }[] {
+    return text.split('`').map((part, i) => ({ text: part, code: i % 2 === 1 })).filter((part) => part.text !== '');
+  }
+
+  /** A lesson can hold several quizzes; the keyboard belongs to the one that fills most of the screen. */
+  function hasKeyboard(): boolean {
+    if (!root) return false;
+    const seen = (el: Element) => {
+      const r = el.getBoundingClientRect();
+      return Math.max(0, Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0));
+    };
+    const mine = seen(root);
+    if (mine <= 0) return false;
+    for (const other of document.querySelectorAll('section.block.quiz')) {
+      if (other === root) return true;
+      if (seen(other) >= mine) return false;
+    }
+    return true;
+  }
+
+  // Number keys pick an option, Enter checks the answer and moves on.
+  function onKey(event: KeyboardEvent) {
+    const q = current;
+    if (!q || hidden || finished || event.ctrlKey || event.metaKey || event.altKey) return;
+    const target = event.target as HTMLElement | null;
+    if (target?.closest('input, textarea, select, [contenteditable="true"], .cm-editor, dialog')) return;
+    if (event.key === 'Enter') {
+      if (target?.closest('button, a, summary') || !hasKeyboard()) return;
+      const selfChecking = ['written', 'chess', 'code', 'sql', 'shell'].includes(q.kind);
+      if (answeredCorrect) advance();
+      else if (!selfChecking && !needsRecall(q) && canCheck(q)) check(q);
+      else return;
+      event.preventDefault();
+      return;
+    }
+    if (!/^[1-9]$/.test(event.key) || answeredCorrect || needsRecall(q) || !hasKeyboard()) return;
+    const n = Number(event.key) - 1;
+    if (q.kind === 'multiple-choice' && n < (q.options?.length ?? 0)) drafts[q.id] = n;
+    else if (q.kind === 'true-false' && n < 2) drafts[q.id] = n === 0;
+    else if (q.kind === 'multi-select' && n < (q.options?.length ?? 0)) toggleMulti(q, n);
+    else return;
+    event.preventDefault();
+  }
+
   function practiseMistakes() {
     const ids = [...new Set(misses.map((m) => m.questionId))];
     // Clear what was typed, picked or hinted on these questions, so each one is a real second try.
@@ -503,6 +548,12 @@
   }
 
 </script>
+
+<svelte:window onkeydown={onKey} />
+
+{#snippet optionText(text: string)}
+  <span class="option-text">{#each codeParts(text) as part, i (i)}{#if part.code}<code>{part.text}</code>{:else}{part.text}{/if}{/each}</span>
+{/snippet}
 
 <section class="block quiz" {lang} bind:this={root}>
   {#if hidden}
@@ -728,7 +779,7 @@
                 role="radio"
                 aria-checked={drafts[current.id] === oi}
                 class:selected={drafts[current.id] === oi}
-                onclick={() => (drafts[current.id] = oi)}>{option}</button
+                onclick={() => (drafts[current.id] = oi)}>{@render optionText(option)}</button
               >
             {/each}
           </div>
@@ -759,7 +810,7 @@
                 onclick={() => toggleMulti(current, oi)}
               >
                 <span class="check-box" aria-hidden="true">{selected ? '✓' : ''}</span>
-                {option}
+                {@render optionText(option)}
               </button>
             {/each}
           </div>

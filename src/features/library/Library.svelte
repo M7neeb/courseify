@@ -60,6 +60,8 @@
       });
   });
   const backup = $derived(backupStatus(app.settings.lastBackupAt));
+  // Nothing to lose yet means nothing to nag about.
+  const hasProgress = $derived(Object.keys(app.activity).length > 0);
   const continueCourse = $derived(
     [...app.courses]
       .filter((course) => !app.meta[course.id]?.archived && app.progress[course.id]?.position)
@@ -146,7 +148,7 @@
     </div>
   </div>
 
-  {#if backup.stale && !app.settings.backupReminderDismissed && visible.length > 0}
+  {#if backup.stale && !app.settings.backupReminderDismissed && visible.length > 0 && hasProgress}
     <div class="backup-inline" role="status"><span class="backup-mark" aria-hidden="true">!</span><span>{t('backup.warn')} <span class="muted">{backupText}</span></span><button type="button" class="backup-dismiss" aria-label={t('backup.dismiss')} title={t('backup.dismiss')} onclick={() => updateSettings({ backupReminderDismissed: true })}>×</button></div>
   {/if}
 
@@ -194,9 +196,12 @@
         {@const tags = tagsFor(course)}
         {@const isCurrent = continueCourse?.id === course.id && !searchText.trim() && !showArchived}
         {@const resumeItem = flattenCourse(course).find((item) => item.id === app.progress[course.id]?.position?.lessonId)}
+        {@const label = isCurrent ? t('library.continueSection') : course.subject ? '' : course.level || t('library.courseLabel')}
         <li class="course-row" class:archived class:continuing={isCurrent}>
           <div class="course-main">
-            <p class="course-subject">{isCurrent ? t('library.continueSection') : course.subject || course.level || t('library.courseLabel')}{#if archived}<span class="course-archived">, {t('library.archived')}</span>{/if}</p>
+            {#if label || archived}
+              <p class="course-subject">{label}{#if archived}<span class="course-archived">{label ? ', ' : ''}{t('library.archived')}</span>{/if}</p>
+            {/if}
             <h2>{displayTitle(course)}</h2>
             <p class="muted course-summary">{#if isCurrent && (resumeItem?.title || resumeItem?.moduleTitle)}{resumeItem?.title || resumeItem?.moduleTitle}{', '}{/if}{t(flattenCourse(course).length === 1 ? 'library.partOne' : 'library.partMany', { n: flattenCourse(course).length })}{#if course.level && course.subject}{', '}{course.level}{/if}</p>
             {#if extra}

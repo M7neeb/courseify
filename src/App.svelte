@@ -23,6 +23,7 @@
   import Exercise from './features/exercise/Exercise.svelte';
   import Unit from './features/unit/Unit.svelte';
   import Challenge from './features/challenge/Challenge.svelte';
+  import Cards from './features/cards/Cards.svelte';
   import Play from './features/play/Play.svelte';
   import Drills from './features/drills/Drills.svelte';
   import MockExam from './features/challenge/MockExam.svelte';
@@ -36,7 +37,7 @@
   import { watchGlossary } from './ui/glossaryLayer.ts';
 
   const route = $derived(app.route);
-  const courseRoute = $derived(route.name === 'player' || route.name === 'unit' || route.name === 'exercise' || route.name === 'challenge' || route.name === 'exam');
+  const courseRoute = $derived(route.name === 'player' || route.name === 'unit' || route.name === 'exercise' || route.name === 'challenge' || route.name === 'cards' || route.name === 'exam');
   let drawerOpen = $state(false);
   let profileMenuOpen = $state(false);
 
@@ -51,6 +52,15 @@
 
   function onKeydown(event: KeyboardEvent) {
     if (drawerOpen) trapTab(event, drawerEl ?? null);
+    // "/" jumps to the search box, as on most sites with one.
+    if (event.key === '/' && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      const typing = (event.target as HTMLElement | null)?.closest('input, textarea, select, [contenteditable="true"], .cm-editor');
+      const box = document.getElementById('header-search');
+      if (!typing && box && box.offsetParent !== null) {
+        event.preventDefault();
+        box.focus();
+      }
+    }
     if (event.key === 'Escape') {
       drawerOpen = false;
       profileMenuOpen = false;
@@ -209,6 +219,7 @@
           <NavIcon name="close" />
         </button>
       </div>
+      <div class="cf-drawer-search"><SearchBox id="menu-search" /></div>
       {#if route.name === 'player'}
         <div class="cf-drawer-outline"><CourseOutline courseId={route.courseId} lessonId={route.lessonId} /></div>
       {/if}
@@ -234,6 +245,8 @@
     </div>
   {:else if route.name === 'exercise'}
     <main class="cf-page cf-page-narrow"><Exercise courseId={route.courseId} skillId={route.skillId} /></main>
+  {:else if route.name === 'cards'}
+    <main class="cf-page cf-page-narrow"><Cards courseId={route.courseId} /></main>
   {:else if route.name === 'challenge'}
     <main class="cf-page cf-page-narrow"><Challenge courseId={route.courseId} /></main>
   {:else if route.name === 'exam'}
