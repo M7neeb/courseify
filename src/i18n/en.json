@@ -1926,5 +1926,6 @@
   "keys.turn": "Turn the card",
   "keys.again": "Again",
   "keys.know": "I knew it",
-  "keys.closeButton": "Close"
+  "keys.closeButton": "Close",
+  "shell.searchTerms": "Terms"
 }

@@ -1926,5 +1926,6 @@
   "keys.turn": "Karte umdrehen",
   "keys.again": "Nochmal",
   "keys.know": "Gewusst",
-  "keys.closeButton": "Schließen"
+  "keys.closeButton": "Schließen",
+  "shell.searchTerms": "Begriffe"
 }

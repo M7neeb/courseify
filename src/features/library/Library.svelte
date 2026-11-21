@@ -251,6 +251,7 @@
                 <button type="button" onclick={() => setArchived(course.id, !archived)}>{archived ? t('library.unarchive') : t('library.archive')}</button>
                 <button type="button" onclick={() => startTagEdit(course)}>{t('library.editTags')}</button>
                 <button type="button" onclick={() => navigate({ name: 'settings', courseId: course.id })}>{t('course.settings')}</button>
+                <button type="button" onclick={() => navigate({ name: 'sheet', courseId: course.id })}>{t('sheet.title')}</button>
                 <button type="button" onclick={() => shareFromLibrary(course)}>{t('share.button')}</button>
                 <button type="button" class="danger-text" onclick={() => remove(course)}>{t('library.delete')}</button>
               </div>

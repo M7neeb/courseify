@@ -2,8 +2,8 @@
   // The header search. It looks through the LOCAL library live: typing lists the matching courses
   // and the lessons that mention the words. Enter opens the best match (or the Library when
   // nothing matches). No network, no dependency.
-  import { app, displayTitle, navigate } from '../core/state.svelte.ts';
-  import { courseMatches, searchLessons, type LessonHit } from '../core/search.ts';
+  import { app, courseSettings, displayTitle, navigate } from '../core/state.svelte.ts';
+  import { courseMatches, searchLessons, searchTerms, type LessonHit, type TermHit } from '../core/search.ts';
   import type { Course } from '../core/types.ts';
   import NavIcon from './NavIcon.svelte';
   import { t } from '../i18n/i18n.ts';
@@ -33,7 +33,18 @@
     return searchLessons(app.courses.filter((course) => !app.meta[course.id]?.archived), query, 6);
   });
 
+  const terms = $derived.by(() => {
+    if (!open) return [] as TermHit[];
+    return searchTerms(app.courses.filter((course) => !app.meta[course.id]?.archived), query, 3, (id) => courseSettings(id).explanationLanguage);
+  });
+
   const showList = $derived(open && query.trim() !== '');
+
+  function openTerm(hit: TermHit) {
+    navigate(hit.lessonId ? { name: 'player', courseId: hit.courseId, lessonId: hit.lessonId } : { name: 'player', courseId: hit.courseId });
+    query = '';
+    open = false;
+  }
 
   function courseTitle(courseId: string): string {
     const course = app.courses.find((c) => c.id === courseId);
@@ -91,6 +102,18 @@
           </button>
         </li>
       {/each}
+      {#if terms.length > 0}
+        <li class="kh-results-head" role="presentation">{t('shell.searchTerms')}</li>
+        {#each terms as hit (hit.courseId + '/' + hit.term)}
+          <li>
+            <button type="button" onmousedown={(event) => event.preventDefault()} onclick={() => openTerm(hit)}>
+              <span class="kh-result-title">{hit.term}</span>
+              <span class="kh-result-snippet small">{hit.definition}</span>
+              <span class="kh-result-sub muted small">{courseTitle(hit.courseId)}</span>
+            </button>
+          </li>
+        {/each}
+      {/if}
       {#if lessons.length > 0}
         <li class="kh-results-head" role="presentation">{t('shell.searchLessons')}</li>
         {#each lessons as hit (hit.courseId + '/' + hit.lessonId)}
@@ -103,7 +126,7 @@
           </li>
         {/each}
       {/if}
-      {#if results.length === 0 && lessons.length === 0}
+      {#if results.length === 0 && lessons.length === 0 && terms.length === 0}
         <li class="kh-no-results muted small">{t('shell.searchNothing')}</li>
       {/if}
     </ul>

@@ -95,3 +95,50 @@ test('every word has to appear, and one-letter queries find nothing', () => {
   assert.deepEqual(searchLessons([sql], 'select zebra'), []);
   assert.deepEqual(searchLessons([sql], 'a'), []);
 });
+
+test('glossary terms are found in either language, the ones that start with the words first', async () => {
+  const { searchTerms } = await import('./search.ts');
+  const course = {
+    schemaVersion: 2,
+    id: 'et',
+    title: 'ET',
+    glossary: [
+      { term: 'Ohmsches Gesetz', definition: 'U = R · I', i18n: { en: { term: "Ohm's law", definition: 'U = R · I' } } },
+      { term: 'Ohm', definition: 'Einheit des **Widerstands**', i18n: { en: { term: 'Ohm', definition: 'unit of resistance' } } },
+      { term: 'Leitwert', definition: 'Kehrwert des Widerstands', aliases: ['G'], i18n: { en: { term: 'Conductance', definition: 'one over the resistance' } } }
+    ],
+    modules: [{ id: 'm1', title: 'U', lessons: [
+      { id: 'l1', title: 'Spannung', blocks: [{ id: 'b', type: 'text', levels: { normal: 'Nothing here.' } }] },
+      { id: 'l2', title: 'Widerstand', blocks: [{ id: 'c', type: 'text', levels: { normal: 'Der Leitwert ist der Kehrwert.' } }] }
+    ] }]
+  };
+  const ohm = searchTerms([course], 'ohm', 4, () => 'de');
+  assert.equal(ohm[0].term, 'Ohm');
+  assert.equal(ohm[0].definition, 'Einheit des Widerstands');
+  assert.equal(searchTerms([course], 'ohm', 4, () => 'en')[0].definition, 'unit of resistance');
+  assert.ok(ohm.some((h) => h.term === 'Ohmsches Gesetz'));
+  // One result per term, in the language the course is read in; the other language still finds it.
+  assert.ok(!ohm.some((h) => h.term === "Ohm's law"));
+  assert.deepEqual(searchTerms([course], 'law', 4, () => 'de').map((h) => h.term), ["Ohm's law"]);
+  const conductance = searchTerms([course], 'conduct');
+  assert.deepEqual(conductance.map((h) => [h.term, h.lessonId]), [['Conductance', 'l2']]);
+  assert.deepEqual(searchTerms([course], 'o'), []);
+  assert.deepEqual(searchTerms([course], 'zzz'), []);
+});
+
+test('term search over every built-in course stays quick', async () => {
+  const { searchTerms } = await import('./search.ts');
+  const { readdirSync, readFileSync } = await import('node:fs');
+  const dir = new URL('../../courses/', import.meta.url);
+  const courses = readdirSync(dir).filter((f) => f.endsWith('.json')).map((f) => JSON.parse(readFileSync(new URL(f, dir), 'utf8')));
+  const started = performance.now();
+  for (const q of ['ip', 'widerstand', 'schlüssel', 'sql', 'pr']) searchTerms(courses, q);
+  assert.ok(performance.now() - started < 400, `took ${Math.round(performance.now() - started)} ms`);
+  assert.ok(searchTerms(courses, 'prim').some((h) => /prim/i.test(h.term)));
+});
+
+test('inline formulas read as plain text in results, and dollar amounts are left alone', async () => {
+  const { plainText } = await import('./search.ts');
+  assert.equal(plainText('Der Kehrwert: $G = \\frac{1}{R}$, Einheit Siemens.'), 'Der Kehrwert: G = 1 / R, Einheit Siemens.');
+  assert.equal(plainText('It costs $5 and $10 later.'), 'It costs $5 and $10 later.');
+});

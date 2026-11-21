@@ -1,7 +1,10 @@
 // Pure course search, shared by the header search box and the Library filter, so the two always
 // agree on what "matches". No storage and no DOM, so it is unit tested directly.
 
-import type { Course, Lesson } from './types.ts';
+import type { Course, GlossaryEntry, Lesson } from './types.ts';
+import { courseGlossary, glossaryTerms, termPattern } from './glossary.ts';
+import { LANGS, type Lang } from './localize.ts';
+import { plainTex } from './speech.ts';
 
 /** The searchable text of one course: its display title, subject, level and tags. */
 export function courseHaystack(course: Course, title: string, tags: string[]): string[] {
@@ -28,6 +31,8 @@ export function plainText(markdown: string): string {
   return markdown
     .replace(/```[\s\S]*?```/g, ' ')
     .replace(/\$\$[\s\S]*?\$\$/g, ' ')
+    // Inline maths as its symbols; a $ followed by a digit is money, not maths.
+    .replace(/(?<![\\$])\$([^$\n]+?)\$(?!\d)/g, (_, tex: string) => plainTex(tex))
     .replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1')
     .replace(/^\s*\|?[\s:|-]+\|[\s:|-]*$/gm, ' ')
     .replace(/[*_`#>|]/g, ' ')
@@ -97,4 +102,58 @@ export function searchLessons(courses: readonly Course[], query: string, limit =
     }
   }
   return [...inTitle, ...inText].slice(0, limit);
+}
+
+export interface TermHit {
+  courseId: string;
+  term: string;
+  definition: string;
+  /** The first lesson whose text uses the term, to open from the result. */
+  lessonId?: string;
+}
+
+/**
+ * Glossary terms whose name (or another spelling) contains the query, in either language. A term
+ * that starts with the query ranks first, so "ohm" finds "Ohm" before "Ohmsches Gesetz".
+ */
+export function searchTerms(courses: readonly Course[], query: string, limit = 4, langOf: (courseId: string) => Lang = () => 'en'): TermHit[] {
+  const q = query.trim().toLocaleLowerCase();
+  if (q.length < 2) return [];
+  const starts: TermHit[] = [];
+  const contains: TermHit[] = [];
+  const seen = new Set<string>();
+  for (const course of courses) {
+    const entries = courseGlossary(course);
+    // The lesson to open is found by the term's spellings in every language.
+    const everyWay = (entry: GlossaryEntry) => [entry.term, ...(entry.aliases ?? []), ...Object.values(entry.i18n ?? {}).flatMap((x) => [x.term ?? '', ...(x.aliases ?? [])])];
+    const first = langOf(course.id);
+    for (const entry of entries) {
+      for (const lang of [first, ...LANGS.filter((l) => l !== first)]) {
+        const [shown] = glossaryTerms([entry], lang);
+        if (!shown) continue;
+        const words = shown.words.map((w) => w.toLocaleLowerCase());
+        const leading = words.some((w) => w.startsWith(q));
+        if (!leading && !words.some((w) => w.includes(q))) continue;
+        const key = `${course.id}:${shown.term.toLocaleLowerCase()}`;
+        if (seen.has(key)) break;
+        seen.add(key);
+        (leading ? starts : contains).push({ courseId: course.id, term: shown.term, definition: plainText(shown.definition), lessonId: lessonUsing(course, everyWay(entry)) });
+        break;
+      }
+    }
+  }
+  return [...starts.sort((a, b) => a.term.length - b.term.length), ...contains].slice(0, limit);
+}
+
+/** Whole words only, two letters or more: an alias like "G" must not match inside "Gesetz". */
+function lessonUsing(course: Course, words: readonly string[]): string | undefined {
+  const pattern = termPattern(words.filter((w) => w.trim().length >= 2).map((w) => ({ words: [w.trim()], term: w, definition: '' })));
+  if (!pattern) return undefined;
+  for (const module of course.modules) {
+    for (const lesson of module.lessons) {
+      pattern.lastIndex = 0;
+      if (pattern.test(lessonText(lesson))) return lesson.id;
+    }
+  }
+  return undefined;
 }

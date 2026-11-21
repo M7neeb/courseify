@@ -1,7 +1,7 @@
 // The single source of truth for the app version and the "What's new" list.
 // Bump VERSION and add one CHANGELOG entry at the top when you ship user-visible changes.
 
-export const VERSION = '1.16.0';
+export const VERSION = '1.16.1';
 
 export interface ChangelogEntry {
   version: string;
@@ -11,6 +11,15 @@ export interface ChangelogEntry {
 
 /** Newest first. */
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.16.1',
+    date: '2026-11-21',
+    changes: [
+      'Search finds glossary terms too and shows what they mean, in the language you read the course in. Tap one to open the lesson that uses it.',
+      'Formulas in search results and in the Anki or Quizlet export read as symbols (G = 1 / R) instead of formula code.',
+      'The cheat sheet is also in the Library, in each course\'s ··· menu.'
+    ]
+  },
   {
     version: '1.16.0',
     date: '2026-11-20',

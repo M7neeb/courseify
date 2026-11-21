@@ -61,7 +61,8 @@ test('the text export puts one card per line with a tab between front and back, 
     { id: 'a:0', front: 'RAM', back: 'Arbeitsspeicher,\nflüchtig', lessonId: 'l1', lessonTitle: 'Speicher und CPU', moduleId: 'm1' },
     { id: 'a:1', front: '**CPU**', back: 'rechnet\tschnell', lessonId: 'l1', lessonTitle: 'Speicher und CPU', moduleId: 'm1' },
     { id: 'a:2', front: 'GPU', back: 'Grafik', lessonId: 'l2', lessonTitle: 'Grafik (GPU)', moduleId: 'm1' },
-    { id: 'a:3', front: 'SSD', back: 'Flash', lessonId: 'l2', lessonTitle: 'Grafik (GPU)', moduleId: 'm1' }
+    { id: 'a:3', front: 'SSD', back: 'Flash', lessonId: 'l2', lessonTitle: 'Grafik (GPU)', moduleId: 'm1' },
+    { id: 'a:4', front: 'Leitwert', back: '$G = \\frac{1}{R}$', lessonId: 'l3', lessonTitle: 'R', moduleId: 'm1' }
   ];
   const text = deckToText(cards);
   const lines = text.trimEnd().split('\n');
@@ -69,6 +70,7 @@ test('the text export puts one card per line with a tab between front and back, 
   assert.equal(lines[3], 'RAM\tArbeitsspeicher, flüchtig\tSpeicher_und_CPU');
   assert.equal(lines[4], 'CPU\trechnet schnell\tSpeicher_und_CPU');
   assert.equal(lines[5].split('\t')[2], 'Grafik_GPU');
+  assert.equal(lines[7].split('\t')[1], 'G = 1 / R');
   const back = parseTermList(text);
-  assert.deepEqual(back.terms.map((x) => [x.term, x.meaning]), [['RAM', 'Arbeitsspeicher, flüchtig'], ['CPU', 'rechnet schnell'], ['GPU', 'Grafik'], ['SSD', 'Flash']]);
+  assert.deepEqual(back.terms.map((x) => [x.term, x.meaning]), [['RAM', 'Arbeitsspeicher, flüchtig'], ['CPU', 'rechnet schnell'], ['GPU', 'Grafik'], ['SSD', 'Flash'], ['Leitwert', 'G = 1 / R']]);
 });

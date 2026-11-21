@@ -33,8 +33,8 @@ export function speechText(markdown: string): string {
     .trim();
 }
 
-/** TeX as something a voice can read: \frac{a}{b} becomes a / b, \cdot a dot, other commands go. */
-function plainTex(tex: string): string {
+/** TeX as something a voice (or a search result) can show: \frac{a}{b} becomes a / b, \cdot a dot, other commands go. */
+export function plainTex(tex: string): string {
   return tex
     .replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g, '$1 / $2')
     .replace(/\\(?:cdot|times)/g, ' · ')

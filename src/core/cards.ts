@@ -2,6 +2,7 @@
 
 import { resolveFlashcards, type Lang } from './localize.ts';
 import { seededRng } from './drills.ts';
+import { plainTex } from './speech.ts';
 import type { Course } from './types.ts';
 
 export interface DeckCard {
@@ -56,9 +57,12 @@ export function afterAnswer<T>(queue: readonly T[], knewIt: boolean, gap = 4): T
   return [...rest.slice(0, at), front, ...rest.slice(at)];
 }
 
-/** One line of a text export: no tabs or line breaks inside a field, no Markdown stars. */
+/** One line of a text export: no tabs or line breaks inside a field, no Markdown stars, formulas as symbols. */
 function field(text: string): string {
-  return text.replace(/\*\*|__/g, '').replace(/[\t\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+  return text
+    .replace(/\$\$([\s\S]+?)\$\$/g, (_, tex: string) => plainTex(tex))
+    .replace(/(?<![\\$])\$([^$\n]+?)\$(?!\d)/g, (_, tex: string) => plainTex(tex))
+    .replace(/\*\*|__/g, '').replace(/[\t\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
 }
 
 /**
