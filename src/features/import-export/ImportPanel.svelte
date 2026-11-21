@@ -3,6 +3,7 @@
   import { analyzeImport, applyFinalExam, applyModule, applyQuestions, type ImportAnalysis } from '../../core/import.ts';
   import { clearReports } from '../../core/state.svelte.ts';
   import { flattenCourse } from '../../core/course-utils.ts';
+  import { courseFromTerms, MIN_TERMS, parseTermList, type TermLanguage, type TermList } from '../../core/termList.ts';
   import type { Course } from '../../core/types.ts';
   import { copyText } from '../../ui/clipboard.ts';
   import { t } from '../../i18n/i18n.ts';
@@ -14,6 +15,11 @@
   let mergeErrors = $state<string[]>([]);
   let copied = $state(false);
   let done = $state<{ courseId?: string; message: string } | null>(null);
+  // Text that is not JSON but a list of "term - meaning" lines becomes a course right here.
+  let termList = $state.raw<TermList | null>(null);
+  let listTitle = $state('');
+  let listLanguage = $state<TermLanguage>(app.settings.uiLanguage === 'de' ? 'de' : 'en');
+  let fileName = '';
 
   const errors = $derived(analysis?.kind === 'error' ? analysis.errors : mergeErrors);
   const warnings = $derived(analysis && analysis.kind !== 'error' ? analysis.warnings : []);
@@ -22,6 +28,16 @@
     done = null;
     mergeErrors = [];
     analysis = analyzeImport(text);
+    termList = null;
+    if (analysis.kind === 'error') {
+      const list = parseTermList(text);
+      if (list.terms.length >= MIN_TERMS) {
+        termList = list;
+        analysis = null;
+        if (!listTitle.trim()) listTitle = fileName;
+        return;
+      }
+    }
     if (analysis.kind === 'module' || analysis.kind === 'exam' || analysis.kind === 'questions') {
       const hinted = analysis.courseId && getCourse(analysis.courseId) ? analysis.courseId : undefined;
       targetId = hinted ?? app.courses[0]?.id ?? '';
@@ -32,6 +48,7 @@
     const input = event.currentTarget as HTMLInputElement;
     const file = input.files?.[0];
     if (!file) return;
+    fileName = file.name.replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' ').trim();
     text = await file.text();
     input.value = '';
     check();
@@ -89,6 +106,18 @@
     analysis = null;
   }
 
+  async function makeListCourse() {
+    if (!termList || !listTitle.trim()) return;
+    const course = courseFromTerms(termList.terms, { title: listTitle, language: listLanguage });
+    if (getCourse(course.id) !== undefined && !confirm(t('import.overwrite'))) return;
+    await saveCourse(course);
+    done = { courseId: course.id, message: t('import.terms.done', { title: course.title, n: termList.terms.length }) };
+    showToast(done.message);
+    text = '';
+    termList = null;
+    listTitle = '';
+  }
+
   async function copyErrors() {
     copied = await copyText(errors.join('\n'));
     setTimeout(() => (copied = false), 2000);
@@ -102,7 +131,7 @@
   <div class="row">
     <label class="btn file-button">
       {t('import.pickFile')}
-      <input type="file" accept=".json,application/json,.cpack" onchange={onFile} hidden />
+      <input type="file" accept=".json,application/json,.cpack,.txt,.csv,.tsv,text/plain,text/csv" onchange={onFile} hidden />
     </label>
   </div>
 
@@ -156,6 +185,35 @@
       <button type="button" class="btn primary" disabled={(analysis.kind === 'module' || analysis.kind === 'exam' || analysis.kind === 'questions') && !targetId} onclick={commit}>
         {analysis.kind === 'backup' ? t('import.backupRestore') : t('import.confirm')}
       </button>
+    </div>
+  {/if}
+
+  {#if termList}
+    {@const shown = termList.terms.slice(0, 5)}
+    <div class="notice good term-list">
+      <h2>{t('import.terms.found', { n: termList.terms.length })}</h2>
+      <p>{t('import.terms.intro')}</p>
+      <table>
+        <thead><tr><th>{t('import.terms.colTerm')}</th><th>{t('import.terms.colMeaning')}</th></tr></thead>
+        <tbody>
+          {#each shown as entry, i (i)}<tr><td>{entry.term}</td><td>{entry.meaning}</td></tr>{/each}
+        </tbody>
+      </table>
+      {#if termList.terms.length > shown.length}<p class="muted small">{t('import.terms.more', { n: termList.terms.length - shown.length })}</p>{/if}
+      {#if termList.skipped.length > 0}
+        <p class="small">{t('import.terms.skipped', { n: termList.skipped.length, lines: termList.skipped.slice(0, 3).join(' · ') })}</p>
+      {/if}
+      {#if termList.duplicates.length > 0}
+        <p class="small">{t('import.terms.duplicates', { terms: termList.duplicates.slice(0, 5).join(', ') })}</p>
+      {/if}
+      <label for="list-title">{t('import.terms.name')}</label>
+      <input id="list-title" type="text" bind:value={listTitle} placeholder={t('import.terms.namePlaceholder')} />
+      <label for="list-language">{t('import.terms.language')}</label>
+      <select id="list-language" bind:value={listLanguage}>
+        <option value="de">Deutsch</option>
+        <option value="en">English</option>
+      </select>
+      <button type="button" class="btn primary" disabled={!listTitle.trim()} onclick={makeListCourse}>{t('import.terms.make')}</button>
     </div>
   {/if}
 

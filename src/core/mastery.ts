@@ -263,8 +263,13 @@ export function moduleSkills(course: Course, moduleId: string): Skill[] {
 }
 
 /** A skill that has no questions cannot be practised, so it never blocks progress. */
+/**
+ * A skill the learner masters: one lesson with questions. Questions in a unit test or final exam
+ * that name no lesson form a group of their own; they are asked, but they are not a skill, so every
+ * count of skills (Home, Progress, milestones, a finished course) leaves them out.
+ */
 export function isMasterable(skill: Skill): boolean {
-  return skill.questionIds.length > 0;
+  return skill.lessonId !== null && skill.questionIds.length > 0;
 }
 
 /**
@@ -272,7 +277,7 @@ export function isMasterable(skill: Skill): boolean {
  * only count when they name a lesson's skill, so the module maximum is always lessons x 100.
  */
 export function moduleMasterySkills(course: Course, moduleId: string): Skill[] {
-  return moduleSkills(course, moduleId).filter((skill) => skill.lessonId !== null && skill.questionIds.length > 0);
+  return moduleSkills(course, moduleId).filter(isMasterable);
 }
 
 /** Earned / maximum mastery points over a module, 0-1. A module with nothing to master is 1. */

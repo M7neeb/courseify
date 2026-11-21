@@ -333,6 +333,15 @@
       {/if}
 
       <section class="cf-card cf-test-card cf-challenge-card">
+        <span class="cf-sheet-icon"><NavIcon name="article" size={22} /></span>
+        <div class="cf-test-text">
+          <h2>{t('sheet.title')}</h2>
+          <p class="cf-muted">{t('sheet.cardText')}</p>
+        </div>
+        <button type="button" class="cf-btn cf-btn-secondary" onclick={() => navigate({ name: 'sheet', courseId, moduleId: mod.id })}>{t('sheet.cta')}</button>
+      </section>
+
+      <section class="cf-card cf-test-card cf-challenge-card">
         <MasteryIcon kind="test" size={32} />
         <div class="cf-test-text">
           <h2>{t('challenge.title')}</h2>

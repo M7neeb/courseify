@@ -34,6 +34,7 @@ and stays on your device. No account, no subscription, no tracking.
         <li>Lessons in three depths: normal, simple (for when you're lost) and detailed, with worked examples, key points and common mistakes.</li>
         <li>Formulas, diagrams and graphs. Graphs come with sliders you drag to see what each value does.</li>
         <li>Tap a term for its meaning, in German and English.</li>
+        <li>Read aloud: any lesson read to you by your device's own voice.</li>
         <li>German and English in one course, switchable in every lesson.</li>
         <li>Code that runs right in the lesson, in Python or JavaScript.</li>
       </ul>
@@ -44,6 +45,7 @@ and stays on your device. No account, no subscription, no tracking.
         <li>Fifteen question types, from multiple choice to written answers, tap-the-picture questions, trace tables, and programming, SQL and command-line tasks checked by the app.</li>
         <li>Drills: endless new problems with a worked solution you open step by step, for IT (binary, hex, units, subnets, IPv6, packets and captures) and maths, plus a hash lab, a password check and a network plan builder.</li>
         <li>Mock exams: a timed test over a whole course, graded at the end.</li>
+        <li>Cheat sheet: the key points, formulas, common mistakes and terms of a unit or course on a page you can print.</li>
         <li>Mistake review brings back what you missed, spaced out so it sticks.</li>
       </ul>
     </td>
@@ -73,6 +75,7 @@ and stays on your device. No account, no subscription, no tracking.
       <h3>Make your own</h3>
       <ul>
         <li>Course builder: six short steps turn a topic and your own notes into a ready-to-paste brief. Paste the reply into <i>Import</i> and it becomes a course.</li>
+        <li>Term lists: paste lines like <i>RAM - Arbeitsspeicher</i>, or a Quizlet or Anki text export, and get a course with flashcards and questions straight away.</li>
         <li>Starting points for exam prep, programming, IT and networks, maths, chess and more.</li>
         <li>Forgiving import that lists anything broken with a fix-it prompt; report a wrong question and fix it the same way.</li>
       </ul>
@@ -136,6 +139,7 @@ version is out (your progress stays). Delete one and it stays deleted; add it ba
 | IT-Systeme: EVA-Modell, Einheiten und Zahlensysteme | German and English | 19 |
 | Datenbanken: ER-Modell, Schlüssel und Tabellen | German and English | 20 |
 | Elektrotechnik: Strom, Leistung und Wechselspannung | German and English | 23 |
+| Elektrotechnik kompakt: SI-Präfixe, Arbeitsstättenverordnung und Sinus | German and English | 11 |
 | Das Pflichtenheft verstehen | German | 11 |
 | SQL-Detektiv: Der Fall des Blauen Kristalls | German and English | 7 |
 | Programmieren: Pseudocode und Python | German and English | 8 |
@@ -146,6 +150,7 @@ version is out (your progress stays). Delete one and it stays deleted; add it ba
 ## How a course is made
 
 1. Describe it. Open *Create a course*, pick a starting point and add your notes or handouts.
+   (Only a list of terms to learn? Paste it straight into *Import*.)
 2. Get the brief. Courseify writes a complete brief: an outline first, then one unit at a time, so
    a big course never gets cut off.
 3. Import the reply. Paste each reply into *Import*. Units land in the right course on their own.

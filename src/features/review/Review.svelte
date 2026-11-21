@@ -89,7 +89,7 @@
   }
 </script>
 
-<section class="cf-review">
+<section class="cf-review-page">
   {#if mode === 'due'}
     <div class="cf-section-head">
       <h1>{t('review.todayTitle')}</h1>

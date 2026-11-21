@@ -228,3 +228,62 @@ test('the IT and maths presets ask for drill and graph blocks; other courses do 
   assert.equal(normalizeSettings({ extras: { practice: true } }).extras.practice, true);
   assert.equal(normalizeSettings({}).extras.practice, false);
 });
+
+test('trace, SQL and command-line questions are offered, off by default, and bring their own schema part', () => {
+  for (const kind of ['trace', 'sql', 'shell'] as const) {
+    assert.ok(ALL_KINDS.includes(kind), kind);
+    assert.ok(!DEFAULT_KINDS.includes(kind), kind);
+  }
+  const plain = singlePrompt(settings(), schema);
+  for (const part of ['TRACE (trace table', 'SQL (query questions', 'SHELL (practice terminal']) assert.ok(!plain.includes(part), part);
+
+  const all = singlePrompt(settings({ kinds: [...DEFAULT_KINDS, 'trace', 'sql', 'shell'] }), schema);
+  assert.ok(all.includes('TRACE (trace table') && all.includes('"kind": "trace"') && all.includes('"blanks"'));
+  assert.ok(all.includes('SQL (query questions') && all.includes('"kind": "sql"') && all.includes('"setup"'));
+  assert.ok(all.includes('SHELL (practice terminal') && all.includes('"kind": "shell"') && all.includes('mkdir (-p)'));
+  assert.ok(!all.includes('hand-written courses only'));
+
+  // A builder that only offers SQL gets only the SQL part.
+  const sqlOnly = unitPrompt(settings({ kinds: ['multiple-choice', 'sql'] }), sample, sample.modules[0].id, schema);
+  assert.ok(sqlOnly.includes('SQL (query questions') && !sqlOnly.includes('SHELL (practice terminal'));
+  assert.equal(normalizeSettings({ kinds: ['sql', 'nonsense'] }).kinds.join(), 'sql');
+});
+
+test('the examples in the trace, SQL and shell schema parts pass the importer', async () => {
+  const { validateCourse } = await import('./validate.ts');
+  const prompt = singlePrompt(settings({ kinds: ['trace', 'sql', 'shell'] }), schema);
+  const questions = ['trace', 'sql', 'shell'].map((kind) => {
+    const line = prompt.split('\n').find((l) => l.includes(`"kind": "${kind}"`))!;
+    return JSON.parse(line.slice(line.indexOf('{')));
+  });
+  const course = { schemaVersion: 2, id: 'x', title: 'x', modules: [{ id: 'm1', title: 'm', lessons: [{ id: 'm1-l1', title: 'l', blocks: [{ id: 'b', type: 'quiz', questions }] }] }] };
+  assert.deepEqual(validateCourse(course).errors, []);
+});
+
+test('the shell example\'s answer really reaches its goal in the practice terminal', async () => {
+  const { createShell, goalMet, runShell } = await import('./shell.ts');
+  const prompt = singlePrompt(settings({ kinds: ['shell'] }), schema);
+  const line = prompt.split('\n').find((l) => l.includes('"kind": "shell"'))!;
+  const q = JSON.parse(line.slice(line.indexOf('{')));
+  const state = createShell(q.fs, q.cwd);
+  runShell(state, q.answer);
+  assert.ok(goalMet(q.goal, state));
+});
+
+test('the programming preset asks for trace tables', () => {
+  const out = singlePrompt(applyPreset(settings({ topic: 'Python loops' }), 'programming'), schema);
+  assert.ok(out.includes('TRACE (trace table'));
+});
+
+test('the SQL example\'s model answer returns the Berlin rows from its own practice database', async () => {
+  const { createRequire } = await import('node:module');
+  const require = createRequire(import.meta.url);
+  const initSqlJs = require('sql.js') as () => Promise<{ Database: new () => { run(sql: string): void; exec(sql: string): { values: unknown[][] }[] } }>;
+  const SQL = await initSqlJs();
+  const prompt = singlePrompt(settings({ kinds: ['sql'] }), schema);
+  const line = prompt.split('\n').find((l) => l.includes('"kind": "sql"'))!;
+  const q = JSON.parse(line.slice(line.indexOf('{')));
+  const db = new SQL.Database();
+  db.run(q.setup);
+  assert.deepEqual(db.exec(q.answer)[0].values, [['Ana', 'Berlin'], ['Cem', 'Berlin']]);
+});

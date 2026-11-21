@@ -53,11 +53,14 @@ test('number keys pick an answer and Enter checks it', async ({ page, isMobile }
   await expect(options.first()).toBeVisible();
   await expect(page.locator('article.question')).toHaveAttribute('data-state', 'open');
 
-  await page.keyboard.press('2');
-  await expect(options.nth(1)).toHaveAttribute('aria-checked', 'true');
-  await page.keyboard.press('3');
-  await expect(options.nth(2)).toHaveAttribute('aria-checked', 'true');
-  await expect(options.nth(1)).toHaveAttribute('aria-checked', 'false');
+  // A practice set starts with a random question: true/false has two options, the others four.
+  const twoOptions = await page.getByRole('radio', { name: 'True', exact: true }).isVisible();
+  const [first, second] = twoOptions ? [1, 2] : [2, 3];
+  await page.keyboard.press(String(first));
+  await expect(options.nth(first - 1)).toHaveAttribute('aria-checked', 'true');
+  await page.keyboard.press(String(second));
+  await expect(options.nth(second - 1)).toHaveAttribute('aria-checked', 'true');
+  await expect(options.nth(first - 1)).toHaveAttribute('aria-checked', 'false');
   await page.keyboard.press('Enter');
   await expect(page.locator('article.question')).not.toHaveAttribute('data-state', 'open');
 });

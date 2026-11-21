@@ -28,7 +28,7 @@ test('importing a course file and opening it shows the first lesson', async ({ p
 
 test('pasting broken JSON lists the errors instead of importing', async ({ page }) => {
   await page.goto('./#/import');
-  await page.getByLabel('Or paste JSON here').fill('{ "schemaVersion": 2, "id": "x" }');
+  await page.getByLabel('Or paste it here').fill('{ "schemaVersion": 2, "id": "x" }');
   await page.getByRole('button', { name: 'Check' }).click();
   await expect(page.getByRole('heading', { name: 'This cannot be imported yet' })).toBeVisible();
 });

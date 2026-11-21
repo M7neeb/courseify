@@ -11,7 +11,10 @@ test('routes survive a format/parse round trip', () => {
     { name: 'player', courseId: 'c 1', lessonId: 'm1:test' },
     { name: 'exercise', courseId: 'c1', skillId: 'l1' },
     { name: 'exercise', courseId: 'c 1', skillId: 'm1:test' },
-    { name: 'exam', courseId: 'c 1' }
+    { name: 'exam', courseId: 'c 1' },
+    { name: 'cards', courseId: 'c 1' },
+    { name: 'sheet', courseId: 'c 1' },
+    { name: 'sheet', courseId: 'c 1', moduleId: 'm/1' }
   ];
   for (const r of routes) assert.deepEqual(parseHash(formatHash(r)), r);
 });

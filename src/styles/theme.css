@@ -499,7 +499,7 @@ fieldset, .notice, .banner { border-radius: 8px; box-shadow: none; }
 .cf-exercise-intro { max-width: 70ch; }
 
 /* review */
-.cf-review .cf-section-head p { margin: 4px 0 0; }
+.cf-review-page .cf-section-head p { margin: 4px 0 0; }
 .cf-review-group { margin-top: 28px; }
 .cf-review-group header { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
 .cf-review-group h2 { margin: 0; font-size: 1.15rem; }
@@ -666,6 +666,8 @@ fieldset, .notice, .banner { border-radius: 8px; box-shadow: none; }
   .cf-prompt-panel { position: static; }
 }
 @media (max-width: 600px) {
+  /* The header avatar already leads to the profile; on a phone the band only pushes today's work down. */
+  .cf-profile-band { display: none; }
   .cf-stepper button { padding: 8px 8px 10px; font-size: 0.85rem; }
   .cf-stepper button span:last-child { display: none; }
   .cf-stepper button.active span:last-child { display: inline; }
@@ -1159,7 +1161,7 @@ p.code-error { color: var(--bad); font-weight: 700; }
 /* Page titles get one yellow marker stroke under the lower half of each line, the way you mark the
    heading of a page in a notebook. Only titles, so it keeps meaning something. Drawn as a thick
    underline so it follows every line of a title that wraps. */
-.page-title-group h1, .cf-section-head h1, .cf-unit-title, .lesson-heading h1, .cf-lesson-head h1 {
+.page-title-group h1, .cf-section-head h1, .cf-unit-title, .lesson-heading h1, .cf-lesson-head h1, .cf-sheet-head h1 {
   text-decoration-line: underline; text-decoration-color: var(--marker);
   text-decoration-thickness: 0.42em; text-underline-offset: -0.3em; text-decoration-skip-ink: none;
 }
@@ -1183,3 +1185,58 @@ p.code-error { color: var(--bad); font-weight: 700; }
 .cf-cards-done h2 { margin-top: 0; }
 
 .profile-preview { border-radius: 14px; }
+
+/* ---------- cheat sheet ---------- */
+/* A reference page, read fast and printed. Dense type, ruled sections like a notebook page, no
+   cards: on paper only the content should be left. */
+.cf-page-sheet { max-width: 1040px; }
+.cf-sheet-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 20px; margin: 8px 0 6px; }
+.cf-sheet-head h1 { margin: 0; }
+.cf-sheet-course { margin: 4px 0 0; color: var(--muted); font-weight: 600; }
+.cf-sheet-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.cf-sheet-tools select { margin: 0; max-width: 18rem; }
+.cf-sheet-unit { margin-top: 28px; }
+.cf-sheet-unit > h2 { margin: 0 0 12px; padding-bottom: 6px; font-size: 1.3em; border-bottom: 2px solid var(--ink); }
+.cf-sheet-lessons { columns: 2 22rem; column-gap: 36px; }
+.cf-sheet-lesson { break-inside: avoid; padding: 0 0 14px; margin-bottom: 14px; border-bottom: 1px solid var(--line); }
+.cf-sheet-lesson h3 { margin: 0 0 6px; font-size: 1.02em; }
+.cf-sheet-lesson ul { margin: 0; padding-left: 1.1rem; line-height: 1.45; }
+.cf-sheet-lesson li + li { margin-top: 3px; }
+.cf-sheet-formulas { list-style: none; padding: 8px 0 0 !important; display: grid; gap: 4px; }
+.cf-sheet-formulas li { margin: 0 !important; font-variant-numeric: tabular-nums; }
+.cf-sheet-warning { margin-top: 8px; padding: 6px 10px; border: 1px solid color-mix(in srgb, var(--bad) 45%, var(--line)); border-radius: var(--radius-sm); font-size: 0.94em; line-height: 1.45; }
+.cf-sheet-warning strong:first-child { color: var(--bad); }
+.cf-sheet-terms { columns: 2 22rem; column-gap: 36px; margin: 0; }
+.cf-sheet-terms > div { break-inside: avoid; padding: 5px 0; border-bottom: 1px solid var(--line); line-height: 1.4; }
+.cf-sheet-terms dt { display: inline; font-weight: 700; }
+.cf-sheet-terms dt::after { content: ': '; }
+.cf-sheet-terms dd { display: inline; margin: 0; }
+.cf-print-only { display: none; }
+.cf-sheet-icon { display: inline-grid; place-items: center; width: 32px; height: 32px; color: var(--accent); }
+
+@media print {
+  @page { margin: 14mm 12mm; }
+  .cf-header, .cf-sheet-chrome, .toast, .cf-tabbar { display: none !important; }
+  .cf-print-only { display: inline; }
+  .cf-page-sheet { max-width: none; padding: 0; margin: 0; }
+  .cf-sheet { font-size: 10pt; color: #000; }
+  .cf-sheet-head { margin-top: 0; }
+  .cf-sheet-head h1 { font-size: 18pt; }
+  .cf-sheet-unit { margin-top: 12pt; break-inside: auto; }
+  .cf-sheet-unit > h2 { font-size: 13pt; break-after: avoid; border-color: #000; }
+  .cf-sheet-lessons, .cf-sheet-terms { columns: 2; column-gap: 8mm; }
+  .cf-sheet-lesson { padding-bottom: 6pt; margin-bottom: 6pt; }
+  .cf-sheet-warning { border-color: #999; }
+  .cf-sheet-warning strong:first-child { color: #000; }
+}
+
+/* ---------- keyboard shortcuts ---------- */
+.cf-keys { width: min(30rem, calc(100vw - 32px)); max-height: calc(100dvh - 48px); padding: 18px 20px 20px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface); color: var(--ink); box-shadow: var(--shadow-float); }
+.cf-keys::backdrop { background: rgb(15 20 30 / 0.45); }
+.cf-keys-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+.cf-keys h2 { margin: 0; font-size: 1.25rem; }
+.cf-keys h3 { margin: 14px 0 6px; font-size: 0.82rem; color: var(--muted); font-weight: 700; }
+.cf-keys dl { margin: 0; display: grid; gap: 6px; }
+.cf-keys dl > div { display: grid; grid-template-columns: 6.5rem 1fr; align-items: baseline; gap: 10px; }
+.cf-keys dd { margin: 0; }
+.cf-keys kbd { display: inline-block; min-width: 1.6em; padding: 1px 7px; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px; background: var(--bg, var(--surface)); font: 600 0.85rem/1.5 var(--mono); text-align: center; }

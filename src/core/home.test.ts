@@ -256,3 +256,33 @@ test('a course opens on the unit holding the saved position, else the first unit
   assert.equal(entryModuleId(course, at('gone')), 'c-m1');
   assert.equal(entryModuleId({ ...course, modules: [] }, at('l2')), undefined);
 });
+
+test('Home, Progress and the badges count the same skills: lessons with questions, not a unit test on its own', async () => {
+  const { courseProgress } = await import('./progressView.ts');
+  const q = (id: string, skillId?: string) => ({ id, kind: 'true-false' as const, prompt: id, answer: true, ...(skillId ? { skillId } : {}) });
+  const course = {
+    schemaVersion: 2,
+    id: 'mix',
+    title: 'Mix',
+    modules: [
+      {
+        id: 'm1',
+        title: 'U1',
+        lessons: [
+          { id: 'l1', title: 'L1', blocks: [{ id: 'b', type: 'quiz', questions: [q('a')] }] },
+          { id: 'l2', title: 'Reading only', blocks: [] }
+        ],
+        // A unit test whose questions name no lesson: they form their own group, not a lesson skill.
+        test: { id: 't', type: 'module-test', questions: [q('t1'), q('t2', 'l1')] }
+      }
+    ]
+  };
+  const lessonMastered = { mix: { courseId: 'mix', skills: { l1: { skillId: 'l1', points: 100, firstTry: {}, updatedAt: '' } }, mistakes: {}, updatedAt: '' } };
+  const home = skillsProgress([course], lessonMastered as never);
+  const progress = courseProgress(course, lessonMastered.mix as never);
+  assert.equal(home.total, progress.summary.total);
+  assert.equal(home.total, 1);
+  // Every lesson skill is mastered, so the course is complete.
+  assert.equal(coursesCompleted([course], lessonMastered as never), 1);
+  assert.equal(skillsMastered([course], lessonMastered as never), 1);
+});

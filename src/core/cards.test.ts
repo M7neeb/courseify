@@ -53,3 +53,22 @@ test('a known card leaves, a missed card comes back a few cards later', () => {
   assert.deepEqual(afterAnswer([1], false), [1]);
   assert.deepEqual(afterAnswer([], true), []);
 });
+
+test('the text export puts one card per line with a tab between front and back, and reads back as a term list', async () => {
+  const { deckToText } = await import('./cards.ts');
+  const { parseTermList } = await import('./termList.ts');
+  const cards = [
+    { id: 'a:0', front: 'RAM', back: 'Arbeitsspeicher,\nflüchtig', lessonId: 'l1', lessonTitle: 'Speicher und CPU', moduleId: 'm1' },
+    { id: 'a:1', front: '**CPU**', back: 'rechnet\tschnell', lessonId: 'l1', lessonTitle: 'Speicher und CPU', moduleId: 'm1' },
+    { id: 'a:2', front: 'GPU', back: 'Grafik', lessonId: 'l2', lessonTitle: 'Grafik (GPU)', moduleId: 'm1' },
+    { id: 'a:3', front: 'SSD', back: 'Flash', lessonId: 'l2', lessonTitle: 'Grafik (GPU)', moduleId: 'm1' }
+  ];
+  const text = deckToText(cards);
+  const lines = text.trimEnd().split('\n');
+  assert.deepEqual(lines.slice(0, 3), ['#separator:tab', '#html:false', '#tags column:3']);
+  assert.equal(lines[3], 'RAM\tArbeitsspeicher, flüchtig\tSpeicher_und_CPU');
+  assert.equal(lines[4], 'CPU\trechnet schnell\tSpeicher_und_CPU');
+  assert.equal(lines[5].split('\t')[2], 'Grafik_GPU');
+  const back = parseTermList(text);
+  assert.deepEqual(back.terms.map((x) => [x.term, x.meaning]), [['RAM', 'Arbeitsspeicher, flüchtig'], ['CPU', 'rechnet schnell'], ['GPU', 'Grafik'], ['SSD', 'Flash']]);
+});

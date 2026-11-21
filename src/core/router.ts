@@ -31,6 +31,10 @@ export function formatHash(route: Route): string {
       return `#/challenge/${encodeURIComponent(route.courseId)}`;
     case 'cards':
       return `#/cards/${encodeURIComponent(route.courseId)}`;
+    case 'sheet':
+      return route.moduleId
+        ? `#/sheet/${encodeURIComponent(route.courseId)}/${encodeURIComponent(route.moduleId)}`
+        : `#/sheet/${encodeURIComponent(route.courseId)}`;
     case 'exam':
       return `#/exam/${encodeURIComponent(route.courseId)}`;
     case 'unit':
@@ -70,6 +74,10 @@ export function parseHash(hash: string): Route {
   }
   if (first === 'challenge' && second) return { name: 'challenge', courseId: decodeURIComponent(second) };
   if (first === 'cards' && second) return { name: 'cards', courseId: decodeURIComponent(second) };
+  if (first === 'sheet' && second) {
+    const courseId = decodeURIComponent(second);
+    return third ? { name: 'sheet', courseId, moduleId: decodeURIComponent(third) } : { name: 'sheet', courseId };
+  }
   if (first === 'exam' && second) return { name: 'exam', courseId: decodeURIComponent(second) };
   if (first === 'unit' && second && third) {
     return { name: 'unit', courseId: decodeURIComponent(second), moduleId: decodeURIComponent(third) };

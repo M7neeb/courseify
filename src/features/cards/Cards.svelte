@@ -3,7 +3,8 @@
   // later; the run ends when each card was known once. Nothing here counts for mastery.
   import { untrack } from 'svelte';
   import { app, courseSettings, displayTitle, getCourse, navigate } from '../../core/state.svelte.ts';
-  import { afterAnswer, courseDeck, shuffleDeck, type DeckCard } from '../../core/cards.ts';
+  import { afterAnswer, courseDeck, deckToText, shuffleDeck, type DeckCard } from '../../core/cards.ts';
+  import { downloadFile } from '../../core/download.ts';
   import { entryModuleId } from '../../core/home.ts';
   import { renderMarkdown } from '../../core/markdown.ts';
   import NavIcon from '../../ui/NavIcon.svelte';
@@ -55,6 +56,11 @@
     }
   }
 
+  function exportDeck() {
+    if (!course || deck.length === 0) return;
+    downloadFile(`${course.id}${unit ? '-' + unit : ''}-cards.txt`, deckToText(deck), 'text/plain;charset=utf-8');
+  }
+
   function backToCourse() {
     const c = course;
     const moduleId = c ? entryModuleId(c, app.progress[courseId]) : undefined;
@@ -100,6 +106,9 @@
           </select>
         </label>
       {/if}
+      {#if deck.length > 0}
+        <button type="button" class="cf-btn cf-btn-ghost cf-btn-small" onclick={exportDeck} title={t('cards.exportHint')}>{t('cards.export')}</button>
+      {/if}
     </header>
 
     {#if deck.length === 0}
@@ -109,7 +118,7 @@
       </div>
     {:else if card}
       <div class="cf-cards-progress">
-        <span class="cf-progress cf-progress-full" role="progressbar" aria-valuemin="0" aria-valuemax={deck.length} aria-valuenow={done}>
+        <span class="cf-progress cf-progress-full" role="progressbar" aria-valuemin="0" aria-valuemax={deck.length} aria-valuenow={done} aria-label={t('cards.progress', { done, total: deck.length })}>
           <span style:width={(done / deck.length) * 100 + '%'}></span>
         </span>
         <span class="cf-muted cf-small">{t('cards.progress', { done, total: deck.length })}</span>

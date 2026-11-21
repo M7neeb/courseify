@@ -26,7 +26,7 @@ function plain(line: string): string {
 }
 
 /** Splits Markdown into its list items, or into sentences when it is one paragraph. */
-function pointsFromMarkdown(markdown: string): string[] {
+export function pointsFromMarkdown(markdown: string): string[] {
   const lines = markdown.split(/\n+/).map(plain).filter((line) => line.length > 2);
   if (lines.length > 1) return lines;
   const text = lines[0] ?? '';

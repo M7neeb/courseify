@@ -155,6 +155,7 @@
     <div>
       <h1>{t('create.title')}</h1>
       <p class="cf-muted">{t('create.intro')}</p>
+      <p class="cf-muted cf-small">{t('create.listHint')} <a href="#/import">{t('create.listLink')}</a></p>
     </div>
   </div>
 

@@ -55,3 +55,22 @@ export function afterAnswer<T>(queue: readonly T[], knewIt: boolean, gap = 4): T
   const at = Math.min(gap, rest.length);
   return [...rest.slice(0, at), front, ...rest.slice(at)];
 }
+
+/** One line of a text export: no tabs or line breaks inside a field, no Markdown stars. */
+function field(text: string): string {
+  return text.replace(/\*\*|__/g, '').replace(/[\t\r\n]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+}
+
+/**
+ * The deck as plain text that Anki ("Import" a text file) and Quizlet ("Import" pasted text) both
+ * read: front, a tab, back, and the lesson as an Anki tag. The lines starting with # tell Anki how
+ * to read the file; Courseify's own term list import skips them, so a deck can come back too.
+ */
+export function deckToText(cards: readonly DeckCard[]): string {
+  const lines = ['#separator:tab', '#html:false', '#tags column:3'];
+  for (const card of cards) {
+    const tag = card.lessonTitle.trim().replace(/\s+/g, '_').replace(/[^\p{L}\p{N}_:-]/gu, '');
+    lines.push([field(card.front), field(card.back), tag].join('\t'));
+  }
+  return lines.join('\n') + '\n';
+}

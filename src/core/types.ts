@@ -664,4 +664,5 @@ export type Route =
   | { name: 'exercise'; courseId: string; skillId: string }
   | { name: 'challenge'; courseId: string }
   | { name: 'cards'; courseId: string }
+  | { name: 'sheet'; courseId: string; moduleId?: string }
   | { name: 'exam'; courseId: string };

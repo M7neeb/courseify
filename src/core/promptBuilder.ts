@@ -95,11 +95,18 @@ export const ALL_KINDS: QuestionKind[] = [
   'ordering',
   'written',
   'hotspot',
-  'code'
+  'code',
+  'trace',
+  'sql',
+  'shell'
 ];
 
-/** Kinds every new course offers by default. Hotspot questions need drawn diagrams, so they are opt-in. */
-export const DEFAULT_KINDS: QuestionKind[] = ALL_KINDS.filter((k) => k !== 'hotspot' && k !== 'code');
+/**
+ * Kinds every new course offers by default. The rest fit only some subjects (a diagram to tap, a
+ * program, a database, a terminal), so they are opt-in.
+ */
+const OPT_IN_KINDS: QuestionKind[] = ['hotspot', 'code', 'trace', 'sql', 'shell'];
+export const DEFAULT_KINDS: QuestionKind[] = ALL_KINDS.filter((k) => !OPT_IN_KINDS.includes(k));
 
 /** Languages offered for a single-language course. The in-lesson switch only covers de and en. */
 export const LANGUAGES: Record<string, string> = {
@@ -197,7 +204,7 @@ export const PRESETS: Record<Exclude<Preset, 'custom'>, PresetPatch> = {
     difficulty: 'mixed',
     examOperators: false,
     depth: 'standard',
-    kinds: ['code', 'multiple-choice', 'true-false', 'short-answer', 'fill-blank', 'numeric', 'multi-select', 'ordering'],
+    kinds: ['code', 'trace', 'multiple-choice', 'true-false', 'short-answer', 'fill-blank', 'numeric', 'multi-select', 'ordering'],
     extras: { code: true, examples: true, mistakes: true, examTips: false, images: false, videos: true }
   },
   it: {
@@ -361,9 +368,9 @@ const KIND_TEXT: Record<QuestionKind, string> = {
   written: 'written (an exam-style task answered in 2-5 sentences, with a model answer and 2-6 key points; use it for "explain", "describe" and "compare" tasks, at most one per lesson quiz)',
   hotspot: 'hotspot (the learner taps the right part of a simple SVG diagram you draw: a circuit, a table, a network or a labelled sketch)',
   code: 'code (a small programming task: the learner writes code in the app and it is checked by tests you write; see the CODE part of the schema)',
-  shell: 'shell (a command-line task in a small fake file tree: hand-written courses only)',
-  trace: 'trace (a trace table of a program: hand-written courses only)',
-  sql: 'sql (a query task: the learner writes SQL against a small practice database; not offered by the builder, hand-written courses only)'
+  shell: 'shell (a command-line task in a small practice terminal with its own file tree; see the SHELL part of the schema)',
+  trace: 'trace (the learner fills in some cells of a trace table that follows a short program line by line; see the TRACE part of the schema)',
+  sql: 'sql (the learner writes a SELECT query against a small practice database and its result table is compared with yours; see the SQL part of the schema)'
 };
 
 /** Chess courses get the chess part of the schema too; every other course keeps it short. */
@@ -385,6 +392,28 @@ const CODE_SCHEMA = [
   '  No imports beyond the standard library, no files, no network. Keep tasks small: 3-15 lines of code.'
 ].join('\n');
 
+/** Trace tables: a short program and the values after each line, some cells left for the learner. */
+const TRACE_SCHEMA = [
+  'TRACE (trace table questions)',
+  'Trace question: { "id": "q-m1-l1-2", "kind": "trace", "prompt": "Fill in the trace table. The program:\\n\\n```\\na = 3\\nb = a + 2\\na = a * b\\n```\\n\\nThe table shows the values **after** each line.", "columns": ["Line", "a", "b"], "rows": [["1", "3", "-"], ["2", "3", "5"], ["3", "15", "5"]], "blanks": [[1, 2], [2, 1], [2, 2]], "explanation": "...", "hint": "..." }',
+  '  "rows" is the COMPLETE correct table, every cell as text, one list per row with as many cells as "columns". "-" means not set yet. "blanks" lists the [row, column] cells (counted from 0) the learner fills in; leave the first column (the line) and some easy cells filled. 3-8 rows, 2-6 blanks. Work through the program yourself line by line before you write the rows.'
+].join('\n');
+
+/** SQL tasks run in the app on a small SQLite database the question builds itself. */
+const SQL_SCHEMA = [
+  'SQL (query questions, SQLite)',
+  'SQL question: { "id": "q-m1-l1-3", "kind": "sql", "prompt": "Show the name and city of every customer from Berlin.", "setup": "CREATE TABLE customers (id INTEGER PRIMARY KEY, name TEXT, city TEXT);\\nINSERT INTO customers VALUES (1,\'Ana\',\'Berlin\'),(2,\'Ben\',\'Hamburg\'),(3,\'Cem\',\'Berlin\');", "answer": "SELECT name, city FROM customers WHERE city = \'Berlin\';", "starter": "SELECT ", "ordered": false, "explanation": "...", "hint": "..." }',
+  '  "setup" builds the practice database (CREATE TABLE and INSERT, SQLite syntax, 3-10 rows per table) and runs fresh for every attempt. "answer" is your model SELECT: the learner\'s result table must match its result, columns and rows. Set "ordered": true only when the task asks for a sort order (ORDER BY). Use the same "setup" for the questions of one lesson, so the learner gets to know the tables. Run your answer against your setup in your head and check the result is not empty.'
+].join('\n');
+
+/** Shell tasks run in the app's practice terminal, which knows only the commands listed. */
+const SHELL_SCHEMA = [
+  'SHELL (practice terminal questions)',
+  'Shell question: { "id": "q-m1-l1-4", "kind": "shell", "prompt": "Make a folder `backup` in your home folder.", "fs": { "home": { "anna": { "notes.txt": "milk\\nbread\\n", "Documents": { "report.txt": "Q1\\n" } } }, "tmp": {} }, "cwd": "/home/anna", "goal": { "exists": "/home/anna/backup" }, "answer": "mkdir backup", "explanation": "...", "hint": "..." }',
+  '  "fs" is the starting file tree: a folder is an object, a file is its text. "cwd" is the folder the learner starts in. "goal" is ONE of: { "cmd": "<regular expression the typed command must match in full>" } for commands that only show something, { "exists": "/path" }, { "missing": "/path" }, { "cwd": "/path" } for cd, or { "file": "/path", "equals": "exact text" } / { "file": "/path", "contains": "text" }.',
+  '  The terminal knows only these commands: pwd, echo, whoami, clear, cd, ls (-l, -a), cat, head (-n), wc (-l), grep (-i), mkdir (-p), touch, rm (-r), cp (-r), mv, and > or >> to write output into a file. No pipes, no other commands, no sudo. "answer" is a command that reaches the goal.'
+].join('\n');
+
 /** Courses with practice get the drill and graph blocks: the drills the app can generate, and graphs. */
 const PRACTICE_SCHEMA = [
   'PRACTICE BLOCKS (the app generates the problems itself, with worked solutions)',
@@ -399,6 +428,9 @@ function schemaFor(s: PromptSettings, schema: string): string {
   let out = schema.trim();
   if (s.extras.chess) out += `\n\n${CHESS_SCHEMA}`;
   if (s.extras.code || s.kinds.includes('code')) out += `\n\n${CODE_SCHEMA}`;
+  if (s.kinds.includes('trace')) out += `\n\n${TRACE_SCHEMA}`;
+  if (s.kinds.includes('sql')) out += `\n\n${SQL_SCHEMA}`;
+  if (s.kinds.includes('shell')) out += `\n\n${SHELL_SCHEMA}`;
   if (s.extras.practice) out += `\n\n${PRACTICE_SCHEMA}`;
   return out;
 }

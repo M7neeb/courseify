@@ -25,6 +25,8 @@
   import { getBlockRenderer } from '../../blocks/registry.ts';
   import UnknownBlock from '../../blocks/unknown/UnknownBlock.svelte';
   import NavIcon from '../../ui/NavIcon.svelte';
+  import ReadAloud, { canReadAloud } from '../../ui/ReadAloud.svelte';
+  import { lessonSpeech } from '../../core/speech.ts';
   import { t } from '../../i18n/i18n.ts';
 
   let { courseId, lessonId }: { courseId: string; lessonId?: string } = $props();
@@ -36,6 +38,7 @@
   const upNext = $derived(items.find((i) => !completed.has(i.id)));
 
   // Lessons unlock in order but any lesson can be opened: the URL decides, then the saved position.
+  const speechAvailable = canReadAloud();
   const current = $derived(
     items.find((i) => i.id === lessonId) ??
       items.find((i) => i.id === progress?.position?.lessonId) ??
@@ -276,6 +279,9 @@
           <button type="button" class="cf-btn cf-btn-secondary cf-btn-small" onclick={() => practiseSkill(skill.id)}>{t('exercise.practise')}</button>
         {/if}
         <a class="cf-btn cf-btn-ghost cf-btn-small cf-btn-icon" href={'#/settings/' + encodeURIComponent(courseId)}><NavIcon name="settings" size={16} />{t('course.settings')}</a>
+        {#if speechAvailable}
+          {#key current.id}<ReadAloud markdown={lessonSpeech(current, cs.explanationLanguage, cs.explanationLevel)} lang={cs.explanationLanguage} />{/key}
+        {/if}
         <button type="button" class="cf-btn cf-btn-ghost cf-btn-small" aria-pressed={app.focusMode} onclick={() => (app.focusMode = !app.focusMode)}>
           {app.focusMode ? t('player.exitFocus') : t('player.focus')}
         </button>

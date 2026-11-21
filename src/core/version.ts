@@ -1,7 +1,7 @@
 // The single source of truth for the app version and the "What's new" list.
 // Bump VERSION and add one CHANGELOG entry at the top when you ship user-visible changes.
 
-export const VERSION = '1.15.0';
+export const VERSION = '1.16.0';
 
 export interface ChangelogEntry {
   version: string;
@@ -11,6 +11,21 @@ export interface ChangelogEntry {
 
 /** Newest first. */
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.16.0',
+    date: '2026-11-20',
+    changes: [
+      'Make a course from a list of terms: paste lines like "RAM - Arbeitsspeicher" (or a Quizlet or Anki text export) into Import. Every term becomes a flashcard and three questions, eight terms to a lesson.',
+      'Cheat sheet: every unit page links to one page with the key points, formulas, common mistakes and terms of the unit or the whole course. Print it or save it as a PDF.',
+      'Read aloud: a button above each lesson reads its text with your device\'s voice, in the language you picked. It stops when you leave the lesson.',
+      'Create a course now offers trace tables, SQL queries and command-line tasks as question types.',
+      'Flashcards can be saved as a text file for Anki or Quizlet, and a deck exported that way imports back into Courseify as a term list.',
+      'Press ? for the keyboard shortcuts (also in Settings).',
+      'Screen readers: progress bars say what they measure, the days on Progress are read out, and the profile button is called by the name it shows.',
+      'Home and Progress count skills the same way now. Progress says points instead of XP, and the reading font menu names the font the app uses.',
+      'Phones: the start page shows today\'s work first, all four Chess tabs fit on the screen, and the Review page lines its cards up under their headings.'
+    ]
+  },
   {
     version: '1.15.0',
     date: '2026-11-14',

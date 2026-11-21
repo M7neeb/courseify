@@ -197,6 +197,7 @@
         <input type="checkbox" checked={app.settings.glossaryTerms} onchange={(e) => updateSettings({ glossaryTerms: e.currentTarget.checked })} />
         {t('settings.glossaryTerms')}
       </label>
+      <p class="cf-small"><button type="button" class="cf-link" onclick={() => (app.shortcutsOpen = true)}>{t('keys.title')}</button> · {t('keys.hint')}</p>
       <label>{t('settings.language')}
         <select value={app.settings.uiLanguage} onchange={(e) => updateSettings({ uiLanguage: e.currentTarget.value as Settings['uiLanguage'] })}>
           <option value="en">English</option>

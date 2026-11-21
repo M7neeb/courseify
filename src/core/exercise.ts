@@ -5,7 +5,7 @@
 // A skill is the set of questions belonging to one lesson (see mastery.ts). A question may name its
 // own skill with `skillId`; otherwise it belongs to the lesson it lives in.
 
-import { courseSkills } from './mastery.ts';
+import { courseSkills, isMasterable } from './mastery.ts';
 import { indexQuestions } from './mistakes.ts';
 import { isCardDue } from './srs.ts';
 import type { Course, CourseMastery, Question, QuestionReview } from './types.ts';
@@ -249,7 +249,7 @@ export function buildChallengeSet(
 ): Question[] {
   const perSkill = Math.max(1, Math.floor(options.perSkill ?? CHALLENGE.perSkill));
   const maxSize = Math.max(1, Math.floor(options.maxSize ?? CHALLENGE.maxSize));
-  const skills = courseSkills(course).filter((skill) => skill.lessonId !== null && skill.questionIds.length > 0);
+  const skills = courseSkills(course).filter(isMasterable);
   const random = rng(seed);
   const buckets = skills.map((skill, index) => {
     const set = buildExerciseSet(course, skill.id, seed + index * 7919, { mastery: options.mastery, now: options.now, size: perSkill });
@@ -283,7 +283,7 @@ export function interleaveExtras(
 ): Question[] {
   const count = Math.max(0, Math.floor(options.count ?? 2));
   if (count === 0) return [];
-  const skills = courseSkills(course).filter((s) => s.lessonId !== null && s.questionIds.length > 0);
+  const skills = courseSkills(course).filter(isMasterable);
   const position = skills.findIndex((s) => s.id === skillId);
   if (position <= 0) return [];
   const earlier = new Set(skills.slice(0, position).flatMap((s) => s.questionIds));
@@ -324,7 +324,7 @@ export const EXAM_SIZES = [10, 20, 30] as const;
  * questions never appear.
  */
 export function buildMockExam(course: Course, seed: number, size: number): Question[] {
-  const skills = courseSkills(course).filter((skill) => skill.lessonId !== null && skill.questionIds.length > 0);
+  const skills = courseSkills(course).filter(isMasterable);
   if (skills.length === 0) return [];
   const perSkill = Math.max(1, Math.ceil(size / skills.length) + 1);
   return buildChallengeSet(course, seed, { perSkill, maxSize: size });

@@ -24,6 +24,8 @@
   import Unit from './features/unit/Unit.svelte';
   import Challenge from './features/challenge/Challenge.svelte';
   import Cards from './features/cards/Cards.svelte';
+  import Shortcuts from './ui/Shortcuts.svelte';
+  import Sheet from './features/sheet/Sheet.svelte';
   import Play from './features/play/Play.svelte';
   import Drills from './features/drills/Drills.svelte';
   import MockExam from './features/challenge/MockExam.svelte';
@@ -37,7 +39,7 @@
   import { watchGlossary } from './ui/glossaryLayer.ts';
 
   const route = $derived(app.route);
-  const courseRoute = $derived(route.name === 'player' || route.name === 'unit' || route.name === 'exercise' || route.name === 'challenge' || route.name === 'cards' || route.name === 'exam');
+  const courseRoute = $derived(route.name === 'player' || route.name === 'unit' || route.name === 'exercise' || route.name === 'challenge' || route.name === 'cards' || route.name === 'sheet' || route.name === 'exam');
   let drawerOpen = $state(false);
   let profileMenuOpen = $state(false);
 
@@ -59,6 +61,13 @@
       if (!typing && box && box.offsetParent !== null) {
         event.preventDefault();
         box.focus();
+      }
+    }
+    if (event.key === '?' && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      const typing = (event.target as HTMLElement | null)?.closest('input, textarea, select, [contenteditable="true"], .cm-editor');
+      if (!typing) {
+        event.preventDefault();
+        app.shortcutsOpen = true;
       }
     }
     if (event.key === 'Escape') {
@@ -152,6 +161,7 @@
 </script>
 
 <svelte:window onkeydown={onKeydown} />
+<Shortcuts bind:open={app.shortcutsOpen} />
 
 <div class="cf-app" class:focus-mode={app.focusMode} class:cf-has-tabs={!courseRoute && !app.focusMode}>
   {#if !app.focusMode}
@@ -178,7 +188,7 @@
 
         <div class="cf-header-right">
           <details class="cf-user" bind:open={profileMenuOpen}>
-            <summary aria-label={t('profile.openMenu')}>
+            <summary aria-label={`${profileLabel}, ${t('profile.openMenu')}`}>
               <span class="cf-user-avatar" style:background={app.settings.profileColor} aria-hidden="true">{initials}</span>
               <span class="cf-user-name">{profileLabel}</span><span class="cf-caret" aria-hidden="true"></span>
             </summary>
@@ -247,6 +257,8 @@
     <main class="cf-page cf-page-narrow"><Exercise courseId={route.courseId} skillId={route.skillId} /></main>
   {:else if route.name === 'cards'}
     <main class="cf-page cf-page-narrow"><Cards courseId={route.courseId} /></main>
+  {:else if route.name === 'sheet'}
+    <main class="cf-page cf-page-sheet"><Sheet courseId={route.courseId} moduleId={route.moduleId} /></main>
   {:else if route.name === 'challenge'}
     <main class="cf-page cf-page-narrow"><Challenge courseId={route.courseId} /></main>
   {:else if route.name === 'exam'}

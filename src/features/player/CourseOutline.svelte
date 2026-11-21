@@ -6,7 +6,7 @@
   import { app, courseSettings, displayTitle, getCourse, navigate } from '../../core/state.svelte.ts';
   import { flattenCourse, lessonKind, type FlatItem } from '../../core/course-utils.ts';
   import { gateForItem, openGate, type Gate } from '../../core/gating.ts';
-  import { courseSkills, skillPoints, skillTitle, tierForPoints } from '../../core/mastery.ts';
+  import { courseSkills, isMasterable, skillPoints, skillTitle, tierForPoints } from '../../core/mastery.ts';
   import { courseAccent } from '../../core/home.ts';
   import MasteryIcon from '../../ui/MasteryIcon.svelte';
   import NavIcon from '../../ui/NavIcon.svelte';
@@ -31,7 +31,7 @@
   const unitItems = $derived(current?.moduleId ? items.filter((i) => i.moduleId === current.moduleId) : current ? [current] : []);
   const skills = $derived(
     course && unit
-      ? courseSkills(course).filter((s) => s.moduleId === unit.id && s.lessonId !== null && s.questionIds.length > 0)
+      ? courseSkills(course).filter((s) => s.moduleId === unit.id && isMasterable(s))
       : []
   );
 

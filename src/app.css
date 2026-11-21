@@ -188,6 +188,13 @@ legend { font-weight: 700; padding: 0 0.4rem; }
 .notice.good { border-color: var(--good); background: var(--good-soft); }
 .notice.bad { border-color: var(--bad); background: var(--bad-soft); }
 .notice ul { margin: 0 0 0.8rem; padding-left: 1.2rem; }
+.term-list { display: grid; gap: 0.55rem; justify-items: start; }
+.term-list > * { margin: 0; }
+.term-list :is(input, select) { width: min(100%, 26rem); }
+.term-list table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.term-list :is(th, td) { padding: 0.35rem 0.6rem 0.35rem 0; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.term-list th { font-weight: 650; color: var(--muted); }
+.term-list td:first-child { font-weight: 650; white-space: nowrap; }
 .tabs { display: flex; gap: 0.25rem; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
 .tabs button { font: inherit; cursor: pointer; background: none; border: 0; border-bottom: 3px solid transparent; padding: 0.6rem 0.9rem; color: var(--muted); }
 .tabs button.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }

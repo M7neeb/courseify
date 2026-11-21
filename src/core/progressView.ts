@@ -5,7 +5,7 @@
 // A "skill" here is one lesson with questions, the same set the unit page measures, so a unit's
 // percentage on this page always equals the "Unit mastery" shown on the unit page.
 
-import { MASTERY, TIER_ORDER, courseSkills, skillPoints, tierForPoints, type Skill } from './mastery.ts';
+import { MASTERY, TIER_ORDER, courseSkills, isMasterable, skillPoints, tierForPoints, type Skill } from './mastery.ts';
 import { groupBySubject } from './home.ts';
 import type { Course, CourseMastery, MasteryTier } from './types.ts';
 
@@ -57,7 +57,7 @@ function emptyCounts(): TierCounts {
 
 /** The skills mastery is measured over: lessons with at least one question. */
 export function measuredSkills(course: Course): Skill[] {
-  return courseSkills(course).filter((skill) => skill.lessonId !== null && skill.questionIds.length > 0);
+  return courseSkills(course).filter(isMasterable);
 }
 
 /** Tier counts and the points percentage over a list of (skill, points) pairs. */

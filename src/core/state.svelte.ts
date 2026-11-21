@@ -51,6 +51,8 @@ export const app = $state({
   ready: false,
   route: parseHash(typeof location !== 'undefined' ? location.hash : '') as Route,
   focusMode: false,
+  /** The keyboard shortcuts list ("?"); a screen flag, never saved. */
+  shortcutsOpen: false,
   settings: defaultSettings() as Settings,
   courses: [] as Course[],
   progress: {} as Record<string, CourseProgress>,

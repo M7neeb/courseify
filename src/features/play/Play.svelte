@@ -36,6 +36,7 @@
     <div class="page-title-group">
       <h1>{t('play.title')}</h1>
     </div>
+    <BoardSettings />
   </div>
 
   <div class="cf-chess-tabbar">
@@ -44,7 +45,6 @@
         <a href={tab.href} class:active={tabOf(view) === tab.view} aria-current={tabOf(view) === tab.view ? 'page' : undefined}>{t(tab.key)}</a>
       {/each}
     </nav>
-    <BoardSettings />
   </div>
 
   {#if !chess.loaded}

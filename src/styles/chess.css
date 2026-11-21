@@ -527,9 +527,9 @@
 .cf-gear { width: 18px; height: 18px; fill: currentColor; flex: none; }
 .cf-you-dot { border-radius: 50%; }
 @media (max-width: 560px) {
-  .cf-chess-tabbar { flex-wrap: nowrap; align-items: center; }
-  .cf-chess-tabbar .cf-chess-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; min-width: 0; }
-  .cf-chess-tabbar .cf-chess-tabs a { white-space: nowrap; }
+  /* Four equal columns: every tab stays in view, a long German label takes two lines. */
+  .cf-chess-tabbar .cf-chess-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; gap: 0; }
+  .cf-chess-tabbar .cf-chess-tabs a { display: flex; align-items: center; justify-content: center; padding: 10px 4px; text-align: center; line-height: 1.2; }
   .cf-gear-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .cf-board-settings > summary { padding: 8px; }
   .cf-board-settings-panel { left: auto; right: 0; }

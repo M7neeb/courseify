@@ -171,7 +171,7 @@
           <span class="cf-info" title={t('home.levelInfo', { n: stats.xpToNext ?? 0 })} aria-label={t('home.levelInfo', { n: stats.xpToNext ?? 0 })}>i</span>
         </span>
         <span class="cf-level-row">
-          <span class="cf-progress" role="progressbar" aria-valuenow={skills.done} aria-valuemin="0" aria-valuemax={Math.max(1, skills.total)}>
+          <span class="cf-progress" role="progressbar" aria-valuenow={skills.done} aria-valuemin="0" aria-valuemax={Math.max(1, skills.total)} aria-label={t('home.skills', { done: skills.done, total: skills.total })}>
             <span style:width={skills.percent + '%'}></span>
           </span>
           <span class="cf-level-skills">{t('home.skills', { done: skills.done, total: skills.total })}</span>

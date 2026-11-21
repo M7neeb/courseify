@@ -150,8 +150,8 @@
     </div>
     <div class="cf-stat-tile">
       <p class="cf-stat-label">{t('stats.level')} {stats.level}</p>
-      <p class="cf-stat-value">{stats.totalXp} XP</p>
-      <span class="cf-progress cf-progress-full" role="progressbar" aria-valuenow={stats.totalXp} aria-valuemin={levelBase} aria-valuemax={levelNext}>
+      <p class="cf-stat-value">{stats.totalXp} {t('stats.xp')}</p>
+      <span class="cf-progress cf-progress-full" role="progressbar" aria-valuenow={stats.totalXp} aria-valuemin={levelBase} aria-valuemax={levelNext} aria-label={`${t('stats.level')} ${stats.level}`}>
         <span style:width={levelPercent + '%'}></span>
       </span>
       <p class="cf-muted cf-small">{atTopLevel ? t('stats.maxLevel') : t('stats.toNextLevel', { n: stats.xpToNext ?? 0, level: stats.level + 1 })}</p>
@@ -265,7 +265,9 @@
 
   <section class="cf-prog-section">
     <h2>{t('stats.activity')}</h2>
-    <div class="activity-scroll" {@attach scrollToEnd}>
+    <!-- The calendar scrolls sideways on phones; keyboard users need to reach it to scroll it. -->
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <div class="activity-scroll" {@attach scrollToEnd} tabindex="0" role="region" aria-label={t('stats.activity')}>
       <div class="activity-chart" role="group" aria-label={t('stats.dayView')}>
         <div class="activity-weekdays" aria-hidden="true">
           {#each weekdayLabels as label, index (index)}<span>{index % 2 === 0 ? label : ''}</span>{/each}
@@ -279,7 +281,7 @@
               <div class="activity-week">
                 {#each week as day (day)}
                   {@const future = new Date(`${day}T12:00:00`) > todayDate}
-                  <span class="day-square" data-level={intensity(day)} title={t('stats.activityTooltip', { date: day, xp: app.activity[day]?.xp ?? 0 })} aria-label={t('stats.activityTooltip', { date: day, xp: app.activity[day]?.xp ?? 0 })} aria-hidden={future}></span>
+                  <span class="day-square" role="img" data-level={intensity(day)} title={t('stats.activityTooltip', { date: day, xp: app.activity[day]?.xp ?? 0 })} aria-label={t('stats.activityTooltip', { date: day, xp: app.activity[day]?.xp ?? 0 })} aria-hidden={future}></span>
                 {/each}
               </div>
             {/each}
